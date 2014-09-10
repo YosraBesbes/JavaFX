@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ph.txtdis</groupId>
+        <artifactId>grandparent</artifactId>
+        <version>${project.version}</version>
+    </parent>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Parent POM</name>
+    <dependencies>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>common</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <modules>
+    	<module>booking</module>
+    	<module>customer</module>
+    	<module>invoice-booklet</module>
+    	<module>invoicing</module>
+    	<module>item</module>
+    	<module>picking</module>
+    	<module>purchasing</module>
+    	<module>receiving</module>
+    	<module>remittance</module>
+    	<module>stock-take</module>
+    	<module>main-menu</module>
+    </modules>
+</project>
