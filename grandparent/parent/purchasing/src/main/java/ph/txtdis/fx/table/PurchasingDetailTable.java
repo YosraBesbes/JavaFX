@@ -1,7 +1,9 @@
 package ph.txtdis.fx.table;
 
 import javafx.stage.Stage;
+import ph.txtdis.App;
 import ph.txtdis.dto.PurchasingDTO;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.fx.dialog.PurchasingDialog;
 import ph.txtdis.model.PurchasingDetail;
 
@@ -15,5 +17,10 @@ public class PurchasingDetailTable extends AbstractDaysLevelDetailTable<Purchasi
     @Override
     protected void createInputDialog() {
         inputDialog = new PurchasingDialog(stage, dto);
+    }
+
+    @Override
+    protected QualityDTO getQualityDTO() {
+        return App.getContext().getBean(QualityDTO.class);
     }
 }

@@ -15,7 +15,7 @@ import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.StockTakeService;
 
 @Component
-public class StockTakeDTOImpl extends AbstractSpunDTO<StockTake, StockTakeService> implements StockTakeDTO {
+public class StockTakeDTOImpl extends AbstractSpunByIdDTO<StockTake, StockTakeService> implements StockTakeDTO {
 
     @Override
     public void reset() {

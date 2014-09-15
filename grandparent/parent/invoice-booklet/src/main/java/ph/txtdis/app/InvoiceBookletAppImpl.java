@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import ph.txtdis.App;
 import ph.txtdis.dto.InvoiceBookletDTO;
 import ph.txtdis.fx.dialog.InvoiceBookletDialog;
-import ph.txtdis.fx.table.AbstractTable;
+import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
@@ -40,7 +40,7 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
 
     @Override
     protected Node[] addVBoxNodes() {
-        table = new AbstractTable<InvoiceBooklet, InvoiceBookletDTO>(this, (InvoiceBookletDTO) dto) {
+        table = new AbstractInputTable<InvoiceBooklet, InvoiceBookletDTO>(this, (InvoiceBookletDTO) dto) {
 
             @Override
             @SuppressWarnings("unchecked")

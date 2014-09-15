@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 @Entity
@@ -37,13 +36,13 @@ public class StockTakeDetail extends AbstractAudited {
     @Column(nullable = false, precision = 10, scale = 4)
     private BigDecimal qty;
 
-    @Column(nullable = false)
-    private QualityType quality;
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    private Quality quality;
 
     protected StockTakeDetail() {
     }
 
-    public StockTakeDetail(StockTake stockTake, Item item, UomType uom, BigDecimal qty, QualityType quality) {
+    public StockTakeDetail(StockTake stockTake, Item item, UomType uom, BigDecimal qty, Quality quality) {
         this.stockTake = stockTake;
         this.item = item;
         this.uom = uom;
@@ -99,11 +98,11 @@ public class StockTakeDetail extends AbstractAudited {
         this.qty = qty;
     }
 
-    public QualityType getQuality() {
+    public Quality getQuality() {
         return quality;
     }
 
-    public void setQuality(QualityType quality) {
+    public void setQuality(Quality quality) {
         this.quality = quality;
     }
 

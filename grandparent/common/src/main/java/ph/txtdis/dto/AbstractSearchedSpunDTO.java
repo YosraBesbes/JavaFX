@@ -8,11 +8,11 @@ import javafx.collections.ObservableList;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.AbstractAudited;
-import ph.txtdis.service.SearchedSpunServiced;
+import ph.txtdis.service.SearchedSpunByIdService;
 
 @Component
-public abstract class AbstractSearchedSpunDTO<E extends AbstractAudited, C, S extends SearchedSpunServiced<E, C>>
-        extends AbstractSpunDTO<E, S> implements SearchedDTO<E, C> {
+public abstract class AbstractSearchedSpunDTO<E extends AbstractAudited, C, S extends SearchedSpunByIdService<E, C>>
+        extends AbstractSpunByIdDTO<E, S> implements SearchedDTO<E, C> {
 
     protected ObservableList<E> list;
 

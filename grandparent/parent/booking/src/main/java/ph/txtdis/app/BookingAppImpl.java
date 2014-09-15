@@ -46,4 +46,9 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
     public void setDetail(Priced priced) {
         detailTableItem = (BookingDetail) priced;
     }
+
+    @Override
+    protected boolean isNew() {
+        return orderDTO.getId() == 0;
+    }
 }

@@ -2,11 +2,13 @@ package ph.txtdis.app;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
+import ph.txtdis.model.PickList;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.SystemUser;
@@ -39,34 +41,37 @@ public class PickingSetupImpl implements PickingSetup {
         
         SystemUser sysgen = userService.get("SYSGEN");
         LocalDate date = LocalDate.parse("2014-09-01");
-        Booking variety = bookingService.get(2);
-        Booking wetMarket = bookingService.get(3);
-        Booking dryMarket = bookingService.get(4);
+        Booking variety = bookingService.get(3);
+        Booking wetMarket = bookingService.get(4);
+        Booking dryMarket = bookingService.get(5);
         
-        Truck abc = new Truck("ABC123");
-        abc.setCreatedBy(sysgen);
-        truckService.save(abc);
+        Truck rdm801 = new Truck("RDM801");
+        rdm801.setCreatedBy(sysgen);
+        truckService.save(rdm801);
         
-        Truck def = new Truck("DEF456");
-        def.setCreatedBy(sysgen);
-        truckService.save(def);
+        Truck kdl170 = new Truck("KDL170");
+        kdl170.setCreatedBy(sysgen);
+        truckService.save(kdl170);
 
-        Truck ghi = new Truck("GHI789");
-        ghi.setCreatedBy(sysgen);
-        truckService.save(ghi);
-        
-        Truck jkl = new Truck("JKL012");
-        jkl.setCreatedBy(sysgen);
-        truckService.save(jkl);
+        Truck wsn519 = new Truck("WSN519");
+        wsn519.setCreatedBy(sysgen);
+        truckService.save(wsn519);
 
-        Picking ghiTruck = new Picking(abc, sysgen, sysgen, date);
-        ghiTruck.setDetails(Arrays.asList(new PickingDetail(ghiTruck, variety)));
-        pickingService.save(ghiTruck);
+        Picking rdmPick = new Picking(rdm801, sysgen, sysgen, date);
+        rdmPick.setDetails(Arrays.asList(new PickingDetail(rdmPick, variety)));
+        pickingService.save(rdmPick);
         
-        Picking jklTruck = new Picking(jkl, sysgen, sysgen, date);
-        PickingDetail wetPick = new PickingDetail(jklTruck, wetMarket);
-        PickingDetail dryPick = new PickingDetail(jklTruck, dryMarket);
-        jklTruck.setDetails(Arrays.asList(wetPick, dryPick));
-        pickingService.save(jklTruck);
+        Picking kdlPick = new Picking(kdl170, sysgen, sysgen, date);
+        PickingDetail wetPick = new PickingDetail(kdlPick, wetMarket);
+        PickingDetail dryPick = new PickingDetail(kdlPick, dryMarket);
+        kdlPick.setDetails(Arrays.asList(wetPick, dryPick));
+        pickingService.save(kdlPick);
+        
+        List<PickList> rdmPickList = pickingService.generatePickList(1);
+        rdmPickList.forEach(p -> System.err.println(p.getItemId() + ", " + p.getItemName() + ", " + p.getQty()));
+        System.err.println();
+
+        List<PickList> kdlPickList = pickingService.generatePickList(2);
+        kdlPickList.forEach(p -> System.err.println(p.getItemId() + ", " + p.getItemName() + ", " + p.getQty()));
     }
 }

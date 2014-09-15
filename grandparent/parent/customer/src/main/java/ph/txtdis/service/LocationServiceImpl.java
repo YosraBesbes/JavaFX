@@ -13,7 +13,7 @@ import ph.txtdis.type.LocationType;
 
 @Service
 @Transactional()
-public class LocationServiceImpl extends AbstractService<Location> implements LocationService {
+public class LocationServiceImpl extends AbstractIdService<Location> implements LocationService {
     
     @Autowired
     private LocationRepository repository;

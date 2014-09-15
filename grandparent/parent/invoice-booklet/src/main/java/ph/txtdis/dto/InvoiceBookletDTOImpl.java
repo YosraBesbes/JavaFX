@@ -12,7 +12,7 @@ import ph.txtdis.model.SystemUser;
 import ph.txtdis.service.InvoiceBookletService;
 
 @Component
-public class InvoiceBookletDTOImpl extends AbstractDTO<InvoiceBooklet, InvoiceBookletService> implements
+public class InvoiceBookletDTOImpl extends AbstractAuditedDTO<InvoiceBooklet, InvoiceBookletService> implements
         InvoiceBookletDTO {
 
     @Override

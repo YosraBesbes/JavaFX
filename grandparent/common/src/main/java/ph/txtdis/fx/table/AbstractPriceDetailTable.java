@@ -10,7 +10,7 @@ import ph.txtdis.app.OrderApp;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Priced;
 
-public abstract class AbstractPriceDetailTable<E, D> extends AbstractOrderDetailTable<E, D> {
+public abstract class AbstractPriceDetailTable<E, D> extends AbstractQualityDetailTable<E, D> {
 
     public AbstractPriceDetailTable(Stage stage, D dto) {
         super(stage, dto);

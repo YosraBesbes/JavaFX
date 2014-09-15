@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 @Entity
@@ -19,7 +18,7 @@ public class InvoicingDetail extends AbstractPricedDetail {
 
     protected InvoicingDetail() {
     }
-    
+
     public InvoicingDetail(Invoicing invoicing, Item item, UomType uom, BigDecimal qty) {
         this.invoicing = invoicing;
         this.item = item;
@@ -29,6 +28,6 @@ public class InvoicingDetail extends AbstractPricedDetail {
 
     @Override
     public String toString() {
-        return invoicing + ": " + qty + uom + " " + (quality == null ? QualityType.GOOD : quality) + " " + item;
+        return invoicing + ": " + qty + uom + " " + (quality == null ? "GOOD" : quality) + " " + item;
     }
 }

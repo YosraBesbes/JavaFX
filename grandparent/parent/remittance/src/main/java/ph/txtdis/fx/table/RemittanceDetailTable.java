@@ -11,7 +11,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.type.RemittanceReferenceType;
 
-public class RemittanceDetailTable extends AbstractTable<RemittanceDetail, RemittanceDTO> {
+public class RemittanceDetailTable extends AbstractInputTable<RemittanceDetail, RemittanceDTO> {
 
     public RemittanceDetailTable(Stage stage, RemittanceDTO dto) {
         super(stage, dto);

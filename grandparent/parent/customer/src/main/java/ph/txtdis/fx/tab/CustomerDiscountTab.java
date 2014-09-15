@@ -12,7 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemFamilyDTO;
 import ph.txtdis.fx.dialog.CustomerDiscountDialog;
-import ph.txtdis.fx.table.AbstractTable;
+import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemFamily;
@@ -28,7 +28,7 @@ public class CustomerDiscountTab extends AbstractTab<CustomerDiscount, CustomerD
     @Override
     protected Node[] addNodes(Stage stage, CustomerDTO dto) {
 
-        table = new AbstractTable<CustomerDiscount, CustomerDTO>(stage, dto) {
+        table = new AbstractInputTable<CustomerDiscount, CustomerDTO>(stage, dto) {
 
             @Override
             @SuppressWarnings("unchecked")

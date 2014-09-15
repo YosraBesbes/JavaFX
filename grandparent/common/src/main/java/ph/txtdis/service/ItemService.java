@@ -13,7 +13,7 @@ import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.PricingType;
 import ph.txtdis.type.UomType;
 
-public interface ItemService extends SearchedSpunServiced<Item, String>, Unique {
+public interface ItemService extends SearchedSpunByIdService<Item, String>, Unique {
 
     List<QtyPerUom> getQtyPerUom(int id);
 

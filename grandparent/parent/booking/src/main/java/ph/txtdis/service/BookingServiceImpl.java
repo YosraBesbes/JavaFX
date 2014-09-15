@@ -16,7 +16,8 @@ import ph.txtdis.util.Util;
 
 @Service
 @Transactional()
-public class BookingServiceImpl extends AbstractService<Booking> implements BookingService {
+public class BookingServiceImpl extends AbstractStockTakeDependentOrderService<Booking, BookingDetail> implements
+        BookingService {
 
     @Autowired
     private BookingRepository repository;

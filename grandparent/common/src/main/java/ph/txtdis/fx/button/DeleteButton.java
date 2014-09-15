@@ -2,7 +2,7 @@ package ph.txtdis.fx.button;
 
 import javafx.stage.Stage;
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.util.Util;
@@ -12,7 +12,7 @@ public class DeleteButton<E> extends FontButton<E> {
     private int id;
     private E entity;
 
-    public DeleteButton(Apped app, DTO<E> dto) {
+    public DeleteButton(Apped app, AuditedDTO<E> dto) {
         super("\ue80a", "Delete...");
         button.setOnAction(event -> {
             new ProgressDialog((Stage) app) {

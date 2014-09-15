@@ -13,7 +13,7 @@ import ph.txtdis.repository.RemittanceRepository;
 
 @Service
 @Transactional()
-public class RemittanceServiceImpl extends AbstractService<Remittance> implements RemittanceService {
+public class RemittanceServiceImpl extends AbstractIdService<Remittance> implements RemittanceService {
 
     @Autowired
     private RemittanceRepository repository;

@@ -18,23 +18,25 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     protected Customer partner;
-    
+
     @Transient
     private int partnerId;
-    
+
     @Transient
     private String partnerName;
-    
+
     @Transient
     private String partnerAddress;
-    
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     protected Route route;
-    
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private CreditDetail credit;
-    
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private CustomerDiscount discount;
-    
+
     @Column(nullable = false)
     protected BigDecimal amount;
 
@@ -57,6 +59,7 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         this.partner = partner;
     }
 
+    @Override
     public int getPartnerId() {
         return partner == null ? 0 : partner.getId();
     }
@@ -65,6 +68,7 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         this.partnerId = partnerId;
     }
 
+    @Override
     public String getPartnerName() {
         return partner == null ? null : partner.getName();
     }
@@ -73,6 +77,7 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         this.partnerName = partnerName;
     }
 
+    @Override
     public String getPartnerAddress() {
         return partner == null ? null : partner.getFullAdddress();
     }
@@ -105,6 +110,7 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         this.discount = discount;
     }
 
+    @Override
     public BigDecimal getAmount() {
         return amount;
     }

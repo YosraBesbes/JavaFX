@@ -16,7 +16,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.BackButton;
 import ph.txtdis.fx.button.DeleteButton;
 import ph.txtdis.fx.button.NewButton;
@@ -24,16 +25,18 @@ import ph.txtdis.fx.button.NextButton;
 import ph.txtdis.fx.button.OpenButton;
 import ph.txtdis.fx.button.SaveButton;
 import ph.txtdis.fx.button.SearchByTextButton;
-import ph.txtdis.fx.input.StringField;
+import ph.txtdis.fx.input.StringDisplay;
 import ph.txtdis.fx.util.FontToImage;
+import ph.txtdis.util.DIS;
+import ph.txtdis.util.Util;
 
 public abstract class AbstractApp<E> extends Stage implements Apped {
 
-    protected DTO<E> dto;
+    protected AuditedDTO<E> dto;
     protected Map<String, Button> buttons;
     protected String module, abbr;
-    protected StringField encoderField, timestampField;
-    
+    protected StringDisplay encoderField, timestampField;
+    protected HBox summaryBox, userHBox;
 
     public AbstractApp(String module, String abbr) {
         this.module = module;
@@ -51,7 +54,7 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         dto.save();
     }
 
@@ -59,8 +62,8 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
     public void refresh() {
         setTitle(titleName());
         if (encoderField != null) {
-            encoderField.setText(dto.getCreatedBy());
-            timestampField.setText(dto.getTimeStamp());
+            encoderField.setText(DIS.toString(dto.getCreatedBy()));
+            timestampField.setText(Util.formatTimestamp(dto.getTimeStamp()));
         }
         setFocus();
     }
@@ -72,10 +75,10 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
     protected abstract Node[] addVBoxNodes();
 
     protected abstract String getTitleName();
-    
+
     protected void setListeners() {
     }
-    
+
     private void initialize() {
         setButtons();
         setData();
@@ -122,55 +125,39 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
         hBox.setPadding(new Insets(10, 10, 0, 10));
         return hBox;
     }
-        
+
     private Node[] addEncoderNodes() {
         Label encoderLabel = new Label("Created By");
-        addCreatedByField();
-        Label timestampLabel = new Label("Timestamp");
-        addTimestampField();
-        return new Node[] {encoderLabel, encoderField, timestampLabel, timestampField};
+        encoderField = new StringDisplay(DIS.toString(dto.getCreatedBy()));
+        Label timestampLabel = new Label("On");
+        timestampField = new StringDisplay(Util.formatTimestamp(dto.getTimeStamp()));
+        return new Node[] { encoderLabel, encoderField, timestampLabel, timestampField };
     }
 
-    private void addCreatedByField() {
-        encoderField = new StringField(toString(dto.getCreatedBy()));
-        encoderField.setEditable(false);
-        encoderField.focusTraversableProperty().set(false);
-    }
-
-    private void addTimestampField() {
-        timestampField = new StringField(toString(dto.getTimeStamp())); 
-        timestampField.setEditable(false);
-        timestampField.focusTraversableProperty().set(false);
-    }
-    
-    private String toString(Object object) {
-        return object == null ? "" : object.toString();
-    }
-    
     private void setHBoxProperties(HBox hBox) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(0, 10, 10, 10));
         hBox.setAlignment(Pos.CENTER);
     }
 
-    private HBox addEncoderBox() {
-        HBox encoderBox = new HBox(addEncoderNodes());
-        setHBoxProperties(encoderBox);
-        return encoderBox;
+    protected void setUserBox() {
+        userHBox = new HBox(addEncoderNodes());
+        setHBoxProperties(userHBox);
     }
-    
+
     protected Node[] addSummaryNodes() {
         return new Node[] {};
     };
-    
+
     private HBox addSummaryBox() {
         HBox summaryBox = new HBox(addSummaryNodes());
         setHBoxProperties(summaryBox);
         return summaryBox;
     }
-    
+
     protected void addFooter(VBox box) {
-        box.getChildren().addAll(addSummaryBox(), addEncoderBox());
+        setUserBox();
+        box.getChildren().addAll(addSummaryBox(), userHBox);
     }
 
     private VBox placeNodes() {
@@ -210,5 +197,9 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
 
     protected boolean isNew() {
         return dto.getId() == 0;
+    };
+
+    public void setDTO(E entity) {
+        dto.set(entity);
     }
 }

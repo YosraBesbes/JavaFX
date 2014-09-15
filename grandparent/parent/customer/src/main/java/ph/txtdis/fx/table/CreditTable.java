@@ -12,7 +12,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.SystemUser;
 
-public class CreditTable extends AbstractTable<CreditDetail, CustomerDTO> {
+public class CreditTable extends AbstractInputTable<CreditDetail, CustomerDTO> {
 
     public CreditTable(Stage stage, CustomerDTO dto) {
         super(stage, dto);

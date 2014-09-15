@@ -16,7 +16,8 @@ import ph.txtdis.repository.InvoicingRepository;
 
 @Service
 @Transactional()
-public class InvoicingServiceImpl extends AbstractService<Invoicing> implements InvoicingService {
+public class InvoicingServiceImpl extends AbstractStockTakeDependentOrderService<Invoicing, InvoicingDetail> implements
+        InvoicingService {
 
     @Autowired
     private InvoicingRepository repository;

@@ -1,5 +1,6 @@
 package ph.txtdis.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,14 +10,19 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
+import ph.txtdis.model.StockTakeSummary;
 import ph.txtdis.repository.StockTakeRepository;
+import ph.txtdis.repository.StockTakeSummaryRepository;
 
 @Service
 @Transactional()
-public class StockTakeServiceImpl extends AbstractService<StockTake> implements StockTakeService {
+public class StockTakeServiceImpl extends AbstractIdService<StockTake> implements StockTakeService {
 
     @Autowired
     private StockTakeRepository repository;
+
+    @Autowired
+    private StockTakeSummaryRepository summaryRepository;
 
     protected StockTakeServiceImpl() {
     }
@@ -34,5 +40,10 @@ public class StockTakeServiceImpl extends AbstractService<StockTake> implements 
     @Override
     public List<StockTakeDetail> getDetails(int id) {
         return repository.getDetails(id);
+    }
+
+    @Override
+    public List<StockTakeSummary> getSummary(LocalDate date) {
+        return summaryRepository.findByStockTakeDate(date);
     }
 }

@@ -27,7 +27,7 @@ public class FourPlaceFieldTableCell<S> extends TextFieldTableCell<S, BigDecimal
     @Override
     public void updateItem(BigDecimal number, boolean empty) {
         super.updateItem(number, empty);
-        if (number != null)
+        if (!empty)
             DIS.format4Place(number);
     }
 }

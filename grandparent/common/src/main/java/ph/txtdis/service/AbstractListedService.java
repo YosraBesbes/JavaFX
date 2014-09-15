@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional()
-public abstract class AbstractListedService<E> extends AbstractService<E> implements ListedServiced<E> {
+public abstract class AbstractListedService<E> extends AbstractIdService<E> implements ListedServiced<E> {
 
     protected AbstractListedService() {
     }

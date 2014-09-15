@@ -27,9 +27,10 @@ public class StringField extends TextField {
     }
 
     public StringField(int maxLength) {
-
-        if (maxLength < 256)
-            FX.setMinWidth(this, maxLength); 
+        if (maxLength < 256) {
+            setMaxWidth(maxLength);
+            setPrefWidth(maxLength);
+        }
 
         textProperty().addListener(new ChangeListener<String>() {
             private boolean ignore;
@@ -49,9 +50,5 @@ public class StringField extends TextField {
                 }
             }
         });
-    }
-    
-    public void setText(Object object) {
-        super.setText(object == null ? "" : object.toString());
     }
 }

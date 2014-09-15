@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 @Entity
@@ -17,10 +16,10 @@ public class PurchasingDetail extends AbstractPricedDetail {
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Purchasing purchasing;
-    
+
     @Transient
     private int daysLevelBefore;
-       
+
     @Transient
     private int daysLevelAfter;
 
@@ -52,6 +51,6 @@ public class PurchasingDetail extends AbstractPricedDetail {
 
     @Override
     public String toString() {
-        return purchasing + ": " + qty + uom + " " + (quality == null ? QualityType.GOOD : quality) + " " + item;
+        return purchasing + ": " + qty + uom + " " + (quality == null ? "GOOD" : quality) + " " + item;
     }
 }

@@ -12,7 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.ChannelDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.fx.dialog.VolumeDiscountDialog;
-import ph.txtdis.fx.table.AbstractTable;
+import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.SystemUser;
@@ -30,7 +30,7 @@ public class VolumeDiscountTab extends AbstractTab<VolumeDiscount, ItemDTO> {
     @Override
     protected Node[] addNodes(Stage stage, ItemDTO dto) {
 
-        table = new AbstractTable<VolumeDiscount, ItemDTO>(stage, dto) {
+        table = new AbstractInputTable<VolumeDiscount, ItemDTO>(stage, dto) {
 
             @Override
             @SuppressWarnings("unchecked")

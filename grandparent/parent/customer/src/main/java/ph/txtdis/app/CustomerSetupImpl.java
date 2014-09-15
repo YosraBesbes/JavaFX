@@ -1166,7 +1166,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         dryStall.setProvince(metro_manila);
         dryStall.setChannel(channelService.get(4));
         dryStall.setVisitFrequency(VisitFrequency.F4);
-        dryStall.setRouteHistory(Arrays.asList(new Routing(dryStall, pms2, startDate)));
+        dryStall.setRouteHistory(Arrays.asList(new Routing(dryStall, pms3, startDate)));
         customerService.save(dryStall);
     }
 }

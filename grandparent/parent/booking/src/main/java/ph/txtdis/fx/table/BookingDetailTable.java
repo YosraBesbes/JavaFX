@@ -1,7 +1,9 @@
 package ph.txtdis.fx.table;
 
 import javafx.stage.Stage;
+import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.fx.dialog.BookingDialog;
 import ph.txtdis.model.BookingDetail;
 
@@ -15,5 +17,10 @@ public class BookingDetailTable extends AbstractPriceDetailTable<BookingDetail, 
     @Override
     protected void createInputDialog() {
         inputDialog = new BookingDialog(stage, dto);
+    }
+
+    @Override
+    protected QualityDTO getQualityDTO() {
+        return App.getContext().getBean(QualityDTO.class);
     }
 }

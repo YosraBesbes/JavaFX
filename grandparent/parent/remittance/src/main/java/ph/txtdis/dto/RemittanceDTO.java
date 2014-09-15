@@ -10,7 +10,7 @@ import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.type.RemittanceType;
 
-public interface RemittanceDTO extends SpunDTO, DTO<Remittance> {
+public interface RemittanceDTO extends SpunDTO, AuditedDTO<Remittance> {
 
     Customer getPartner();
 

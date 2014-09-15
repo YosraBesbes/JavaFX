@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -36,6 +37,9 @@ public class Picking extends AbstractAudited {
 
     @OneToMany(mappedBy = "picking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PickingDetail> details;
+
+    @Transient
+    private List<PickList> pickList;
 
     public Picking() {
     }
@@ -80,7 +84,7 @@ public class Picking extends AbstractAudited {
     }
 
     public LocalDate getPickDate() {
-        return pickDate;
+        return pickDate == null ? LocalDate.now() : pickDate;
     }
 
     public void setPickDate(LocalDate pickDate) {

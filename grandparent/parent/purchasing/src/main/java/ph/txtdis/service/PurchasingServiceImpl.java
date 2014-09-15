@@ -13,7 +13,8 @@ import ph.txtdis.repository.PurchasingRepository;
 
 @Service
 @Transactional()
-public class PurchasingServiceImpl extends AbstractService<Purchasing> implements PurchasingService {
+public class PurchasingServiceImpl extends AbstractStockTakeDependentOrderService<Purchasing, PurchasingDetail>
+        implements PurchasingService {
 
     @Autowired
     private PurchasingRepository repository;

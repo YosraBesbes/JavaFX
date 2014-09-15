@@ -2,8 +2,9 @@ package ph.txtdis.fx.table;
 
 import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.fx.util.FX;
-import ph.txtdis.type.QualityType;
+import ph.txtdis.model.Quality;
 
 public abstract class AbstractQualityDetailTable<E, D> extends AbstractOrderDetailTable<E, D> {
 
@@ -14,7 +15,9 @@ public abstract class AbstractQualityDetailTable<E, D> extends AbstractOrderDeta
     @Override
     protected void addTableColumns() {
         super.addTableColumns();
-        TableColumn<E, QualityType> qualityCol = FX.addComboColumn("Quality", "quality", QualityType.values(), 50);
+        TableColumn<E, Quality> qualityCol = FX.addComboColumn("Quality", "quality", getQualityDTO().list(), 50);
         table.getColumns().add(qualityCol);
     }
+
+    protected abstract QualityDTO getQualityDTO();
 }

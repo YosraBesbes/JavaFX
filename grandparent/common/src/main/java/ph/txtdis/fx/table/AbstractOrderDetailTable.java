@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.type.UomType;
 
-public abstract class AbstractOrderDetailTable<E, D> extends AbstractTable<E, D> {
+public abstract class AbstractOrderDetailTable<E, D> extends AbstractInputTable<E, D> {
 
     public AbstractOrderDetailTable(Stage stage, D dto) {
         super(stage, dto);
@@ -18,7 +18,6 @@ public abstract class AbstractOrderDetailTable<E, D> extends AbstractTable<E, D>
     protected void addTableColumns() {
 
         TableColumn<E, Integer> itemIdCol = FX.addIntegerColumn("Item ID", "itemId");
-        
         TableColumn<E, String> itemNameCol = FX.addStringColumn("Name", "itemName", 180);
         itemNameCol.setEditable(false);
         

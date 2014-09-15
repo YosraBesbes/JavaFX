@@ -183,16 +183,16 @@ public class DIS {
         return number == 0 ? "" : INTEGER.format(number);
     }
 
-    public static String formatInt(Integer number) {
-        return number == null ? "" : INTEGER.format(number);
-    }
-
     public static String formatId(int number) {
         return number == 0 ? "" : NO_COMMA_INTEGER.format(number);
     }
 
     public static String formatLong(long number) {
         return number == 0 ? "" : NO_COMMA_INTEGER.format(number);
+    }
+
+    public static String formatQuantity(BigDecimal number) {
+        return number == null ? "" : INTEGER.format(number);
     }
 
     public static String formatPhone(long number) {
@@ -282,7 +282,7 @@ public class DIS {
         return (T) method.invoke(object, parameters);
     }
 
-    private static void throwInvalidExceptionIfItIsTheCause(InvocationTargetException e) {
+    private static void throwInvalidExceptionIfItIsTheCause(InvocationTargetException e) throws InvalidException {
         e.printStackTrace();
         Throwable cause = e.getCause();
         if (cause instanceof InvalidException)
@@ -303,5 +303,9 @@ public class DIS {
 
     public static boolean isBefore(Date date, Date latest) {
         return DateUtils.truncatedCompareTo(date, latest, Calendar.DATE) < 0;
+    }
+
+    public static String toString(Object object) {
+        return object == null ? "" : object.toString();
     }
 }

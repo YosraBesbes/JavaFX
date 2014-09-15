@@ -10,7 +10,7 @@ import ph.txtdis.model.Routing;
 import ph.txtdis.service.RoutingService;
 
 @Component
-public class RoutingDTOImpl extends AbstractDTO<Routing, RoutingService> implements RoutingDTO {
+public class RoutingDTOImpl extends AbstractAuditedDTO<Routing, RoutingService> implements RoutingDTO {
 
     @Override
     public void reset() {

@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.input.InputNode;
@@ -16,9 +17,9 @@ import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.fx.input.LabeledIdNameField;
 import ph.txtdis.model.Item;
+import ph.txtdis.model.Quality;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 import ph.txtdis.util.Login;
 
@@ -49,7 +50,7 @@ public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockT
             }
         });
     }
-    
+
     private void actWhenFound(int id) {
         itemDTO.setId(id);
         itemField.getNameField().setText(itemDTO.getName());
@@ -62,12 +63,13 @@ public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockT
 
     @Override
     protected List<InputNode<?>> addNodes() {
+        QualityDTO qualityDTO = App.getContext().getBean(QualityDTO.class);
 
-        itemField = new LabeledIdNameField("Item ID", 18);        
+        itemField = new LabeledIdNameField("Item ID", 18);
         LabeledComboBox<UomType> uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         LabeledDecimalField qtyField = new LabeledDecimalField("Quantity");
-        LabeledComboBox<QualityType> qualityCombo = new LabeledComboBox<>("Quality", QualityType.values());
-        
+        LabeledComboBox<Quality> qualityCombo = new LabeledComboBox<>("Quality", qualityDTO.list());
+
         return Arrays.asList(itemField, uomCombo, qtyField, qualityCombo);
 
     }
@@ -75,13 +77,11 @@ public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockT
     @Override
     protected StockTakeDetail createEntity(StockTakeDTO dto, List<InputNode<?>> inputNodes) {
 
-        ItemDTO itemDTO = App.getContext().getBean(ItemDTO.class);
-
         StockTake stockTake = dto.get();
         Item item = itemDTO.get();
         UomType uom = getInputAtRow(1);
         BigDecimal qty = getInputAtRow(2);
-        QualityType quality = getInputAtRow(3);
+        Quality quality = getInputAtRow(3);
 
         StockTakeDetail detail = new StockTakeDetail(stockTake, item, uom, qty, quality);
         detail.setCreatedBy(Login.user());

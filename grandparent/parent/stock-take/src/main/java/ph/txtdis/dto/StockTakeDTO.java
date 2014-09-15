@@ -9,7 +9,7 @@ import ph.txtdis.model.StockTakeDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Warehouse;
 
-public interface StockTakeDTO extends SpunDTO, DTO<StockTake> {
+public interface StockTakeDTO extends SpunDTO, AuditedDTO<StockTake> {
 
     public Warehouse getWarehouse();
     

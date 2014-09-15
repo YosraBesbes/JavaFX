@@ -6,7 +6,7 @@ import ph.txtdis.model.Customer;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
 
-public interface RoutingDTO extends DTO<Routing> {
+public interface RoutingDTO extends AuditedDTO<Routing> {
 
     Customer getCustomer();
 

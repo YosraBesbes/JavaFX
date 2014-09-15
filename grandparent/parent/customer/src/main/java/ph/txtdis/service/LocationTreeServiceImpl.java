@@ -13,7 +13,7 @@ import ph.txtdis.repository.LocationTreeRepository;
 
 @Service
 @Transactional()
-public class LocationTreeServiceImpl extends AbstractService<LocationTree> implements LocationTreeService {
+public class LocationTreeServiceImpl extends AbstractIdService<LocationTree> implements LocationTreeService {
     
     @Autowired
     private LocationTreeRepository repository;

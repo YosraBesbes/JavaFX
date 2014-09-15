@@ -14,7 +14,7 @@ import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
 import ph.txtdis.model.SystemUser;
 
-public class RoutingTable extends AbstractTable<Routing, CustomerDTO> {
+public class RoutingTable extends AbstractInputTable<Routing, CustomerDTO> {
 
     public RoutingTable(Stage stage, CustomerDTO dto) {
         super(stage, dto);

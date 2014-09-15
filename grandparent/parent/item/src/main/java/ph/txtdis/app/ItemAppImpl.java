@@ -10,6 +10,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.FoundItemDialog;
 import ph.txtdis.fx.tab.ItemTab;
 import ph.txtdis.fx.tab.PricingTab;
@@ -126,7 +127,7 @@ public class ItemAppImpl extends AbstractApp<Item> implements Searched {
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
         super.save();
@@ -145,7 +146,7 @@ public class ItemAppImpl extends AbstractApp<Item> implements Searched {
     }
 
     @Override
-    public void listFind() {
+    public void listFoundEntities() {
         new FoundItemDialog(this, (ItemDTO) dto);
     }
 }

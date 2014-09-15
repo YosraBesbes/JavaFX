@@ -5,7 +5,7 @@ import java.util.List;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
 
-public interface InvoiceBookletService extends Serviced<InvoiceBooklet> {
+public interface InvoiceBookletService extends IdService<InvoiceBooklet> {
     
     List<InvoiceBooklet> list();
     

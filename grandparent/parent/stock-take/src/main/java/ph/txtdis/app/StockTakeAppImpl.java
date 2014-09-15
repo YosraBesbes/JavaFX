@@ -14,6 +14,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.dto.WarehouseDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.table.StockTakeDetailTable;
 import ph.txtdis.fx.util.FX;
@@ -23,7 +24,7 @@ import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Warehouse;
 
 public class StockTakeAppImpl extends AbstractApp<StockTake> {
-    
+
     private StockTakeDTO stockTake;
     private UserDTO user;
     private WarehouseDTO warehouse;
@@ -122,7 +123,7 @@ public class StockTakeAppImpl extends AbstractApp<StockTake> {
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         stockTake.setWarehouse(warehouseCombo.getValue());
         stockTake.setStockTakeDate(datePicker.getValue());
         stockTake.setTaker(takerCombo.getValue());
@@ -140,6 +141,6 @@ public class StockTakeAppImpl extends AbstractApp<StockTake> {
         checkerCombo.setValue(stockTake.getChecker());
         detailTable.getItems().clear();
         detailTable.getItems().addAll(stockTake.getDetails());
-        super.refresh();    
+        super.refresh();
     }
 }

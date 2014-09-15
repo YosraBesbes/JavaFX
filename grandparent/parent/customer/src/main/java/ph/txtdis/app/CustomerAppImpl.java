@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.FoundCustomerDialog;
 import ph.txtdis.fx.tab.CreditTab;
 import ph.txtdis.fx.tab.CustomerDiscountTab;
@@ -61,7 +62,7 @@ public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
     }
 
     @Override
-    public void listFind() {
+    public void listFoundEntities() {
         new FoundCustomerDialog(this, (CustomerDTO) dto);
     }
 
@@ -107,7 +108,7 @@ public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
         super.save();

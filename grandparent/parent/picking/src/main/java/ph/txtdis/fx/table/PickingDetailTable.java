@@ -13,7 +13,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
 
-public class PickingDetailTable extends AbstractTable<PickingDetail, PickingDTO> {
+public class PickingDetailTable extends AbstractInputTable<PickingDetail, PickingDTO> {
 
     public PickingDetailTable(Stage stage, PickingDTO dto) {
         super(stage, dto);
@@ -35,7 +35,7 @@ public class PickingDetailTable extends AbstractTable<PickingDetail, PickingDTO>
     @Override
     public void createTableContextMenu(ContextMenu contextMenu) {
         LocalDate date = ((PickingAppImpl) stage).getPickerDate();
-        dto.getUnpickedRoutes(date).forEach(route -> createRouteContextMenuItem(contextMenu, date, route));
+        dto.getNotFullyPickedRoutes(date).forEach(route -> createRouteContextMenuItem(contextMenu, date, route));
         table.setContextMenu(contextMenu);
     }
 
@@ -47,7 +47,7 @@ public class PickingDetailTable extends AbstractTable<PickingDetail, PickingDTO>
 
     private void handleMenuItemClick(ContextMenu contextMenu, LocalDate date, Route route, MenuItem menuItem) {
         contextMenu.getItems().remove(menuItem);
-        dto.getUnpickedBookings(route, date).forEach(
+        dto.getUnpickedBookings(date, route).forEach(
                 booking -> table.getItems().add(new PickingDetail(dto.get(), booking)));
     }
 

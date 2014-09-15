@@ -3,7 +3,7 @@ package ph.txtdis.fx.button;
 import javafx.stage.Stage;
 import ph.txtdis.app.Apped;
 import ph.txtdis.app.Searched;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.dto.SearchedDTO;
 import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.fx.dialog.SearchDialog;
@@ -11,7 +11,7 @@ import ph.txtdis.fx.dialog.SearchDialog;
 public class SearchByDateButton<E> extends FontButton<E> {
 
 	@SuppressWarnings("unchecked")
-	public SearchByDateButton(Apped app, DTO<E> dto) {
+	public SearchByDateButton(Apped app, AuditedDTO<E> dto) {
 		super("\ue807", "Find...");
 		button.setOnAction(event -> {
 			String name = new SearchDialog(app).getText();
@@ -25,7 +25,7 @@ public class SearchByDateButton<E> extends FontButton<E> {
 
 				@Override
 				protected void next() {
-					((Searched) app).listFind();
+					((Searched) app).listFoundEntities();
 					app.refresh();
 					app.setFocus();
 				}

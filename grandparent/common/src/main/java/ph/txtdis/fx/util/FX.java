@@ -41,21 +41,23 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.StringUtils;
 
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.input.TextStyled;
 import ph.txtdis.fx.tab.ImageStreamed;
 import ph.txtdis.fx.tablecell.BooleanTableCell;
 import ph.txtdis.fx.tablecell.DatePickerTableCell;
+import ph.txtdis.fx.tablecell.DoubleClickQtyTableCell;
 import ph.txtdis.fx.tablecell.DoubleClickTableCell;
 import ph.txtdis.fx.tablecell.FourPlaceFieldTableCell;
 import ph.txtdis.fx.tablecell.ImageViewTableCell;
 import ph.txtdis.fx.tablecell.IntegerFieldTableCell;
-import ph.txtdis.fx.tablecell.PriceFieldTableCell;
+import ph.txtdis.fx.tablecell.MonetaryFieldTableCell;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
 
 public class FX {
-    private static String style = " -fx-alignment: top-right;" + " -fx-text-fill: ";
+    private static String style = " -fx-alignment: top-right; -fx-text-fill: ";
     private static String positive = " -fx-text-background-color";
 
     public static ImageView getDefaultImageView(String name) {
@@ -166,10 +168,27 @@ public class FX {
     }
 
     public static <S, T> TableColumn<S, T> addDisplayColumn(Stage stage, String name, String field, int minWidth,
-            DTO<S> dto) {
+            AuditedDTO<S> dto) {
         TableColumn<S, T> tableColumn = createColumn(name, field, minWidth);
         tableColumn.setCellFactory(column -> {
             return new DoubleClickTableCell<S, T>(stage, dto);
+        });
+        return tableColumn;
+    }
+
+    public static <S, T> TableColumn<S, T> addDisplayColumn(Stage stage, String name, String field, int minWidth) {
+        TableColumn<S, T> tableColumn = createColumn(name, field, minWidth);
+        tableColumn.setCellFactory(column -> {
+            return new DoubleClickTableCell<S, T>(stage);
+        });
+        return tableColumn;
+    }
+
+    public static <S> TableColumn<S, BigDecimal> addQtyDisplayColumn(Stage stage, String name, String field,
+            int minWidth) {
+        TableColumn<S, BigDecimal> tableColumn = createColumn(name, field, minWidth);
+        tableColumn.setCellFactory(column -> {
+            return new DoubleClickQtyTableCell<S>(stage);
         });
         return tableColumn;
     }
@@ -180,7 +199,11 @@ public class FX {
             return new BooleanTableCell<S>() {
                 @Override
                 protected void setBoolean(S item, Boolean bool) {
-                    DIS.invokeOneParameterMethod(item, "set" + StringUtils.capitalize(field), bool, boolean.class);
+                    try {
+                        DIS.invokeOneParameterMethod(item, "set" + StringUtils.capitalize(field), bool, boolean.class);
+                    } catch (InvalidException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
         });
@@ -245,14 +268,20 @@ public class FX {
 
     public static <S> TableColumn<S, BigDecimal> addPriceColumn(String name, String field) {
         TableColumn<S, BigDecimal> tableColumn = createColumn(name, field, 120);
-        tableColumn.setCellFactory(column -> new PriceFieldTableCell<S>());
+        tableColumn.setCellFactory(column -> new MonetaryFieldTableCell<S>());
         setOnEditCommit(field, tableColumn);
         return tableColumn;
     }
 
     private static <S, T> void setOnEditCommit(String field, TableColumn<S, T> tableColumn) {
-        tableColumn.setOnEditCommit(event -> DIS.invokeOneParameterMethod(event.getRowValue(),
-                "set" + StringUtils.capitalize(field), event.getNewValue(), event.getNewValue().getClass()));
+        tableColumn.setOnEditCommit(event -> {
+            try {
+                DIS.invokeOneParameterMethod(event.getRowValue(), "set" + StringUtils.capitalize(field),
+                        event.getNewValue(), event.getNewValue().getClass());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static Tooltip tip(String tooltip) {
@@ -273,6 +302,11 @@ public class FX {
 
     public static void styleDecimal(TextStyled styled, BigDecimal number) {
         styled.setText(DIS.formatDecimal(number));
+        styled.setStyle(style + (DIS.isNegative(number) ? "red" : positive));
+    }
+
+    public static void styleQuantity(TextStyled styled, BigDecimal number) {
+        styled.setText(DIS.formatQuantity(number));
         styled.setStyle(style + (DIS.isNegative(number) ? "red" : positive));
     }
 
@@ -297,7 +331,6 @@ public class FX {
         return field.textProperty().isEmpty();
     }
 
-
     public static <T> BooleanBinding isEmpty(ComboBox<T> combo) {
         return combo.getSelectionModel().selectedItemProperty().isNull();
     }
@@ -315,9 +348,9 @@ public class FX {
         stage.getIcons().add(icon);
         stage.setTitle(Login.getVersion());
     }
-    
+
     public static void setMinWidth(Control control, int letterCount) {
-        int width = letterCount * 14 + 24; 
+        int width = letterCount * 14 + 24;
         control.setMinWidth(width);
         control.setPrefWidth(width);
     }

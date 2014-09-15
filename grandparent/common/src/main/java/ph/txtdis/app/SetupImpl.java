@@ -5,9 +5,11 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.ItemFamily;
+import ph.txtdis.model.Quality;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.service.ChannelService;
 import ph.txtdis.service.ItemFamilyService;
+import ph.txtdis.service.QualityService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.ItemTier;
 
@@ -22,6 +24,9 @@ public class SetupImpl implements Setup {
 
     @Autowired
     ItemFamilyService familyService;
+
+    @Autowired
+    QualityService qualityService;
 
     public SetupImpl() {
     }
@@ -52,7 +57,7 @@ public class SetupImpl implements Setup {
         channelService.save(new Channel("DRY MARKET"));
         channelService.save(new Channel("DRUG STORE"));
         channelService.save(new Channel("TFO"));
-        
+
         familyService.save(new ItemFamily("CHEESE MAGIC", ItemTier.CATEGORY));
         familyService.save(new ItemFamily("FNR", ItemTier.CATEGORY));
         familyService.save(new ItemFamily("FRUITS", ItemTier.CATEGORY));
@@ -71,5 +76,9 @@ public class SetupImpl implements Setup {
         familyService.save(new ItemFamily("TOMATO SAUCE", ItemTier.CATEGORY));
         familyService.save(new ItemFamily("TS 90", ItemTier.CATEGORY));
         familyService.save(new ItemFamily("VINEGAR", ItemTier.CATEGORY));
+
+        qualityService.save(new Quality("GOOD"));
+        qualityService.save(new Quality("HOLD"));
+        qualityService.save(new Quality("BAD"));
     }
 }

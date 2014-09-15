@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public abstract class AbstractBoxedTable<E, D> extends AbstractTable<E, D> {
+public abstract class AbstractBoxedTable<E, D> extends AbstractInputTable<E, D> {
 	final private VBox box;
 
 	public AbstractBoxedTable(String name, Stage stage, D dto) {

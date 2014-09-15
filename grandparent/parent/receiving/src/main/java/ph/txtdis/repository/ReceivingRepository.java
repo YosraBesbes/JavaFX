@@ -15,7 +15,7 @@ public interface ReceivingRepository extends CrudRepository<Receiving, Integer> 
 
     @Query("select max(r.id) from Receiving r")
     int getMaxId();
-    
+
     @Query("select r.details from Receiving r where r.id = ?1")
     List<ReceivingDetail> getDetails(int id);
 }

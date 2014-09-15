@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.RemittanceDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.dialog.ErrorDialog;
@@ -209,13 +210,13 @@ public class RemittanceAppImpl extends AbstractApp<Remittance> implements Search
     }
 
     @Override
-    public void listFind() {
+    public void listFoundEntities() {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         remittance.setPartner(customer.get(partnerIdField.getIdNo()));
         remittance.setOrderDate(datePicker.getValue());
         remittance.setType(typeCombo.getValue());

@@ -25,7 +25,7 @@ import ph.txtdis.type.UomType;
 
 @Service
 @Transactional()
-public class ItemServiceImpl extends AbstractService<Item> implements ItemService {
+public class ItemServiceImpl extends AbstractIdService<Item> implements ItemService {
 
     @Autowired
     private ItemRepository itemRepository;

@@ -16,7 +16,7 @@ import ph.txtdis.service.RemittanceService;
 import ph.txtdis.type.RemittanceType;
 
 @Component
-public class RemittanceDTOImpl extends AbstractSpunDTO<Remittance, RemittanceService> implements RemittanceDTO {
+public class RemittanceDTOImpl extends AbstractSpunByIdDTO<Remittance, RemittanceService> implements RemittanceDTO {
 
     @Override
     public void reset() {

@@ -2,7 +2,7 @@ package ph.txtdis.fx.button;
 
 import javafx.stage.Stage;
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.OpenDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
@@ -10,7 +10,7 @@ import ph.txtdis.fx.util.FX;
 
 public class OpenButton<E> extends FontButton<E> {
 
-	public OpenButton(Apped app, DTO<E> dto) {
+	public OpenButton(Apped app, AuditedDTO<E> dto) {
 
 	    super("\ue81b", "Open...");
 		button.setOnAction(event -> {

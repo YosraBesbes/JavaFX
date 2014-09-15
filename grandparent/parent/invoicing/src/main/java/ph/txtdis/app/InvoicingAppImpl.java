@@ -97,7 +97,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         orderDTO.setBooking(booking.get(bookingIdField.getIdNo()));
         super.save();
     }
@@ -158,7 +158,8 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
 
     private void validateId() {
         try {
-            checkForDuplicateId();;
+            checkForDuplicateId();
+            ;
         } catch (InvalidException e) {
             handleError(e);
         }
@@ -196,7 +197,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         return lastId == null ? startId : lastId.intValue() + 1;
     }
 
-    private void verifySalesOrder(int id) throws NotFoundException {
+    private void verifySalesOrder(int id) throws NotFoundException, InvalidException {
         if (booking.exists(id))
             checkSalesOrderIsUnused(id);
         else
@@ -224,4 +225,3 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         super.refresh();
     }
 }
-  

@@ -10,7 +10,7 @@ import ph.txtdis.repository.AccountRepository;
 
 @Service
 @Transactional()
-public class AccountServiceImpl extends AbstractService<Account> implements AccountService {
+public class AccountServiceImpl extends AbstractIdService<Account> implements AccountService {
 
     @Autowired
     private AccountRepository repository;

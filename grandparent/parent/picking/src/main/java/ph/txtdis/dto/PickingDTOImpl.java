@@ -1,6 +1,7 @@
 package ph.txtdis.dto;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
+import ph.txtdis.model.PickList;
+import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
@@ -19,7 +22,7 @@ import ph.txtdis.service.BookingService;
 import ph.txtdis.service.PickingService;
 
 @Component
-public class PickingDTOImpl extends AbstractSpunDTO<Picking, PickingService> implements PickingDTO {
+public class PickingDTOImpl extends AbstractSpunByIdDTO<Picking, PickingService> implements PickingDTO {
 
     @Autowired
     private BookingService bookingService;
@@ -101,24 +104,33 @@ public class PickingDTOImpl extends AbstractSpunDTO<Picking, PickingService> imp
     }
 
     @Override
+    public List<PickList> getPickList() {
+        return service.generatePickList(id);
+    }
+
+    @Override
     public List<Route> getRoutes(LocalDate date) {
         return bookingService.getRoutes(date);
     }
 
     @Override
-    public List<Route> getUnpickedRoutes(LocalDate date) {
-        return service.getUnpickedRoutes(date);
+    public List<Route> getNotFullyPickedRoutes(LocalDate date) {
+        return service.getNotFullyPickedRoutes(date);
     }
 
     @Override
-    public List<Booking> getBookings(Route route, LocalDate date) {
-        return bookingService.getBookings(route, date);
+    public List<Booking> getUnpickedBookings(LocalDate date, Route route) {
+        return service.getUnpickedBookings(date, route);
     }
 
     @Override
-    public List<Booking> getUnpickedBookings(Route route, LocalDate date) {
-        List<Booking> bookings = getBookings(route, date);
-        bookings.removeAll(service.getPickedBookings(date));
-        return service.getPickedBookings(date);
+    public ObservableList<Truck> getEmptyTrucks(LocalDate date) {
+        ObservableList<Truck> trucks = FXCollections.observableList(service.getEmptyTrucks(date));
+        return trucks.isEmpty() ? FXCollections.observableList(Arrays.asList(getTruck())) : trucks;
+    }
+
+    @Override
+    public PickListPrinting getPrintedPickList(Picking picking) {
+        return service.getPrintedPickList(picking);
     }
 }

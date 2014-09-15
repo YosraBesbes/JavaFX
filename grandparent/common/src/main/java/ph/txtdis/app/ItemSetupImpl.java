@@ -45,7 +45,6 @@ public class ItemSetupImpl implements ItemSetup {
 
         Item pineSliceFlat = new Item("PINE SLCE FLT 227G", "DEL MONTE SLICED PINEAPPLE FLAT 227G X 24",
                 ItemType.PURCHASED);
-        System.err.println("family: " + familyService.get(13));
         pineSliceFlat.setFamily(familyService.get(13));
         pineSliceFlat.setVendorId(364);
         pineSliceFlat.setCreatedBy(sysgen);
@@ -67,17 +66,50 @@ public class ItemSetupImpl implements ItemSetup {
 
         Pricing list = new Pricing(pineSliceFlat, PricingType.LIST, new BigDecimal(23.48), startDate);
         list.setCreatedBy(sysgen);
-        
+
         List<Pricing> prices = Arrays.asList(purchase1, purchase2, list);
         pineSliceFlat.setPriceHistory(prices);
 
         VolumeDiscount discount = new VolumeDiscount(pineSliceFlat, VolumeDiscountType.SET, UomType.PC, 24,
                 new BigDecimal(0.15), startDate);
         discount.setCreatedBy(sysgen);
-        
+
         List<VolumeDiscount> discounts = Arrays.asList(discount);
         pineSliceFlat.setVolumeDiscounts(discounts);
 
         itemService.save(pineSliceFlat);
+
+        Item pineSlice15 = new Item("PINE SLCE 1.5 432G", "DEL MONTE SLICED PINEAPPLE 1 1/2 432G X 24",
+                ItemType.PURCHASED);
+        pineSlice15.setFamily(familyService.get(13));
+        pineSlice15.setVendorId(1596);
+        pineSlice15.setCreatedBy(sysgen);
+
+        QtyPerUom pc15 = new QtyPerUom(pineSlice15, UomType.PC, BigDecimal.ONE, false, true, false);
+        pc15.setCreatedBy(sysgen);
+
+        QtyPerUom cs15 = new QtyPerUom(pineSlice15, UomType.CS, new BigDecimal(24), true, true, true);
+        cs15.setCreatedBy(sysgen);
+
+        List<QtyPerUom> qtyPerUom15 = Arrays.asList(pc15, cs15);
+        pineSlice15.setQtyPerUom(qtyPerUom15);
+
+        Pricing purchase15 = new Pricing(pineSlice15, PricingType.PURCHASE, new BigDecimal(37.66), startDate);
+        purchase15.setCreatedBy(sysgen);
+
+        Pricing list15 = new Pricing(pineSlice15, PricingType.LIST, new BigDecimal(42.48), startDate);
+        list15.setCreatedBy(sysgen);
+
+        List<Pricing> prices15 = Arrays.asList(purchase15, list15);
+        pineSlice15.setPriceHistory(prices15);
+
+        VolumeDiscount discount15 = new VolumeDiscount(pineSlice15, VolumeDiscountType.SET, UomType.PC, 24,
+                new BigDecimal(0.15), startDate);
+        discount15.setCreatedBy(sysgen);
+
+        List<VolumeDiscount> discounts15 = Arrays.asList(discount15);
+        pineSlice15.setVolumeDiscounts(discounts15);
+
+        itemService.save(pineSlice15);
     }
 }

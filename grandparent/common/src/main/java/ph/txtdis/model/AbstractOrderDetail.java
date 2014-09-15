@@ -7,12 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 @MappedSuperclass
 public abstract class AbstractOrderDetail extends AbstractAudited implements ItemDetailed {
-    
+
     private static final long serialVersionUID = 1774123388619693560L;
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
@@ -27,11 +26,12 @@ public abstract class AbstractOrderDetail extends AbstractAudited implements Ite
     @ManyToOne(cascade = CascadeType.REFRESH)
     protected VolumeDiscount discount;
 
-    protected QualityType quality;
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    protected Quality quality;
 
     protected AbstractOrderDetail() {
     }
-    
+
     @Override
     public Item getItem() {
         return item;
@@ -86,12 +86,12 @@ public abstract class AbstractOrderDetail extends AbstractAudited implements Ite
     }
 
     @Override
-    public QualityType getQuality() {
+    public Quality getQuality() {
         return quality;
     }
 
     @Override
-    public void setQuality(QualityType quality) {
+    public void setQuality(Quality quality) {
         this.quality = quality;
     }
 }

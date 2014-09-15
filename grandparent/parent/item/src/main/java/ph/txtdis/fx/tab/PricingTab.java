@@ -12,7 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.ChannelDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.fx.dialog.PricingDialog;
-import ph.txtdis.fx.table.AbstractTable;
+import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.Pricing;
@@ -29,7 +29,7 @@ public class PricingTab extends AbstractTab<Pricing, ItemDTO> {
     @Override
     protected Node[] addNodes(Stage stage, ItemDTO dto) {
 
-        table = new AbstractTable<Pricing, ItemDTO>(stage, dto) {
+        table = new AbstractInputTable<Pricing, ItemDTO>(stage, dto) {
 
             @Override
             @SuppressWarnings("unchecked")

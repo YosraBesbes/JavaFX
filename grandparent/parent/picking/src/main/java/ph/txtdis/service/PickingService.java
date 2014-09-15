@@ -4,15 +4,27 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ph.txtdis.model.Booking;
+import ph.txtdis.model.PickList;
+import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
+import ph.txtdis.model.PickingSummary;
 import ph.txtdis.model.Route;
+import ph.txtdis.model.Truck;
 
-public interface PickingService extends SpunServiced<Picking> {
-    
+public interface PickingService extends SpunByIdService<Picking> {
+
     List<PickingDetail> getDetails(int id);
-    
-    List<Booking> getPickedBookings(LocalDate date);
-    
-    List<Route> getUnpickedRoutes(LocalDate date);
+
+    List<Booking> getUnpickedBookings(LocalDate date, Route route);
+
+    List<Route> getNotFullyPickedRoutes(LocalDate date);
+
+    List<Truck> getEmptyTrucks(LocalDate date);
+
+    List<PickList> generatePickList(int id);
+
+    PickListPrinting getPrintedPickList(Picking picking);
+
+    List<PickingSummary> getSummary(LocalDate startDate, LocalDate endDate);
 }

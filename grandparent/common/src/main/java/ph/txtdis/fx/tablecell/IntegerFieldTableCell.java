@@ -27,7 +27,7 @@ public class IntegerFieldTableCell<S> extends TextFieldTableCell<S, Integer>
 	@Override
 	public void updateItem(Integer number, boolean empty) {
 		super.updateItem(number, empty);
-		if (number != null)
+		if (!empty)
 			FX.styleInt(this, number);
 	}
 }

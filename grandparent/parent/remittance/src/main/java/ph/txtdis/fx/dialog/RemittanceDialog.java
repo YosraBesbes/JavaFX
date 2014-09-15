@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ph.txtdis.App;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.dto.RemittanceDTO;
 import ph.txtdis.exception.NotFoundException;
@@ -25,7 +25,7 @@ public class RemittanceDialog extends AbstractFieldDialog<RemittanceDetail, Remi
     private LabeledIdNameField referenceField;
     private LabeledMonetaryDisplay amountDisplay, balanceDisplay;
     private LabeledMonetaryField paymentField;
-    private DTO<?> dto;
+    private AuditedDTO<?> dto;
 
     public RemittanceDialog(Stage stage, RemittanceDTO dto) {
         super("Remittance", stage, dto);

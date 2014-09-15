@@ -10,7 +10,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Bom;
 import ph.txtdis.type.UomType;
 
-public class BomTable extends AbstractTable<Bom, ItemDTO> {
+public class BomTable extends AbstractInputTable<Bom, ItemDTO> {
 
     public BomTable(Stage stage, ItemDTO dto) {
         super(stage, dto);

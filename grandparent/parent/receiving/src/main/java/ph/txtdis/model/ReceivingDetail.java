@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 @Entity
@@ -19,8 +18,8 @@ public class ReceivingDetail extends AbstractPricedDetail {
 
     protected ReceivingDetail() {
     }
-    
-    public ReceivingDetail(Receiving receiving, Item item, UomType uom, BigDecimal qty, QualityType quality) {
+
+    public ReceivingDetail(Receiving receiving, Item item, UomType uom, BigDecimal qty, Quality quality) {
         this.receiving = receiving;
         this.item = item;
         this.uom = uom;

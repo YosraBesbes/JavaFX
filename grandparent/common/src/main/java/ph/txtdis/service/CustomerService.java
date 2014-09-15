@@ -9,7 +9,7 @@ import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
 
-public interface CustomerService extends SearchedSpunServiced<Customer, String>, Unique {
+public interface CustomerService extends SearchedSpunByIdService<Customer, String>, Unique {
     
     List<Routing> getRouteHistory(int id);
     

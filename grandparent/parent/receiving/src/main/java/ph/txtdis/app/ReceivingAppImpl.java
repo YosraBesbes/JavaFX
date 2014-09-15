@@ -14,8 +14,10 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
 import ph.txtdis.dto.PurchasingDTO;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.dto.UserDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
@@ -28,7 +30,6 @@ import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.CustomerType;
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.ReceivingReferenceType;
 
 public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetail, ReceivingDTO> {
@@ -36,6 +37,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     private PurchasingDTO purchasing;
     private BookingDTO booking;
     private UserDTO user;
+    private QualityDTO quality;
 
     private ComboBox<ReceivingReferenceType> referenceCombo;
     private ComboBox<SystemUser> checkerCombo;
@@ -117,7 +119,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setOrderDate(datePicker.getValue());
         orderDTO.setChecker(checkerCombo.getValue());
@@ -143,7 +145,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     @Override
     public void setDetail(Priced priced) {
         detailTableItem = new ReceivingDetail(orderDTO.get(), priced.getItem(), priced.getUom(), priced.getQty(),
-                QualityType.GOOD);
+                quality.good());
     }
 
     @Override

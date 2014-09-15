@@ -13,7 +13,7 @@ import ph.txtdis.fx.util.FX;
 
 public class LabeledComboBox<T> implements InputNode<T> {
     private final List<Node> nodes;
-	private final ComboBox<T> comboBox;
+    private final ComboBox<T> comboBox;
 
     public LabeledComboBox(String name, T[] types) {
         this(name, FXCollections.observableArrayList(types));
@@ -26,41 +26,45 @@ public class LabeledComboBox<T> implements InputNode<T> {
         selectItemIfOnlyOne();
     }
 
-	private void selectItemIfOnlyOne() {
-	    comboBox.itemsProperty().addListener((observable, oldValue, newValue)  -> {
-	        if(newValue.size() == 1) {
-	            comboBox.setValue(newValue.get(0));
-	            comboBox.focusTraversableProperty().set(false);
-	        }
+    private void selectItemIfOnlyOne() {
+        comboBox.itemsProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.size() == 1) {
+                comboBox.setValue(newValue.get(0));
+                comboBox.focusTraversableProperty().set(false);
+            }
         });
     }
 
     @Override
     public List<Node> getNodes() {
-		return nodes;
-	}
+        return nodes;
+    }
 
-	@Override
-	public T getValue() {
-		return comboBox.getValue();
-	}
+    @Override
+    public T getValue() {
+        return comboBox.getValue();
+    }
 
-	@Override
-	public void reset() {
-		comboBox.setValue(null);
-	}
+    @Override
+    public void reset() {
+        comboBox.setValue(null);
+    }
 
-	@Override
-	public void requestFocus() {
-		comboBox.requestFocus();
-	}
+    @Override
+    public void requestFocus() {
+        comboBox.requestFocus();
+    }
 
-	@Override
-	public BooleanBinding isEmpty() {
-		return comboBox.valueProperty().isNull();
-	}
-	
-	public void setItems(List<T> list) {
-	    comboBox.setItems(FXCollections.observableList(list));
-	}
+    @Override
+    public BooleanBinding isEmpty() {
+        return comboBox.valueProperty().isNull();
+    }
+
+    public void setItems(List<T> list) {
+        comboBox.setItems(FXCollections.observableList(list));
+    }
+
+    public void setSelection(T item) {
+        comboBox.getSelectionModel().select(item);
+    }
 }

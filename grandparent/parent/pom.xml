@@ -29,5 +29,7 @@
     	<module>remittance</module>
     	<module>stock-take</module>
     	<module>main-menu</module>
+    	<module>employee</module>
+    	<module>stock-take-reconciliation</module>
     </modules>
 </project>

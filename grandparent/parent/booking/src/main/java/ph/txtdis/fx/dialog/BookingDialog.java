@@ -12,6 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.app.OrderApp;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.ItemDTO;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
@@ -21,14 +22,16 @@ import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Priced;
+import ph.txtdis.model.Quality;
 import ph.txtdis.type.UomType;
 import ph.txtdis.util.Login;
 
 public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO> {
-    
+
     private LabeledComboBox<UomType> uomCombo;
     private LabeledIdNameField itemField;
     private LabeledDecimalField qtyField;
+    private LabeledComboBox<Quality> qualityCombo;
     private ItemDTO itemDTO;
 
     public BookingDialog(Stage stage, BookingDTO dto) {
@@ -39,13 +42,17 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
     @Override
     protected List<InputNode<?>> addNodes() {
 
+        QualityDTO quality = App.getContext().getBean(QualityDTO.class);
+
         itemField = new LabeledIdNameField("Item ID No.", 18);
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
-        
-        return Arrays.asList(itemField, uomCombo, qtyField);
+        qualityCombo = new LabeledComboBox<Quality>("Quality", quality.list());
+        qualityCombo.setSelection(quality.good());
+
+        return Arrays.asList(itemField, uomCombo, qtyField, qualityCombo);
     }
-    
+
     private void setListeners() {
         itemDTO = App.getContext().getBean(ItemDTO.class);
         itemField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
@@ -62,17 +69,17 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
                 }
             }
         });
-        
+
         qtyField.getDecimalField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
                 checkAvailableQty(qtyField.getValue());
         });
 
     }
-    
+
     private void checkAvailableQty(BigDecimal value) {
         // TODO Auto-generated method stub
-        
+
     }
 
     private void actWhenFound(int id) {
@@ -95,8 +102,9 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
         Item item = itemDTO.get();
         UomType uom = getInputAtRow(1);
         BigDecimal qty = getInputAtRow(2);
-        
-        BookingDetail detail = new BookingDetail(booking, item, uom, qty);
+        Quality quality = getInputAtRow(3);
+
+        BookingDetail detail = new BookingDetail(booking, item, uom, qty, quality);
         detail.setPrice(itemDTO.getLatestPurchasePrice(date));
         detail.setSubtotal(detail.getPrice().multiply(qty.multiply(itemDTO.getQtyPerUomMap().get(uom))));
         detail.setCreatedBy(Login.user());

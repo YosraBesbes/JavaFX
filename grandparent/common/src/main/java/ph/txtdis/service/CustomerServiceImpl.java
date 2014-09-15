@@ -21,7 +21,7 @@ import ph.txtdis.repository.RoutingRepository;
 
 @Service
 @Transactional()
-public class CustomerServiceImpl extends AbstractService<Customer> implements CustomerService {
+public class CustomerServiceImpl extends AbstractIdService<Customer> implements CustomerService {
 
     @Autowired
     private CustomerRepository repository;

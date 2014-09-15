@@ -1,6 +1,8 @@
 package ph.txtdis.fx.table;
 
 import javafx.stage.Stage;
+import ph.txtdis.App;
+import ph.txtdis.dto.QualityDTO;
 import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.fx.dialog.StockTakeDialog;
 import ph.txtdis.model.StockTakeDetail;
@@ -14,5 +16,10 @@ public class StockTakeDetailTable extends AbstractQualityDetailTable<StockTakeDe
     @Override
     protected void createInputDialog() {
         inputDialog = new StockTakeDialog(stage, dto);
+    }
+
+    @Override
+    protected QualityDTO getQualityDTO() {
+        return App.getContext().getBean(QualityDTO.class);
     }
 }

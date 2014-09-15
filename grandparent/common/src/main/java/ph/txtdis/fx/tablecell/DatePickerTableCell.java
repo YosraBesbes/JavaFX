@@ -56,13 +56,8 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
     @Override
     public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
-        if (empty) {
-            setText(null);
-            setGraphic(null);
-        } else {
-            setText(date.format(DateTimeFormatter.ofPattern("M/d/yy")));
-            setGraphic(datePicker);
-        }
+        setText(empty ? null : date.format(DateTimeFormatter.ofPattern("M/d/yy")));
+        setGraphic(empty ? null : datePicker);
         setStyle("-fx-alignment: top-center;");
     }
 

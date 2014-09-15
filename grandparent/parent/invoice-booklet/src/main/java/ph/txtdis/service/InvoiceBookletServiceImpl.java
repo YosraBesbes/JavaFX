@@ -14,7 +14,7 @@ import ph.txtdis.repository.UserRepository;
 
 @Service
 @Transactional()
-public class InvoiceBookletServiceImpl extends AbstractService<InvoiceBooklet> implements
+public class InvoiceBookletServiceImpl extends AbstractIdService<InvoiceBooklet> implements
         InvoiceBookletService {
 
     @Autowired

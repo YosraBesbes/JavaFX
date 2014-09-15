@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Invoicing;
@@ -15,7 +15,7 @@ public class InvoicingDateTable {
 
     @SuppressWarnings("unchecked")
     public InvoicingDateTable(Stage stage, InvoicingDTO receivingDTO) {
-        DTO<Invoicing> dto = (DTO<Invoicing>) receivingDTO;
+        AuditedDTO<Invoicing> dto = (AuditedDTO<Invoicing>) receivingDTO;
         table = new TableView<>();
         TableColumn<Invoicing, Integer> idCol = FX.addDisplayColumn(stage, "ID", "id", 50, dto);
         TableColumn<Invoicing, LocalDate> nameCol = FX.addDisplayColumn(stage, "Date", "orderDate", 120, dto);

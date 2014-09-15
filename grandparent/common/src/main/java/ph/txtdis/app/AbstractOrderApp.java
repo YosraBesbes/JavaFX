@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
@@ -180,7 +181,9 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     @Override
-    public void save() {
+    public void save() throws InvalidException {
+        if (orderDTO.isStockTakeOnGoing())
+            throw new InvalidException("No posting's allowed;\nstock take's on-going");
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));

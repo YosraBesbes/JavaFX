@@ -2,7 +2,6 @@ package ph.txtdis.model;
 
 import java.math.BigDecimal;
 
-import ph.txtdis.type.QualityType;
 import ph.txtdis.type.UomType;
 
 public interface ItemDetailed {
@@ -25,7 +24,7 @@ public interface ItemDetailed {
 
     void setQty(BigDecimal qty);
 
-    QualityType getQuality();
+    Quality getQuality();
 
-    void setQuality(QualityType quality);
+    void setQuality(Quality quality);
 }

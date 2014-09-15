@@ -1,6 +1,10 @@
 package ph.txtdis.fx.tab;
 
+import ph.txtdis.exception.InvalidException;
+
 public interface Edited {
-	void save();
-	void refresh();
+
+    void save() throws InvalidException;
+
+    void refresh();
 }

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javafx.scene.paint.Color;
 
@@ -12,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 
 public class Util {
 
@@ -39,7 +41,15 @@ public class Util {
         return object.getClass().getSimpleName().replace("App", "").replace("Impl", "");
     }
 
-    public static <E> String getEntityIdAndName(Apped app, DTO<E> dto) {
+    public static <E> String getEntityIdAndName(Apped app, AuditedDTO<E> dto) {
         return getModule(app) + " No. " + dto.getId() + ": \n" + dto.get();
+    }
+
+    public static String formatLocalDate(LocalDate date) {
+        return date == null ? "" : date.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
+    }
+
+    public static String formatTimestamp(ZonedDateTime zdt) {
+        return zdt == null ? "" : zdt.format(DateTimeFormatter.ofPattern("M/d/yyyy h:mma"));
     }
 }

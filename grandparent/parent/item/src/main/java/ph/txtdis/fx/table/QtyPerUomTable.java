@@ -10,7 +10,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.type.UomType;
 
-public class QtyPerUomTable extends AbstractTable<QtyPerUom, ItemDTO> {
+public class QtyPerUomTable extends AbstractInputTable<QtyPerUom, ItemDTO> {
 
     public QtyPerUomTable(Stage stage, ItemDTO dto) {
         super(stage, dto);

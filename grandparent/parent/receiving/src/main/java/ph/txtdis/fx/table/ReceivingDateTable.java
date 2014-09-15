@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import ph.txtdis.dto.DTO;
+import ph.txtdis.dto.AuditedDTO;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Receiving;
@@ -15,7 +15,7 @@ public class ReceivingDateTable {
 
     @SuppressWarnings("unchecked")
     public ReceivingDateTable(Stage stage, ReceivingDTO receivingDTO) {
-        DTO<Receiving> dto = (DTO<Receiving>) receivingDTO;
+        AuditedDTO<Receiving> dto = (AuditedDTO<Receiving>) receivingDTO;
         table = new TableView<>();
         TableColumn<Receiving, Integer> idCol = FX.addDisplayColumn(stage, "ID", "id", 50, dto);
         TableColumn<Receiving, LocalDate> nameCol = FX.addDisplayColumn(stage, "Date", "orderDate", 120, dto);

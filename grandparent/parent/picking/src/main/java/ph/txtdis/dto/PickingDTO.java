@@ -3,14 +3,17 @@ package ph.txtdis.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import ph.txtdis.model.Booking;
+import ph.txtdis.model.PickList;
+import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
 
-public interface PickingDTO extends SpunDTO, DTO<Picking> {
+public interface PickingDTO extends SpunDTO, AuditedDTO<Picking> {
 
     Truck getTruck();
     
@@ -40,11 +43,15 @@ public interface PickingDTO extends SpunDTO, DTO<Picking> {
     
     void setDetails(List<PickingDetail> details);
     
+    List<PickList> getPickList();
+    
     List<Route> getRoutes(LocalDate date);
     
-    List<Route> getUnpickedRoutes(LocalDate date);
+    List<Route> getNotFullyPickedRoutes(LocalDate date);
 
-    List<Booking> getBookings(Route route, LocalDate date);
-
-    List<Booking> getUnpickedBookings(Route route, LocalDate date);
+    List<Booking> getUnpickedBookings(LocalDate date, Route route);
+    
+    ObservableList<Truck> getEmptyTrucks(LocalDate date);
+    
+    PickListPrinting getPrintedPickList(Picking picking);
 }

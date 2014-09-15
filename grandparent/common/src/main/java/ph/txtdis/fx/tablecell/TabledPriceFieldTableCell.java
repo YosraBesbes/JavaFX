@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ph.txtdis.fx.dialog.Tabled;
 
-public abstract class TabledPriceFieldTableCell<E, I> extends PriceFieldTableCell<E> {
+public abstract class TabledPriceFieldTableCell<E, I> extends MonetaryFieldTableCell<E> {
 
     @SuppressWarnings("unchecked")
     public <T> TabledPriceFieldTableCell(Stage stage) {

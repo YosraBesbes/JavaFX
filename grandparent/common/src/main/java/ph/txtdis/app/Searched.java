@@ -1,6 +1,8 @@
 package ph.txtdis.app;
 
 public interface Searched {
-	String setSearchedCriteria();
-	void listFind();
+    
+    String setSearchedCriteria();
+
+    void listFoundEntities();
 }
