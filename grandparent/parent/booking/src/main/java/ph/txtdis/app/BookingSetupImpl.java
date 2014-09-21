@@ -44,7 +44,7 @@ public class BookingSetupImpl implements BookingSetup {
     @Override
     public void start() {
         SystemUser sysgen = userService.get("SYSGEN");
-        LocalDate date = LocalDate.parse("2014-09-01");
+        LocalDate date = LocalDate.parse("2014-08-31");
         Quality good = qualityService.good();
 
         int pineSliceFlat = 1;

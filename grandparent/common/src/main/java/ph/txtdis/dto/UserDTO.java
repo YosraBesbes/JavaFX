@@ -3,20 +3,29 @@ package ph.txtdis.dto;
 import java.util.List;
 
 import ph.txtdis.model.SystemUser;
+import ph.txtdis.type.UserType;
 
 public interface UserDTO {
 
-	String getUsername();
+    String getUsername();
 
-	void setUsername(String username);
+    void setUsername(String username);
 
-	String getPassword();
+    String getPassword();
 
-	void setPassword(String password);
+    void setPassword(String password);
 
-	boolean isEnabled();
+    boolean isEnabled();
 
-	void setEnabled(boolean enabled);
-	
-	List<SystemUser> list();
+    void setEnabled(boolean enabled);
+
+    List<SystemUser> list();
+
+    List<SystemUser> list(UserType type);
+
+    String[] getAddresses(UserType type);
+
+    SystemUser get(String email);
+
+    SystemUser getTxtDIS();
 }

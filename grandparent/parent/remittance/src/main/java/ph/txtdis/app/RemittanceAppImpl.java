@@ -33,7 +33,7 @@ import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.type.RemittanceType;
 import ph.txtdis.util.Util;
 
-public class RemittanceAppImpl extends AbstractApp<Remittance> implements Searched {
+public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Searched {
 
     private RemittanceDTO remittance;
     private CustomerDTO customer;
@@ -51,7 +51,7 @@ public class RemittanceAppImpl extends AbstractApp<Remittance> implements Search
     private RemittanceDetailTable remittanceTable;
 
     public RemittanceAppImpl() {
-        super("Remittance", "Remittance");
+        super("Remittance", "");
     }
 
     @Override
@@ -142,7 +142,7 @@ public class RemittanceAppImpl extends AbstractApp<Remittance> implements Search
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 
@@ -196,11 +196,6 @@ public class RemittanceAppImpl extends AbstractApp<Remittance> implements Search
         referenceField.clear();
         amountField.clear();
         detailTable.getItems().clear();
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

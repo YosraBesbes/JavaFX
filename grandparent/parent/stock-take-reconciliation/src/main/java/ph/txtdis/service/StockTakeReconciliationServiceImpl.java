@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ph.txtdis.model.ItemSummary;
 import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.model.StockTakeReconciliationDetail;
 import ph.txtdis.repository.StockTakeReconciliationRepository;
@@ -25,7 +24,7 @@ public class StockTakeReconciliationServiceImpl extends AbstractDateService<Stoc
     }
 
     @Override
-    public LocalDate getOldestDate() {
+    public LocalDate getOldest() {
         return repository.getOldestDate();
     }
 
@@ -35,12 +34,12 @@ public class StockTakeReconciliationServiceImpl extends AbstractDateService<Stoc
     }
 
     @Override
-    public List<ItemSummary> getItemSummary(LocalDate startDate, LocalDate endDate) {
-        return repository.getItemSummary(startDate, endDate);
+    public LocalDate getImmediatelyPrecedingDate(LocalDate date) {
+        return repository.getImmediatelyPrecedingDate(date);
     }
 
     @Override
-    public List<StockTakeReconciliationDetail> getDetails(LocalDate idDate) {
-        return repository.getDetails(idDate);
+    public List<StockTakeReconciliationDetail> getStockTakeReconciliationDetail(LocalDate startDate, LocalDate endDate) {
+        return repository.getDetail(startDate, endDate);
     }
 }

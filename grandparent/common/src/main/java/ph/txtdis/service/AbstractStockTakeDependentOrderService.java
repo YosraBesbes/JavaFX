@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.ItemDetailed;
 import ph.txtdis.model.Ordered;
-import ph.txtdis.repository.StockTakeStatusRepository;
+import ph.txtdis.repository.StockTakeReconciliationRepository;
 
 @Service
 @Transactional()
@@ -15,13 +15,13 @@ public abstract class AbstractStockTakeDependentOrderService<E extends Ordered<D
         AbstractIdService<E> implements StockTakeDependentOrderService<E, D> {
 
     @Autowired
-    private StockTakeStatusRepository stockTakeStatusRepository;
+    private StockTakeReconciliationRepository repository;
 
     protected AbstractStockTakeDependentOrderService() {
     }
 
     @Override
     public boolean isStockTakeOnGoing() {
-        return !stockTakeStatusRepository.isStockTakeReconciled();
+        return repository.getLatestApprover() != null;
     }
 }

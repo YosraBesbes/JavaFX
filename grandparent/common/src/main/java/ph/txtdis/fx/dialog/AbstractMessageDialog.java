@@ -14,7 +14,8 @@ public abstract class AbstractMessageDialog extends AbstractDialog<String[]> {
 
     public AbstractMessageDialog(Stage stage, String message, String unicode, String color) {
         super(message, stage, new String[] { unicode, color });
-        show();
+        FX.putIconAndTitle(this);
+        showAndWait();
     }
 
     @Override
@@ -28,10 +29,7 @@ public abstract class AbstractMessageDialog extends AbstractDialog<String[]> {
         Label message = new Label(messageText);
         message.setStyle("-fx-font-size: 11pt; ");
 
-        Button closeButton = FX.createLargeButton("OK");
-        closeButton.setOnAction(event -> close());
-
-        HBox buttonBox = new HBox(closeButton);
+        HBox buttonBox = new HBox(addButtons());
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
 
@@ -42,5 +40,11 @@ public abstract class AbstractMessageDialog extends AbstractDialog<String[]> {
         HBox dialogBox = new HBox(icon, messageBox);
 
         return new Node[] { dialogBox };
+    }
+
+    protected Button[] addButtons() {
+        Button closeButton = FX.createLargeButton("OK");
+        closeButton.setOnAction(event -> close());
+        return new Button[] { closeButton };
     }
 }

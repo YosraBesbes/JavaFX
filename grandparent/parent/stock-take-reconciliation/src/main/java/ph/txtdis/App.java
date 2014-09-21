@@ -13,6 +13,7 @@ import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.CustomerSetup;
 import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.PickingSetup;
+import ph.txtdis.app.ReceivingSetup;
 import ph.txtdis.app.Setup;
 import ph.txtdis.app.StockTakeReconciliationAppImpl;
 import ph.txtdis.app.StockTakeReconciliationSetup;
@@ -37,6 +38,7 @@ public class App extends Application {
                 context.getBean(Setup.class).start();
                 context.getBean(ItemSetup.class).start();
                 context.getBean(CustomerSetup.class).start();
+                context.getBean(ReceivingSetup.class).start();
                 context.getBean(BookingSetup.class).start();
                 context.getBean(PickingSetup.class).start();
                 context.getBean(StockTakeSetup.class).start();
@@ -52,7 +54,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch("Stock Take 0.9.0.0 ");
+        launch("Stock Take Reconciliation 0.9.0.0 ");
     }
 
     public static ConfigurableApplicationContext getContext() {

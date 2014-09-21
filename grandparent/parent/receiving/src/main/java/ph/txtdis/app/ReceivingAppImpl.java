@@ -114,11 +114,6 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     }
 
     @Override
-    protected String getTitleName() {
-        return App.title();
-    }
-
-    @Override
     public void save() throws InvalidException {
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setOrderDate(datePicker.getValue());
@@ -172,8 +167,8 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     }
 
     @Override
-    protected void setDisableBindings() {
-        super.setDisableBindings();
+    protected void setBindings() {
+        super.setBindings();
         partnerIdField.setEditable(false);
         partnerIdField.setFocusTraversable(false);
 

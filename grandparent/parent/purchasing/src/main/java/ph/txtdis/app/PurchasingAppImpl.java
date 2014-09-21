@@ -21,7 +21,7 @@ public class PurchasingAppImpl extends AbstractOrderApp<Purchasing, PurchasingDe
         orderDTO = (PurchasingDTO) dto;
         super.setDTO();
     }
-    
+
     @Override
     public void setCustomerDTO() {
         customer = App.getContext().getBean(CustomerDTO.class);
@@ -35,11 +35,6 @@ public class PurchasingAppImpl extends AbstractOrderApp<Purchasing, PurchasingDe
     @Override
     public void createDetailTable() {
         detailTable = new PurchasingDetailTable(this, orderDTO).getTable();
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

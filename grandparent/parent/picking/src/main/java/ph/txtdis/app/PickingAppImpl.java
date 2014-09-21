@@ -33,7 +33,7 @@ import ph.txtdis.model.Truck;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public class PickingAppImpl extends AbstractApp<Picking> implements Printed, Referenced<PickList>, Searched {
+public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, Referenced<PickList>, Searched {
 
     private PickingDTO picking;
     private UserDTO user;
@@ -49,7 +49,7 @@ public class PickingAppImpl extends AbstractApp<Picking> implements Printed, Ref
     private StringDisplay printedByDisplay, printedOnDisplay;
 
     public PickingAppImpl() {
-        super("Picking", "Pick List");
+        super("Picking", "P/List");
     }
 
     @Override
@@ -134,7 +134,7 @@ public class PickingAppImpl extends AbstractApp<Picking> implements Printed, Ref
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
         buttons.get("print").disableProperty().bind(FX.isEmpty(pickListTable).or(FX.isEmpty(printedByDisplay).not()));
@@ -158,11 +158,6 @@ public class PickingAppImpl extends AbstractApp<Picking> implements Printed, Ref
     }
 
     @Override
-    protected String getTitleName() {
-        return App.title();
-    }
-
-    @Override
     protected void setUserBox() {
         super.setUserBox();
         userHBox.getChildren().addAll(addPrinterNodes());
@@ -172,7 +167,7 @@ public class PickingAppImpl extends AbstractApp<Picking> implements Printed, Ref
         Label printedByLabel = new Label("Printed By");
         printedByDisplay = new StringDisplay(DIS.toString(dto.getCreatedBy()));
         Label printedOnLabel = new Label("On");
-        printedOnDisplay = new StringDisplay(Util.formatTimestamp(dto.getTimeStamp()));
+        printedOnDisplay = new StringDisplay(Util.formatZonedDateTime(dto.getTimeStamp()));
         return new Node[] { printedByLabel, printedByDisplay, printedOnLabel, printedOnDisplay };
     }
 

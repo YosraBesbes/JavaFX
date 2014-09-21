@@ -92,11 +92,6 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     @Override
-    protected String getTitleName() {
-        return App.title();
-    }
-
-    @Override
     public void save() throws InvalidException {
         orderDTO.setBooking(booking.get(bookingIdField.getIdNo()));
         super.save();
@@ -120,8 +115,8 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     @Override
-    protected void setDisableBindings() {
-        super.setDisableBindings();
+    protected void setBindings() {
+        super.setBindings();
         partnerIdField.setEditable(false);
         partnerIdField.setFocusTraversable(false);
         bookingIdField.disableProperty().bind(FX.isEmpty(datePicker));
@@ -135,7 +130,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     protected void setListeners() {
         idField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             id = idField.getIdNo();
-            if (isNew() && id != 0)
+            if (dto.getId() == 0 && id != 0)
                 handleIdInput(newValue);
         });
 

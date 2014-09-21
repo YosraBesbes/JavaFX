@@ -19,7 +19,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Customer;
 import ph.txtdis.type.CustomerType;
 
-public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
+public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched {
 
     private List<Tab> tabs = new ArrayList<>();
     private CustomerTab customerTab;
@@ -28,7 +28,7 @@ public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
     private Tabled[] tabsWithTables;
 
     public CustomerAppImpl() {
-        super("Customer", "Customer");
+        super("Customer", "");
     }
 
     @Override
@@ -67,7 +67,7 @@ public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         creditTab.getTab().disableProperty().bind(FX.isNot(getTypeCombo(), CustomerType.OUTLET));
         discountTab.getTab().disableProperty().bind(creditTab.getTab().disabledProperty());
         buttons.get("delete").setDisable(true);
@@ -100,11 +100,6 @@ public class CustomerAppImpl extends AbstractApp<Customer> implements Searched {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPane.getTabs().addAll(tabs);
         return tabPane;
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

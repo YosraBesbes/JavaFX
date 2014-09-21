@@ -27,7 +27,7 @@ public class DoubleClickTableCell<E, T> extends TableCell<E, T> {
     @Override
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
-        setText(empty ? null : getItem().toString());
+        setText(item == null ? null : getItem().toString());
         setGraphic(null);
     }
 

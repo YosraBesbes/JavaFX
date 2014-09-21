@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.model.StockTakeSummary;
 import ph.txtdis.repository.StockTakeRepository;
 import ph.txtdis.repository.StockTakeSummaryRepository;
 
@@ -38,12 +37,12 @@ public class StockTakeServiceImpl extends AbstractIdService<StockTake> implement
     }
 
     @Override
-    public List<StockTakeDetail> getDetails(int id) {
-        return repository.getDetails(id);
+    public LocalDate getLatestDate() {
+        return repository.getLatestDate();
     }
 
     @Override
-    public List<StockTakeSummary> getSummary(LocalDate date) {
-        return summaryRepository.findByStockTakeDate(date);
+    public List<StockTakeDetail> getDetails(int id) {
+        return repository.getDetails(id);
     }
 }

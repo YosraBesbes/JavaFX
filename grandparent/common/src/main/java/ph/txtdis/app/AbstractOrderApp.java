@@ -34,7 +34,7 @@ import ph.txtdis.model.Priced;
 import ph.txtdis.model.VolumeDiscount;
 
 public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O extends OrderDTO<E, D>> extends
-        AbstractApp<E> implements OrderApp<D> {
+        AbstractIdApp<E> implements OrderApp<D> {
 
     public AbstractOrderApp(String module, String abbr) {
         super(module, abbr);
@@ -127,7 +127,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 

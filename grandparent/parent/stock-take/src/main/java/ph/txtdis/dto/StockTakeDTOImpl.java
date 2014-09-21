@@ -72,4 +72,9 @@ public class StockTakeDTOImpl extends AbstractSpunByIdDTO<StockTake, StockTakeSe
     public void setDetails(List<StockTakeDetail> details) {
         entity.setDetails(details);
     }
+
+    @Override
+    public LocalDate getLatestDate() {
+        return service.getLatestDate();
+    }
 }

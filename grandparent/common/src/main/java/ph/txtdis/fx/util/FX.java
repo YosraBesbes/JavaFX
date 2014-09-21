@@ -42,12 +42,10 @@ import org.springframework.util.StringUtils;
 
 import ph.txtdis.app.Apped;
 import ph.txtdis.dto.AuditedDTO;
-import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.input.TextStyled;
 import ph.txtdis.fx.tab.ImageStreamed;
 import ph.txtdis.fx.tablecell.BooleanTableCell;
 import ph.txtdis.fx.tablecell.DatePickerTableCell;
-import ph.txtdis.fx.tablecell.DoubleClickQtyTableCell;
 import ph.txtdis.fx.tablecell.DoubleClickTableCell;
 import ph.txtdis.fx.tablecell.FourPlaceFieldTableCell;
 import ph.txtdis.fx.tablecell.ImageViewTableCell;
@@ -176,34 +174,13 @@ public class FX {
         return tableColumn;
     }
 
-    public static <S, T> TableColumn<S, T> addDisplayColumn(Stage stage, String name, String field, int minWidth) {
-        TableColumn<S, T> tableColumn = createColumn(name, field, minWidth);
-        tableColumn.setCellFactory(column -> {
-            return new DoubleClickTableCell<S, T>(stage);
-        });
-        return tableColumn;
-    }
-
-    public static <S> TableColumn<S, BigDecimal> addQtyDisplayColumn(Stage stage, String name, String field,
-            int minWidth) {
-        TableColumn<S, BigDecimal> tableColumn = createColumn(name, field, minWidth);
-        tableColumn.setCellFactory(column -> {
-            return new DoubleClickQtyTableCell<S>(stage);
-        });
-        return tableColumn;
-    }
-
     public static <S> TableColumn<S, Boolean> addBooleanColumn(String name, String field) {
         TableColumn<S, Boolean> tableColumn = createColumn(name, field, 70);
         tableColumn.setCellFactory(column -> {
             return new BooleanTableCell<S>() {
                 @Override
                 protected void setBoolean(S item, Boolean bool) {
-                    try {
-                        DIS.invokeOneParameterMethod(item, "set" + StringUtils.capitalize(field), bool, boolean.class);
-                    } catch (InvalidException e) {
-                        e.printStackTrace();
-                    }
+                    DIS.invokeOneParameterMethod(item, "set" + StringUtils.capitalize(field), bool, boolean.class);
                 }
             };
         });
@@ -343,7 +320,7 @@ public class FX {
         return combo.getSelectionModel().selectedItemProperty().isNotEqualTo(item);
     }
 
-    public static void decorateWindow(Stage stage) {
+    public static void putIconAndTitle(Stage stage) {
         Image icon = new FontToImage("icomoon", "\ue601", Color.NAVY).getImage();
         stage.getIcons().add(icon);
         stage.setTitle(Login.getVersion());

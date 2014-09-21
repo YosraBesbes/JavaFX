@@ -47,6 +47,7 @@ public abstract class AbstractAuditedDTO<E extends AbstractAudited, S extends Id
     public void save() {
         entity.setCreatedBy(Login.user());
         set(service.save(entity));
+        setId(getId());
     }
 
     @Override

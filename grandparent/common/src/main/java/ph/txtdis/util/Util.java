@@ -45,11 +45,11 @@ public class Util {
         return getModule(app) + " No. " + dto.getId() + ": \n" + dto.get();
     }
 
-    public static String formatLocalDate(LocalDate date) {
+    public static String formatDate(LocalDate date) {
         return date == null ? "" : date.format(DateTimeFormatter.ofPattern("M/d/yyyy"));
     }
 
-    public static String formatTimestamp(ZonedDateTime zdt) {
+    public static String formatZonedDateTime(ZonedDateTime zdt) {
         return zdt == null ? "" : zdt.format(DateTimeFormatter.ofPattern("M/d/yyyy h:mma"));
     }
 }

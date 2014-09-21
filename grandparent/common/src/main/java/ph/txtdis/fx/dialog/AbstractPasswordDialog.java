@@ -14,7 +14,7 @@ public abstract class AbstractPasswordDialog extends AbstractInputDialog<Object>
 
     public AbstractPasswordDialog(String name, UserService service) {
         super(name, null, service);
-        FX.decorateWindow(this);        
+        FX.putIconAndTitle(this);        
         initStyle(StageStyle.DECORATED);
     }
 

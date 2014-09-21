@@ -24,14 +24,14 @@ import ph.txtdis.fx.tab.Tabled;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Employee;
 
-public class EmployeeAppImpl extends AbstractApp<Employee> implements Searched {
+public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched {
 
     private List<Tab> tabs = new ArrayList<>();
     private PersonalTab personalTab;
     private Tabled[] tabsWithTables;
 
     public EmployeeAppImpl() {
-        super("Employee", "Employee");
+        super("Employee", "");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class EmployeeAppImpl extends AbstractApp<Employee> implements Searched {
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         for (Tab tab : tabs)
             tab.disableProperty().bind(isSurnameOrNameEmpty());
         buttons.get("delete").disableProperty().bind(personalTab.getIdField().textProperty().isEmpty());
@@ -104,11 +104,6 @@ public class EmployeeAppImpl extends AbstractApp<Employee> implements Searched {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPane.getTabs().addAll(tabs);
         return tabPane;
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

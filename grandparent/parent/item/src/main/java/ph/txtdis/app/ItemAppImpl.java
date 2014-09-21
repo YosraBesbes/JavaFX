@@ -20,7 +20,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Item;
 import ph.txtdis.type.ItemType;
 
-public class ItemAppImpl extends AbstractApp<Item> implements Searched {
+public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
 
     private List<Tab> tabs = new ArrayList<>();
     private ItemTab itemTab;
@@ -29,7 +29,7 @@ public class ItemAppImpl extends AbstractApp<Item> implements Searched {
     private Tabled[] tabsWithTables;
 
     public ItemAppImpl() {
-        super("Item", "Item");
+        super("Item", "");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ItemAppImpl extends AbstractApp<Item> implements Searched {
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         pricingTab
                 .getTab()
                 .disableProperty()
@@ -119,11 +119,6 @@ public class ItemAppImpl extends AbstractApp<Item> implements Searched {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabPane.getTabs().addAll(tabs);
         return tabPane;
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

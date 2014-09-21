@@ -25,7 +25,7 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
     private TableView<InvoiceBooklet> table;
 
     public InvoiceBookletAppImpl() {
-        super("Sales Invoice Booklet Issuance", null);
+        super("Sales Invoice Booklet Issuance", "");
     }
 
     @Override
@@ -65,12 +65,12 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
                 inputDialog.getAddedItems().forEach(booklet -> {
                     dto.set(booklet);
                     dto.save();
-                    booklets.add(dto.get(dto.getId()));   
+                    booklets.add(dto.get(dto.getId()));
                 });
                 return booklets;
             }
         }.getTable();
-        
+
         table.setItems(((InvoiceBookletDTO) dto).list());
 
         HBox box = new HBox(table);
@@ -87,11 +87,6 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
     }
 
     @Override
-    protected String getTitleName() {
-        return App.title();
-    }
-
-    @Override
     public void setFocus() {
         table.requestFocus();
     }
@@ -101,7 +96,7 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
     }
 
     @Override

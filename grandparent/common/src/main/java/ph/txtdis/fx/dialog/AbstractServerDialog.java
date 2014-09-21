@@ -16,7 +16,7 @@ public abstract class AbstractServerDialog extends AbstractInputDialog<Object> {
 
     public AbstractServerDialog(String name, UserService service) {
         super(name, null, service);
-        FX.decorateWindow(this);        
+        FX.putIconAndTitle(this);        
         initStyle(StageStyle.DECORATED);
     }
 

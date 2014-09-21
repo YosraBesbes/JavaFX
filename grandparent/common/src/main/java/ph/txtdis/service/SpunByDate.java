@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface SpunByDate {
 
-    LocalDate getOldestDate();
+    LocalDate getOldest();
 
     LocalDate getLatestDate();
 }

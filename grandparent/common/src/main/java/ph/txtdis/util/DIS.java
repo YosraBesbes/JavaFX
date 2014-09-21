@@ -253,23 +253,19 @@ public class DIS {
         }
     }
 
-    public static <T> T invokeMethod(Object object, String name) throws InvalidException {
+    public static <T> T invokeMethod(Object object, String name) {
         return invokeMethod(object, name, null, null);
     }
 
-    public static <T> T invokeOneParameterMethod(Object object, String name, Object parameter, Class<?> parameterType)
-            throws InvalidException {
+    public static <T> T invokeOneParameterMethod(Object object, String name, Object parameter, Class<?> parameterType) {
         return invokeMethod(object, name, new Object[] { parameter }, new Class<?>[] { parameterType });
     }
 
-    public static <T> T invokeMethod(Object object, String name, Object[] parameters, Class<?>[] parameterTypes)
-            throws InvalidException {
+    public static <T> T invokeMethod(Object object, String name, Object[] parameters, Class<?>[] parameterTypes) {
         try {
             return invoke(object, name, parameters, parameterTypes);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            throwInvalidExceptionIfItIsTheCause(e);
         }
         return null;
     }
@@ -282,16 +278,9 @@ public class DIS {
         return (T) method.invoke(object, parameters);
     }
 
-    private static void throwInvalidExceptionIfItIsTheCause(InvocationTargetException e) throws InvalidException {
-        e.printStackTrace();
-        Throwable cause = e.getCause();
-        if (cause instanceof InvalidException)
-            throw new InvalidException(cause.getMessage());
-    }
-
-    public static boolean isEmpty(String string) throws InvalidException {
-        if (string.isEmpty())
-            throw new InvalidException("Cannot be blank");
+    public static boolean isEmpty(String string) {
+        if (string == null || string.isEmpty())
+            return true;
         return false;
     }
 

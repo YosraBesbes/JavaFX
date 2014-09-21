@@ -6,9 +6,9 @@ import javafx.scene.control.TableCell;
 import javafx.stage.Stage;
 import ph.txtdis.fx.tablecell.DoubleClickQtyTableCell;
 
-public class QtyDisplayTableColumn<S> extends DisplayTableColumn<S, BigDecimal> {
+public class QtyDisplayColumn<S> extends AbstractDisplayColumn<S, BigDecimal> {
 
-    public QtyDisplayTableColumn(Stage stage, String text, String field, int minWidth) {
+    public QtyDisplayColumn(Stage stage, String text, String field, int minWidth) {
         super(stage, text, field, minWidth);
     }
 

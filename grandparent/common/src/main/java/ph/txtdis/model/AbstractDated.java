@@ -3,11 +3,10 @@ package ph.txtdis.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.Type;
 
 @MappedSuperclass
@@ -16,15 +15,19 @@ public class AbstractDated implements Serializable {
     private static final long serialVersionUID = -8816070253252272183L;
 
     @Id
-    @Generated(value = GenerationTime.INSERT)
+    @Column(updatable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
-    private LocalDate idDate;
+    protected LocalDate idDate;
 
     protected AbstractDated() {
     }
 
     public LocalDate getIdDate() {
         return idDate;
+    }
+
+    protected void setIdDate(LocalDate idDate) {
+        this.idDate = idDate;
     }
 
     @Override

@@ -12,6 +12,8 @@ import ph.txtdis.service.ItemFamilyService;
 import ph.txtdis.service.QualityService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.ItemTier;
+import ph.txtdis.type.UserType;
+import ph.txtdis.util.Login;
 
 @Component
 public class SetupImpl implements Setup {
@@ -33,10 +35,28 @@ public class SetupImpl implements Setup {
 
     @Override
     public void start() {
-        userService.save(new SystemUser("SYSGEN", "I'mSysGen4txtDIS@PostgreSQL", true));
-        userService.save(new SystemUser("JACKIE", "robbie", true));
-        userService.save(new SystemUser("RONALD", "alphacowboy", true));
-        userService.save(new SystemUser("BUTCH", "attila", true));
+        SystemUser sysgen = userService.save(new SystemUser("SYSGEN", "I'mSysGen4txtDIS@PostgreSQL", true));
+        Login.setUser(sysgen);
+
+        SystemUser txtdis = new SystemUser("TXTDIS", "txtDIS@1", true);
+        txtdis.setEmail("txtdis.mgdc.edsa.dmpi@gmail.com");
+        userService.save(txtdis);
+
+        SystemUser jackie = new SystemUser("JACKIE", "robbie", true);
+        jackie.setEmail("manila12@gmail.com");
+        // jackie.setType(UserType.MANAGER);
+        userService.save(jackie);
+
+        SystemUser ronald = new SystemUser("RONALD", "alphacowboy", true);
+        ronald.setEmail("ronaldallanso@yahoo.com");
+        // ronald.setType(UserType.MANAGER);
+        userService.save(ronald);
+
+        SystemUser butch = new SystemUser("BUTCH", "attila", true);
+        butch.setEmail("butchlim888@yahoo.com");
+        butch.setType(UserType.MANAGER);
+        userService.save(butch);
+
         userService.save(new SystemUser("MICHELLE", "TWEETY", true));
         userService.save(new SystemUser("ANGIE", "Angelica Loteyro", true));
         userService.save(new SystemUser("MAY", "May Tuscano", true));

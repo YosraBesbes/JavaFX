@@ -38,17 +38,7 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
     }
 
     @Override
-    protected String getTitleName() {
-        return App.title();
-    }
-
-    @Override
     public void setDetail(Priced priced) {
         detailTableItem = (BookingDetail) priced;
-    }
-
-    @Override
-    protected boolean isNew() {
-        return orderDTO.getId() == 0;
     }
 }

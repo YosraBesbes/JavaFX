@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.Type;
 
 @MappedSuperclass
@@ -26,10 +25,7 @@ public class AbstractAudited implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH)
     private SystemUser createdBy;
 
-    // @Column(columnDefinition =
-    // "timestamp with time zone DEFAULT current_timestamp", updatable = false,
-    // insertable = false)
-    @Generated(value = GenerationTime.INSERT)
+    @Column(columnDefinition = "timestamp with time zone DEFAULT current_timestamp", updatable = false, insertable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
     private ZonedDateTime timeStamp;
 

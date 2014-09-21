@@ -75,7 +75,7 @@ public class LoginDialog extends Stage {
         dialogBox.setAlignment(Pos.CENTER);
 
         Scene dialogScene = new Scene(dialogBox);
-        FX.decorateWindow(this);
+        FX.putIconAndTitle(this);
         setScene(dialogScene);
         getScene().getStylesheets().addAll("/css/base.css");
         setTitle("Welcome to txtDIS!");

@@ -23,7 +23,7 @@ import ph.txtdis.model.StockTakeDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Warehouse;
 
-public class StockTakeAppImpl extends AbstractApp<StockTake> {
+public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
 
     private StockTakeDTO stockTake;
     private UserDTO user;
@@ -47,7 +47,7 @@ public class StockTakeAppImpl extends AbstractApp<StockTake> {
     @Override
     public void start() {
         super.start();
-        setDisableBindings();
+        setBindings();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class StockTakeAppImpl extends AbstractApp<StockTake> {
     }
 
     @Override
-    protected void setDisableBindings() {
+    protected void setBindings() {
         buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 
@@ -115,11 +115,6 @@ public class StockTakeAppImpl extends AbstractApp<StockTake> {
         takerCombo.disableProperty().bind(FX.isEmpty(warehouseCombo));
         checkerCombo.disableProperty().bind(FX.isEmpty(takerCombo));
         detailTable.disableProperty().bind(FX.isEmpty(checkerCombo));
-    }
-
-    @Override
-    protected String getTitleName() {
-        return App.title();
     }
 
     @Override

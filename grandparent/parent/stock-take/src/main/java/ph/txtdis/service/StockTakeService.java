@@ -5,11 +5,10 @@ import java.util.List;
 
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.model.StockTakeSummary;
 
 public interface StockTakeService extends SpunByIdService<StockTake> {
 
     List<StockTakeDetail> getDetails(int id);
 
-    List<StockTakeSummary> getSummary(LocalDate date);
+    LocalDate getLatestDate();
 }

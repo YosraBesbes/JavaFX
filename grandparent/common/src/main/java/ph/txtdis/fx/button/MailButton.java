@@ -1,0 +1,39 @@
+package ph.txtdis.fx.button;
+
+import javafx.stage.Stage;
+import ph.txtdis.app.Apped;
+import ph.txtdis.dto.DTO;
+import ph.txtdis.fx.dialog.ErrorDialog;
+import ph.txtdis.fx.dialog.ProgressDialog;
+import ph.txtdis.mail.ApprovedByMail;
+import ph.txtdis.mail.Mail;
+
+public class MailButton<E> extends FontButton<E> {
+
+    public MailButton(Apped app, DTO<E> dto) {
+        super("\ue80e", "Check Mail...");
+        button.setOnAction(event -> {
+            new ProgressDialog((Stage) app) {
+                private Exception e;
+                private Mail mail;
+
+                @Override
+                protected void begin() {
+                    try {
+                        mail = ((ApprovedByMail) app).checkMail();
+                    } catch (Exception e) {
+                        new ErrorDialog(stage, e.getMessage());
+                        this.e = e;
+                    }
+                }
+
+                @Override
+                protected void next() {
+                    if (e == null)
+                        ((ApprovedByMail) app).handleCheckingResult(mail);
+                    app.refresh();
+                }
+            };
+        });
+    }
+}
