@@ -23,6 +23,12 @@
         </dependency>
         <dependency>
             <groupId>ph.txtdis</groupId>
+            <artifactId>item</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
             <artifactId>picking</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>

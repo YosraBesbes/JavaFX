@@ -6,20 +6,18 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 import ph.txtdis.fx.button.BackButton;
-import ph.txtdis.fx.button.DeleteButton;
 import ph.txtdis.fx.button.NewButton;
 import ph.txtdis.fx.button.NextButton;
 import ph.txtdis.fx.button.OpenButton;
 import ph.txtdis.fx.button.SaveButton;
-import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.input.StringDisplay;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public abstract class AbstractIdApp<E> extends AbstractApp<E> {
-    protected AuditedDTO<E> dto;
+public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
+    protected Audited<E> dto;
     protected StringDisplay encoderField, timestampField;
     protected HBox summaryBox, userHBox;
 
@@ -43,13 +41,11 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E> {
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.put("search", new SearchByTextButton<E>(this, dto).getButton());
         buttons.put("new", new NewButton<E>(this, dto).getButton());
-        buttons.put("delete", new DeleteButton<E>(this, dto).getButton());
-        buttons.put("back", new BackButton<E>(this, dto).getButton());
+        buttons.put("back", new BackButton<E, Integer>(this, dto).getButton());
         buttons.put("open", new OpenButton<E>(this, dto).getButton());
-        buttons.put("next", new NextButton<E>(this, dto).getButton());
-        buttons.put("save", new SaveButton<E>(this, dto).getButton());
+        buttons.put("next", new NextButton<E, Integer>(this, dto).getButton());
+        buttons.put("save", new SaveButton<E, Integer>(this, dto).getButton());
     }
 
     @Override

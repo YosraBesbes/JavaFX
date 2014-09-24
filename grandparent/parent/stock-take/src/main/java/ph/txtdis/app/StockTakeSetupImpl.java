@@ -11,10 +11,12 @@ import ph.txtdis.model.Item;
 import ph.txtdis.model.Quality;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
+import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.ItemService;
 import ph.txtdis.service.QualityService;
+import ph.txtdis.service.StockTakeReconciliationService;
 import ph.txtdis.service.StockTakeService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.service.WarehouseService;
@@ -33,6 +35,9 @@ public class StockTakeSetupImpl implements StockTakeSetup {
     StockTakeService stockService;
 
     @Autowired
+    StockTakeReconciliationService reconService;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -49,10 +54,9 @@ public class StockTakeSetupImpl implements StockTakeSetup {
         Quality bad = qualityService.get(3);
         Item item1 = itemService.get(1);
         Item item2 = itemService.get(2);
+        Warehouse edsa = warehouseService.get(1);
 
-        Warehouse edsa = new Warehouse("EDSA");
-        edsa.setCreatedBy(sysgen);
-        warehouseService.save(edsa);
+        reconService.save(new StockTakeReconciliation(sysgen, date));
 
         StockTake st1 = stockService.save(new StockTake(edsa, sysgen, sysgen, date));
         StockTakeDetail std1 = new StockTakeDetail(st1, item1, UomType.CS, BigDecimal.ONE, qualityService.good());

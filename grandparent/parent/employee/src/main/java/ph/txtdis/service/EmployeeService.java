@@ -15,7 +15,7 @@ import ph.txtdis.model.Leave;
 import ph.txtdis.model.Loan;
 import ph.txtdis.model.PastWork;
 
-public interface EmployeeService extends SearchedSpunByIdService<Employee, String> {
+public interface EmployeeService extends SearchedSpunService<Employee, Integer, String> {
 
     List<EmployeeAddress> getAddresses(int id);
 

@@ -1,5 +1,6 @@
 package ph.txtdis.mail;
 
+
 public interface ApprovedByMail {
 
     void sendMail() throws MailNotSentException;

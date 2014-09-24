@@ -4,11 +4,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ph.txtdis.app.Referenced;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 
 public class DoubleClickTableCell<E, T> extends TableCell<E, T> {
 
-    public DoubleClickTableCell(Stage stage, AuditedDTO<E> dto) {
+    public DoubleClickTableCell(Stage stage, Audited<E> dto) {
         super();
         addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (event.getClickCount() > 1)
@@ -31,7 +31,7 @@ public class DoubleClickTableCell<E, T> extends TableCell<E, T> {
         setGraphic(null);
     }
 
-    private void handleDoubleClick(Stage stage, AuditedDTO<E> dto) {
+    private void handleDoubleClick(Stage stage, Audited<E> dto) {
         dto.set(getEntity());
         stage.close();
     }

@@ -2,7 +2,7 @@ package ph.txtdis.fx.table;
 
 import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Quality;
 
@@ -19,5 +19,5 @@ public abstract class AbstractQualityDetailTable<E, D> extends AbstractOrderDeta
         table.getColumns().add(qualityCol);
     }
 
-    protected abstract QualityDTO getQualityDTO();
+    protected abstract QualityRated getQualityDTO();
 }

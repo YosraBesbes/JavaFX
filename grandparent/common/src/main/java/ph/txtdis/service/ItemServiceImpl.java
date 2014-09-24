@@ -25,7 +25,7 @@ import ph.txtdis.type.UomType;
 
 @Service
 @Transactional()
-public class ItemServiceImpl extends AbstractIdService<Item> implements ItemService {
+public class ItemServiceImpl extends AbstractService<Item, Integer> implements ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
@@ -39,14 +39,17 @@ public class ItemServiceImpl extends AbstractIdService<Item> implements ItemServ
     protected ItemServiceImpl() {
     }
 
-    public int getMinId() {
+    @Override
+    public Integer getMinId() {
         return itemRepository.getMinId();
     }
 
-    public int getMaxId() {
+    @Override
+    public Integer getMaxId() {
         return itemRepository.getMaxId();
     }
 
+    @Override
     public List<Item> findAll(String description) {
         return itemRepository.findByDescriptionContaining(description);
     }

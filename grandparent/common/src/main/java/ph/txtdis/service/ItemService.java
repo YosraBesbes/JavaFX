@@ -13,7 +13,7 @@ import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.PricingType;
 import ph.txtdis.type.UomType;
 
-public interface ItemService extends SearchedSpunByIdService<Item, String>, Unique {
+public interface ItemService extends SearchedSpunService<Item, Integer, String>, Unique {
 
     List<QtyPerUom> getQtyPerUom(int id);
 
@@ -24,11 +24,11 @@ public interface ItemService extends SearchedSpunByIdService<Item, String>, Uniq
     List<Bom> getBoms(int id);
 
     BigDecimal getLatestPrice(Item item, LocalDate date, PricingType type);
-    
+
     VolumeDiscount getLatestVolumeDiscount(Item item, LocalDate date);
 
     Map<UomType, BigDecimal> getQtyPerUomMap(int id);
-    
+
     List<UomType> getPurchasingUoms(Item item);
 
     List<UomType> getSellingUoms(Item item);

@@ -14,7 +14,6 @@ import ph.txtdis.fx.input.LabeledDatePicker;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
-import ph.txtdis.util.Login;
 
 public class RoutingDialog extends AbstractFieldDialog<Routing, CustomerDTO> {
 
@@ -35,10 +34,8 @@ public class RoutingDialog extends AbstractFieldDialog<Routing, CustomerDTO> {
         Customer customer = dto.get();
         Route route = getInputAtRow(0);
         LocalDate start = getInputAtRow(1);
-        
-        Routing routing = new Routing(customer, route, start);
-        routing.setCreatedBy(Login.user());
-        return routing;
+
+        return new Routing(customer, route, start);
     }
 
     @Override

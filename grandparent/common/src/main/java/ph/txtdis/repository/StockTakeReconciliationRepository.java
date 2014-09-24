@@ -6,19 +6,21 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import ph.txtdis.model.StockTakeDependent;
 import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.model.StockTakeReconciliationDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.util.TransactionStamp;
 
-public interface StockTakeReconciliationRepository extends CrudRepository<StockTakeReconciliation, LocalDate> {
+public interface StockTakeReconciliationRepository extends CrudRepository<StockTakeReconciliation, LocalDate>,
+        StockTakeDependent {
 
-    @Query("select min(s.idDate) from StockTakeReconciliation s")
+    @Query("select min(s.id) from StockTakeReconciliation s")
     LocalDate getOldestDate();
 
-    @Query("select max(s.idDate) from StockTakeReconciliation s")
+    @Query("select max(s.id) from StockTakeReconciliation s")
     LocalDate getLatestDate();
 
-    @Query("select max(s.idDate) from StockTakeReconciliation s where s.idDate < ?1 and s.isApproved = true")
+    @Query("select max(s.id) from StockTakeReconciliation s where s.id < ?1 and s.isApproved = true")
     LocalDate getImmediatelyPrecedingDate(LocalDate date);
 
     @Query("select new ph.txtdis.model.StockTakeReconciliationDetail(i, q, "
@@ -42,7 +44,14 @@ public interface StockTakeReconciliationRepository extends CrudRepository<StockT
             + "    and i = s.item and q = s.quality)) from Item i, Quality q order by i.id, q.id")
     List<StockTakeReconciliationDetail> getDetail(LocalDate startDate, LocalDate endDate);
 
-    @Query("select s.approvedBy from StockTakeReconciliation s where s.idDate = "
-            + "(select max(st.idDate) from StockTakeReconciliation st)")
-    SystemUser getLatestApprover();
+    @Override
+    @Query("select new ph.txtdis.util.TransactionStamp(s.id, s.cutoffBy, s.cutoffOn) from StockTakeReconciliation s "
+            + "where s.id = (select max(st.id) from StockTakeReconciliation st where st.completedBy is null)")
+    TransactionStamp getOnGoingStockTakeCutoffStamp();
+
+    @Override
+    @Query("select new ph.txtdis.util.TransactionStamp(s.id, s.completedBy, s.completedOn) "
+            + "from StockTakeReconciliation s where s.id = "
+            + "(select max(st.id) from StockTakeReconciliation st where st.completedBy is not null)")
+    TransactionStamp getLatestCompletedStockTakeCompletionStamp();
 }

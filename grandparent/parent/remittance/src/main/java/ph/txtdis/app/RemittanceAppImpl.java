@@ -21,7 +21,6 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.RemittanceDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
-import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.MonetaryField;
@@ -56,15 +55,8 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(RemittanceDTO.class);
+        dto = remittance = App.getContext().getBean(RemittanceDTO.class);
         customer = App.getContext().getBean(CustomerDTO.class);
-        remittance = (RemittanceDTO) dto;
-    }
-
-    @Override
-    protected void setButtons() {
-        super.setButtons();
-        buttons.replace("search", new SearchByDateButton<Remittance>(this, dto).getButton());
     }
 
     @Override
@@ -143,7 +135,6 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
 
     @Override
     protected void setBindings() {
-        buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 
         partnerIdField.disableProperty().bind(FX.isEmpty(datePicker));
@@ -174,9 +165,9 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
     }
 
     private void actWhenFound(int id) {
-        customer.setId(id);
+        customer.setById(id);
         partnerNameField.setText(customer.getName());
-        partnerAddressField.setText(customer.getDetail());
+        partnerAddressField.setText(customer.getSpecific());
     }
 
     private void throwNotFoundException(int id) {
@@ -218,7 +209,7 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         remittance.setReference(referenceField.getText());
         remittance.setAmount(amountField.getValue());
         remittance.setDetails(detailTable.getItems());
-        super.save();
+        remittance.save();
     }
 
     @Override

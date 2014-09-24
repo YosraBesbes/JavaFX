@@ -16,8 +16,7 @@ import ph.txtdis.repository.InvoicingRepository;
 
 @Service
 @Transactional()
-public class InvoicingServiceImpl extends AbstractStockTakeDependentOrderService<Invoicing, InvoicingDetail> implements
-        InvoicingService {
+public class InvoicingServiceImpl extends AbstractService<Invoicing, Integer> implements InvoicingService {
 
     @Autowired
     private InvoicingRepository repository;
@@ -29,12 +28,12 @@ public class InvoicingServiceImpl extends AbstractStockTakeDependentOrderService
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

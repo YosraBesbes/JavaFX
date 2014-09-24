@@ -10,8 +10,7 @@ import ph.txtdis.model.BookingDetail;
 import ph.txtdis.service.BookingService;
 
 @Component
-public class BookingDTOImpl extends AbstractOrderDTO<Booking, BookingService, BookingDetail> implements
-        BookingDTO {
+public class BookingDTOImpl extends AbstractOrderDTO<Booking, BookingService, BookingDetail> implements BookingDTO {
 
     @Override
     public void reset() {

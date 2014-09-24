@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 
 public class Util {
 
@@ -41,7 +41,7 @@ public class Util {
         return object.getClass().getSimpleName().replace("App", "").replace("Impl", "");
     }
 
-    public static <E> String getEntityIdAndName(Apped app, AuditedDTO<E> dto) {
+    public static <E> String getEntityIdAndName(Apped app, Audited<E> dto) {
         return getModule(app) + " No. " + dto.getId() + ": \n" + dto.get();
     }
 

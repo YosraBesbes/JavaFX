@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Booking extends AbstractOrder<BookingDetail> {
 
-    private static final long serialVersionUID = 4705999226855120703L;
+    private static final long serialVersionUID = 7359559924256955582L;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetail> details;

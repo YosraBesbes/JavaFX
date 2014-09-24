@@ -15,7 +15,7 @@ import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.StockTakeService;
 
 @Component
-public class StockTakeDTOImpl extends AbstractSpunByIdDTO<StockTake, StockTakeService> implements StockTakeDTO {
+public class StockTakeDTOImpl extends AbstractSpunById<StockTake, StockTakeService> implements StockTakeDTO {
 
     @Override
     public void reset() {
@@ -76,5 +76,30 @@ public class StockTakeDTOImpl extends AbstractSpunByIdDTO<StockTake, StockTakeSe
     @Override
     public LocalDate getLatestDate() {
         return service.getLatestDate();
+    }
+
+    @Override
+    public String getStockTakeAfter(LocalDate date) {
+        return service.getStockTakeAfter(date);
+    }
+
+    @Override
+    public String getOneTransactionAfter(LocalDate date) {
+        return service.getOneTransactionAfter(date);
+    }
+
+    @Override
+    public String getClosureInfo(LocalDate date) {
+        return service.getClosureStamp(date);
+    }
+
+    @Override
+    public String getOnGoingStockTake(LocalDate date) {
+        return service.getOnGoingStockTake(date);
+    }
+
+    @Override
+    public LocalDate getLatestCutoffDate() {
+        return service.getLatestCutoffDate();
     }
 }

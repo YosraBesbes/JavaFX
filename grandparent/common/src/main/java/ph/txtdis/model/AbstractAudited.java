@@ -10,13 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.Type;
 
-@MappedSuperclass
-public class AbstractAudited implements Serializable {
+import ph.txtdis.util.Login;
 
-    private static final long serialVersionUID = -8846245638379455141L;
+@MappedSuperclass
+public class AbstractAudited implements Serializable, Key<Integer> {
+
+    private static final long serialVersionUID = 1945412496395116277L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +28,15 @@ public class AbstractAudited implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH)
     private SystemUser createdBy;
 
-    @Column(columnDefinition = "timestamp with time zone DEFAULT current_timestamp", updatable = false, insertable = false)
+    @Column(updatable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
     private ZonedDateTime timeStamp;
 
     protected AbstractAudited() {
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
@@ -40,16 +44,14 @@ public class AbstractAudited implements Serializable {
         return createdBy;
     }
 
-    public void setCreatedBy(SystemUser createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public ZonedDateTime getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(ZonedDateTime timeStamp) {
-        this.timeStamp = timeStamp;
+    @PrePersist
+    private void setCreationStamp() {
+        this.createdBy = Login.user();
+        this.timeStamp = ZonedDateTime.now();
     }
 
     @Override

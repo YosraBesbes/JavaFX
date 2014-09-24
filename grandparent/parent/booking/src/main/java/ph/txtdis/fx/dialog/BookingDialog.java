@@ -12,7 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.app.OrderApp;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.ItemDTO;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
@@ -24,7 +24,6 @@ import ph.txtdis.model.Item;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.Quality;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO> {
 
@@ -42,9 +41,9 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
     @Override
     protected List<InputNode<?>> addNodes() {
 
-        QualityDTO quality = App.getContext().getBean(QualityDTO.class);
+        QualityRated quality = App.getContext().getBean(QualityRated.class);
 
-        itemField = new LabeledIdNameField("Item ID No.", 18);
+        itemField = new LabeledIdNameField("Item ID No.", 180);
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
         qualityCombo = new LabeledComboBox<Quality>("Quality", quality.list());
@@ -83,7 +82,7 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
     }
 
     private void actWhenFound(int id) {
-        itemDTO.setId(id);
+        itemDTO.setById(id);
         uomCombo.setItems(itemDTO.getSellingUoms());
         itemField.getNameField().setText(itemDTO.getName());
     }
@@ -107,7 +106,6 @@ public class BookingDialog extends AbstractFieldDialog<BookingDetail, BookingDTO
         BookingDetail detail = new BookingDetail(booking, item, uom, qty, quality);
         detail.setPrice(itemDTO.getLatestPurchasePrice(date));
         detail.setSubtotal(detail.getPrice().multiply(qty.multiply(itemDTO.getQtyPerUomMap().get(uom))));
-        detail.setCreatedBy(Login.user());
         return detail;
     }
 }

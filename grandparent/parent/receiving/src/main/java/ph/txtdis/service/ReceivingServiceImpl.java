@@ -16,8 +16,7 @@ import ph.txtdis.repository.ReceivingSummaryRepository;
 
 @Service
 @Transactional()
-public class ReceivingServiceImpl extends AbstractStockTakeDependentOrderService<Receiving, ReceivingDetail> implements
-        ReceivingService {
+public class ReceivingServiceImpl extends AbstractService<Receiving, Integer> implements ReceivingService {
 
     @Autowired
     private ReceivingRepository repository;
@@ -29,12 +28,12 @@ public class ReceivingServiceImpl extends AbstractStockTakeDependentOrderService
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

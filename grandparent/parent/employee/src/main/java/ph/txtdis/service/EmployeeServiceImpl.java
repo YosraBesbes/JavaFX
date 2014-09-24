@@ -23,7 +23,7 @@ import ph.txtdis.repository.EmployeeRepository;
 
 @Service
 @Transactional()
-public class EmployeeServiceImpl extends AbstractIdService<Employee> implements EmployeeService {
+public class EmployeeServiceImpl extends AbstractListedService<Employee> implements EmployeeService {
 
     @Autowired
     private EmployeeRepository repository;
@@ -92,12 +92,12 @@ public class EmployeeServiceImpl extends AbstractIdService<Employee> implements 
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 }

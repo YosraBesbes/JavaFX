@@ -9,11 +9,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.ReceivingSetup;
 import ph.txtdis.app.CustomerSetup;
 import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.PurchasingSetup;
 import ph.txtdis.app.ReceivingAppImpl;
+import ph.txtdis.app.ReceivingSetup;
 import ph.txtdis.app.Setup;
 import ph.txtdis.fx.dialog.StartUpDialog;
 

@@ -7,7 +7,7 @@ import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.model.Route;
 
-public interface BookingService extends StockTakeDependentOrderService<Booking, BookingDetail> {
+public interface BookingService extends OrderService<Booking, BookingDetail> {
 
     List<Route> getRoutes(LocalDate date);
 

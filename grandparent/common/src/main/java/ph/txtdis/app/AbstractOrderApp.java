@@ -99,7 +99,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         dateLabel = new Label("Date");
         datePicker = new DatePicker(orderDTO.getOrderDate());
 
-        partnerLabel = new Label("Partner ID No.");
+        partnerLabel = new Label("Partner No.");
         partnerIdField = new IdField(orderDTO.getPartnerId());
         partnerNameField = new StringField(orderDTO.getPartnerName());
         partnerBox = new HBox(partnerLabel, partnerIdField, partnerNameField);
@@ -128,7 +128,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     @Override
     protected void setBindings() {
-        buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 
         partnerIdField.disableProperty().bind(FX.isEmpty(datePicker));
@@ -167,9 +166,9 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     protected void actWhenFound(int id) {
-        customer.setId(id);
+        customer.setById(id);
         partnerNameField.setText(customer.getName());
-        partnerAddressField.setText(customer.getDetail());
+        partnerAddressField.setText(customer.getSpecific());
     }
 
     protected void actOnError(Stage stage, Exception e) {
@@ -182,8 +181,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     @Override
     public void save() throws InvalidException {
-        if (orderDTO.isStockTakeOnGoing())
-            throw new InvalidException("No posting's allowed;\nstock take's on-going");
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));
@@ -191,7 +188,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         orderDTO.setAmount(totalField.getValue());
         orderDTO.setOrderDate(datePicker.getValue());
         orderDTO.setDetails(tableItems());
-        super.save();
+        orderDTO.save();
     }
 
     @Override
@@ -202,6 +199,9 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         remarkField.setText(orderDTO.getRemarks());
         detailTableItems = orderDTO.getDetails();
         populateFields((OrderDTO) orderDTO);
+        // if (orderDTO.isStockTakeOnGoing())
+        // throw new
+        // InvalidException("No posting's allowed;\nstock take's on-going");
         super.refresh();
     }
 

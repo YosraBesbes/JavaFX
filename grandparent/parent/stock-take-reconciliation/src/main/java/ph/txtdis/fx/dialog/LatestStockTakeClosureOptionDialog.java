@@ -10,11 +10,12 @@ import ph.txtdis.dto.StockTakeReconciliationDTO;
 import ph.txtdis.util.Login;
 import ph.txtdis.util.Util;
 
-public class LatestStockTakeClosureOptionDialog extends ErrorOptionDialog {
+public class LatestStockTakeClosureOptionDialog extends OptionDialog {
 
     public LatestStockTakeClosureOptionDialog(Stage stage, LocalDate date) {
         super(stage, "Latest stock take dated " + Util.formatDate(date)
                 + "\nmust be closed to complete data entry.\nContinue?");
+        showAndWait();
     }
 
     @Override

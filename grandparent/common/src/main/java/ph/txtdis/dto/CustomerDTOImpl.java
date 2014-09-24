@@ -184,7 +184,7 @@ public class CustomerDTOImpl extends AbstractSearchedSpunDTO<Customer, String, C
     }
 
     @Override
-    public String getDetail() {
+    public String getSpecific() {
         return entity.getFullAdddress();
     }
 

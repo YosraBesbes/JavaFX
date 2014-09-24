@@ -46,7 +46,7 @@ public class StockTakeReconciliationSetupImpl implements StockTakeReconciliation
                 s -> System.err.println("Receiving: " + s.getItem().getId() + ", " + s.getItem() + ", "
                         + s.getQuality() + ", " + s.getQty()));
 
-        reconService.getStockTakeReconciliationDetail(date1, date2).forEach(
+        reconService.getDetail(date1, date2).forEach(
                 s -> System.err.println("Item Log: " + s.getItem().getId() + ", " + s.getItem() + ", " + s.getQuality()
                         + ", " + s.getStartQty() + ", " + s.getStartAdjustQty() + ", " + s.getInQty() + ", "
                         + s.getOutQty() + ", " + s.getCountQty() + ", " + s.getAdjustmentQty() + ", "

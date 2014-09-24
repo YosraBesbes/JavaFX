@@ -1,5 +1,7 @@
 package ph.txtdis.app;
 
+import java.time.LocalDate;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,6 +17,9 @@ import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.dto.WarehouseDTO;
 import ph.txtdis.exception.InvalidException;
+import ph.txtdis.fx.dialog.CurrentStockTakeClosureOptionDialog;
+import ph.txtdis.fx.dialog.CutoffOptionDialog;
+import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.table.StockTakeDetailTable;
 import ph.txtdis.fx.util.FX;
@@ -41,13 +46,9 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(StockTakeDTO.class);
-    }
-
-    @Override
-    public void start() {
-        super.start();
-        setBindings();
+        dto = stockTake = App.getContext().getBean(StockTakeDTO.class);
+        user = App.getContext().getBean(UserDTO.class);
+        warehouse = App.getContext().getBean(WarehouseDTO.class);
     }
 
     @Override
@@ -57,10 +58,6 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
 
     @Override
     protected Node[] addVBoxNodes() {
-
-        user = App.getContext().getBean(UserDTO.class);
-        warehouse = App.getContext().getBean(WarehouseDTO.class);
-        stockTake = (StockTakeDTO) dto;
 
         Label idLabel = new Label("ID No.");
         idField = new IdField(stockTake.getId());
@@ -108,7 +105,6 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
 
     @Override
     protected void setBindings() {
-        buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
 
         warehouseCombo.disableProperty().bind(FX.isEmpty(datePicker));
@@ -118,13 +114,81 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
     }
 
     @Override
+    protected void setListeners() {
+        datePicker.setOnAction(event -> {
+            try {
+                handleDateChange(datePicker.getValue());
+            } catch (InvalidException e) {
+                new ErrorDialog(this, e.getMessage());
+                refresh();
+            }
+        });
+    }
+
+    private void handleDateChange(LocalDate newDate) throws InvalidException {
+        if (newDate != null) {
+            verifyDate(newDate);
+            cutOtherTransactionsWhileOnGoing(newDate);
+        }
+    }
+
+    private void verifyDate(LocalDate date) throws InvalidException {
+        verifyNotInTheFuture(date);
+        verifyNoStockTakeAfter(date);
+        verifyNoTransactionsAfter(date);
+        verifyNoOpenStockTake(date);
+        verifyNotClosed(date);
+    }
+
+    private void verifyNotInTheFuture(LocalDate date) throws InvalidException {
+        if (date.isAfter(LocalDate.now()))
+            throw new InvalidException("A new stock take cannot\noccur in the future");
+    }
+
+    private void verifyNoStockTakeAfter(LocalDate date) throws InvalidException {
+        String laterStockTake = stockTake.getStockTakeAfter(date);
+        if (laterStockTake != null)
+            throw new InvalidException("A new stock take must be the latest;\n" + laterStockTake
+                    + " is of a later date.");
+    }
+
+    private void verifyNoTransactionsAfter(LocalDate date) throws InvalidException {
+        String laterTransaction = stockTake.getOneTransactionAfter(date);
+        if (laterTransaction != null)
+            throw new InvalidException("A new stock take must precede other transactions;\n" + laterTransaction
+                    + " has been posted on a later date");
+    }
+
+    private void verifyNoOpenStockTake(LocalDate date) throws InvalidException {
+        String onGoingStockTake = stockTake.getOnGoingStockTake(date);
+        if (onGoingStockTake != null)
+            throw new InvalidException(onGoingStockTake);
+    }
+
+    private void verifyNotClosed(LocalDate date) throws InvalidException {
+        String closureInfo = stockTake.getClosureInfo(date);
+        if (closureInfo != null)
+            throw new InvalidException(closureInfo);
+    }
+
+    private void cutOtherTransactionsWhileOnGoing(LocalDate date) {
+        if (isFirstTag(date) && !new CutoffOptionDialog(this, date).isAffirmative())
+            this.close();
+    }
+
+    private boolean isFirstTag(LocalDate date) {
+        LocalDate latest = stockTake.getLatestCutoffDate();
+        return latest == null ? true : latest.isBefore(date);
+    }
+
+    @Override
     public void save() throws InvalidException {
         stockTake.setWarehouse(warehouseCombo.getValue());
         stockTake.setStockTakeDate(datePicker.getValue());
         stockTake.setTaker(takerCombo.getValue());
         stockTake.setChecker(checkerCombo.getValue());
         stockTake.setDetails(detailTable.getItems());
-        super.save();
+        stockTake.save();
     }
 
     @Override
@@ -136,6 +200,7 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
         checkerCombo.setValue(stockTake.getChecker());
         detailTable.getItems().clear();
         detailTable.getItems().addAll(stockTake.getDetails());
+        new CurrentStockTakeClosureOptionDialog(this, datePicker.getValue());
         super.refresh();
     }
 }

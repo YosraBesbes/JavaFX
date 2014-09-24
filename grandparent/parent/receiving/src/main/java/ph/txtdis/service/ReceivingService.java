@@ -7,7 +7,7 @@ import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
 import ph.txtdis.model.ReceivingSummary;
 
-public interface ReceivingService extends StockTakeDependentOrderService<Receiving, ReceivingDetail> {
+public interface ReceivingService extends OrderService<Receiving, ReceivingDetail> {
 
     List<ReceivingSummary> getSummary(LocalDate startDate, LocalDate endDate);
 }

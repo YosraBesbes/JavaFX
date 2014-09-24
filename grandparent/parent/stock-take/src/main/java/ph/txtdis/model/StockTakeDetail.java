@@ -22,7 +22,7 @@ public class StockTakeDetail extends AbstractAudited {
     private Item item;
 
     @Transient
-    private int itemId;
+    private Integer itemId;
 
     @Transient
     private String itemName;
@@ -66,11 +66,11 @@ public class StockTakeDetail extends AbstractAudited {
         this.item = item;
     }
 
-    public int getItemId() {
+    public Integer getItemId() {
         return item.getId();
     }
 
-    public void setItemId(int itemId) {
+    public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
 

@@ -4,7 +4,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.InvoicingDTO;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.model.InvoicingDetail;
 
 public class InvoicingDetailTable extends AbstractQualityDetailTable<InvoicingDetail, InvoicingDTO> {
@@ -22,7 +22,7 @@ public class InvoicingDetailTable extends AbstractQualityDetailTable<InvoicingDe
     }
 
     @Override
-    protected QualityDTO getQualityDTO() {
-        return App.getContext().getBean(QualityDTO.class);
+    protected QualityRated getQualityDTO() {
+        return App.getContext().getBean(QualityRated.class);
     }
 }

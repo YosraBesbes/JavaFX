@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import ph.txtdis.type.LocationType;
 
 @Entity
-public class Location extends AbstractTyped {
+public class Location extends AbstractNamed {
 
     private static final long serialVersionUID = -9066269489440543721L;
     

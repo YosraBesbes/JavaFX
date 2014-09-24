@@ -17,12 +17,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ph.txtdis.dto.DTO;
-import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.util.FontToImage;
 
-public abstract class AbstractApp<E> extends Stage implements Apped {
+public abstract class AbstractApp<E, K> extends Stage implements Apped {
 
-    protected DTO<E> dto;
+    protected DTO<E, K> dto;
     protected Map<String, Button> buttons;
     protected String module, abbr;
 
@@ -44,11 +43,6 @@ public abstract class AbstractApp<E> extends Stage implements Apped {
         setStage(placeNodes());
         setBindings();
         setListeners();
-    }
-
-    @Override
-    public void save() throws InvalidException {
-        dto.save();
     }
 
     @Override

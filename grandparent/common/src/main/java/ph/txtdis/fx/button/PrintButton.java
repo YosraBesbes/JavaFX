@@ -2,14 +2,14 @@ package ph.txtdis.fx.button;
 
 import javafx.stage.Stage;
 import ph.txtdis.app.Printed;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.util.Util;
 
 public class PrintButton<E> extends FontButton<E> {
 
-    public PrintButton(Printed app, AuditedDTO<E> dto) {
+    public PrintButton(Printed app, Audited<E> dto) {
 
         super("\ue81c", "Print...");
         button.setOnAction(event -> {

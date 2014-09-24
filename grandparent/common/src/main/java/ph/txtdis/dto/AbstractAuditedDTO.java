@@ -7,60 +7,17 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.AbstractAudited;
 import ph.txtdis.model.SystemUser;
-import ph.txtdis.service.IdService;
-import ph.txtdis.util.Login;
+import ph.txtdis.service.Serviced;
 
 @Component
-public abstract class AbstractAuditedDTO<E extends AbstractAudited, S extends IdService<E>> implements AuditedDTO<E> {
+public abstract class AbstractAuditedDTO<E extends AbstractAudited, S extends Serviced<E, Integer>> extends
+        AbstractDTO<E, Serviced<E, Integer>, Integer> implements Audited<E> {
 
     @Autowired
     protected S service;
-    protected E entity;
-    protected int id;
 
     public AbstractAuditedDTO() {
-        reset();
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        set(service.get(id));
-    }
-
-    @Override
-    public boolean exists(int id) {
-        return service.exists(id);
-    }
-
-    @Override
-    public void delete() {
-        service.delete(entity);
-        reset();
-    }
-
-    @Override
-    public void save() {
-        entity.setCreatedBy(Login.user());
-        set(service.save(entity));
-        setId(getId());
-    }
-
-    @Override
-    public E get() {
-        if (entity == null)
-            reset();
-        return entity;
-    }
-
-    @Override
-    public E get(int id) {
-        set(service.get(id));
-        return entity;
+        super();
     }
 
     @Override
@@ -75,17 +32,7 @@ public abstract class AbstractAuditedDTO<E extends AbstractAudited, S extends Id
     }
 
     @Override
-    public void setCreatedBy(SystemUser createdBy) {
-        entity.setCreatedBy(createdBy);
-    }
-
-    @Override
     public ZonedDateTime getTimeStamp() {
         return entity.getTimeStamp();
-    }
-
-    @Override
-    public void setTimeStamp(ZonedDateTime timeStamp) {
-        entity.setTimeStamp(timeStamp);
     }
 }

@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface Remitted {
-    int getId();
-    
+    Integer getId();
+
     String getPartnerName();
-    
+
     LocalDate getOrderDate();
-    
+
     BigDecimal getAmount();
 }

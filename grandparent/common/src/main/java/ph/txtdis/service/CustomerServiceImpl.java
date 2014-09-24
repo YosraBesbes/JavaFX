@@ -21,7 +21,7 @@ import ph.txtdis.repository.RoutingRepository;
 
 @Service
 @Transactional()
-public class CustomerServiceImpl extends AbstractIdService<Customer> implements CustomerService {
+public class CustomerServiceImpl extends AbstractService<Customer, Integer> implements CustomerService {
 
     @Autowired
     private CustomerRepository repository;
@@ -44,12 +44,12 @@ public class CustomerServiceImpl extends AbstractIdService<Customer> implements 
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

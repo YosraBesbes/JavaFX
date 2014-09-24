@@ -22,10 +22,9 @@ import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, PurchasingDTO> {
-    
+
     private LabeledComboBox<UomType> uomCombo;
     private LabeledIdNameField itemField;
     private LabeledIntegerDisplay daysLevelOldDisplay, daysLevelNewDisplay;
@@ -45,10 +44,10 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
         daysLevelNewDisplay = new LabeledIntegerDisplay("New Days' Level");
-        
+
         return Arrays.asList(itemField, daysLevelOldDisplay, uomCombo, qtyField, daysLevelNewDisplay);
     }
-    
+
     private void setListeners() {
         itemDTO = App.getContext().getBean(ItemDTO.class);
         itemField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
@@ -65,16 +64,16 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
                 }
             }
         });
-        
+
         qtyField.getDecimalField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
                 showDaysLevel(qtyField.getValue());
         });
 
     }
-    
+
     private void actWhenFound(int id) {
-        itemDTO.setId(id);
+        itemDTO.setById(id);
         uomCombo.setItems(itemDTO.getPurchasingUoms());
         itemField.getNameField().setText(itemDTO.getName());
         showDaysLevel();
@@ -108,13 +107,12 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
         UomType uom = getInputAtRow(2);
         BigDecimal qty = getInputAtRow(3);
         int daysLevelAfter = getInputAtRow(4);
-        
+
         PurchasingDetail detail = new PurchasingDetail(purchasing, item, uom, qty);
         detail.setPrice(itemDTO.getLatestPurchasePrice(date));
         detail.setSubtotal(detail.getPrice().multiply(qty.multiply(itemDTO.getQtyPerUomMap().get(uom))));
         detail.setDaysLevelBefore(daysLevelBefore);
         detail.setDaysLevelAfter(daysLevelAfter);
-        detail.setCreatedBy(Login.user());
         return detail;
     }
 }

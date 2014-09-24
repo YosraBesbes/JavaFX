@@ -20,7 +20,8 @@ public class StockTakeReconciliation extends AbstractDated {
     @ManyToOne(cascade = CascadeType.REFRESH)
     private SystemUser cutoffBy;
 
-    @Column(columnDefinition = "timestamp with time zone DEFAULT current_timestamp", updatable = false, insertable = false)
+    @Column(columnDefinition = "timestamp with time zone DEFAULT current_timestamp", updatable = false,
+            insertable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
     private ZonedDateTime cutoffOn;
 
@@ -51,17 +52,17 @@ public class StockTakeReconciliation extends AbstractDated {
     private Boolean isApproved;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private SystemUser retrievedBy;
+    private SystemUser completedBy;
 
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
-    private ZonedDateTime retrievedOn;
+    private ZonedDateTime completedOn;
 
     public StockTakeReconciliation() {
     }
 
-    public StockTakeReconciliation(SystemUser cutoffBy, LocalDate idDate) {
+    public StockTakeReconciliation(SystemUser cutoffBy, LocalDate id) {
         setCutoffBy(cutoffBy);
-        setIdDate(idDate);
+        setId(id);
     }
 
     public SystemUser getCutoffBy() {
@@ -74,10 +75,6 @@ public class StockTakeReconciliation extends AbstractDated {
 
     public ZonedDateTime getCutoffOn() {
         return cutoffOn;
-    }
-
-    public void setCutoffOn(ZonedDateTime cutoffOn) {
-        this.cutoffOn = cutoffOn;
     }
 
     public SystemUser getClosedBy() {
@@ -152,24 +149,24 @@ public class StockTakeReconciliation extends AbstractDated {
         this.isApproved = isApproved;
     }
 
-    public SystemUser getRetrievedBy() {
-        return retrievedBy;
+    public SystemUser getCompletedBy() {
+        return completedBy;
     }
 
-    public void setRetrievedBy(SystemUser retrievedBy) {
-        this.retrievedBy = retrievedBy;
+    public void setCompletedBy(SystemUser completedBy) {
+        this.completedBy = completedBy;
     }
 
-    public ZonedDateTime getRetrievedOn() {
-        return retrievedOn;
+    public ZonedDateTime getCompletedOn() {
+        return completedOn;
     }
 
-    public void setRetrievedOn(ZonedDateTime retrievedOn) {
-        this.retrievedOn = retrievedOn;
+    public void setCompletedOn(ZonedDateTime completedOn) {
+        this.completedOn = completedOn;
     }
 
     @Override
     public String toString() {
-        return "Stock Take on " + Util.formatDate(getIdDate());
+        return "Stock Take on " + Util.formatDate(getId());
     }
 }

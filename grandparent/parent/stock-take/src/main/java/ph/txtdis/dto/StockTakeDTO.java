@@ -9,7 +9,7 @@ import ph.txtdis.model.StockTakeDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Warehouse;
 
-public interface StockTakeDTO extends SpunDTO, AuditedDTO<StockTake> {
+public interface StockTakeDTO extends Spun, Audited<StockTake> {
 
     public Warehouse getWarehouse();
 
@@ -32,4 +32,14 @@ public interface StockTakeDTO extends SpunDTO, AuditedDTO<StockTake> {
     void setDetails(List<StockTakeDetail> details);
 
     LocalDate getLatestDate();
+
+    String getStockTakeAfter(LocalDate date);
+
+    String getOneTransactionAfter(LocalDate date);
+
+    String getClosureInfo(LocalDate date);
+
+    String getOnGoingStockTake(LocalDate date);
+
+    LocalDate getLatestCutoffDate();
 }

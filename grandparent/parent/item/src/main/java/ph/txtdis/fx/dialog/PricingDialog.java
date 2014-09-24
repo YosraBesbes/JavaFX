@@ -14,7 +14,6 @@ import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.type.PricingType;
-import ph.txtdis.util.Login;
 
 public class PricingDialog extends AbstractFieldDialog<Pricing, ItemDTO> {
 
@@ -24,7 +23,7 @@ public class PricingDialog extends AbstractFieldDialog<Pricing, ItemDTO> {
 
     @Override
     protected List<InputNode<?>> addNodes() {
-        
+
         LabeledComboBox<PricingType> typeCombo = new LabeledComboBox<PricingType>("Type", PricingType.values());
         LabeledDecimalField priceField = new LabeledDecimalField("Price");
         LabeledDatePicker startPicker = new LabeledDatePicker("Start");
@@ -37,9 +36,7 @@ public class PricingDialog extends AbstractFieldDialog<Pricing, ItemDTO> {
         PricingType type = getInputAtRow(0);
         BigDecimal price = getInputAtRow(1);
         LocalDate start = getInputAtRow(2);
-        
-        Pricing pricing = new Pricing(item, type, price, start);
-        pricing.setCreatedBy(Login.user());
-        return pricing;
+
+        return new Pricing(item, type, price, start);
     }
 }

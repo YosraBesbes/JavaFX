@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import ph.txtdis.app.StockTakeDependent;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
@@ -12,8 +11,7 @@ import ph.txtdis.model.ItemDetailed;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Route;
 
-public interface OrderDTO<E extends Ordered<D>, D extends ItemDetailed> extends AuditedDTO<E>, SpunDTO,
-        StockTakeDependent {
+public interface OrderDTO<E extends Ordered<D>, D extends ItemDetailed> extends Audited<E>, Spun {
 
     void setPartner(Customer partner);
 

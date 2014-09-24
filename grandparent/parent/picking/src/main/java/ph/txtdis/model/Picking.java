@@ -1,6 +1,7 @@
 package ph.txtdis.model;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import org.hibernate.annotations.Type;
 @Entity
 public class Picking extends AbstractAudited {
 
-    private static final long serialVersionUID = 2202349518592149416L;
+    private static final long serialVersionUID = -3835242947594550479L;
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Truck truck;
@@ -32,7 +33,7 @@ public class Picking extends AbstractAudited {
     @Column(nullable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
     private LocalDate pickDate;
-    
+
     private String remarks;
 
     @OneToMany(mappedBy = "picking", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,6 +41,12 @@ public class Picking extends AbstractAudited {
 
     @Transient
     private List<PickList> pickList;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private SystemUser printedBy;
+
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
+    private ZonedDateTime printedOn;
 
     public Picking() {
     }
@@ -105,6 +112,22 @@ public class Picking extends AbstractAudited {
 
     public void setDetails(List<PickingDetail> details) {
         this.details = details;
+    }
+
+    public SystemUser getPrintedBy() {
+        return printedBy;
+    }
+
+    public void setPrintedBy(SystemUser printedBy) {
+        this.printedBy = printedBy;
+    }
+
+    public ZonedDateTime getPrintedOn() {
+        return printedOn;
+    }
+
+    public void setPrintedOn(ZonedDateTime printedOn) {
+        this.printedOn = printedOn;
     }
 
     @Override

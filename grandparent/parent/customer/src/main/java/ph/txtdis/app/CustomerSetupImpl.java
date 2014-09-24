@@ -54,10 +54,10 @@ public class CustomerSetupImpl implements CustomerSetup {
     @Override
     public void start() {
 
-        SystemUser dsp1 = userService.get("MICHAEL");
+        SystemUser dsp1 = userService.get("OGIE");
         SystemUser dsp2 = userService.get("PHILLIP");
         SystemUser dsp3 = userService.get("BONG");
-        SystemUser dsp4 = userService.get("JEROME");
+        SystemUser dsp4 = userService.get("RANDY");
         SystemUser dsp5 = userService.get("ROBERT");
         SystemUser dsp6 = userService.get("HENRY");
         SystemUser dsp7 = userService.get("ROLAND");
@@ -548,6 +548,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         Location rincon = locationService.save(new Location("RINCON", LocationType.BARANGAY));
         Location tagalag = locationService.save(new Location("TAGALAG", LocationType.BARANGAY));
         Location veinte_reales = locationService.save(new Location("VEINTE REALES", LocationType.BARANGAY));
+        Location camarin = locationService.save(new Location("CAMARIN", LocationType.BARANGAY));
 
         Location caloocan = locationService.save(new Location("CALOOCAN", LocationType.CITY));
         Location las_piñas = locationService.save(new Location("LAS PIÑAS", LocationType.CITY));
@@ -1097,28 +1098,30 @@ public class CustomerSetupImpl implements CustomerSetup {
         locationTreeService.save(new LocationTree(tagalag, valenzuela_city));
         locationTreeService.save(new LocationTree(ugong, valenzuela_city));
         locationTreeService.save(new LocationTree(veinte_reales, valenzuela_city));
-        
+        locationTreeService.save(new LocationTree(bagong_silang, caloocan));
+        locationTreeService.save(new LocationTree(camarin, caloocan));
+
         Customer magnum_talayan = new Customer("MAGNUM TALAYAN", CustomerType.CASHIER);
         magnum_talayan.setAddress("MARIA CLARA");
         magnum_talayan.setBarangay(talayan);
         magnum_talayan.setCity(quezon_city);
         magnum_talayan.setProvince(metro_manila);
         customerService.save(magnum_talayan);
-        
+
         Customer magnum_edsa = new Customer("MAGNUM EDSA", CustomerType.CASHIER);
         magnum_edsa.setAddress("48 HOWMART RD.");
         magnum_edsa.setBarangay(apolonio_samson);
         magnum_edsa.setCity(quezon_city);
         magnum_edsa.setProvince(metro_manila);
         customerService.save(magnum_edsa);
-        
+
         Customer marina = new Customer("MARINA SALES", CustomerType.VENDOR);
         marina.setAddress("HOWMART RD.");
         marina.setBarangay(apolonio_samson);
         marina.setCity(quezon_city);
         marina.setProvince(metro_manila);
         customerService.save(marina);
-        
+
         Customer sarisari = new Customer("SARI SARI", CustomerType.OUTLET);
         sarisari.setAddress("123 DAANAN ST.");
         sarisari.setBarangay(guadalupe_nuevo);
@@ -1128,7 +1131,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         sarisari.setVisitFrequency(VisitFrequency.F2);
         sarisari.setRouteHistory(Arrays.asList(new Routing(sarisari, s41, startDate)));
         customerService.save(sarisari);
-        
+
         Customer palengke = new Customer("TALIPAPA", CustomerType.OUTLET);
         palengke.setAddress("456 TALIPAPAAN ST.");
         palengke.setBarangay(apolonio_samson);
@@ -1138,7 +1141,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         palengke.setVisitFrequency(VisitFrequency.F4);
         palengke.setRouteHistory(Arrays.asList(new Routing(palengke, pms1, startDate)));
         customerService.save(palengke);
-        
+
         Customer variety = new Customer("VARIETY", CustomerType.OUTLET);
         variety.setAddress("ROAD 789");
         variety.setBarangay(guadalupe_viejo);
@@ -1148,7 +1151,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         variety.setVisitFrequency(VisitFrequency.F2);
         variety.setRouteHistory(Arrays.asList(new Routing(variety, s42, startDate)));
         customerService.save(variety);
-        
+
         Customer wetStall = new Customer("WET MARKET STALL", CustomerType.OUTLET);
         wetStall.setAddress("STALL 1, GALAS MARKET");
         wetStall.setBarangay(san_isidro_galas);
@@ -1158,7 +1161,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         wetStall.setVisitFrequency(VisitFrequency.F4);
         wetStall.setRouteHistory(Arrays.asList(new Routing(wetStall, pms2, startDate)));
         customerService.save(wetStall);
-        
+
         Customer dryStall = new Customer("DRY MARKET STALL", CustomerType.OUTLET);
         dryStall.setAddress("STALL 2, GALAS MARKET");
         dryStall.setBarangay(san_isidro_galas);

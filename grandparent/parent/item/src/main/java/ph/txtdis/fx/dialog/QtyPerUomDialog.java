@@ -13,7 +13,6 @@ import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 public class QtyPerUomDialog extends AbstractFieldDialog<QtyPerUom, ItemDTO> {
 
@@ -23,7 +22,7 @@ public class QtyPerUomDialog extends AbstractFieldDialog<QtyPerUom, ItemDTO> {
 
     @Override
     protected List<InputNode<?>> addNodes() {
-        
+
         LabeledComboBox<UomType> uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         LabeledDecimalField qtyField = new LabeledDecimalField("Quantity");
         LabeledCheckBox isPurchasedCheckBox = new LabeledCheckBox("Purchased");
@@ -40,8 +39,7 @@ public class QtyPerUomDialog extends AbstractFieldDialog<QtyPerUom, ItemDTO> {
         boolean isPurchased = getInputAtRow(2);
         boolean isSold = getInputAtRow(3);
         boolean isReported = getInputAtRow(4);
-        QtyPerUom qtyPerUom = new QtyPerUom(item, uom, qty, isPurchased, isSold, isReported);
-        qtyPerUom.setCreatedBy(Login.user());
-        return qtyPerUom;
+
+        return new QtyPerUom(item, uom, qty, isPurchased, isSold, isReported);
     }
 }

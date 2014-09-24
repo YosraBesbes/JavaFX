@@ -13,8 +13,7 @@ import ph.txtdis.repository.PurchasingRepository;
 
 @Service
 @Transactional()
-public class PurchasingServiceImpl extends AbstractStockTakeDependentOrderService<Purchasing, PurchasingDetail>
-        implements PurchasingService {
+public class PurchasingServiceImpl extends AbstractService<Purchasing, Integer> implements PurchasingService {
 
     @Autowired
     private PurchasingRepository repository;
@@ -23,12 +22,12 @@ public class PurchasingServiceImpl extends AbstractStockTakeDependentOrderServic
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

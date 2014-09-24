@@ -3,14 +3,14 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 import ph.txtdis.fx.button.SearchByTextButton;
 
 public class SearchedIdField<E> extends Group {
     
     private IdField idField;
 
-    public SearchedIdField(Apped app, AuditedDTO<E> dto) {
+    public SearchedIdField(Apped app, Audited<E> dto) {
 
         idField = new IdField();
         idField.setEditable(true);

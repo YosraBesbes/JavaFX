@@ -1,10 +1,8 @@
 package ph.txtdis.mail;
 
-import javax.mail.MessagingException;
+public class MailNotSentException extends Exception {
 
-public class MailNotSentException extends MessagingException {
-
-    private static final long serialVersionUID = -7607606406819447636L;
+    private static final long serialVersionUID = -2619244872921175899L;
 
     public MailNotSentException() {
         super("Mail was not sent.\nCheck every network connections and close all other applications."

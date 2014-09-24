@@ -10,7 +10,7 @@ import ph.txtdis.repository.AccountRepository;
 
 @Service
 @Transactional()
-public class AccountServiceImpl extends AbstractIdService<Account> implements AccountService {
+public class AccountServiceImpl extends AbstractService<Account, Integer> implements AccountService {
 
     @Autowired
     private AccountRepository repository;
@@ -19,12 +19,12 @@ public class AccountServiceImpl extends AbstractIdService<Account> implements Ac
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 }

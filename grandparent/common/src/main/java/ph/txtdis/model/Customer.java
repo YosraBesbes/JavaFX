@@ -12,7 +12,7 @@ import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
 @Entity
-public class Customer extends AbstractAudited implements Typed {
+public class Customer extends AbstractAudited implements Named {
 
     private static final long serialVersionUID = 2888326520266278498L;
 

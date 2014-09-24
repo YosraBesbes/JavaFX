@@ -5,7 +5,7 @@ import java.util.List;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 
-public interface RemittanceService extends SpunByIdService<Remittance> {
-    
+public interface RemittanceService extends SpunService<Remittance, Integer> {
+
     List<RemittanceDetail> getDetails(int id);
 }

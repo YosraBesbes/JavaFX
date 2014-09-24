@@ -12,7 +12,7 @@ import ph.txtdis.model.PickingSummary;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Truck;
 
-public interface PickingService extends SpunByIdService<Picking> {
+public interface PickingService extends SpunService<Picking, Integer> {
 
     List<PickingDetail> getDetails(int id);
 

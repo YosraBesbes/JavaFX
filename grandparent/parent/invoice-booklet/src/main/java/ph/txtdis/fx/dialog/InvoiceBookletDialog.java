@@ -10,7 +10,6 @@ import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledIdField;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
-import ph.txtdis.util.Login;
 
 public class InvoiceBookletDialog extends AbstractFieldDialog<InvoiceBooklet, InvoiceBookletDTO> {
 
@@ -111,10 +110,7 @@ public class InvoiceBookletDialog extends AbstractFieldDialog<InvoiceBooklet, In
 
     @Override
     protected InvoiceBooklet createEntity(InvoiceBookletDTO dto, List<InputNode<?>> inputNodes) {
-        InvoiceBooklet booklet = new InvoiceBooklet(startIdField.getValue(), endIdField.getValue(),
-                userCombo.getValue());
-        booklet.setCreatedBy(Login.user());
-        return booklet;
+        return new InvoiceBooklet(startIdField.getValue(), endIdField.getValue(), userCombo.getValue());
     }
 
     @Override

@@ -20,6 +20,7 @@ import ph.txtdis.service.ReceivingService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.ReceivingReferenceType;
 import ph.txtdis.type.UomType;
+import ph.txtdis.util.Login;
 
 @Component
 public class ReceivingSetupImpl implements ReceivingSetup {
@@ -45,6 +46,8 @@ public class ReceivingSetupImpl implements ReceivingSetup {
     @Override
     public void start() {
         SystemUser sysgen = userService.get("SYSGEN");
+        Login.setUser(sysgen);
+
         LocalDate date = LocalDate.parse("2014-07-28");
         Quality good = qualityService.good();
 
@@ -67,13 +70,11 @@ public class ReceivingSetupImpl implements ReceivingSetup {
         ReceivingDetail marinaPineSliceFlatDetail = new ReceivingDetail(marinaReceiving, pineSliceFlat, UomType.CS,
                 marinaQty, good);
         marinaPineSliceFlatDetail.setPrice(pineSliceFlatPricePerCS);
-        marinaPineSliceFlatDetail.setCreatedBy(sysgen);
         BigDecimal marinaPineSliceFlatDetailAmount = marinaQty.multiply(pineSliceFlatPricePerCS);
 
         ReceivingDetail marinaPineSlice15Detail = new ReceivingDetail(marinaReceiving, pineSlice15, UomType.CS,
                 marinaQty, good);
         marinaPineSlice15Detail.setPrice(pineSlice15PricePerCS);
-        marinaPineSlice15Detail.setCreatedBy(sysgen);
         BigDecimal marinaPineSlice15DetailAmount = marinaQty.multiply(pineSlice15PricePerCS);
 
         marinaReceiving.setDetails(Arrays.asList(marinaPineSliceFlatDetail, marinaPineSlice15Detail));

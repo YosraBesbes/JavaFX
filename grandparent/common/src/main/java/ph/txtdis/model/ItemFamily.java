@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import ph.txtdis.type.ItemTier;
 
 @Entity
-public class ItemFamily extends AbstractTyped {
+public class ItemFamily extends AbstractNamed {
 
     private static final long serialVersionUID = 8557253216462098682L;
 

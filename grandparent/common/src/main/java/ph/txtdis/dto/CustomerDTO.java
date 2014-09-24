@@ -14,24 +14,24 @@ import ph.txtdis.model.Routing;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
-public interface CustomerDTO extends SearchedDTO<Customer, String>, SpunDTO, DetailedDTO<Customer>, UniqueDTO {
+public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, SpecificName<Customer>, UniqueName {
 
     String getAddress();
-    
+
     void setAddress(String address);
-    
+
     Location getBarangay();
-    
+
     void setBarangay(Location barangay);
-    
+
     Location getCity();
-    
+
     void setCity(Location city);
-    
+
     Location getProvince();
-    
+
     void setProvince(Location province);
-    
+
     CustomerType getType();
 
     void setType(CustomerType type);
@@ -39,42 +39,42 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, SpunDTO, Det
     Channel getChannel();
 
     void setChannel(Channel channel);
-    
+
     VisitFrequency getVisitFrequency();
-    
+
     void setVisitFrequency(VisitFrequency visitFrequency);
 
     ObservableList<Routing> getRouteHistory();
 
     void setRouteHistory(List<Routing> routeHistory);
-    
+
     String getCreditContactName();
-    
+
     void setCreditContactName(String creditContactName);
-    
+
     String getCreditContactSurname();
-    
+
     void setCreditContactSurname(String creditContactSurname);
-    
+
     String getContactTitle();
-    
+
     void setContactTitle(String contactTitle);
-    
+
     long getMobile();
-    
+
     void setMobile(long mobile);
-    
+
     ObservableList<CreditDetail> getCreditDetails();
-    
+
     void setCreditDetails(List<CreditDetail> creditDetails);
-    
+
     ObservableList<CustomerDiscount> getDiscounts();
-    
+
     void setDiscounts(List<CustomerDiscount> discounts);
-    
+
     Route getLatestRoute(LocalDate date);
-    
+
     CreditDetail getLatestCreditDetail(LocalDate date);
-    
+
     CustomerDiscount getLatestCustomerDiscount(LocalDate date);
 }

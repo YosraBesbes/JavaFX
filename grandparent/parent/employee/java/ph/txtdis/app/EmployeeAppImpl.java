@@ -73,7 +73,7 @@ public class EmployeeAppImpl extends AbstractApp<Employee> implements Searched {
     protected void setDisableBindings() {
         for (Tab tab : tabs)
             tab.disableProperty().bind(isSurnameOrNameEmpty());
-        buttons.get("delete").disableProperty().bind(personalTab.getIdField().textProperty().isEmpty());
+        buttons.get("cancel").disableProperty().bind(personalTab.getIdField().textProperty().isEmpty());
         buttons.get("save").disableProperty().bind(isSurnameOrNameEmpty());
     }
 

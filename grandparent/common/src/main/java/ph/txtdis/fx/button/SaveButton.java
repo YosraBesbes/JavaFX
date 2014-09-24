@@ -1,19 +1,21 @@
 package ph.txtdis.fx.button;
 
+import java.time.LocalDate;
+
 import javafx.stage.Stage;
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.AbstractSpunByDate;
+import ph.txtdis.dto.Audited;
 import ph.txtdis.dto.DTO;
-import ph.txtdis.dto.DatedDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.util.Util;
 
-public class SaveButton<E> extends FontButton<E> {
+public class SaveButton<E, K> extends FontButton<E> {
 
-    public SaveButton(Apped app, DTO<E> dto) {
+    public SaveButton(Apped app, DTO<E, K> dto) {
 
         super("\ue823", "Save...");
 
@@ -41,11 +43,11 @@ public class SaveButton<E> extends FontButton<E> {
                     }
                 }
 
-                private String getIdAndName(Apped app, DTO<E> dto) {
-                    if (dto instanceof AuditedDTO)
-                        return Util.getEntityIdAndName(app, (AuditedDTO<E>) dto);
-                    else if (dto instanceof DatedDTO)
-                        return Util.getModule(app) + "\ndated " + Util.formatDate(((DatedDTO<E>) dto).getIdDate());
+                private String getIdAndName(Apped app, DTO<E, K> dto) {
+                    if (dto instanceof Audited)
+                        return Util.getEntityIdAndName(app, (Audited<?>) dto);
+                    else if (dto instanceof AbstractSpunByDate<?, ?>)
+                        return Util.getModule(app) + "\ndated " + Util.formatDate((LocalDate) dto.getId());
                     else
                         return "";
                 }

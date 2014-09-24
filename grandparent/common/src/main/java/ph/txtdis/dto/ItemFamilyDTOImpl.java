@@ -7,7 +7,7 @@ import ph.txtdis.service.ItemFamilyService;
 import ph.txtdis.type.ItemTier;
 
 @Component
-public class ItemFamilyDTOImpl extends AbstractTypedDTO<ItemFamily, ItemFamilyService> implements ItemFamilyDTO {
+public class ItemFamilyDTOImpl extends AbstractListedName<ItemFamily, ItemFamilyService> implements ItemFamilyDTO {
 
     @Override
     public ItemTier getTier() {

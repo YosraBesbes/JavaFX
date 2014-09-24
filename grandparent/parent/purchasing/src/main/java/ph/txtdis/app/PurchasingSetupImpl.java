@@ -12,13 +12,15 @@ import ph.txtdis.model.Customer;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Quality;
 import ph.txtdis.service.CustomerService;
 import ph.txtdis.service.ItemService;
 import ph.txtdis.service.PurchasingService;
+import ph.txtdis.service.QualityService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.PricingType;
 import ph.txtdis.type.UomType;
+import ph.txtdis.util.Login;
 
 @Component
 public class PurchasingSetupImpl implements PurchasingSetup {
@@ -30,35 +32,38 @@ public class PurchasingSetupImpl implements PurchasingSetup {
     CustomerService customerService;
 
     @Autowired
-    PurchasingService purchasingService;
+    QualityService qualityService;
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    PurchasingService purchasingService;
 
     public PurchasingSetupImpl() {
     }
 
     @Override
     public void start() {
-        SystemUser sysgen = userService.get("SYSGEN");
+        Login.setUser(userService.get("SYSGEN"));
         Customer marina = customerService.get(3);
         Item item = itemService.get(1);
         LocalDate date = LocalDate.parse("2014-07-28");
         BigDecimal price = itemService.getLatestPrice(item, date, PricingType.PURCHASE);
         BigDecimal pricePerCS = price.multiply(itemService.getQtyPerUomMap(1).get(UomType.CS));
         BigDecimal qty = BigDecimal.ONE;
-        
+        Quality good = qualityService.good();
+
         Purchasing purchasing = new Purchasing(marina, date);
-        
+
         PurchasingDetail detail = new PurchasingDetail(purchasing, item, UomType.CS, qty);
-        detail.setCreatedBy(sysgen);
         detail.setPrice(pricePerCS);
-        
+        detail.setQuality(good);
+
         List<PurchasingDetail> details = Arrays.asList(detail);
         purchasing.setDetails(details);
         purchasing.setAmount(qty.multiply(pricePerCS));
-        purchasing.setCreatedBy(sysgen);
-        
+
         purchasingService.save(purchasing);
     }
 }

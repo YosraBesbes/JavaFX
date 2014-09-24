@@ -2,5 +2,5 @@ package ph.txtdis.service;
 
 import ph.txtdis.model.Account;
 
-public interface AccountService extends SpunByIdService<Account> {
+public interface AccountService extends SpunService<Account, Integer> {
 }

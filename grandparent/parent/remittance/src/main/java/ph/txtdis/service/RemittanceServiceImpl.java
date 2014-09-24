@@ -13,7 +13,7 @@ import ph.txtdis.repository.RemittanceRepository;
 
 @Service
 @Transactional()
-public class RemittanceServiceImpl extends AbstractIdService<Remittance> implements RemittanceService {
+public class RemittanceServiceImpl extends AbstractService<Remittance, Integer> implements RemittanceService {
 
     @Autowired
     private RemittanceRepository repository;
@@ -22,12 +22,12 @@ public class RemittanceServiceImpl extends AbstractIdService<Remittance> impleme
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

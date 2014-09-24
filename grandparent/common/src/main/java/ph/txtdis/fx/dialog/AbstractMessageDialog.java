@@ -15,7 +15,6 @@ public abstract class AbstractMessageDialog extends AbstractDialog<String[]> {
     public AbstractMessageDialog(Stage stage, String message, String unicode, String color) {
         super(message, stage, new String[] { unicode, color });
         FX.putIconAndTitle(this);
-        showAndWait();
     }
 
     @Override

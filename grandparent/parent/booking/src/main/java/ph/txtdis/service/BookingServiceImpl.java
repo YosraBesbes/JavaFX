@@ -16,8 +16,7 @@ import ph.txtdis.util.Util;
 
 @Service
 @Transactional()
-public class BookingServiceImpl extends AbstractStockTakeDependentOrderService<Booking, BookingDetail> implements
-        BookingService {
+public class BookingServiceImpl extends AbstractService<Booking, Integer> implements BookingService {
 
     @Autowired
     private BookingRepository repository;
@@ -26,12 +25,12 @@ public class BookingServiceImpl extends AbstractStockTakeDependentOrderService<B
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

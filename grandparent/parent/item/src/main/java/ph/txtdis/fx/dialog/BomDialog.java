@@ -14,7 +14,6 @@ import ph.txtdis.fx.input.LabeledIdField;
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 public class BomDialog extends AbstractFieldDialog<Bom, ItemDTO> {
 
@@ -24,7 +23,7 @@ public class BomDialog extends AbstractFieldDialog<Bom, ItemDTO> {
 
     @Override
     protected List<InputNode<?>> addNodes() {
-        
+
         LabeledIdField partField = new LabeledIdField("Part ID");
         LabeledDisplayField nameField = new LabeledDisplayField("Name", 180);
         LabeledComboBox<UomType> uomCombo = new LabeledComboBox<UomType>("UOM", UomType.values());
@@ -38,9 +37,7 @@ public class BomDialog extends AbstractFieldDialog<Bom, ItemDTO> {
         Item part = dto.get(getInputAtRow(0));
         UomType uom = getInputAtRow(2);
         BigDecimal qty = getInputAtRow(3);
-        
-        Bom bom = new Bom(item, part, uom, qty);
-        bom.setCreatedBy(Login.user());
-        return bom;
+
+        return new Bom(item, part, uom, qty);
     }
 }

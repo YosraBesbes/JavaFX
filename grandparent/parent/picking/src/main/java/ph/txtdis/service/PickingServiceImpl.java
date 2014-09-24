@@ -22,7 +22,7 @@ import ph.txtdis.repository.PickingSummaryRepository;
 
 @Service
 @Transactional()
-public class PickingServiceImpl extends AbstractIdService<Picking> implements PickingService {
+public class PickingServiceImpl extends AbstractService<Picking, Integer> implements PickingService {
 
     @Autowired
     private PickingRepository repository;
@@ -37,12 +37,12 @@ public class PickingServiceImpl extends AbstractIdService<Picking> implements Pi
     }
 
     @Override
-    public int getMinId() {
+    public Integer getMinId() {
         return repository.getMinId();
     }
 
     @Override
-    public int getMaxId() {
+    public Integer getMaxId() {
         return repository.getMaxId();
     }
 

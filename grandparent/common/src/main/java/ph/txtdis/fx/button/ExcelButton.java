@@ -6,9 +6,9 @@ import ph.txtdis.dto.DTO;
 import ph.txtdis.excel.Excel;
 import ph.txtdis.fx.dialog.ProgressDialog;
 
-public class ExcelButton<E> extends FontButton<E> {
+public class ExcelButton<E, K> extends FontButton<E> {
 
-    public ExcelButton(Apped app, DTO<E> dto) {
+    public ExcelButton(Apped app, DTO<E, K> dto) {
         super("\ue810", "Save as Excel...");
         button.setOnAction(event -> {
             new ProgressDialog((Stage) app) {

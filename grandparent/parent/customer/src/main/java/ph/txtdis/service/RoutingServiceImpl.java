@@ -8,5 +8,5 @@ import ph.txtdis.model.Routing;
 
 @Service
 @Transactional()
-public class RoutingServiceImpl extends AbstractIdService<Routing> implements RoutingService {
+public class RoutingServiceImpl extends AbstractService<Routing, Integer> implements RoutingService {
 }

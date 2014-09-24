@@ -9,9 +9,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.dto.StockTakeDTO;
-import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDecimalField;
@@ -21,7 +20,6 @@ import ph.txtdis.model.Quality;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockTakeDTO> {
 
@@ -36,36 +34,33 @@ public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockT
     private void setListeners() {
         itemDTO = App.getContext().getBean(ItemDTO.class);
         itemField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode() == KeyCode.TAB) {
-                int id = itemField.getValue();
-                if (itemDTO.exists(id)) {
-                    actWhenFound(id);
-                } else {
-                    try {
-                        throw new NotFoundException("Item ID No. " + id);
-                    } catch (Exception e) {
-                        actOnError(this, e);
-                    }
-                }
-            }
+            if (event.getCode() == KeyCode.TAB)
+                handleId(itemField.getValue());
         });
     }
 
-    private void actWhenFound(int id) {
-        itemDTO.setId(id);
+    private void handleId(int id) {
+        if (itemDTO.exists(id))
+            handleFound(id);
+        else
+            handleError(this, id);
+    }
+
+    private void handleFound(int id) {
+        itemDTO.setById(id);
         itemField.getNameField().setText(itemDTO.getName());
     }
 
-    private void actOnError(Stage stage, Exception e) {
-        new ErrorDialog(stage, e.getMessage());
+    private void handleError(Stage stage, int id) {
+        new ErrorDialog(stage, "Item ID No. " + id + "\nis not in this database");
         inputNodes.forEach(inputNode -> inputNode.reset());
     }
 
     @Override
     protected List<InputNode<?>> addNodes() {
-        QualityDTO qualityDTO = App.getContext().getBean(QualityDTO.class);
+        QualityRated qualityDTO = App.getContext().getBean(QualityRated.class);
 
-        itemField = new LabeledIdNameField("Item ID", 18);
+        itemField = new LabeledIdNameField("Item ID", 180);
         LabeledComboBox<UomType> uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         LabeledDecimalField qtyField = new LabeledDecimalField("Quantity");
         LabeledComboBox<Quality> qualityCombo = new LabeledComboBox<>("Quality", qualityDTO.list());
@@ -83,8 +78,6 @@ public class StockTakeDialog extends AbstractFieldDialog<StockTakeDetail, StockT
         BigDecimal qty = getInputAtRow(2);
         Quality quality = getInputAtRow(3);
 
-        StockTakeDetail detail = new StockTakeDetail(stockTake, item, uom, qty, quality);
-        detail.setCreatedBy(Login.user());
-        return detail;
+        return new StockTakeDetail(stockTake, item, uom, qty, quality);
     }
 }

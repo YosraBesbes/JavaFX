@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
 
-public interface InvoiceBookletDTO extends AuditedDTO<InvoiceBooklet> {
+public interface InvoiceBookletDTO extends Audited<InvoiceBooklet> {
         
     int getStartId();
     

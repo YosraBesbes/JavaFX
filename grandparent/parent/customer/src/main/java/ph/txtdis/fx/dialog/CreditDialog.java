@@ -13,7 +13,6 @@ import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.fx.input.LabeledIntegerField;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
-import ph.txtdis.util.Login;
 
 public class CreditDialog extends AbstractFieldDialog<CreditDetail, CustomerDTO> {
 
@@ -37,10 +36,8 @@ public class CreditDialog extends AbstractFieldDialog<CreditDetail, CustomerDTO>
         int gracePeriod = getInputAtRow(1);
         BigDecimal limit = getInputAtRow(2);
         LocalDate start = getInputAtRow(3);
-        
-        CreditDetail credit = new CreditDetail(customer, term, gracePeriod, limit, start);
-        credit.setCreatedBy(Login.user());
-        return credit;
+
+        return new CreditDetail(customer, term, gracePeriod, limit, start);
     }
 
     @Override

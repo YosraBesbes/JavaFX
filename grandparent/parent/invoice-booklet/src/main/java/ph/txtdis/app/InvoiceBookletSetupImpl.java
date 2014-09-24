@@ -7,6 +7,7 @@ import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.service.InvoiceBookletService;
 import ph.txtdis.service.UserService;
+import ph.txtdis.util.Login;
 
 @Component
 public class InvoiceBookletSetupImpl implements InvoiceBookletSetup {
@@ -22,16 +23,12 @@ public class InvoiceBookletSetupImpl implements InvoiceBookletSetup {
 
     @Override
     public void start() {
-        SystemUser michelle = userService.get("MICHELLE");
+        Login.setUser(userService.get("MICHELLE"));
         SystemUser dsp1 = userService.get("MICHAEL");
         SystemUser dsp2 = userService.get("PHILLIP");
-        
-        InvoiceBooklet ib1 = new InvoiceBooklet(1, 50, dsp1);
-        ib1.setCreatedBy(michelle);
-        bookletService.save(ib1);
-        
-        InvoiceBooklet ib2 = new InvoiceBooklet(51, 100, dsp2);
-        ib2.setCreatedBy(michelle);
-        bookletService.save(ib2);
+
+        bookletService.save(new InvoiceBooklet(1, 50, dsp1));
+
+        bookletService.save(new InvoiceBooklet(51, 100, dsp2));
     }
 }

@@ -38,9 +38,8 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(InvoicingDTO.class);
+        dto = orderDTO = App.getContext().getBean(InvoicingDTO.class);
         booking = App.getContext().getBean(BookingDTO.class);
-        orderDTO = (InvoicingDTO) dto;
         super.setDTO();
     }
 
@@ -200,7 +199,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     private void checkSalesOrderIsUnused(int bookingId) throws InvalidException {
-        booking.setId(bookingId);
+        booking.setById(bookingId);
         Integer invoiceId = orderDTO.getIdBySalesOrder(booking.get());
         handleUnusedSalesOrderCheck(bookingId, invoiceId);
     }

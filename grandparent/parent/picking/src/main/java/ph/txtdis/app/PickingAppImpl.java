@@ -18,7 +18,6 @@ import ph.txtdis.dto.PickingDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.PrintButton;
-import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.StringDisplay;
 import ph.txtdis.fx.input.StringField;
@@ -33,7 +32,7 @@ import ph.txtdis.model.Truck;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, Referenced<PickList>, Searched {
+public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, Referenced<PickList> {
 
     private PickingDTO picking;
     private UserDTO user;
@@ -49,37 +48,47 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     private StringDisplay printedByDisplay, printedOnDisplay;
 
     public PickingAppImpl() {
-        super("Picking", "P/List");
+        super("Picking", "List");
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        truckCombo.setItems(picking.getEmptyTrucks(getPickerDate()));
+        detailTable.getItems().clear();
+        pickingTable.createTableContextMenu(new ContextMenu());
     }
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(PickingDTO.class);
+        dto = picking = App.getContext().getBean(PickingDTO.class);
+        user = App.getContext().getBean(UserDTO.class);
     }
 
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.replace("search", new SearchByDateButton<Picking>(this, dto).getButton());
         buttons.put("print", new PrintButton<Picking>(this, dto).getButton());
     }
 
     @Override
     public void setFocus() {
-        datePicker.requestFocus();
+        truckCombo.requestFocus();
     }
 
     @Override
     protected Node[] addVBoxNodes() {
-        user = App.getContext().getBean(UserDTO.class);
-        picking = (PickingDTO) dto;
 
         Label idLabel = new Label("ID No.");
         idField = new IdField(picking.getId());
         idField.setEditable(false);
 
         Label dateLabel = new Label("Date");
-        datePicker = new DatePicker(picking.getPickDate());
+        datePicker = new DatePicker(getDate());
+        datePicker.setEditable(false);
+        datePicker.focusTraversableProperty().set(false);
+        datePicker.setValue(getDate());
+        datePicker.setMaxWidth(140);
 
         Label truckLabel = new Label("Truck");
         truckCombo = FX.createComboBox(picking.getEmptyTrucks(getPickerDate()), picking.getTruck());
@@ -133,9 +142,16 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
         return new Node[] { routingBox };
     }
 
+    private LocalDate getDate() {
+        return isNew() ? LocalDate.now() : picking.getPickDate();
+    }
+
+    private boolean isNew() {
+        return idField.getText().isEmpty();
+    }
+
     @Override
     protected void setBindings() {
-        buttons.get("delete").setDisable(true);
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
         buttons.get("print").disableProperty().bind(FX.isEmpty(pickListTable).or(FX.isEmpty(printedByDisplay).not()));
 
@@ -149,15 +165,6 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    protected void setListeners() {
-        datePicker.valueProperty().addListener((date, oldDate, newDate) -> {
-            truckCombo.setItems(picking.getEmptyTrucks(getPickerDate()));
-            detailTable.getItems().clear();
-            pickingTable.createTableContextMenu(new ContextMenu());
-        });
-    }
-
-    @Override
     protected void setUserBox() {
         super.setUserBox();
         userHBox.getChildren().addAll(addPrinterNodes());
@@ -165,9 +172,9 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
 
     private Node[] addPrinterNodes() {
         Label printedByLabel = new Label("Printed By");
-        printedByDisplay = new StringDisplay(DIS.toString(dto.getCreatedBy()));
+        printedByDisplay = new StringDisplay(DIS.toString(picking.getPrintedBy()));
         Label printedOnLabel = new Label("On");
-        printedOnDisplay = new StringDisplay(Util.formatZonedDateTime(dto.getTimeStamp()));
+        printedOnDisplay = new StringDisplay(Util.formatZonedDateTime(picking.getPrintedOn()));
         return new Node[] { printedByLabel, printedByDisplay, printedOnLabel, printedOnDisplay };
     }
 
@@ -182,17 +189,6 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public String setSearchedCriteria() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void listFoundEntities() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
     public void save() throws InvalidException {
         picking.setPickDate(datePicker.getValue());
         picking.setTruck(truckCombo.getValue());
@@ -201,7 +197,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
         picking.setHelper2(helper2Combo.getValue());
         picking.setRemarks(remarkField.getText());
         picking.setDetails(detailTable.getItems());
-        super.save();
+        picking.save();
     }
 
     @Override

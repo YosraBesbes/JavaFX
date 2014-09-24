@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import ph.txtdis.type.ItemType;
 
 @Entity
-public class Item extends AbstractAudited implements Typed {
+public class Item extends AbstractAudited implements Named {
 
     private static final long serialVersionUID = -3012020260825126952L;
 

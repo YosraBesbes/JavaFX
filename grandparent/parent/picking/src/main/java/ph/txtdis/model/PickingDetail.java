@@ -19,7 +19,7 @@ public class PickingDetail extends AbstractAudited {
     private Booking booking;
 
     @Transient
-    private int bookingId;
+    private Integer bookingId;
 
     @Transient
     private String partnerName;
@@ -51,11 +51,11 @@ public class PickingDetail extends AbstractAudited {
         this.booking = booking;
     }
 
-    public int getBookingId() {
+    public Integer getBookingId() {
         return booking == null ? 0 : booking.getId();
     }
 
-    public void setBookingId(int bookingId) {
+    public void setBookingId(Integer bookingId) {
         this.bookingId = bookingId;
     }
 

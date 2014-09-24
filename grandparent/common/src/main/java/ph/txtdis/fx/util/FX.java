@@ -41,7 +41,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.StringUtils;
 
 import ph.txtdis.app.Apped;
-import ph.txtdis.dto.AuditedDTO;
+import ph.txtdis.dto.Audited;
 import ph.txtdis.fx.input.TextStyled;
 import ph.txtdis.fx.tab.ImageStreamed;
 import ph.txtdis.fx.tablecell.BooleanTableCell;
@@ -144,11 +144,11 @@ public class FX {
         return datePicker;
     }
 
-    public static Label createImageLabel(Stage stage, ImageStreamed imageStreamed) {
+    public static Label createImageLabel(Stage stage, ImageStreamed dto) {
         Label imageLabel = new Label();
-        imageLabel.setGraphic(toImageView(imageStreamed.getImageStream()));
+        imageLabel.setGraphic(toImageView(dto.getImageStream()));
         imageLabel.setTooltip(new Tooltip("Double-click to load image"));
-        imageLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, new ImageLoader(stage, imageLabel, imageStreamed));
+        imageLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, new ImageLoader(stage, imageLabel, dto));
         return imageLabel;
     }
 
@@ -166,7 +166,7 @@ public class FX {
     }
 
     public static <S, T> TableColumn<S, T> addDisplayColumn(Stage stage, String name, String field, int minWidth,
-            AuditedDTO<S> dto) {
+            Audited<S> dto) {
         TableColumn<S, T> tableColumn = createColumn(name, field, minWidth);
         tableColumn.setCellFactory(column -> {
             return new DoubleClickTableCell<S, T>(stage, dto);

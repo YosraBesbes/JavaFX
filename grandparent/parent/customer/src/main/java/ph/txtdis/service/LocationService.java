@@ -4,11 +4,11 @@ import java.util.List;
 
 import ph.txtdis.model.Location;
 
-public interface LocationService extends IdService<Location> {
-    
+public interface LocationService extends Serviced<Location, Integer> {
+
     List<Location> listProvinces();
-    
+
     List<Location> listCities();
-    
+
     List<Location> listBarangays();
 }

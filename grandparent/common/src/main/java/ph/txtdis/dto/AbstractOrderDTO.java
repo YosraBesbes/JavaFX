@@ -15,11 +15,11 @@ import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemDetailed;
 import ph.txtdis.model.Route;
-import ph.txtdis.service.StockTakeDependentOrderService;
+import ph.txtdis.service.OrderService;
 
 @Component
-public abstract class AbstractOrderDTO<E extends AbstractOrder<D>, S extends StockTakeDependentOrderService<E, D>, D extends ItemDetailed>
-        extends AbstractSpunByIdDTO<E, S> implements OrderDTO<E, D> {
+public abstract class AbstractOrderDTO<E extends AbstractOrder<D>, S extends OrderService<E, D>, D extends ItemDetailed>
+        extends AbstractSpunById<E, S> implements OrderDTO<E, D> {
 
     @Override
     public int getPartnerId() {
@@ -94,10 +94,5 @@ public abstract class AbstractOrderDTO<E extends AbstractOrder<D>, S extends Sto
     @Override
     public void setDetails(List<D> details) {
         entity.setDetails(details);
-    }
-
-    @Override
-    public boolean isStockTakeOnGoing() {
-        return service.isStockTakeOnGoing();
     }
 }

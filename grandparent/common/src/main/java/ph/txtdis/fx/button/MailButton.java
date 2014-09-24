@@ -8,9 +8,9 @@ import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.mail.ApprovedByMail;
 import ph.txtdis.mail.Mail;
 
-public class MailButton<E> extends FontButton<E> {
+public class MailButton<E, K> extends FontButton<E> {
 
-    public MailButton(Apped app, DTO<E> dto) {
+    public MailButton(Apped app, DTO<E, K> dto) {
         super("\ue80e", "Check Mail...");
         button.setOnAction(event -> {
             new ProgressDialog((Stage) app) {

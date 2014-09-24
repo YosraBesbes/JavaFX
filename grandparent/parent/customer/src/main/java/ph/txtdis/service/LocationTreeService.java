@@ -5,7 +5,7 @@ import java.util.List;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.LocationTree;
 
-public interface LocationTreeService extends IdService<LocationTree> {
+public interface LocationTreeService extends Serviced<LocationTree, Integer> {
 
     List<Location> listCities(Location province);
 

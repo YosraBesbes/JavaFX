@@ -15,7 +15,7 @@ import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.ItemType;
 import ph.txtdis.type.UomType;
 
-public interface ItemDTO extends SearchedDTO<Item, String>, SpunDTO, UniqueDTO, NamedDTO, AuditedDTO<Item> {
+public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Named, Audited<Item> {
 
     ItemType getType();
 

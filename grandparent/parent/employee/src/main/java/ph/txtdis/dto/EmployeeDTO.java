@@ -20,7 +20,7 @@ import ph.txtdis.model.PastWork;
 import ph.txtdis.type.CivilStatus;
 import ph.txtdis.type.FamilyType;
 
-public interface EmployeeDTO extends SearchedDTO<Employee, String>, SpunDTO, AuditedDTO<Employee>, ImageStreamed {
+public interface EmployeeDTO extends SearchedDTO<Employee, String>, Spun, Audited<Employee>, ImageStreamed {
 
     String getSurname();
 

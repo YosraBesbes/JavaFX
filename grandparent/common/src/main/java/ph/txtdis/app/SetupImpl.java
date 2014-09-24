@@ -7,10 +7,14 @@ import ph.txtdis.model.Channel;
 import ph.txtdis.model.ItemFamily;
 import ph.txtdis.model.Quality;
 import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Truck;
+import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.ChannelService;
 import ph.txtdis.service.ItemFamilyService;
 import ph.txtdis.service.QualityService;
+import ph.txtdis.service.TruckService;
 import ph.txtdis.service.UserService;
+import ph.txtdis.service.WarehouseService;
 import ph.txtdis.type.ItemTier;
 import ph.txtdis.type.UserType;
 import ph.txtdis.util.Login;
@@ -30,6 +34,12 @@ public class SetupImpl implements Setup {
     @Autowired
     QualityService qualityService;
 
+    @Autowired
+    TruckService truckService;
+
+    @Autowired
+    WarehouseService warehouseService;
+
     public SetupImpl() {
     }
 
@@ -44,12 +54,12 @@ public class SetupImpl implements Setup {
 
         SystemUser jackie = new SystemUser("JACKIE", "robbie", true);
         jackie.setEmail("manila12@gmail.com");
-        // jackie.setType(UserType.MANAGER);
+        jackie.setType(UserType.MANAGER);
         userService.save(jackie);
 
         SystemUser ronald = new SystemUser("RONALD", "alphacowboy", true);
         ronald.setEmail("ronaldallanso@yahoo.com");
-        // ronald.setType(UserType.MANAGER);
+        ronald.setType(UserType.MANAGER);
         userService.save(ronald);
 
         SystemUser butch = new SystemUser("BUTCH", "attila", true);
@@ -63,13 +73,29 @@ public class SetupImpl implements Setup {
         userService.save(new SystemUser("MENNEN", "Mennen Timbal", true));
         userService.save(new SystemUser("MHON", "NOMAR", true));
         userService.save(new SystemUser("IRENE", "magnum08", true));
-        userService.save(new SystemUser("MICHAEL", "dsp", true));
+
+        userService.save(new SystemUser("OGIE", "dsp", true));
         userService.save(new SystemUser("PHILLIP", "dsp", true));
         userService.save(new SystemUser("BONG", "dsp", true));
-        userService.save(new SystemUser("JEROME", "dsp", true));
+        userService.save(new SystemUser("RANDY", "dsp", true));
         userService.save(new SystemUser("ROBERT", "dsp", true));
         userService.save(new SystemUser("HENRY", "dsp", true));
         userService.save(new SystemUser("ROLAND", "dsp", true));
+
+        truckService.save(new Truck("RDM801"));
+        truckService.save(new Truck("KDL170"));
+        truckService.save(new Truck("WSN519"));
+
+        userService.save(new SystemUser("LARRY", "dsp", true));
+        userService.save(new SystemUser("VICENTE", "dsp", true));
+        userService.save(new SystemUser("NOLI", "dsp", true));
+
+        userService.save(new SystemUser("MARK", "dsp", true));
+        userService.save(new SystemUser("MICHAEL", "dsp", true));
+        userService.save(new SystemUser("TATA", "dsp", true));
+        userService.save(new SystemUser("KEVIN", "dsp", true));
+        userService.save(new SystemUser("JEFF", "dsp", true));
+        userService.save(new SystemUser("RENE", "dsp", true));
 
         channelService.save(new Channel("GROCERY"));
         channelService.save(new Channel("SARI-SARI"));
@@ -100,5 +126,7 @@ public class SetupImpl implements Setup {
         qualityService.save(new Quality("GOOD"));
         qualityService.save(new Quality("HOLD"));
         qualityService.save(new Quality("BAD"));
+
+        warehouseService.save(new Warehouse("EDSA"));
     }
 }

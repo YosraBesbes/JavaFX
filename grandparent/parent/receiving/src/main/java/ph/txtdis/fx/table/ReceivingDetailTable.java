@@ -3,7 +3,7 @@ package ph.txtdis.fx.table;
 import javafx.scene.control.ContextMenu;
 import javafx.stage.Stage;
 import ph.txtdis.App;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.model.ReceivingDetail;
 
@@ -22,7 +22,7 @@ public class ReceivingDetailTable extends AbstractPriceDetailTable<ReceivingDeta
     }
 
     @Override
-    protected QualityDTO getQualityDTO() {
-        return App.getContext().getBean(QualityDTO.class);
+    protected QualityRated getQualityDTO() {
+        return App.getContext().getBean(QualityRated.class);
     }
 }

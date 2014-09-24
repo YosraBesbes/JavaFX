@@ -11,6 +11,8 @@ import javafx.scene.control.TabPane;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.exception.InvalidException;
+import ph.txtdis.fx.button.CancelButton;
+import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundItemDialog;
 import ph.txtdis.fx.tab.ItemTab;
 import ph.txtdis.fx.tab.PricingTab;
@@ -23,6 +25,7 @@ import ph.txtdis.type.ItemType;
 public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
 
     private List<Tab> tabs = new ArrayList<>();
+    private ItemDTO item;
     private ItemTab itemTab;
     private PricingTab pricingTab;
     private VolumeDiscountTab discountTab;
@@ -34,12 +37,19 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(ItemDTO.class);
+        dto = item = App.getContext().getBean(ItemDTO.class);
     }
 
     @Override
     public void setFocus() {
         itemTab.getTab().getTabPane().getSelectionModel().select(0);
+    }
+
+    @Override
+    protected void setButtons() {
+        super.setButtons();
+        buttons.put("cancel", new CancelButton<Item>(this, dto).getButton());
+        buttons.put("search", new SearchByTextButton<Item>(this, dto).getButton());
     }
 
     @Override
@@ -57,7 +67,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
                 .bind(noSelectedType().or(isMonetary()).or(isFree()).or(isPurchasedButNoQtyPerUom())
                         .or(isAssembledButNoBOM()));
         discountTab.getTab().disableProperty().bind(FX.isEmpty(pricingTab.getTable()));
-        buttons.get("delete").setDisable(true);
+        buttons.get("cancel").setDisable(true);
         buttons.get("save")
                 .disableProperty()
                 .bind(FX.isEmpty(itemTab.getIdField()).not().or(noSelectedType())
@@ -101,10 +111,9 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     }
 
     private void tabledTabs() {
-        ItemDTO dto = (ItemDTO) this.dto;
-        itemTab = new ItemTab(this, dto);
-        pricingTab = new PricingTab(this, dto);
-        discountTab = new VolumeDiscountTab(this, dto);
+        itemTab = new ItemTab(this, item);
+        pricingTab = new PricingTab(this, item);
+        discountTab = new VolumeDiscountTab(this, item);
         tabsWithTables = new Tabled[] { itemTab, pricingTab, discountTab };
     }
 
@@ -125,7 +134,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
-        super.save();
+        item.save();
     }
 
     @Override

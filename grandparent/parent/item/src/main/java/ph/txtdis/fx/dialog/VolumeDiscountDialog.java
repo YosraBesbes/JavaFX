@@ -16,7 +16,6 @@ import ph.txtdis.model.Item;
 import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.UomType;
 import ph.txtdis.type.VolumeDiscountType;
-import ph.txtdis.util.Login;
 
 public class VolumeDiscountDialog extends AbstractFieldDialog<VolumeDiscount, ItemDTO> {
 
@@ -45,9 +44,7 @@ public class VolumeDiscountDialog extends AbstractFieldDialog<VolumeDiscount, It
         BigDecimal discount = getInputAtRow(3);
         LocalDate start = getInputAtRow(4);
 
-        VolumeDiscount volumeDiscount = new VolumeDiscount(item, type, uom, cutOff, discount, start);
-        volumeDiscount.setCreatedBy(Login.user());
-        return volumeDiscount;
+        return new VolumeDiscount(item, type, uom, cutOff, discount, start);
     }
 
     @Override

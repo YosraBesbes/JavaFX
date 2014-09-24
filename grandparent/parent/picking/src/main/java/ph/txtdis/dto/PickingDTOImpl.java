@@ -1,6 +1,7 @@
 package ph.txtdis.dto;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import ph.txtdis.service.BookingService;
 import ph.txtdis.service.PickingService;
 
 @Component
-public class PickingDTOImpl extends AbstractSpunByIdDTO<Picking, PickingService> implements PickingDTO {
+public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> implements PickingDTO {
 
     @Autowired
     private BookingService bookingService;
@@ -101,6 +102,26 @@ public class PickingDTOImpl extends AbstractSpunByIdDTO<Picking, PickingService>
     @Override
     public void setDetails(List<PickingDetail> details) {
         entity.setDetails(details);
+    }
+
+    @Override
+    public SystemUser getPrintedBy() {
+        return entity.getPrintedBy();
+    }
+
+    @Override
+    public void setPrintedBy(SystemUser printedBy) {
+        entity.setPrintedBy(printedBy);
+    }
+
+    @Override
+    public ZonedDateTime getPrintedOn() {
+        return entity.getPrintedOn();
+    }
+
+    @Override
+    public void setPrintedOn(ZonedDateTime printedOn) {
+        entity.setPrintedOn(printedOn);
     }
 
     @Override

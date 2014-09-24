@@ -1,6 +1,5 @@
 package ph.txtdis.app;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
@@ -52,7 +51,7 @@ import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
 import ph.txtdis.util.Util;
 
-public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconciliation> implements
+public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconciliation, LocalDate> implements
         Referenced<StockTakeReconciliation>, ApprovedByMail, Excel {
 
     private CheckBox approvalCheckBox;
@@ -65,9 +64,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
             reconciledByDisplay, reconciledOnDisplay, mailedByDisplay, mailedOnDisplay, approvedByDisplay,
             approvedOnDisplay, retrievedByDisplay, retrievedOnDisplay;
     private SystemUser txtDIS;
-    private UserDTO user;
-
     private TableView<StockTakeReconciliationFilteredDetail> detailTable;
+    private UserDTO user;
 
     public StockTakeReconciliationAppImpl() {
         super("Stock Take Reconciliation", "Date");
@@ -88,7 +86,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private boolean isLatestClosed() {
-        return reconciliation.getLatestDate() != null && !stockTakeDate.isEqual(reconciliation.getLatestDate());
+        return reconciliation.getMaxId() != null && !stockTakeDate.isEqual(reconciliation.getMaxId());
     }
 
     private boolean isLatestForClosing() {
@@ -98,12 +96,12 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.put("back", new BackButton<StockTakeReconciliation>(this, dto).getButton());
+        buttons.put("back", new BackButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
         buttons.put("open", new SearchByDateButton<StockTakeReconciliation>(this, dto).getButton());
-        buttons.put("next", new NextButton<StockTakeReconciliation>(this, dto).getButton());
-        buttons.put("save", new SaveButton<StockTakeReconciliation>(this, dto).getButton());
-        buttons.put("excel", new ExcelButton<StockTakeReconciliation>(this, dto).getButton());
-        buttons.put("mail", new MailButton<StockTakeReconciliation>(this, dto).getButton());
+        buttons.put("next", new NextButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("save", new SaveButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("excel", new ExcelButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("mail", new MailButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
     }
 
     @Override
@@ -115,7 +113,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     protected void setDTO() {
         adjustment = App.getContext().getBean(StockTakeAdjustmentDTO.class);
         user = App.getContext().getBean(UserDTO.class);
-        reconciliation.setByIdDate(stockTakeDate);
+        reconciliation.setById(stockTakeDate);
         dto = reconciliation;
     }
 
@@ -258,11 +256,11 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private String getRetrievedBy() {
-        return DIS.toString(reconciliation.getRetrievedBy());
+        return DIS.toString(reconciliation.getCompletedBy());
     }
 
     private String getRetrievedOn() {
-        return Util.formatZonedDateTime(reconciliation.getRetrievedOn());
+        return Util.formatZonedDateTime(reconciliation.getCompleteOn());
     }
 
     @Override
@@ -300,7 +298,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
 
     @Override
     protected String titleName() {
-        return module + reconciliation.getIdDate();
+        return module + reconciliation.getId();
     }
 
     @Override
@@ -308,6 +306,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         ensureVariancesAreJustified();
         saveAdjustments();
         saveAsExcel();
+        if (mailedByDisplay.getText().isEmpty())
+            getApproval();
     }
 
     private void ensureVariancesAreJustified() throws InvalidException {
@@ -322,7 +322,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
 
     private void saveAdjustments() throws InvalidException {
         for (StockTakeReconciliationFilteredDetail item : detailTable.getItems()) {
-            adjustment.set(new StockTakeAdjustment(reconciliation.getIdDate(), item.getItem(), item.getQuality(), item
+            adjustment.set(new StockTakeAdjustment(reconciliation.getId(), item.getItem(), item.getQuality(), item
                     .getAdjustmentQty(), item.getJustification()));
             adjustment.save();
         }
@@ -338,15 +338,13 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     @Override
     public void saveAsExcel() {
         new ExcelWriter<StockTakeReconciliationFilteredDetail>(detailTable, module, getPrimaryKey());
-        if (mailedByDisplay.getText().isEmpty())
-            getApproval();
     }
 
-    private void getApproval() {
+    private void getApproval() throws InvalidException {
         try {
             setMail();
         } catch (MailNotSentException e) {
-            new ErrorDialog(this, e.getMessage());
+            throw new InvalidException(e.getMessage());
         }
     }
 
@@ -371,7 +369,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     public void sendMail() throws MailNotSentException {
         try {
             new MailSender(txtDIS, module, getPrimaryKey(), addresses);
-        } catch (UnsupportedEncodingException | MessagingException e) {
+        } catch (Exception e) {
             throw new MailNotSentException();
         }
     }
@@ -410,8 +408,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private void updateRetrievalStamps() {
-        reconciliation.setRetrievedBy(Login.user());
-        reconciliation.setRetrievedOn(ZonedDateTime.now());
+        reconciliation.setCompletedBy(Login.user());
+        reconciliation.setCompleteOn(ZonedDateTime.now());
     }
 
     @Override
@@ -446,6 +444,6 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private String getPrimaryKey() {
-        return Util.formatDate(reconciliation.getIdDate());
+        return Util.formatDate(reconciliation.getId());
     }
 }

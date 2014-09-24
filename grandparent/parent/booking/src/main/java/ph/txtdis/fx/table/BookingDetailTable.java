@@ -3,7 +3,7 @@ package ph.txtdis.fx.table;
 import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.fx.dialog.BookingDialog;
 import ph.txtdis.model.BookingDetail;
 
@@ -20,7 +20,7 @@ public class BookingDetailTable extends AbstractPriceDetailTable<BookingDetail, 
     }
 
     @Override
-    protected QualityDTO getQualityDTO() {
-        return App.getContext().getBean(QualityDTO.class);
+    protected QualityRated getQualityDTO() {
+        return App.getContext().getBean(QualityRated.class);
     }
 }

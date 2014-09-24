@@ -4,6 +4,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.PurchasingDTO;
+import ph.txtdis.fx.button.CancelButton;
 import ph.txtdis.fx.table.PurchasingDetailTable;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.Purchasing;
@@ -17,8 +18,7 @@ public class PurchasingAppImpl extends AbstractOrderApp<Purchasing, PurchasingDe
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(PurchasingDTO.class);
-        orderDTO = (PurchasingDTO) dto;
+        dto = orderDTO = App.getContext().getBean(PurchasingDTO.class);
         super.setDTO();
     }
 
@@ -30,6 +30,12 @@ public class PurchasingAppImpl extends AbstractOrderApp<Purchasing, PurchasingDe
     @Override
     public void setItemDTO() {
         item = App.getContext().getBean(ItemDTO.class);
+    }
+
+    @Override
+    protected void setButtons() {
+        super.setButtons();
+        buttons.put("cancel", new CancelButton<Purchasing>(this, dto).getButton());
     }
 
     @Override

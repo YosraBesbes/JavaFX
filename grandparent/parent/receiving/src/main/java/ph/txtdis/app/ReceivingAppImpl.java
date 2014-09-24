@@ -14,7 +14,7 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
 import ph.txtdis.dto.PurchasingDTO;
-import ph.txtdis.dto.QualityDTO;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.exception.InvalidException;
@@ -37,7 +37,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     private PurchasingDTO purchasing;
     private BookingDTO booking;
     private UserDTO user;
-    private QualityDTO quality;
+    private QualityRated quality;
 
     private ComboBox<ReceivingReferenceType> referenceCombo;
     private ComboBox<SystemUser> checkerCombo;
@@ -52,11 +52,10 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(ReceivingDTO.class);
+        dto = orderDTO = App.getContext().getBean(ReceivingDTO.class);
         booking = App.getContext().getBean(BookingDTO.class);
         purchasing = App.getContext().getBean(PurchasingDTO.class);
         user = App.getContext().getBean(UserDTO.class);
-        orderDTO = (ReceivingDTO) dto;
         super.setDTO();
     }
 
@@ -200,7 +199,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void verifyPurchaseOrder(int id) throws NotFoundException {
         if (purchasing.exists(id)) {
-            purchasing.setId(id);
+            purchasing.setById(id);
             populateFields((OrderDTO) purchasing);
         } else
             throw new NotFoundException("P/O No. " + id);
@@ -209,7 +208,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void verifySalesOrder(int id) throws NotFoundException {
         if (booking.exists(id)) {
-            booking.setId(id);
+            booking.setById(id);
             populateFields((OrderDTO) booking);
         } else
             throw new NotFoundException("S/O No. " + id);

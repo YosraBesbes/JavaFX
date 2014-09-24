@@ -20,7 +20,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.SystemUser;
 
-public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet> {
+public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> {
 
     private TableView<InvoiceBooklet> table;
 

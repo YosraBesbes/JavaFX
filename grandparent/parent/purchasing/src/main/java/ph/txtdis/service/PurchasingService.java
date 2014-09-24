@@ -3,5 +3,5 @@ package ph.txtdis.service;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
 
-public interface PurchasingService extends StockTakeDependentOrderService<Purchasing, PurchasingDetail> {
+public interface PurchasingService extends OrderService<Purchasing, PurchasingDetail> {
 }

@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 import ph.txtdis.App;
 import ph.txtdis.dto.EmployeeDTO;
 import ph.txtdis.exception.InvalidException;
+import ph.txtdis.fx.button.CancelButton;
+import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundEmployeeDialog;
 import ph.txtdis.fx.tab.CurrentJobTab;
 import ph.txtdis.fx.tab.DisciplineTab;
@@ -26,6 +28,7 @@ import ph.txtdis.model.Employee;
 
 public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched {
 
+    private EmployeeDTO employee;
     private List<Tab> tabs = new ArrayList<>();
     private PersonalTab personalTab;
     private Tabled[] tabsWithTables;
@@ -36,7 +39,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(EmployeeDTO.class);
+        dto = employee = App.getContext().getBean(EmployeeDTO.class);
     }
 
     @Override
@@ -52,6 +55,13 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
         TabPane tabPane = tab.getTabPane();
         tabPane.getSelectionModel().select(0);
         personalTab.getSurnameField().requestFocus();
+    }
+
+    @Override
+    protected void setButtons() {
+        super.setButtons();
+        buttons.put("cancel", new CancelButton<Employee>(this, dto).getButton());
+        buttons.put("search", new SearchByTextButton<Employee>(this, dto).getButton());
     }
 
     @Override
@@ -75,16 +85,15 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
     protected void setBindings() {
         for (Tab tab : tabs)
             tab.disableProperty().bind(isSurnameOrNameEmpty());
-        buttons.get("delete").disableProperty().bind(personalTab.getIdField().textProperty().isEmpty());
+        buttons.get("cancel").disableProperty().bind(FX.isEmpty(personalTab.getIdField()));
         buttons.get("save").disableProperty().bind(isSurnameOrNameEmpty());
     }
 
     private void tabledTabs() {
-        EmployeeDTO dto = (EmployeeDTO) this.dto;
-        personalTab = new PersonalTab(this, dto);
-        tabsWithTables = new Tabled[] { personalTab, new GovtIdTab(this, dto), new FamilyTab(this, dto),
-                new EducationTab(this, dto), new PastWorkTab(this, dto), new CurrentJobTab(this, dto),
-                new LeaveLoanTab(this, dto), new DisciplineTab(this, dto) };
+        personalTab = new PersonalTab(this, employee);
+        tabsWithTables = new Tabled[] { personalTab, new GovtIdTab(this, employee), new FamilyTab(this, employee),
+                new EducationTab(this, employee), new PastWorkTab(this, employee), new CurrentJobTab(this, employee),
+                new LeaveLoanTab(this, employee), new DisciplineTab(this, employee) };
     }
 
     private void tabs() {
@@ -110,6 +119,6 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
     public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
-        super.save();
+        employee.save();
     }
 }
