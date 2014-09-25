@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ph.txtdis.App;
+import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.PickingDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.exception.InvalidException;
@@ -29,11 +30,14 @@ import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
+import ph.txtdis.printer.PicklistPrinter;
+import ph.txtdis.printer.SalesOrderPrinter;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
 public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, Referenced<PickList> {
 
+    private BookingDTO booking;
     private PickingDTO picking;
     private UserDTO user;
 
@@ -62,6 +66,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     @Override
     protected void setDTO() {
         dto = picking = App.getContext().getBean(PickingDTO.class);
+        booking = App.getContext().getBean(BookingDTO.class);
         user = App.getContext().getBean(UserDTO.class);
     }
 
@@ -184,8 +189,12 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void print() {
-        // TODO Auto-generated method stub
+    public void print() throws InvalidException {
+        for (PickingDetail detail : picking.getDetails()) {
+            booking.set(detail.getBooking());
+            new SalesOrderPrinter(booking);
+        }
+        new PicklistPrinter(picking);
     }
 
     @Override
@@ -213,6 +222,8 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
         detailTable.getItems().addAll(picking.getDetails());
         pickListTable.getItems().clear();
         pickListTable.getItems().addAll(picking.getPickList());
+        printedByDisplay.setText(DIS.toString(picking.getPrintedBy()));
+        printedOnDisplay.setText(Util.formatZonedDateTime(picking.getPrintedOn()));
         super.refresh();
     }
 

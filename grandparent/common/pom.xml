@@ -8,4 +8,11 @@
 	</parent>
 	<artifactId>common</artifactId>
 	<name>JavaFX UI</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.neuronrobotics</groupId>
+			<artifactId>nrjavaserial</artifactId>
+			<version>3.9.3</version>
+		</dependency>
+	</dependencies>
 </project>

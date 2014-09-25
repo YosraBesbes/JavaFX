@@ -56,7 +56,7 @@ public class ItemTab extends AbstractTab<Item, ItemDTO> {
         idField.setEditable(false);
 
         Label nameLabel = new Label("Name");
-        nameField = new StringField(dto.getName(), 18);
+        nameField = new StringField(dto.getName(), 180);
 
         Label descriptionLabel = new Label("Description");
         descriptionField = new StringField(dto.getDescription());

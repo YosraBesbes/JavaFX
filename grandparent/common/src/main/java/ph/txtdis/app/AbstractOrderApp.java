@@ -199,9 +199,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         remarkField.setText(orderDTO.getRemarks());
         detailTableItems = orderDTO.getDetails();
         populateFields((OrderDTO) orderDTO);
-        // if (orderDTO.isStockTakeOnGoing())
-        // throw new
-        // InvalidException("No posting's allowed;\nstock take's on-going");
         super.refresh();
     }
 

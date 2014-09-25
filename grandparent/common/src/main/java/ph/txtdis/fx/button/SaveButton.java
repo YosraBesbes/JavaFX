@@ -22,7 +22,7 @@ public class SaveButton<E, K> extends FontButton<E> {
         button.setOnAction(event -> {
 
             new ProgressDialog((Stage) app) {
-                Exception e;
+                private Exception e;
 
                 @Override
                 protected void begin() {
@@ -38,9 +38,8 @@ public class SaveButton<E, K> extends FontButton<E> {
                     if (e == null) {
                         app.refresh();
                         new InfoDialog((Stage) app, "Successfully posted data of\n" + getIdAndName(app, dto));
-                    } else {
+                    } else
                         new ErrorDialog(stage, e.getMessage());
-                    }
                 }
 
                 private String getIdAndName(Apped app, DTO<E, K> dto) {

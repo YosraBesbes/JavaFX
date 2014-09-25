@@ -9,8 +9,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.CustomerSetup;
-import ph.txtdis.app.Setup;
 import ph.txtdis.fx.dialog.ChangePasswordDialog;
 import ph.txtdis.fx.dialog.LoginDialog;
 import ph.txtdis.fx.dialog.MainDialog;
@@ -34,8 +32,8 @@ public class App extends Application {
             @Override
             protected void begin() {
                 context = SpringApplication.run(App.class);
-                context.getBean(Setup.class).start();
-                context.getBean(CustomerSetup.class).start();
+                // context.getBean(Setup.class).start();
+                // context.getBean(CustomerSetup.class).start();
                 title = getParameters().getRaw().get(0);
                 userService = context.getBean(UserService.class);
             }
@@ -46,19 +44,19 @@ public class App extends Application {
                 loginDialog.showAndWait();
                 if (loginDialog.isValid())
                     switch (loginDialog.getType()) {
-                    case LOGIN:
-                        new MainDialog(context).showAndWait();
-                        break;
-                    case SERVER:
-                        next();
-                        break;
-                    case CHANGE:
-                        ChangePasswordDialog pd = new ChangePasswordDialog(userService);
-                        pd.showAndWait();
-                        next();
-                        break;
-                    default:
-                        break;
+                        case LOGIN:
+                            new MainDialog(context).showAndWait();
+                            break;
+                        case SERVER:
+                            next();
+                            break;
+                        case CHANGE:
+                            ChangePasswordDialog pd = new ChangePasswordDialog(userService);
+                            pd.showAndWait();
+                            next();
+                            break;
+                        default:
+                            break;
                     }
             }
         };

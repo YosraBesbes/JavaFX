@@ -1,5 +1,8 @@
 package ph.txtdis.app;
 
+import ph.txtdis.exception.InvalidException;
+
 public interface Printed extends Apped {
-    void print();
+
+    void print() throws InvalidException;
 }

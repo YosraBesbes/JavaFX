@@ -14,8 +14,8 @@ public class ItemNameTable {
     public ItemNameTable(Stage stage, ItemDTO dto) {
         table = new TableView<>();
         TableColumn<Item, Long> idCol = FX.addDisplayColumn(stage, "ID", "id", 50, dto);
-        TableColumn<Item, String> nameCol = FX.addDisplayColumn(stage, "Name", "name", 120, dto);
-        TableColumn<Item, String> descriptionCol = FX.addDisplayColumn(stage, "Description", "description", 240, dto);
+        TableColumn<Item, String> nameCol = FX.addDisplayColumn(stage, "Name", "name", 180, dto);
+        TableColumn<Item, String> descriptionCol = FX.addDisplayColumn(stage, "Description", "description", 320, dto);
         table.getColumns().addAll(idCol, nameCol, descriptionCol);
     }
 
