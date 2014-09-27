@@ -7,7 +7,7 @@ import ph.txtdis.app.Apped;
 import ph.txtdis.dto.AbstractSpunByDate;
 import ph.txtdis.dto.Audited;
 import ph.txtdis.dto.DTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
@@ -28,18 +28,18 @@ public class SaveButton<E, K> extends FontButton<E> {
                 protected void begin() {
                     try {
                         app.save();
-                    } catch (InvalidException e) {
+                    } catch (TxtdisException e) {
                         this.e = e;
                     }
                 }
 
                 @Override
                 protected void next() {
-                    if (e == null) {
-                        app.refresh();
+                    if (e == null)
                         new InfoDialog((Stage) app, "Successfully posted data of\n" + getIdAndName(app, dto));
-                    } else
+                    else
                         new ErrorDialog(stage, e.getMessage());
+                    app.refresh();
                 }
 
                 private String getIdAndName(Apped app, DTO<E, K> dto) {

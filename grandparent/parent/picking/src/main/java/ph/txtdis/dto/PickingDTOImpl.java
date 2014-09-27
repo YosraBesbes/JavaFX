@@ -105,26 +105,6 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     }
 
     @Override
-    public SystemUser getPrintedBy() {
-        return entity.getPrintedBy();
-    }
-
-    @Override
-    public void setPrintedBy(SystemUser printedBy) {
-        entity.setPrintedBy(printedBy);
-    }
-
-    @Override
-    public ZonedDateTime getPrintedOn() {
-        return entity.getPrintedOn();
-    }
-
-    @Override
-    public void setPrintedOn(ZonedDateTime printedOn) {
-        entity.setPrintedOn(printedOn);
-    }
-
-    @Override
     public List<PickList> getPickList() {
         return service.generatePickList(id);
     }
@@ -153,5 +133,25 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     @Override
     public PickListPrinting getPrintedPickList(Picking picking) {
         return service.getPrintedPickList(picking);
+    }
+
+    @Override
+    public SystemUser getPrintedBy() {
+        return entity.getPrintedBy();
+    }
+
+    @Override
+    public void setPrintedBy(SystemUser printedBy) {
+        entity.setPrintedBy(printedBy);
+    }
+
+    @Override
+    public ZonedDateTime getPrintedOn() {
+        return entity.getPrintedOn();
+    }
+
+    @Override
+    public void setPrintedOn(ZonedDateTime printedOn) {
+        entity.setPrintedOn(printedOn);
     }
 }

@@ -32,8 +32,6 @@ public class App extends Application {
             @Override
             protected void begin() {
                 context = SpringApplication.run(App.class);
-                // context.getBean(Setup.class).start();
-                // context.getBean(CustomerSetup.class).start();
                 title = getParameters().getRaw().get(0);
                 userService = context.getBean(UserService.class);
             }

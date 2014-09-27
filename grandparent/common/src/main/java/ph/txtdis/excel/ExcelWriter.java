@@ -12,6 +12,7 @@ import javafx.scene.control.TableView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -25,8 +26,9 @@ import ph.txtdis.util.DIS;
 
 public class ExcelWriter<I> {
 
-    private CellStyle titleStyle, headerStyle, textStyle, idStyle, integerStyle, decimalStyle, dateStyle;
-    private Font normalFont, titleFont, boldFont;
+    private CellStyle titleStyle, headerStyle, rightStyle, redStyle, centerStyle, leftStyle, idStyle, integerStyle,
+            decimalStyle, dateStyle;
+    private Font normalFont, redFont, titleFont, boldFont;
     private DataFormat format;
     private HSSFWorkbook workbook;
 
@@ -41,13 +43,10 @@ public class ExcelWriter<I> {
         setFonts();
         setCellStyles();
 
-        int width = table.getColumns().size();
         ArrayList<String> getters = new ArrayList<>();
         addHeader(table.getColumns(), sheet, headerStyle, getters);
         sheet.createFreezePane(0, 1, 0, 1);
-
         populateRows(table.getItems(), sheet, getters);
-        resizeColumns(sheet, width);
 
         try {
             String file = System.getProperty("user.home") + "\\Desktop\\" + module + "." + id + ".xls";
@@ -60,6 +59,7 @@ public class ExcelWriter<I> {
 
     private void setFonts() {
         setTitleFont();
+        setRedFont();
         setBoldFont();
         setNormalFont();
     }
@@ -84,6 +84,13 @@ public class ExcelWriter<I> {
         normalFont.setFontHeightInPoints((short) 11);
     }
 
+    private void setRedFont() {
+        redFont = workbook.createFont();
+        redFont.setFontName("Calibri");
+        redFont.setFontHeightInPoints((short) 11);
+        redFont.setColor(HSSFColor.RED.index);
+    }
+
     private void setCellStyles() {
         setTitleStyle();
         setHeaderStyle();
@@ -91,7 +98,10 @@ public class ExcelWriter<I> {
         setIdStyle();
         setDecimalStyle();
         setDateStyle();
-        setTextStyle();
+        setRightStyle();
+        setLeftStyle();
+        setCenterStyle();
+        setRedStyle();
     }
 
     private void setTitleStyle() {
@@ -111,13 +121,15 @@ public class ExcelWriter<I> {
         headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
         headerStyle.setFont(boldFont);
         headerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        headerStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         headerStyle.setLocked(true);
+        headerStyle.setWrapText(true);
     }
 
     private void setIntegerStyle() {
         integerStyle = workbook.createCellStyle();
         integerStyle.setFont(normalFont);
-        integerStyle.setDataFormat(format.getFormat("#,##0"));
+        integerStyle.setDataFormat(format.getFormat("#,##0;[Red](#,##0)"));
         integerStyle.setAlignment(CellStyle.ALIGN_RIGHT);
         integerStyle.setLocked(true);
     }
@@ -133,16 +145,37 @@ public class ExcelWriter<I> {
     private void setDecimalStyle() {
         decimalStyle = workbook.createCellStyle();
         decimalStyle.setFont(normalFont);
-        decimalStyle.setDataFormat(format.getFormat("#,##0.00"));
+        decimalStyle.setDataFormat(format.getFormat("#,##0.00;[Red](#,##0.00)"));
         decimalStyle.setAlignment(CellStyle.ALIGN_RIGHT);
         decimalStyle.setLocked(true);
     }
 
-    private void setTextStyle() {
-        textStyle = workbook.createCellStyle();
-        textStyle.setFont(normalFont);
-        textStyle.setAlignment(CellStyle.ALIGN_LEFT);
-        textStyle.setLocked(true);
+    private void setRedStyle() {
+        redStyle = workbook.createCellStyle();
+        redStyle.setFont(redFont);
+        redStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+        redStyle.setLocked(true);
+    }
+
+    private void setRightStyle() {
+        rightStyle = workbook.createCellStyle();
+        rightStyle.setFont(normalFont);
+        rightStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+        rightStyle.setLocked(true);
+    }
+
+    private void setCenterStyle() {
+        centerStyle = workbook.createCellStyle();
+        centerStyle.setFont(normalFont);
+        centerStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        centerStyle.setLocked(true);
+    }
+
+    private void setLeftStyle() {
+        leftStyle = workbook.createCellStyle();
+        leftStyle.setFont(normalFont);
+        leftStyle.setAlignment(CellStyle.ALIGN_LEFT);
+        leftStyle.setLocked(true);
     }
 
     private void setDateStyle() {
@@ -162,13 +195,9 @@ public class ExcelWriter<I> {
     private void addHeader(List<TableColumn<I, ?>> columns, Sheet sheet, CellStyle headerStyle,
             ArrayList<String> getters) {
         Row row = sheet.createRow(0);
-        populateHeader(columns, headerStyle, getters, row);
-    }
-
-    private void populateHeader(List<TableColumn<I, ?>> columns, CellStyle headerStyle, ArrayList<String> getters,
-            Row row) {
         for (int i = 0; i < columns.size(); i++) {
             TableColumn<I, ?> column = columns.get(i);
+            sheet.setColumnWidth(i, (int) (column.getWidth() / 10 + 2) * 256);
             addCell(headerStyle, row, i, column);
             getters.add("get" + StringUtils.capitalize(column.getId()));
         }
@@ -200,6 +229,10 @@ public class ExcelWriter<I> {
             setIdValue(cell, object);
         else if (getter.contains("Qty"))
             setQtyValue(cell, object);
+        else if (getter.contains("Type"))
+            setCenterValue(cell, object);
+        else if (getter.contains("Level"))
+            setRightValue(cell, object);
         else
             setTextValue(cell, object);
     }
@@ -215,14 +248,21 @@ public class ExcelWriter<I> {
         cell.setCellStyle(integerStyle);
     }
 
-    private void setTextValue(Cell cell, Object object) {
+    private void setCenterValue(Cell cell, Object object) {
         cell.setCellValue(DIS.toString(object));
-        cell.setCellStyle(textStyle);
+        cell.setCellStyle(centerStyle);
     }
 
-    private void resizeColumns(Sheet sheet, int width) {
-        for (int i = 0; i < width; i++)
-            sheet.autoSizeColumn(i);
+    private void setRightValue(Cell cell, Object object) {
+        String text = DIS.toString(object);
+        cell.setCellValue(text);
+        cell.setCellStyle(text.contains(">") ? redStyle : rightStyle);
+    }
+
+    private void setTextValue(Cell cell, Object object) {
+        String text = DIS.toString(object);
+        cell.setCellValue(text);
+        cell.setCellStyle(text.contains(">") ? rightStyle : leftStyle);
     }
 
     private void writeWorkbook(String file) throws FileNotFoundException, IOException {

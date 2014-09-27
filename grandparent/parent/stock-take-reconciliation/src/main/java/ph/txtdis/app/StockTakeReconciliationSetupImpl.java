@@ -11,6 +11,7 @@ import ph.txtdis.service.PickingService;
 import ph.txtdis.service.ReceivingService;
 import ph.txtdis.service.StockTakeReconciliationService;
 import ph.txtdis.service.UserService;
+import ph.txtdis.util.Login;
 
 @Component
 public class StockTakeReconciliationSetupImpl implements StockTakeReconciliationSetup {
@@ -35,7 +36,8 @@ public class StockTakeReconciliationSetupImpl implements StockTakeReconciliation
 
         LocalDate date1 = LocalDate.ofEpochDay(0);
         LocalDate date2 = LocalDate.parse("2014-09-01");
-        SystemUser user = userService.get("SYSGEN");
+        SystemUser user = userService.get("BUTCH");
+        Login.setUser(user);
 
         reconService.save(new StockTakeReconciliation(user, date2));
 

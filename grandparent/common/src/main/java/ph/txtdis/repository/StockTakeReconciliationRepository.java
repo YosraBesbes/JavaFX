@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import ph.txtdis.model.Inventory;
 import ph.txtdis.model.StockTakeDependent;
 import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.model.StockTakeReconciliationDetail;
@@ -54,4 +55,22 @@ public interface StockTakeReconciliationRepository extends CrudRepository<StockT
             + "from StockTakeReconciliation s where s.id = "
             + "(select max(st.id) from StockTakeReconciliation st where st.completedBy is not null)")
     TransactionStamp getLatestCompletedStockTakeCompletionStamp();
+
+    @Query("select new ph.txtdis.model.Inventory(i, q, "
+            + "(select sum(s.qty) from StockTakeSummary s where s.stockTakeDate = ?1 "
+            + "    and i = s.item and q = s.quality group by s.item, s.quality), "
+
+            + "(select s.qty from StockTakeAdjustment s where s.stockTakeDate = ?1 and i = s.item and q = s.quality), "
+
+            + "(select sum(s.qty) from ReceivingSummary s where s.orderDate between ?1 and ?2 "
+            + "    and i = s.item and q = s.quality group by s.item, s.quality), "
+
+            + "(select sum(s.qty) from PickingSummary s where s.pickDate between ?1 and ?2 "
+            + "    and i = s.item and q = s.quality group by s.item, s.quality),"
+
+            + "(select sum(s.qty)/26 from InvoicingSummary s where s.orderDate between ?3 and ?2 "
+            + "    and i = s.item and q = s.quality group by s.item, s.quality))"
+
+            + " from Item i, Quality q order by i.id, q.id")
+    List<Inventory> getInventory(LocalDate startDate, LocalDate endDate, LocalDate cutoffDate);
 }

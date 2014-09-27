@@ -21,8 +21,8 @@ import javafx.stage.Stage;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.MonetaryDisplay;
@@ -180,7 +180,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));

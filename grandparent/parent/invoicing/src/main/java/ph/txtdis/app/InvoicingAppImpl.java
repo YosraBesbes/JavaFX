@@ -13,7 +13,7 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
@@ -91,7 +91,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         orderDTO.setBooking(booking.get(bookingIdField.getIdNo()));
         super.save();
     }
@@ -154,35 +154,35 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         try {
             checkForDuplicateId();
             ;
-        } catch (InvalidException e) {
+        } catch (TxtdisException e) {
             handleError(e);
         }
     }
 
-    private void handleError(InvalidException e) {
+    private void handleError(TxtdisException e) {
         new ErrorDialog(this, e.getMessage());
         refresh();
     }
 
-    private void checkForDuplicateId() throws InvalidException {
+    private void checkForDuplicateId() throws TxtdisException {
         if (orderDTO.exists(id))
-            throw new InvalidException("S/I No. " + id + "\nhas been used");
+            throw new TxtdisException("S/I No. " + id + "\nhas been used");
         else
             checkIdInIssuedBooklet();
     }
 
-    private void checkIdInIssuedBooklet() throws InvalidException {
+    private void checkIdInIssuedBooklet() throws TxtdisException {
         InvoiceBooklet booklet = orderDTO.getBooklet(id);
         if (booklet == null)
-            throw new InvalidException("S/I No. " + id + "\nis not in any issued booklet");
+            throw new TxtdisException("S/I No. " + id + "\nis not in any issued booklet");
         else
             checkIdIsNextToLast(booklet);
     }
 
-    private void checkIdIsNextToLast(InvoiceBooklet booklet) throws InvalidException {
+    private void checkIdIsNextToLast(InvoiceBooklet booklet) throws TxtdisException {
         int nextToLastId = getNextToLastId(booklet);
         if (nextToLastId != id)
-            throw new InvalidException("S/I No. " + nextToLastId + "\nmust be used first");
+            throw new TxtdisException("S/I No. " + nextToLastId + "\nmust be used first");
     }
 
     private int getNextToLastId(InvoiceBooklet booklet) {
@@ -191,25 +191,25 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         return lastId == null ? startId : lastId.intValue() + 1;
     }
 
-    private void verifySalesOrder(int id) throws NotFoundException, InvalidException {
+    private void verifySalesOrder(int id) throws NotFoundException, TxtdisException {
         if (booking.exists(id))
             checkSalesOrderIsUnused(id);
         else
             throw new NotFoundException("S/O No. " + id);
     }
 
-    private void checkSalesOrderIsUnused(int bookingId) throws InvalidException {
+    private void checkSalesOrderIsUnused(int bookingId) throws TxtdisException {
         booking.setById(bookingId);
         Integer invoiceId = orderDTO.getIdBySalesOrder(booking.get());
         handleUnusedSalesOrderCheck(bookingId, invoiceId);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void handleUnusedSalesOrderCheck(int bookingId, Integer invoiceId) throws InvalidException {
+    private void handleUnusedSalesOrderCheck(int bookingId, Integer invoiceId) throws TxtdisException {
         if (invoiceId == null)
             populateFields((OrderDTO) booking);
         else
-            throw new InvalidException("S/O No. " + bookingId + "\nhas been used in\nS/I No. " + invoiceId);
+            throw new TxtdisException("S/O No. " + bookingId + "\nhas been used in\nS/I No. " + invoiceId);
     }
 
     @Override

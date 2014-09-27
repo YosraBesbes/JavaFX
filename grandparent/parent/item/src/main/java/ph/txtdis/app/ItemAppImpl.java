@@ -10,7 +10,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.button.CancelButton;
 import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundItemDialog;
@@ -131,7 +131,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         for (Tabled t : tabsWithTables)
             t.save();
         item.save();

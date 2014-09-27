@@ -31,5 +31,6 @@
     	<module>main-menu</module>
     	<module>employee</module>
     	<module>stock-take-reconciliation</module>
+    	<module>inventory</module>
     </modules>
 </project>

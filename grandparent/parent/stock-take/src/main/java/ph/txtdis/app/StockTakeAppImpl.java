@@ -16,7 +16,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.dto.WarehouseDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.dialog.CurrentStockTakeClosureOptionDialog;
 import ph.txtdis.fx.dialog.CutoffOptionDialog;
 import ph.txtdis.fx.dialog.ErrorDialog;
@@ -118,21 +118,21 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
         datePicker.setOnAction(event -> {
             try {
                 handleDateChange(datePicker.getValue());
-            } catch (InvalidException e) {
+            } catch (TxtdisException e) {
                 new ErrorDialog(this, e.getMessage());
                 refresh();
             }
         });
     }
 
-    private void handleDateChange(LocalDate newDate) throws InvalidException {
+    private void handleDateChange(LocalDate newDate) throws TxtdisException {
         if (newDate != null) {
             verifyDate(newDate);
             cutOtherTransactionsWhileOnGoing(newDate);
         }
     }
 
-    private void verifyDate(LocalDate date) throws InvalidException {
+    private void verifyDate(LocalDate date) throws TxtdisException {
         verifyNotInTheFuture(date);
         verifyNoStockTakeAfter(date);
         verifyNoTransactionsAfter(date);
@@ -140,35 +140,35 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
         verifyNotClosed(date);
     }
 
-    private void verifyNotInTheFuture(LocalDate date) throws InvalidException {
+    private void verifyNotInTheFuture(LocalDate date) throws TxtdisException {
         if (date.isAfter(LocalDate.now()))
-            throw new InvalidException("A new stock take cannot\noccur in the future");
+            throw new TxtdisException("A new stock take cannot\noccur in the future");
     }
 
-    private void verifyNoStockTakeAfter(LocalDate date) throws InvalidException {
+    private void verifyNoStockTakeAfter(LocalDate date) throws TxtdisException {
         String laterStockTake = stockTake.getStockTakeAfter(date);
         if (laterStockTake != null)
-            throw new InvalidException("A new stock take must be the latest;\n" + laterStockTake
+            throw new TxtdisException("A new stock take must be the latest;\n" + laterStockTake
                     + " is of a later date.");
     }
 
-    private void verifyNoTransactionsAfter(LocalDate date) throws InvalidException {
+    private void verifyNoTransactionsAfter(LocalDate date) throws TxtdisException {
         String laterTransaction = stockTake.getOneTransactionAfter(date);
         if (laterTransaction != null)
-            throw new InvalidException("A new stock take must precede other transactions;\n" + laterTransaction
+            throw new TxtdisException("A new stock take must precede other transactions;\n" + laterTransaction
                     + " has been posted on a later date");
     }
 
-    private void verifyNoOpenStockTake(LocalDate date) throws InvalidException {
+    private void verifyNoOpenStockTake(LocalDate date) throws TxtdisException {
         String onGoingStockTake = stockTake.getOnGoingStockTake(date);
         if (onGoingStockTake != null)
-            throw new InvalidException(onGoingStockTake);
+            throw new TxtdisException(onGoingStockTake);
     }
 
-    private void verifyNotClosed(LocalDate date) throws InvalidException {
+    private void verifyNotClosed(LocalDate date) throws TxtdisException {
         String closureInfo = stockTake.getClosureInfo(date);
         if (closureInfo != null)
-            throw new InvalidException(closureInfo);
+            throw new TxtdisException(closureInfo);
     }
 
     private void cutOtherTransactionsWhileOnGoing(LocalDate date) {
@@ -182,7 +182,7 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         stockTake.setWarehouse(warehouseCombo.getValue());
         stockTake.setStockTakeDate(datePicker.getValue());
         stockTake.setTaker(takerCombo.getValue());

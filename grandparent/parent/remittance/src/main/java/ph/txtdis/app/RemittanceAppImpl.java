@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.RemittanceDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
@@ -202,7 +202,7 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         remittance.setPartner(customer.get(partnerIdField.getIdNo()));
         remittance.setOrderDate(datePicker.getValue());
         remittance.setType(typeCombo.getValue());

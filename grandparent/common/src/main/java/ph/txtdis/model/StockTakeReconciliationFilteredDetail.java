@@ -64,7 +64,7 @@ public class StockTakeReconciliationFilteredDetail {
         return item.get();
     }
 
-    public Quality getQuality() {
+    public Quality getQualityType() {
         return quality.get();
     }
 

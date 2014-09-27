@@ -55,7 +55,7 @@ import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
 
 public class FX {
-    private static String style = " -fx-alignment: top-right; -fx-text-fill: ";
+    private static String style = " -fx-alignment: center-right; -fx-text-fill: ";
     private static String positive = " -fx-text-background-color";
 
     public static ImageView getDefaultImageView(String name) {

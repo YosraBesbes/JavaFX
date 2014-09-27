@@ -103,7 +103,9 @@ public abstract class AbstractApp<E, K> extends Stage implements Apped {
         return new FontToImage("icomoon", "\ue601", Color.NAVY).getImage();
     }
 
-    protected abstract String titleName();
+    protected String titleName() {
+        return module;
+    }
 
     private Scene createScene(VBox box) {
         Scene scene = new Scene(box, 1024, 512);

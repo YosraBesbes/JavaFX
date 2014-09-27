@@ -7,35 +7,21 @@ import java.math.RoundingMode;
 import org.apache.commons.lang3.StringUtils;
 
 import ph.txtdis.dto.BookingDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public class SalesOrderPrinter extends CDRKingPrinter {
-    private final static int LINES_PER_PAGE = 14;
-    private BookingDTO dto;
+public class SalesOrderPrinter extends Printer<BookingDTO> {
 
-    public SalesOrderPrinter(BookingDTO dto) throws InvalidException {
-        this.dto = dto;
-        setPrinter();
+    private final static int LINES_PER_PAGE = 14;
+
+    public SalesOrderPrinter(BookingDTO dto) throws TxtdisException {
+        super(dto);
     }
 
     @Override
-    public boolean print() {
-        try {
-            printLogo();
-            printSubheader();
-            printDetails();
-            printFooter();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return printed;
-    }
-
-    private void printDetails() {
+    protected void printDetails() {
         int lineNo = 0;
         for (BookingDetail detail : dto.getDetails())
             lineNo = printDetail(lineNo, detail);
@@ -72,16 +58,18 @@ public class SalesOrderPrinter extends CDRKingPrinter {
             ps.println();
     }
 
-    private void printSubheader() throws IOException {
+    @Override
+    protected void printSubheader() throws IOException {
         ps.println("DATE   : " + Util.formatDate(dto.getOrderDate()));
         ps.println("SOLD TO: " + dto.getPartnerName());
         ps.println("ADDRESS: " + dto.getPartnerAddress());
-        printDash();
+        ps.println("----------------------------------------");
         ps.println(StringUtils.center("PARTICULARS", COLUMN_WIDTH));
         ps.println(StringUtils.leftPad("", COLUMN_WIDTH, "-"));
     }
 
-    private void printFooter() {
+    @Override
+    protected void printFooter() {
         BigDecimal total = dto.getAmount();
         BigDecimal vatable = total.divide(new BigDecimal(1.12), 2, RoundingMode.HALF_UP);
         BigDecimal vat = total.subtract(vatable);

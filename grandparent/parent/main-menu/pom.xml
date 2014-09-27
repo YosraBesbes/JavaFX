@@ -24,12 +24,24 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ph.txtdis</groupId>
-			<artifactId>invoice-booklet</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>employee</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>inventory</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>invoice-booklet</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>ph.txtdis</groupId>
 			<artifactId>invoicing</artifactId>
@@ -66,12 +78,18 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ph.txtdis</groupId>
-			<artifactId>stock-take</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>stock-take</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>stock-take-reconciliation</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -23,7 +23,7 @@ import ph.txtdis.dto.StockTakeReconciliationDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.excel.Excel;
 import ph.txtdis.excel.ExcelWriter;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.button.BackButton;
 import ph.txtdis.fx.button.ExcelButton;
 import ph.txtdis.fx.button.MailButton;
@@ -100,7 +100,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         buttons.put("open", new SearchByDateButton<StockTakeReconciliation>(this, dto).getButton());
         buttons.put("next", new NextButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
         buttons.put("save", new SaveButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
-        buttons.put("excel", new ExcelButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("excel", new ExcelButton<StockTakeReconciliation>(this).getButton());
         buttons.put("mail", new MailButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
     }
 
@@ -298,40 +298,44 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
 
     @Override
     protected String titleName() {
-        return module + reconciliation.getId();
+        return module + " " + reconciliation.getId();
     }
 
     @Override
-    public void save() throws InvalidException {
-        ensureVariancesAreJustified();
-        saveAdjustments();
-        saveAsExcel();
-        if (mailedByDisplay.getText().isEmpty())
-            getApproval();
+    public void save() throws TxtdisException {
+        if (userType.get() == UserType.MANAGER && approvalCheckBox.isVisible()) {
+            updateApprovedDecisionStamps();
+        } else {
+            ensureVariancesAreJustified();
+            saveAdjustments();
+            saveAsExcel();
+            if (mailedByDisplay.getText().isEmpty())
+                getApproval();
+        }
     }
 
-    private void ensureVariancesAreJustified() throws InvalidException {
+    private void ensureVariancesAreJustified() throws TxtdisException {
         for (StockTakeReconciliationFilteredDetail item : detailTable.getItems())
             if (isVarianceUnjustified(item))
-                throw new InvalidException("All variances must be justified");
+                throw new TxtdisException("All variances must be justified");
     }
 
     private boolean isVarianceUnjustified(StockTakeReconciliationFilteredDetail item) {
         return !DIS.isZero(item.getCountQty().subtract(item.getSystemQty())) && DIS.isEmpty(item.getJustification());
     }
 
-    private void saveAdjustments() throws InvalidException {
+    private void saveAdjustments() throws TxtdisException {
         for (StockTakeReconciliationFilteredDetail item : detailTable.getItems()) {
-            adjustment.set(new StockTakeAdjustment(reconciliation.getId(), item.getItem(), item.getQuality(), item
+            adjustment.set(new StockTakeAdjustment(reconciliation.getId(), item.getItem(), item.getQualityType(), item
                     .getAdjustmentQty(), item.getJustification()));
             adjustment.save();
         }
         updateReconciliationStamp();
     }
 
-    private void updateReconciliationStamp() throws InvalidException {
-        reconciliation.setReconciledBy(adjustment.getCreatedBy());
-        reconciliation.setReconciledOn(adjustment.getTimeStamp());
+    private void updateReconciliationStamp() throws TxtdisException {
+        reconciliation.setReconciledBy(Login.user());
+        reconciliation.setReconciledOn(ZonedDateTime.now());
         reconciliation.save();
     }
 
@@ -340,11 +344,11 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         new ExcelWriter<StockTakeReconciliationFilteredDetail>(detailTable, module, getPrimaryKey());
     }
 
-    private void getApproval() throws InvalidException {
+    private void getApproval() throws TxtdisException {
         try {
             setMail();
         } catch (MailNotSentException e) {
-            throw new InvalidException(e.getMessage());
+            throw new TxtdisException(e.getMessage());
         }
     }
 
@@ -363,6 +367,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         reconciliation.setMailedBy(Login.user());
         reconciliation.setMailedOn(ZonedDateTime.now());
         reconciliation.save();
+        refresh();
     }
 
     @Override
@@ -395,19 +400,28 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
             updateApprovedDecisionStamps(mail);
     }
 
+    private void updateApprovedDecisionStamps() {
+        updateApprovalStamps(approvalCheckBox.isSelected(), Login.user(), ZonedDateTime.now());
+        saveDecisionStamps();
+    }
+
     private void updateApprovedDecisionStamps(Mail mail) {
-        updateApprovalStamps(mail.isApproved(), mail.getAddress(), mail.getTimestamp());
-        updateRetrievalStamps();
+        updateApprovalStamps(mail.isApproved(), user.get(mail.getAddress()), mail.getTimestamp());
+        saveDecisionStamps();
+    }
+
+    private void saveDecisionStamps() {
+        updateCompletionStamps();
         reconciliation.save();
     }
 
-    private void updateApprovalStamps(Boolean isApproved, String address, ZonedDateTime timestamp) {
+    private void updateApprovalStamps(Boolean isApproved, SystemUser user, ZonedDateTime timestamp) {
         reconciliation.setApproved(isApproved);
-        reconciliation.setApprovedBy(user.get(address));
+        reconciliation.setApprovedBy(user);
         reconciliation.setApprovedOn(timestamp);
     }
 
-    private void updateRetrievalStamps() {
+    private void updateCompletionStamps() {
         reconciliation.setCompletedBy(Login.user());
         reconciliation.setCompleteOn(ZonedDateTime.now());
     }

@@ -17,7 +17,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.PickingDTO;
 import ph.txtdis.dto.UserDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.fx.button.PrintButton;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.StringDisplay;
@@ -189,7 +189,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void print() throws InvalidException {
+    public void print() throws TxtdisException {
         for (PickingDetail detail : picking.getDetails()) {
             booking.set(detail.getBooking());
             new SalesOrderPrinter(booking);
@@ -198,7 +198,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void save() throws InvalidException {
+    public void save() throws TxtdisException {
         picking.setPickDate(datePicker.getValue());
         picking.setTruck(truckCombo.getValue());
         picking.setDriver(driverCombo.getValue());

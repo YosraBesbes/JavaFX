@@ -1,55 +1,33 @@
 package ph.txtdis.printer;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 
 import ph.txtdis.dto.PickingDTO;
-import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.model.PickList;
 import ph.txtdis.util.DIS;
-import ph.txtdis.util.Login;
 import ph.txtdis.util.Util;
 
-public class PicklistPrinter extends CDRKingPrinter {
-    private PickingDTO dto;
+public class PicklistPrinter extends Printer<PickingDTO> {
 
-    public PicklistPrinter(PickingDTO dto) throws InvalidException {
-        this.dto = dto;
-        setPrinter();
+    public PicklistPrinter(PickingDTO dto) throws TxtdisException {
+        super(dto);
     }
 
     @Override
-    public boolean print() {
-        try {
-            printLogo();
-            printSubheader();
-            printDetails();
-            printFooter();
-            savePrintStamps();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return printed;
-    }
-
-    private void savePrintStamps() throws IOException {
-        waitForPrintingToEnd();
-        dto.setPrintedBy(Login.user());
-        dto.setPrintedOn(ZonedDateTime.now());
-        dto.save();
-    }
-
-    private void printSubheader() throws IOException {
+    protected void printSubheader() throws IOException {
         ps.println("DATE   : " + Util.formatDate(dto.getPickDate()));
         ps.println("LOAD TO: " + dto.getTruck());
+        ps.println("----------------------------------------");
         ps.println("  QTY    DESCRIPTION     CODE  OUT    IN");
+        ps.println("----------------------------------------");
         ps.println(StringUtils.leftPad("", COLUMN_WIDTH, "-"));
     }
 
-    private void printDetails() {
+    @Override
+    protected void printDetails() {
         for (PickList pickList : dto.getPickList())
             printDetail(pickList);
     }
@@ -62,7 +40,8 @@ public class PicklistPrinter extends CDRKingPrinter {
         ps.println();
     }
 
-    private void printFooter() {
+    @Override
+    protected void printFooter() {
         ps.println();
         ps.println("LOAD-OUT:");
         ps.println("_____________  _____________  ____________");
