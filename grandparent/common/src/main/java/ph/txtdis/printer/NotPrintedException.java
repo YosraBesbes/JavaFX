@@ -1,8 +1,8 @@
 package ph.txtdis.printer;
 
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 
-public class NotPrintedException extends TxtdisException {
+public class NotPrintedException extends InvalidException {
 
     private static final long serialVersionUID = 7010664033441991775L;
 

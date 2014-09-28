@@ -33,10 +33,11 @@ public class PickingDetailTable extends AbstractInputTable<PickingDetail, Pickin
     }
 
     @Override
-    public void createTableContextMenu(ContextMenu contextMenu) {
+    public ContextMenu createContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
         LocalDate date = ((PickingAppImpl) stage).getPickerDate();
         dto.getNotFullyPickedRoutes(date).forEach(route -> createRouteContextMenuItem(contextMenu, date, route));
-        table.setContextMenu(contextMenu);
+        return contextMenu;
     }
 
     private void createRouteContextMenuItem(ContextMenu contextMenu, LocalDate date, Route route) {

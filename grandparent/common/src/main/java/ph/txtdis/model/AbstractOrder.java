@@ -138,4 +138,80 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+        result = prime * result + ((credit == null) ? 0 : credit.hashCode());
+        result = prime * result + ((discount == null) ? 0 : discount.hashCode());
+        result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
+        result = prime * result + ((partner == null) ? 0 : partner.hashCode());
+        result = prime * result + ((partnerAddress == null) ? 0 : partnerAddress.hashCode());
+        result = prime * result + partnerId;
+        result = prime * result + ((partnerName == null) ? 0 : partnerName.hashCode());
+        result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
+        result = prime * result + ((route == null) ? 0 : route.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractOrder<?> other = (AbstractOrder<?>) obj;
+        if (amount == null) {
+            if (other.amount != null)
+                return false;
+        } else if (!amount.equals(other.amount))
+            return false;
+        if (credit == null) {
+            if (other.credit != null)
+                return false;
+        } else if (!credit.equals(other.credit))
+            return false;
+        if (discount == null) {
+            if (other.discount != null)
+                return false;
+        } else if (!discount.equals(other.discount))
+            return false;
+        if (orderDate == null) {
+            if (other.orderDate != null)
+                return false;
+        } else if (!orderDate.equals(other.orderDate))
+            return false;
+        if (partner == null) {
+            if (other.partner != null)
+                return false;
+        } else if (!partner.equals(other.partner))
+            return false;
+        if (partnerAddress == null) {
+            if (other.partnerAddress != null)
+                return false;
+        } else if (!partnerAddress.equals(other.partnerAddress))
+            return false;
+        if (partnerId != other.partnerId)
+            return false;
+        if (partnerName == null) {
+            if (other.partnerName != null)
+                return false;
+        } else if (!partnerName.equals(other.partnerName))
+            return false;
+        if (remarks == null) {
+            if (other.remarks != null)
+                return false;
+        } else if (!remarks.equals(other.remarks))
+            return false;
+        if (route == null) {
+            if (other.route != null)
+                return false;
+        } else if (!route.equals(other.route))
+            return false;
+        return true;
+    }
 }

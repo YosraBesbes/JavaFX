@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.PickList;
-import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
@@ -128,11 +127,6 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     public ObservableList<Truck> getEmptyTrucks(LocalDate date) {
         ObservableList<Truck> trucks = FXCollections.observableList(service.getEmptyTrucks(date));
         return trucks.isEmpty() ? FXCollections.observableList(Arrays.asList(getTruck())) : trucks;
-    }
-
-    @Override
-    public PickListPrinting getPrintedPickList(Picking picking) {
-        return service.getPrintedPickList(picking);
     }
 
     @Override

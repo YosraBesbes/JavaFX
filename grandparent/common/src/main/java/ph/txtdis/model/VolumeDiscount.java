@@ -20,26 +20,26 @@ public class VolumeDiscount extends AbstractAudited {
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Item item;
-    
+
     @Column(nullable = false)
     private VolumeDiscountType type;
-    
+
     @Column(nullable = false)
     private UomType uom;
-    
+
     @Column(nullable = false)
     private int cutOff;
-    
+
     @Column(nullable = false, precision = 8, scale = 4)
     private BigDecimal discount;
-    
+
     @Column(nullable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
     private LocalDate startDate;
-    
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Channel channelLimit;
-    
+
     public VolumeDiscount() {
     }
 
@@ -92,7 +92,7 @@ public class VolumeDiscount extends AbstractAudited {
     public void setCutOff(int cutOff) {
         this.cutOff = cutOff;
     }
-    
+
     public BigDecimal getDiscount() {
         return discount;
     }
@@ -118,10 +118,62 @@ public class VolumeDiscount extends AbstractAudited {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((channelLimit == null) ? 0 : channelLimit.hashCode());
+        result = prime * result + cutOff;
+        result = prime * result + ((discount == null) ? 0 : discount.hashCode());
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((uom == null) ? 0 : uom.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        VolumeDiscount other = (VolumeDiscount) obj;
+        if (channelLimit == null) {
+            if (other.channelLimit != null)
+                return false;
+        } else if (!channelLimit.equals(other.channelLimit))
+            return false;
+        if (cutOff != other.cutOff)
+            return false;
+        if (discount == null) {
+            if (other.discount != null)
+                return false;
+        } else if (!discount.equals(other.discount))
+            return false;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
+        if (type != other.type)
+            return false;
+        if (uom != other.uom)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return item + ": less ₱" + discount + type() + cutOff + uom + " starting " + startDate;
     }
-    
+
     private String type() {
         return type == VolumeDiscountType.SET ? " per set of " : " when ";
     }

@@ -85,6 +85,46 @@ public class Receiving extends AbstractOrder<ReceivingDetail> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((checker == null) ? 0 : checker.hashCode());
+        result = prime * result + ((details == null) ? 0 : details.hashCode());
+        result = prime * result + (int) (partnerReferenceId ^ (partnerReferenceId >>> 32));
+        result = prime * result + ((reference == null) ? 0 : reference.hashCode());
+        result = prime * result + referenceId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Receiving other = (Receiving) obj;
+        if (checker == null) {
+            if (other.checker != null)
+                return false;
+        } else if (!checker.equals(other.checker))
+            return false;
+        if (details == null) {
+            if (other.details != null)
+                return false;
+        } else if (!details.equals(other.details))
+            return false;
+        if (partnerReferenceId != other.partnerReferenceId)
+            return false;
+        if (reference != other.reference)
+            return false;
+        if (referenceId != other.referenceId)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return getPartner() + "'s " + reference + " " + referenceId + " on " + orderDate;
     }

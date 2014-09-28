@@ -10,7 +10,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import ph.txtdis.App;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.CancelButton;
 import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundEmployeeDialog;
@@ -116,7 +116,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
         employee.save();

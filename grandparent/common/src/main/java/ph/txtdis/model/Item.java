@@ -20,7 +20,7 @@ public class Item extends AbstractAudited implements Named {
 
     @Column(nullable = false)
     private String description;
-   
+
     @Column(nullable = false)
     private ItemType type;
 
@@ -61,7 +61,7 @@ public class Item extends AbstractAudited implements Named {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -132,6 +132,76 @@ public class Item extends AbstractAudited implements Named {
 
     public void setBoms(List<Bom> boms) {
         this.boms = boms;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((boms == null) ? 0 : boms.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((family == null) ? 0 : family.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + (notDiscounted ? 1231 : 1237);
+        result = prime * result + ((priceHistory == null) ? 0 : priceHistory.hashCode());
+        result = prime * result + ((qtyPerUom == null) ? 0 : qtyPerUom.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + (int) (vendorId ^ (vendorId >>> 32));
+        result = prime * result + ((volumeDiscounts == null) ? 0 : volumeDiscounts.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Item other = (Item) obj;
+        if (boms == null) {
+            if (other.boms != null)
+                return false;
+        } else if (!boms.equals(other.boms))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        } else if (!description.equals(other.description))
+            return false;
+        if (family == null) {
+            if (other.family != null)
+                return false;
+        } else if (!family.equals(other.family))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (notDiscounted != other.notDiscounted)
+            return false;
+        if (priceHistory == null) {
+            if (other.priceHistory != null)
+                return false;
+        } else if (!priceHistory.equals(other.priceHistory))
+            return false;
+        if (qtyPerUom == null) {
+            if (other.qtyPerUom != null)
+                return false;
+        } else if (!qtyPerUom.equals(other.qtyPerUom))
+            return false;
+        if (type != other.type)
+            return false;
+        if (vendorId != other.vendorId)
+            return false;
+        if (volumeDiscounts == null) {
+            if (other.volumeDiscounts != null)
+                return false;
+        } else if (!volumeDiscounts.equals(other.volumeDiscounts))
+            return false;
+        return true;
     }
 
     @Override

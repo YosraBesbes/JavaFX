@@ -38,22 +38,24 @@ public abstract class AbstractInputTable<E, D> {
     private void addTableProperties() {
         table.setEditable(true);
         table.setTooltip(new Tooltip("Right-click to add/delete;\ndouble-click to edit"));
+        setTableContextMenu();
+        setRowContextMenu();
     }
 
-    private void createContextMenu() {
-        createTableContextMenu(new ContextMenu());
-        table.setRowFactory(tableView -> setupRowForContextMenu(tableView));
+    public void setTableContextMenu() {
+        table.setContextMenu(createContextMenu());
     }
 
-    protected void createTableContextMenu(ContextMenu contextMenu) {
+    protected ContextMenu createContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
         createMenuItem(contextMenu);
-        table.setContextMenu(contextMenu);
+        return contextMenu;
     }
 
-    private void createMenuItem(ContextMenu contextMenu) {
-        MenuItem mi = new MenuItem("Append");
-        contextMenu.getItems().add(mi);
-        mi.setOnAction(event -> doOnPressedAppendContextMenu());
+    protected void createMenuItem(ContextMenu contextMenu) {
+        MenuItem menuItem = new MenuItem("Append");
+        contextMenu.getItems().add(menuItem);
+        menuItem.setOnAction(event -> doOnPressedAppendContextMenu());
     }
 
     private void doOnPressedAppendContextMenu() {
@@ -69,6 +71,10 @@ public abstract class AbstractInputTable<E, D> {
 
     protected List<E> getAddedItems() {
         return inputDialog.getAddedItems();
+    }
+
+    private void setRowContextMenu() {
+        table.setRowFactory(tableView -> setupRowForContextMenu(tableView));
     }
 
     private TableRow<E> setupRowForContextMenu(TableView<E> table) {

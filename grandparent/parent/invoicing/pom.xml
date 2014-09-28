@@ -11,6 +11,12 @@
     <dependencies>
         <dependency>
             <groupId>ph.txtdis</groupId>
+            <artifactId>booking</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
             <artifactId>customer</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -29,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>ph.txtdis</groupId>
-            <artifactId>booking</artifactId>
+            <artifactId>picking</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

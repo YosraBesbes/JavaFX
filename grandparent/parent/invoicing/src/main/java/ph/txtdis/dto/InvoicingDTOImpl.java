@@ -1,5 +1,7 @@
 package ph.txtdis.dto;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
@@ -11,7 +13,7 @@ import ph.txtdis.service.InvoicingService;
 @Component
 public class InvoicingDTOImpl extends AbstractOrderDTO<Invoicing, InvoicingService, InvoicingDetail> implements
         InvoicingDTO {
-    
+
     @Override
     public void reset() {
         id = 0;
@@ -44,7 +46,12 @@ public class InvoicingDTOImpl extends AbstractOrderDTO<Invoicing, InvoicingServi
     }
 
     @Override
-    public Integer getIdBySalesOrder(Booking booking) {
-        return service.getIdBySalesOrder(booking);
+    public Integer getIdFromSalesOrder(Booking booking) {
+        return service.getIdFromSalesOrder(booking);
+    }
+
+    @Override
+    public LocalDate getPickDateFromSalesOrder(Booking booking) {
+        return service.getPickDateFromSalesOrder(booking);
     }
 }

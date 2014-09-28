@@ -1,5 +1,7 @@
 package ph.txtdis.dto;
 
+import java.time.LocalDate;
+
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.Invoicing;
@@ -18,5 +20,7 @@ public interface InvoicingDTO extends OrderDTO<Invoicing, InvoicingDetail>, Remi
 
     Integer getBookletLastId(int startId, int endId);
 
-    Integer getIdBySalesOrder(Booking booking);
+    Integer getIdFromSalesOrder(Booking booking);
+
+    LocalDate getPickDateFromSalesOrder(Booking booking);
 }

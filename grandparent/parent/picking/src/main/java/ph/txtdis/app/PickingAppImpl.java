@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -17,7 +16,7 @@ import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.PickingDTO;
 import ph.txtdis.dto.UserDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.PrintButton;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.StringDisplay;
@@ -60,7 +59,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
         super.start();
         truckCombo.setItems(picking.getEmptyTrucks(getPickerDate()));
         detailTable.getItems().clear();
-        pickingTable.createTableContextMenu(new ContextMenu());
+        pickingTable.setTableContextMenu();
     }
 
     @Override
@@ -189,7 +188,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void print() throws TxtdisException {
+    public void print() throws InvalidException {
         for (PickingDetail detail : picking.getDetails()) {
             booking.set(detail.getBooking());
             new SalesOrderPrinter(booking);
@@ -198,7 +197,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         picking.setPickDate(datePicker.getValue());
         picking.setTruck(truckCombo.getValue());
         picking.setDriver(driverCombo.getValue());

@@ -10,13 +10,11 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.PickList;
-import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.PickingSummary;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Truck;
-import ph.txtdis.repository.PickListPrintingRepository;
 import ph.txtdis.repository.PickingRepository;
 import ph.txtdis.repository.PickingSummaryRepository;
 
@@ -28,10 +26,7 @@ public class PickingServiceImpl extends AbstractService<Picking, Integer> implem
     private PickingRepository repository;
 
     @Autowired
-    private PickingSummaryRepository summerRepository;
-
-    @Autowired
-    private PickListPrintingRepository printingRepository;
+    private PickingSummaryRepository summaryRepository;
 
     protected PickingServiceImpl() {
     }
@@ -72,12 +67,7 @@ public class PickingServiceImpl extends AbstractService<Picking, Integer> implem
     }
 
     @Override
-    public PickListPrinting getPrintedPickList(Picking picking) {
-        return printingRepository.findByPicking(picking);
-    }
-
-    @Override
     public List<PickingSummary> getSummary(LocalDate startDate, LocalDate endDate) {
-        return summerRepository.findByPickDateBetween(startDate, endDate);
+        return summaryRepository.findByPickDateBetween(startDate, endDate);
     }
 }

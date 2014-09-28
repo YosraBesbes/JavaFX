@@ -1,6 +1,6 @@
 package ph.txtdis.exception;
 
-public class NotFoundException extends Exception {
+public class NotFoundException extends InvalidException {
 
     private static final long serialVersionUID = -6046598298985805710L;
 

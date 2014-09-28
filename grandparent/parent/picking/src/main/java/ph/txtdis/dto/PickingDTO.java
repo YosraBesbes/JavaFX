@@ -7,7 +7,6 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.PickList;
-import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
@@ -61,6 +60,4 @@ public interface PickingDTO extends Spun, Audited<Picking> {
     List<Booking> getUnpickedBookings(LocalDate date, Route route);
 
     ObservableList<Truck> getEmptyTrucks(LocalDate date);
-
-    PickListPrinting getPrintedPickList(Picking picking);
 }

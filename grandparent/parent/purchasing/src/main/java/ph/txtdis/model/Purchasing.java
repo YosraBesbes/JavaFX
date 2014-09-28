@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 public class Purchasing extends AbstractOrder<PurchasingDetail> {
 
     private static final long serialVersionUID = -5606817850562768621L;
-    
+
     @OneToMany(mappedBy = "purchasing", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchasingDetail> details;
 
@@ -31,6 +31,31 @@ public class Purchasing extends AbstractOrder<PurchasingDetail> {
     @Override
     public void setDetails(List<PurchasingDetail> details) {
         this.details = details;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((details == null) ? 0 : details.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Purchasing other = (Purchasing) obj;
+        if (details == null) {
+            if (other.details != null)
+                return false;
+        } else if (!details.equals(other.details))
+            return false;
+        return true;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class InvoiceBooklet extends AbstractAudited {
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private SystemUser issuedTo;
-    
+
     public InvoiceBooklet() {
     }
 
@@ -50,6 +50,37 @@ public class InvoiceBooklet extends AbstractAudited {
 
     public void setIssuedTo(SystemUser issuedTo) {
         this.issuedTo = issuedTo;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + endId;
+        result = prime * result + ((issuedTo == null) ? 0 : issuedTo.hashCode());
+        result = prime * result + startId;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        InvoiceBooklet other = (InvoiceBooklet) obj;
+        if (endId != other.endId)
+            return false;
+        if (issuedTo == null) {
+            if (other.issuedTo != null)
+                return false;
+        } else if (!issuedTo.equals(other.issuedTo))
+            return false;
+        if (startId != other.startId)
+            return false;
+        return true;
     }
 
     @Override

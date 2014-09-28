@@ -1,5 +1,7 @@
 package ph.txtdis.service;
 
+import java.time.LocalDate;
+
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.Invoicing;
@@ -11,5 +13,7 @@ public interface InvoicingService extends OrderService<Invoicing, InvoicingDetai
 
     Integer getBookletLastId(int startId, int endId);
 
-    Integer getIdBySalesOrder(Booking booking);
+    Integer getIdFromSalesOrder(Booking booking);
+
+    LocalDate getPickDateFromSalesOrder(Booking booking);
 }

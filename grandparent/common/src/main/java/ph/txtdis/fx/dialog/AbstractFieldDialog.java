@@ -60,10 +60,14 @@ public abstract class AbstractFieldDialog<E, D> extends AbstractInputDialog<D> i
     }
 
     private void addBinding(Button addButton) {
+        addButton.disableProperty().bind(getAddButtonBindings());
+    }
+
+    private BooleanBinding getAddButtonBindings() {
         BooleanBinding binding = inputNodes.get(0).isEmpty();
         for (int i = 1; i < inputNodes.size(); i++)
             binding = binding.or(inputNodes.get(i).isEmpty());
-        addButton.disableProperty().bind(binding);
+        return binding;
     }
 
     @SuppressWarnings("unchecked")
@@ -75,6 +79,7 @@ public abstract class AbstractFieldDialog<E, D> extends AbstractInputDialog<D> i
 
     protected abstract E createEntity(D dto, List<InputNode<?>> inputNodes);
 
+    @Override
     public List<E> getAddedItems() {
         return addedItems;
     }

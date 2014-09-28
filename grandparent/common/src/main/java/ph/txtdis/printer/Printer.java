@@ -6,19 +6,19 @@ import java.time.ZonedDateTime;
 import javafx.scene.image.Image;
 import ph.txtdis.dto.DTO;
 import ph.txtdis.dto.Printed;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.util.Login;
 
 public abstract class Printer<D> extends CDRKingPrinter {
     protected D dto;
 
-    public Printer(D dto) throws TxtdisException {
+    public Printer(D dto) throws InvalidException {
         this.dto = dto;
         setPrinter();
     }
 
     @Override
-    public void print() throws TxtdisException {
+    public void print() throws InvalidException {
         try {
             printLogo(getLogo());
             printSubheader();

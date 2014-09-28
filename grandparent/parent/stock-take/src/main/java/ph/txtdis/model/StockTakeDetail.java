@@ -107,6 +107,70 @@ public class StockTakeDetail extends AbstractAudited {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((itemDescription == null) ? 0 : itemDescription.hashCode());
+        result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+        result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
+        result = prime * result + ((qty == null) ? 0 : qty.hashCode());
+        result = prime * result + ((quality == null) ? 0 : quality.hashCode());
+        result = prime * result + ((stockTake == null) ? 0 : stockTake.hashCode());
+        result = prime * result + ((uom == null) ? 0 : uom.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StockTakeDetail other = (StockTakeDetail) obj;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (itemDescription == null) {
+            if (other.itemDescription != null)
+                return false;
+        } else if (!itemDescription.equals(other.itemDescription))
+            return false;
+        if (itemId == null) {
+            if (other.itemId != null)
+                return false;
+        } else if (!itemId.equals(other.itemId))
+            return false;
+        if (itemName == null) {
+            if (other.itemName != null)
+                return false;
+        } else if (!itemName.equals(other.itemName))
+            return false;
+        if (qty == null) {
+            if (other.qty != null)
+                return false;
+        } else if (!qty.equals(other.qty))
+            return false;
+        if (quality == null) {
+            if (other.quality != null)
+                return false;
+        } else if (!quality.equals(other.quality))
+            return false;
+        if (stockTake == null) {
+            if (other.stockTake != null)
+                return false;
+        } else if (!stockTake.equals(other.stockTake))
+            return false;
+        if (uom != other.uom)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return stockTake + ": " + qty + uom + " " + quality + " " + item;
     }

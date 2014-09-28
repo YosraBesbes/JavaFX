@@ -7,15 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class Invoicing extends AbstractOrder<InvoicingDetail> implements Remitted {
 
     private static final long serialVersionUID = 2322549783835028127L;
-
-    @Transient
-    private int bookingId;
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH)
     private Booking booking;
@@ -33,11 +29,7 @@ public class Invoicing extends AbstractOrder<InvoicingDetail> implements Remitte
     }
 
     public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+        return booking == null ? 0 : booking.getId();
     }
 
     public Booking getBooking() {
@@ -56,6 +48,37 @@ public class Invoicing extends AbstractOrder<InvoicingDetail> implements Remitte
     @Override
     public void setDetails(List<InvoicingDetail> details) {
         this.details = details;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((booking == null) ? 0 : booking.hashCode());
+        result = prime * result + ((details == null) ? 0 : details.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Invoicing other = (Invoicing) obj;
+        if (booking == null) {
+            if (other.booking != null)
+                return false;
+        } else if (!booking.equals(other.booking))
+            return false;
+        if (details == null) {
+            if (other.details != null)
+                return false;
+        } else if (!details.equals(other.details))
+            return false;
+        return true;
     }
 
     @Override

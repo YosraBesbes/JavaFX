@@ -7,16 +7,16 @@ import java.math.RoundingMode;
 import org.apache.commons.lang3.StringUtils;
 
 import ph.txtdis.dto.BookingDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
 public class SalesOrderPrinter extends Printer<BookingDTO> {
 
-    private final static int LINES_PER_PAGE = 14;
+    public final static int LINES_PER_PAGE = 14;
 
-    public SalesOrderPrinter(BookingDTO dto) throws TxtdisException {
+    public SalesOrderPrinter(BookingDTO dto) throws InvalidException {
         super(dto);
     }
 

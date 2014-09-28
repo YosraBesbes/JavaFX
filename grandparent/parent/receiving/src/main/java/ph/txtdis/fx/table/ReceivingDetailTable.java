@@ -1,6 +1,5 @@
 package ph.txtdis.fx.table;
 
-import javafx.scene.control.ContextMenu;
 import javafx.stage.Stage;
 import ph.txtdis.App;
 import ph.txtdis.dto.QualityRated;
@@ -14,7 +13,7 @@ public class ReceivingDetailTable extends AbstractPriceDetailTable<ReceivingDeta
     }
 
     @Override
-    protected void createTableContextMenu(ContextMenu contextMenu) {
+    public void setTableContextMenu() {
     }
 
     @Override

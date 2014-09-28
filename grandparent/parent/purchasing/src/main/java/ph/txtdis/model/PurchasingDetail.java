@@ -50,6 +50,37 @@ public class PurchasingDetail extends AbstractPricedDetail {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + daysLevelAfter;
+        result = prime * result + daysLevelBefore;
+        result = prime * result + ((purchasing == null) ? 0 : purchasing.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PurchasingDetail other = (PurchasingDetail) obj;
+        if (daysLevelAfter != other.daysLevelAfter)
+            return false;
+        if (daysLevelBefore != other.daysLevelBefore)
+            return false;
+        if (purchasing == null) {
+            if (other.purchasing != null)
+                return false;
+        } else if (!purchasing.equals(other.purchasing))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return purchasing + ": " + qty + uom + " " + (quality == null ? "GOOD" : quality) + " " + item;
     }

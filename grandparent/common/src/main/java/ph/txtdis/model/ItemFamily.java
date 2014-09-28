@@ -26,4 +26,26 @@ public class ItemFamily extends AbstractNamed {
     public void setTier(ItemTier tier) {
         this.tier = tier;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((tier == null) ? 0 : tier.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ItemFamily other = (ItemFamily) obj;
+        if (tier != other.tier)
+            return false;
+        return true;
+    }
 }

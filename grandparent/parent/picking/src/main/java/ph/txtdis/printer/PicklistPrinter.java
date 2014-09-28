@@ -5,14 +5,14 @@ import java.io.IOException;
 import org.apache.commons.lang3.StringUtils;
 
 import ph.txtdis.dto.PickingDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.model.PickList;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
 public class PicklistPrinter extends Printer<PickingDTO> {
 
-    public PicklistPrinter(PickingDTO dto) throws TxtdisException {
+    public PicklistPrinter(PickingDTO dto) throws InvalidException {
         super(dto);
     }
 

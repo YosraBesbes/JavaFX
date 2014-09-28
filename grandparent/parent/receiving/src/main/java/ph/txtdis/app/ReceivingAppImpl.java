@@ -17,7 +17,7 @@ import ph.txtdis.dto.PurchasingDTO;
 import ph.txtdis.dto.QualityRated;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.dto.UserDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
@@ -113,7 +113,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setOrderDate(datePicker.getValue());
         orderDTO.setChecker(checkerCombo.getValue());

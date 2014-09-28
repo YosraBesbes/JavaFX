@@ -9,7 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import ph.txtdis.App;
 import ph.txtdis.dto.CustomerDTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.CancelButton;
 import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundCustomerDialog;
@@ -112,7 +112,7 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         for (Tabled t : tabsWithTables)
             t.save();
         customer.save();

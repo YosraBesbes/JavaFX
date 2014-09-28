@@ -1,6 +1,7 @@
 package ph.txtdis.app;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.scene.control.Label;
@@ -13,8 +14,8 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.exception.TxtdisException;
 import ph.txtdis.exception.NotFoundException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.table.InvoicingDetailTable;
@@ -24,6 +25,7 @@ import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.InvoicingDetail;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Priced;
+import ph.txtdis.util.Util;
 
 public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetail, InvoicingDTO> {
 
@@ -66,9 +68,21 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     @Override
     protected void createOrderedLabeledInputs() {
         super.createOrderedLabeledInputs();
-        bookingLabel = new Label("S/O ID No.");
+        bookingLabel = new Label("S/O No.");
         bookingIdField = new IdField(orderDTO.getBookingId());
+
+        partnerIdField.setEditable(false);
+        partnerIdField.setFocusTraversable(false);
+
+        datePicker.setEditable(false);
+        datePicker.setFocusTraversable(false);
+        datePicker.setValue(getInvoiceDate());
+
         idField.setEditable(true);
+    }
+
+    private LocalDate getInvoiceDate() {
+        return booking.getOrderDate() == null ? LocalDate.now() : booking.getOrderDate();
     }
 
     @Override
@@ -91,7 +105,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         orderDTO.setBooking(booking.get(bookingIdField.getIdNo()));
         super.save();
     }
@@ -110,24 +124,23 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
 
     @Override
     public void setDetail(Priced priced) {
-        detailTableItem = new InvoicingDetail(orderDTO.get(), priced.getItem(), priced.getUom(), priced.getQty());
+        detailTableItem = new InvoicingDetail(orderDTO.get(), priced.getItem(), priced.getUom(), priced.getQty(),
+                priced.getQuality());
     }
 
     @Override
     protected void setBindings() {
         super.setBindings();
-        partnerIdField.setEditable(false);
-        partnerIdField.setFocusTraversable(false);
-        bookingIdField.disableProperty().bind(FX.isEmpty(datePicker));
-
         buttons.get("save").disableProperty().unbind();
         buttons.get("save").disableProperty()
                 .bind((FX.isEmpty(detailTable).and(remarkField.textProperty().isNotEqualTo("CANCELLED"))));
+
+        bookingIdField.disableProperty().bind(FX.isEmpty(datePicker));
     }
 
     @Override
     protected void setListeners() {
-        idField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        idField.focusedProperty().addListener((focus, oldValue, newValue) -> {
             id = idField.getIdNo();
             if (dto.getId() == 0 && id != 0)
                 handleIdInput(newValue);
@@ -153,36 +166,36 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     private void validateId() {
         try {
             checkForDuplicateId();
-            ;
-        } catch (TxtdisException e) {
+        } catch (InvalidException e) {
             handleError(e);
         }
     }
 
-    private void handleError(TxtdisException e) {
+    private void handleError(InvalidException e) {
         new ErrorDialog(this, e.getMessage());
+        orderDTO.reset();
         refresh();
     }
 
-    private void checkForDuplicateId() throws TxtdisException {
+    private void checkForDuplicateId() throws InvalidException {
         if (orderDTO.exists(id))
-            throw new TxtdisException("S/I No. " + id + "\nhas been used");
+            throw new InvalidException("S/I No. " + id + "\nhas been used");
         else
             checkIdInIssuedBooklet();
     }
 
-    private void checkIdInIssuedBooklet() throws TxtdisException {
+    private void checkIdInIssuedBooklet() throws InvalidException {
         InvoiceBooklet booklet = orderDTO.getBooklet(id);
         if (booklet == null)
-            throw new TxtdisException("S/I No. " + id + "\nis not in any issued booklet");
+            throw new InvalidException("S/I No. " + id + "\nis not in any issued booklet");
         else
             checkIdIsNextToLast(booklet);
     }
 
-    private void checkIdIsNextToLast(InvoiceBooklet booklet) throws TxtdisException {
+    private void checkIdIsNextToLast(InvoiceBooklet booklet) throws InvalidException {
         int nextToLastId = getNextToLastId(booklet);
         if (nextToLastId != id)
-            throw new TxtdisException("S/I No. " + nextToLastId + "\nmust be used first");
+            throw new InvalidException("S/I No. " + nextToLastId + "\nmust be used first");
     }
 
     private int getNextToLastId(InvoiceBooklet booklet) {
@@ -191,25 +204,47 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         return lastId == null ? startId : lastId.intValue() + 1;
     }
 
-    private void verifySalesOrder(int id) throws NotFoundException, TxtdisException {
+    private void verifySalesOrder(int id) throws InvalidException {
         if (booking.exists(id))
-            checkSalesOrderIsUnused(id);
+            checkSalesOrderHasBeenInvoiced(id);
         else
             throw new NotFoundException("S/O No. " + id);
     }
 
-    private void checkSalesOrderIsUnused(int bookingId) throws TxtdisException {
+    private void checkSalesOrderHasBeenInvoiced(int bookingId) throws InvalidException {
         booking.setById(bookingId);
-        Integer invoiceId = orderDTO.getIdBySalesOrder(booking.get());
-        handleUnusedSalesOrderCheck(bookingId, invoiceId);
+        handleSalesOrderHasBeenInvoicedCheck(getInvoiceId());
+    }
+
+    private Integer getInvoiceId() {
+        return orderDTO.getIdFromSalesOrder(booking.get());
+    }
+
+    private void handleSalesOrderHasBeenInvoicedCheck(Integer invoiceId) throws InvalidException {
+        if (invoiceId == null)
+            checkSalesOrderWasPicked();
+        else
+            throw new InvalidException("S/O No. " + booking.getId() + "\nhas been used in\nS/I No. " + invoiceId);
+    }
+
+    private void checkSalesOrderWasPicked() throws InvalidException {
+        handleSalesOrderHasBeenPickedCheck(getPickDate());
+    }
+
+    private LocalDate getPickDate() {
+        return orderDTO.getPickDateFromSalesOrder(booking.get());
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void handleUnusedSalesOrderCheck(int bookingId, Integer invoiceId) throws TxtdisException {
-        if (invoiceId == null)
-            populateFields((OrderDTO) booking);
+    private void handleSalesOrderHasBeenPickedCheck(LocalDate pickDate) throws InvalidException {
+        if (pickDate == null)
+            throw new InvalidException("S/O No. " + booking.getId() + "\nhas not been picked");
+        else if (pickDate.isBefore(LocalDate.now()))
+            throw new InvalidException("S/O No. " + booking.getId() + "\nis not part of the delivery today;\n "
+                    + "it was picked last " + Util.formatDate(pickDate));
         else
-            throw new TxtdisException("S/O No. " + bookingId + "\nhas been used in\nS/I No. " + invoiceId);
+            populateFields((OrderDTO) booking);
+
     }
 
     @Override
@@ -217,5 +252,6 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         total = BigDecimal.ZERO;
         bookingIdField.setIdNo(orderDTO.getBookingId());
         super.refresh();
+        datePicker.setValue(getInvoiceDate());
     }
 }

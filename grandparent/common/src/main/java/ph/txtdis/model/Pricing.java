@@ -84,6 +84,52 @@ public class Pricing extends AbstractAudited {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((channelLimit == null) ? 0 : channelLimit.hashCode());
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((price == null) ? 0 : price.hashCode());
+        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pricing other = (Pricing) obj;
+        if (channelLimit == null) {
+            if (other.channelLimit != null)
+                return false;
+        } else if (!channelLimit.equals(other.channelLimit))
+            return false;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (price == null) {
+            if (other.price != null)
+                return false;
+        } else if (!price.equals(other.price))
+            return false;
+        if (startDate == null) {
+            if (other.startDate != null)
+                return false;
+        } else if (!startDate.equals(other.startDate))
+            return false;
+        if (type != other.type)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return item + " - " + type + ": ₱" + price + " starting " + startDate;
     }

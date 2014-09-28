@@ -28,6 +28,31 @@ public class BookingDetail extends AbstractPricedDetail {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((booking == null) ? 0 : booking.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        BookingDetail other = (BookingDetail) obj;
+        if (booking == null) {
+            if (other.booking != null)
+                return false;
+        } else if (!booking.equals(other.booking))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return booking + ": " + qty + uom + " " + quality + " " + item;
     }

@@ -34,19 +34,19 @@ public class Customer extends AbstractAudited implements Named {
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Channel channel;
-    
+
     private VisitFrequency visitFrequency;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Routing> routeHistory;
-    
+
     private String creditContactName, creditContactSurname, contactTitle;
-    
+
     private long mobile;
-    
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CreditDetail> creditDetails;
-    
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerDiscount> discounts;
 
@@ -58,10 +58,12 @@ public class Customer extends AbstractAudited implements Named {
         this.type = type;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -180,7 +182,107 @@ public class Customer extends AbstractAudited implements Named {
 
     public String getFullAdddress() {
         return address + ", " + barangay + ", " + city + ", " + province;
-   }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((barangay == null) ? 0 : barangay.hashCode());
+        result = prime * result + ((channel == null) ? 0 : channel.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((contactTitle == null) ? 0 : contactTitle.hashCode());
+        result = prime * result + ((creditContactName == null) ? 0 : creditContactName.hashCode());
+        result = prime * result + ((creditContactSurname == null) ? 0 : creditContactSurname.hashCode());
+        result = prime * result + ((creditDetails == null) ? 0 : creditDetails.hashCode());
+        result = prime * result + ((discounts == null) ? 0 : discounts.hashCode());
+        result = prime * result + (int) (mobile ^ (mobile >>> 32));
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((province == null) ? 0 : province.hashCode());
+        result = prime * result + ((routeHistory == null) ? 0 : routeHistory.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((visitFrequency == null) ? 0 : visitFrequency.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Customer other = (Customer) obj;
+        if (address == null) {
+            if (other.address != null)
+                return false;
+        } else if (!address.equals(other.address))
+            return false;
+        if (barangay == null) {
+            if (other.barangay != null)
+                return false;
+        } else if (!barangay.equals(other.barangay))
+            return false;
+        if (channel == null) {
+            if (other.channel != null)
+                return false;
+        } else if (!channel.equals(other.channel))
+            return false;
+        if (city == null) {
+            if (other.city != null)
+                return false;
+        } else if (!city.equals(other.city))
+            return false;
+        if (contactTitle == null) {
+            if (other.contactTitle != null)
+                return false;
+        } else if (!contactTitle.equals(other.contactTitle))
+            return false;
+        if (creditContactName == null) {
+            if (other.creditContactName != null)
+                return false;
+        } else if (!creditContactName.equals(other.creditContactName))
+            return false;
+        if (creditContactSurname == null) {
+            if (other.creditContactSurname != null)
+                return false;
+        } else if (!creditContactSurname.equals(other.creditContactSurname))
+            return false;
+        if (creditDetails == null) {
+            if (other.creditDetails != null)
+                return false;
+        } else if (!creditDetails.equals(other.creditDetails))
+            return false;
+        if (discounts == null) {
+            if (other.discounts != null)
+                return false;
+        } else if (!discounts.equals(other.discounts))
+            return false;
+        if (mobile != other.mobile)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (province == null) {
+            if (other.province != null)
+                return false;
+        } else if (!province.equals(other.province))
+            return false;
+        if (routeHistory == null) {
+            if (other.routeHistory != null)
+                return false;
+        } else if (!routeHistory.equals(other.routeHistory))
+            return false;
+        if (type != other.type)
+            return false;
+        if (visitFrequency != other.visitFrequency)
+            return false;
+        return true;
+    }
 
     @Override
     public String toString() {

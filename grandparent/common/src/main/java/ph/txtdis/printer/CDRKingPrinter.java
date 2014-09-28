@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Enumeration;
 
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 
 public abstract class CDRKingPrinter {
     protected SerialPort port;
@@ -35,10 +35,10 @@ public abstract class CDRKingPrinter {
     private static final char J = 74;
     private static final String PORT = "COM14";
 
-    public CDRKingPrinter() throws TxtdisException {
+    public CDRKingPrinter() throws InvalidException {
     }
 
-    protected void setPrinter() throws TxtdisException {
+    protected void setPrinter() throws InvalidException {
         Enumeration<?> portIdentifiers = CommPortIdentifier.getPortIdentifiers();
         CommPortIdentifier portId = null;
         String portName = null;
@@ -51,7 +51,7 @@ public abstract class CDRKingPrinter {
         }
         try {
             if (portName == null) {
-                throw new TxtdisException(PORT + " cannot be found;\n"
+                throw new InvalidException(PORT + " cannot be found;\n"
                         + "ensure printer is on and plugged in to said port,\nthen reboot");
             } else {
                 port = portId.open(portName, 100);
@@ -63,13 +63,13 @@ public abstract class CDRKingPrinter {
             }
         } catch (PortInUseException e) {
             e.printStackTrace();
-            throw new TxtdisException("Port already in use;\nclose other apps.");
+            throw new InvalidException("Port already in use;\nclose other apps.");
         } catch (UnsupportedCommOperationException e) {
             e.printStackTrace();
-            throw new TxtdisException("UnsupportedCommOperation:\n" + e);
+            throw new InvalidException("UnsupportedCommOperation:\n" + e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new TxtdisException("No signal from printer;\nrestart it and try again.");
+            throw new InvalidException("No signal from printer;\nrestart it and try again.");
         } finally {
             try {
                 if (is != null)
@@ -82,7 +82,7 @@ public abstract class CDRKingPrinter {
                     port.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new TxtdisException("Cannot reset printer; restart all");
+                throw new InvalidException("Cannot reset printer; restart all");
             }
         }
     }
@@ -131,5 +131,5 @@ public abstract class CDRKingPrinter {
         }
     }
 
-    protected abstract void print() throws TxtdisException;
+    protected abstract void print() throws InvalidException;
 }

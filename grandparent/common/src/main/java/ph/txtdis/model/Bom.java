@@ -19,10 +19,10 @@ public class Bom extends AbstractAudited {
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Item child;
-    
+
     @Column(nullable = false)
     private UomType uom;
-    
+
     @Column(nullable = false, precision = 8, scale = 4)
     private BigDecimal qty;
 
@@ -66,6 +66,46 @@ public class Bom extends AbstractAudited {
 
     public void setQty(BigDecimal qty) {
         this.qty = qty;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((child == null) ? 0 : child.hashCode());
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((qty == null) ? 0 : qty.hashCode());
+        result = prime * result + ((uom == null) ? 0 : uom.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Bom other = (Bom) obj;
+        if (child == null) {
+            if (other.child != null)
+                return false;
+        } else if (!child.equals(other.child))
+            return false;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (qty == null) {
+            if (other.qty != null)
+                return false;
+        } else if (!qty.equals(other.qty))
+            return false;
+        if (uom != other.uom)
+            return false;
+        return true;
     }
 
     @Override

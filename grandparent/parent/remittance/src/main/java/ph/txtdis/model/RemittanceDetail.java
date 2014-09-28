@@ -120,6 +120,67 @@ public class RemittanceDetail extends AbstractAudited {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
+        result = prime * result + ((partnerName == null) ? 0 : partnerName.hashCode());
+        result = prime * result + ((payment == null) ? 0 : payment.hashCode());
+        result = prime * result + ((referenceDate == null) ? 0 : referenceDate.hashCode());
+        result = prime * result + referenceId;
+        result = prime * result + ((referenceType == null) ? 0 : referenceType.hashCode());
+        result = prime * result + ((remittance == null) ? 0 : remittance.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RemittanceDetail other = (RemittanceDetail) obj;
+        if (amount == null) {
+            if (other.amount != null)
+                return false;
+        } else if (!amount.equals(other.amount))
+            return false;
+        if (balance == null) {
+            if (other.balance != null)
+                return false;
+        } else if (!balance.equals(other.balance))
+            return false;
+        if (partnerName == null) {
+            if (other.partnerName != null)
+                return false;
+        } else if (!partnerName.equals(other.partnerName))
+            return false;
+        if (payment == null) {
+            if (other.payment != null)
+                return false;
+        } else if (!payment.equals(other.payment))
+            return false;
+        if (referenceDate == null) {
+            if (other.referenceDate != null)
+                return false;
+        } else if (!referenceDate.equals(other.referenceDate))
+            return false;
+        if (referenceId != other.referenceId)
+            return false;
+        if (referenceType != other.referenceType)
+            return false;
+        if (remittance == null) {
+            if (other.remittance != null)
+                return false;
+        } else if (!remittance.equals(other.remittance))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return remittance + ": " + referenceType + " No. " + DIS.formatId(getReferenceId());
     }

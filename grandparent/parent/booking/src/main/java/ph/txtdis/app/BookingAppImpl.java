@@ -1,5 +1,7 @@
 package ph.txtdis.app;
 
+import java.time.LocalDate;
+
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import ph.txtdis.App;
@@ -36,6 +38,23 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
     @Override
     public void setItemDTO() {
         item = App.getContext().getBean(ItemDTO.class);
+    }
+
+    @Override
+    protected void createOrderedLabeledInputs() {
+        super.createOrderedLabeledInputs();
+        dateLabel.setText("Pick Date");
+    }
+
+    @Override
+    protected void setListeners() {
+        super.setListeners();
+        datePicker.setOnAction(event -> validateDate(datePicker.getValue()));
+    }
+
+    private void validateDate(LocalDate date) {
+        if (date != null && idField.getText().isEmpty() && date.isBefore(LocalDate.now()))
+            handleError(this, "Pick date cannot be in the past");
     }
 
     @Override

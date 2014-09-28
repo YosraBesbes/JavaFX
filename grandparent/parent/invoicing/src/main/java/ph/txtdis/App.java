@@ -14,7 +14,9 @@ import ph.txtdis.app.CustomerSetup;
 import ph.txtdis.app.InvoiceBookletSetup;
 import ph.txtdis.app.InvoicingAppImpl;
 import ph.txtdis.app.ItemSetup;
+import ph.txtdis.app.PickingSetup;
 import ph.txtdis.app.Setup;
+import ph.txtdis.dto.InvoicingSetup;
 import ph.txtdis.fx.dialog.StartUpDialog;
 
 @Configuration
@@ -37,6 +39,8 @@ public class App extends Application {
                 context.getBean(ItemSetup.class).start();
                 context.getBean(BookingSetup.class).start();
                 context.getBean(InvoiceBookletSetup.class).start();
+                context.getBean(PickingSetup.class).start();
+                context.getBean(InvoicingSetup.class).start();
                 title = getParameters().getRaw().get(0);
             }
 

@@ -11,12 +11,11 @@ import org.springframework.context.annotation.Configuration;
 
 import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.CustomerSetup;
+import ph.txtdis.app.InventoryAppImpl;
 import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.PickingSetup;
 import ph.txtdis.app.ReceivingSetup;
 import ph.txtdis.app.Setup;
-import ph.txtdis.app.InventoryAppImpl;
-import ph.txtdis.app.InventorySetup;
 import ph.txtdis.app.StockTakeSetup;
 import ph.txtdis.fx.dialog.StartUpDialog;
 

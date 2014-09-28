@@ -7,7 +7,7 @@ import ph.txtdis.app.Apped;
 import ph.txtdis.dto.AbstractSpunByDate;
 import ph.txtdis.dto.Audited;
 import ph.txtdis.dto.DTO;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.ProgressDialog;
@@ -28,7 +28,7 @@ public class SaveButton<E, K> extends FontButton<E> {
                 protected void begin() {
                     try {
                         app.save();
-                    } catch (TxtdisException e) {
+                    } catch (InvalidException e) {
                         this.e = e;
                     }
                 }

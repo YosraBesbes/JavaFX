@@ -15,7 +15,7 @@ import java.util.Calendar;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.lang3.time.DateUtils;
 
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 
 public class DIS {
 
@@ -284,9 +284,9 @@ public class DIS {
         return false;
     }
 
-    public static boolean hasBeenAssigned(String duplicate, String assignee) throws TxtdisException {
+    public static boolean hasBeenAssigned(String duplicate, String assignee) throws InvalidException {
         if (assignee != null)
-            throw new TxtdisException(duplicate + "\nis assigned to\n" + assignee);
+            throw new InvalidException(duplicate + "\nis assigned to\n" + assignee);
         return false;
     }
 

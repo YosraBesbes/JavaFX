@@ -86,6 +86,49 @@ public class QtyPerUom extends AbstractAudited {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + (isPurchased ? 1231 : 1237);
+        result = prime * result + (isReported ? 1231 : 1237);
+        result = prime * result + (isSold ? 1231 : 1237);
+        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((qty == null) ? 0 : qty.hashCode());
+        result = prime * result + ((uom == null) ? 0 : uom.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        QtyPerUom other = (QtyPerUom) obj;
+        if (isPurchased != other.isPurchased)
+            return false;
+        if (isReported != other.isReported)
+            return false;
+        if (isSold != other.isSold)
+            return false;
+        if (item == null) {
+            if (other.item != null)
+                return false;
+        } else if (!item.equals(other.item))
+            return false;
+        if (qty == null) {
+            if (other.qty != null)
+                return false;
+        } else if (!qty.equals(other.qty))
+            return false;
+        if (uom != other.uom)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return item + ": " + qty + " per " + uom;
     }

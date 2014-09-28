@@ -21,14 +21,14 @@ import javafx.stage.Stage;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.exception.NotFoundException;
-import ph.txtdis.exception.TxtdisException;
+import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.MonetaryDisplay;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
+import ph.txtdis.model.Customer;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.VolumeDiscount;
@@ -152,27 +152,19 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     private void validatePartnerId(int id) {
         if (customer.exists(id))
-            actWhenFound(id);
+            handleFoundId(id);
         else
-            throwNotFoundException(id);
+            handleError(this, "Partner No." + id + "\nis not in this database");
     }
 
-    private void throwNotFoundException(int id) {
-        try {
-            throw new NotFoundException("Partner ID No. " + id);
-        } catch (Exception e) {
-            actOnError(this, e);
-        }
-    }
-
-    protected void actWhenFound(int id) {
+    protected void handleFoundId(int id) {
         customer.setById(id);
         partnerNameField.setText(customer.getName());
         partnerAddressField.setText(customer.getSpecific());
     }
 
-    protected void actOnError(Stage stage, Exception e) {
-        new ErrorDialog(stage, e.getMessage());
+    protected void handleError(Stage stage, String msg) {
+        new ErrorDialog(stage, msg);
         partnerIdField.clear();
         partnerNameField.setText("");
         partnerAddressField.setText("");
@@ -180,7 +172,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     @Override
-    public void save() throws TxtdisException {
+    public void save() throws InvalidException {
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));
@@ -263,6 +255,11 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     private ObservableList<D> tableItems() {
         return detailTable.getItems();
+    }
+
+    @Override
+    public Customer getPartner() {
+        return customer.get();
     }
 
     @Override

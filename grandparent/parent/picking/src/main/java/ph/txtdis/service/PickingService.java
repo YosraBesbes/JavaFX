@@ -5,7 +5,6 @@ import java.util.List;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.PickList;
-import ph.txtdis.model.PickListPrinting;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.PickingSummary;
@@ -23,8 +22,6 @@ public interface PickingService extends SpunService<Picking, Integer> {
     List<Truck> getEmptyTrucks(LocalDate date);
 
     List<PickList> generatePickList(int id);
-
-    PickListPrinting getPrintedPickList(Picking picking);
 
     List<PickingSummary> getSummary(LocalDate startDate, LocalDate endDate);
 }
