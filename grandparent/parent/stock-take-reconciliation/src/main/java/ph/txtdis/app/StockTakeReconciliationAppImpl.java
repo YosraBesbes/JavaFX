@@ -2,6 +2,7 @@ package ph.txtdis.app;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
@@ -33,7 +34,9 @@ import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.LatestStockTakeClosureOptionDialog;
-import ph.txtdis.fx.input.StringDisplay;
+import ph.txtdis.fx.display.StringDisplay;
+import ph.txtdis.fx.display.TimestampDisplay;
+import ph.txtdis.fx.display.UserDisplay;
 import ph.txtdis.fx.table.StockTakeReconciliationDetailTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.mail.ApprovedByMail;
@@ -60,9 +63,11 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     private StockTakeAdjustmentDTO adjustment;
     private StockTakeReconciliationDTO reconciliation;
     private String[] addresses;
-    private StringDisplay dateDisplay, cutoffByDisplay, cutoffOnDisplay, closedByDisplay, closedOnDisplay,
-            reconciledByDisplay, reconciledOnDisplay, mailedByDisplay, mailedOnDisplay, approvedByDisplay,
-            approvedOnDisplay, retrievedByDisplay, retrievedOnDisplay;
+    private StringDisplay dateDisplay;
+    private TimestampDisplay cutoffOnDisplay, closedOnDisplay, reconciledOnDisplay, mailedOnDisplay, approvedOnDisplay,
+            completedOnDisplay;
+    private UserDisplay cutoffByDisplay, closedByDisplay, reconciledByDisplay, mailedByDisplay, approvedByDisplay,
+            completedByDisplay;
     private SystemUser txtDIS;
     private TableView<StockTakeReconciliationFilteredDetail> detailTable;
     private UserDTO user;
@@ -129,34 +134,34 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         approvalCheckBox.setSelected(isApproved());
 
         Label cutoffByLabel = new Label("Cutoff set by");
-        cutoffByDisplay = new StringDisplay(getCutoffBy(), 120);
+        cutoffByDisplay = new UserDisplay(reconciliation.getCutoffBy());
         Label cutoffOnLabel = new Label("on");
-        cutoffOnDisplay = new StringDisplay(getCutoffOn(), 160);
+        cutoffOnDisplay = new TimestampDisplay(reconciliation.getCutoffOn());
 
         Label closedByLabel = new Label("Count closed by");
-        closedByDisplay = new StringDisplay(getClosedBy(), 120);
+        closedByDisplay = new UserDisplay(reconciliation.getClosedBy());
         Label closedOnLabel = new Label("on");
-        closedOnDisplay = new StringDisplay(getClosedOn(), 160);
+        closedOnDisplay = new TimestampDisplay(reconciliation.getClosedOn());
 
         Label reconciledByLabel = new Label("Reconciled by");
-        reconciledByDisplay = new StringDisplay(getReconciledBy(), 120);
+        reconciledByDisplay = new UserDisplay(reconciliation.getReconciledBy());
         Label reconciledOnLabel = new Label("on");
-        reconciledOnDisplay = new StringDisplay(getReconciledOn(), 160);
+        reconciledOnDisplay = new TimestampDisplay(reconciliation.getReconciledOn());
 
         Label mailedByLabel = new Label("Report mailed by");
-        mailedByDisplay = new StringDisplay(getMailedBy(), 120);
+        mailedByDisplay = new UserDisplay(reconciliation.getMailedBy());
         Label mailedOnLabel = new Label("on");
-        mailedOnDisplay = new StringDisplay(getMailedOn(), 160);
+        mailedOnDisplay = new TimestampDisplay(reconciliation.getMailedOn());
 
         Label approvedByLabel = new Label("Dis/approved by");
-        approvedByDisplay = new StringDisplay(getApprovedBy(), 120);
+        approvedByDisplay = new UserDisplay(reconciliation.getApprovedBy());
         Label approvedOnLabel = new Label("on");
-        approvedOnDisplay = new StringDisplay(getApprovedOn(), 160);
+        approvedOnDisplay = new TimestampDisplay(reconciliation.getApprovedOn());
 
-        Label retrievedByLabel = new Label("Mail retrieved by");
-        retrievedByDisplay = new StringDisplay(getRetrievedBy(), 120);
-        Label retrievedOnLabel = new Label("on");
-        retrievedOnDisplay = new StringDisplay(getRetrievedOn(), 160);
+        Label completedByLabel = new Label("Completed by");
+        completedByDisplay = new UserDisplay(reconciliation.getCompletedBy());
+        Label completedOnLabel = new Label("on");
+        completedOnDisplay = new TimestampDisplay(reconciliation.getCompletedOn());
 
         detailTable = new StockTakeReconciliationDetailTable(this).getTable();
         detailTable.setItems(reconciliation.getStockTakeReconciliationFilteredDetail());
@@ -197,10 +202,10 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         gridPane.add(approvedOnLabel, 2, 3);
         gridPane.add(approvedOnDisplay, 3, 3);
 
-        gridPane.add(retrievedByLabel, 4, 3);
-        gridPane.add(retrievedByDisplay, 5, 3);
-        gridPane.add(retrievedOnLabel, 6, 3);
-        gridPane.add(retrievedOnDisplay, 7, 3);
+        gridPane.add(completedByLabel, 4, 3);
+        gridPane.add(completedByDisplay, 5, 3);
+        gridPane.add(completedOnLabel, 6, 3);
+        gridPane.add(completedOnDisplay, 7, 3);
 
         HBox box = new HBox(detailTable);
         box.setSpacing(10);
@@ -211,56 +216,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         return new Node[] { routingBox };
     }
 
-    private String getCutoffBy() {
-        return DIS.toString(reconciliation.getCutoffBy());
-    }
-
-    private String getCutoffOn() {
-        return Util.formatZonedDateTime(reconciliation.getCutoffOn());
-    }
-
-    private String getClosedBy() {
-        return DIS.toString(reconciliation.getClosedBy());
-    }
-
-    private String getClosedOn() {
-        return Util.formatZonedDateTime(reconciliation.getClosedOn());
-    }
-
-    private String getReconciledBy() {
-        return DIS.toString(reconciliation.getReconciledBy());
-    }
-
-    private String getReconciledOn() {
-        return Util.formatZonedDateTime(reconciliation.getReconciledOn());
-    }
-
-    private String getMailedBy() {
-        return DIS.toString(reconciliation.getMailedBy());
-    }
-
-    private String getMailedOn() {
-        return Util.formatZonedDateTime(reconciliation.getMailedOn());
-    }
-
-    private String getApprovedBy() {
-        return DIS.toString(reconciliation.getApprovedBy());
-    }
-
-    private String getApprovedOn() {
-        return Util.formatZonedDateTime(reconciliation.getApprovedOn());
-    }
-
     private Boolean isApproved() {
         return reconciliation.isApproved() == null ? false : reconciliation.isApproved();
-    }
-
-    private String getRetrievedBy() {
-        return DIS.toString(reconciliation.getCompletedBy());
-    }
-
-    private String getRetrievedOn() {
-        return Util.formatZonedDateTime(reconciliation.getCompleteOn());
     }
 
     @Override
@@ -341,7 +298,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
 
     @Override
     public void saveAsExcel() {
-        new ExcelWriter<StockTakeReconciliationFilteredDetail>(detailTable, module, getPrimaryKey());
+        new ExcelWriter(Arrays.asList(Arrays.asList(detailTable)), module, getPrimaryKey());
     }
 
     private void getApproval() throws InvalidException {
@@ -373,7 +330,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     @Override
     public void sendMail() throws MailNotSentException {
         try {
-            new MailSender(txtDIS, module, getPrimaryKey(), addresses);
+            new MailSender(txtDIS, "For approval: ", module, getPrimaryKey(), addresses);
         } catch (Exception e) {
             throw new MailNotSentException();
         }
@@ -430,18 +387,18 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     public void refresh() {
         dateDisplay.setText(getPrimaryKey());
         approvalCheckBox.setSelected(isApproved());
-        cutoffByDisplay.setText(getCutoffBy());
-        cutoffOnDisplay.setText(getCutoffOn());
-        closedByDisplay.setText(getClosedBy());
-        closedOnDisplay.setText(getClosedOn());
-        reconciledByDisplay.setText(getReconciledBy());
-        reconciledOnDisplay.setText(getReconciledOn());
-        mailedByDisplay.setText(getMailedBy());
-        mailedOnDisplay.setText(getMailedOn());
-        approvedByDisplay.setText(getApprovedBy());
-        approvedOnDisplay.setText(getApprovedOn());
-        retrievedByDisplay.setText(getRetrievedBy());
-        retrievedOnDisplay.setText(getRetrievedOn());
+        cutoffByDisplay.setUser(reconciliation.getCutoffBy());
+        cutoffOnDisplay.setTimestamp(reconciliation.getCutoffOn());
+        closedByDisplay.setUser(reconciliation.getClosedBy());
+        closedOnDisplay.setTimestamp(reconciliation.getClosedOn());
+        reconciledByDisplay.setUser(reconciliation.getReconciledBy());
+        reconciledOnDisplay.setTimestamp(reconciliation.getReconciledOn());
+        mailedByDisplay.setUser(reconciliation.getMailedBy());
+        mailedOnDisplay.setTimestamp(reconciliation.getMailedOn());
+        approvedByDisplay.setUser(reconciliation.getApprovedBy());
+        approvedOnDisplay.setTimestamp(reconciliation.getApprovedOn());
+        completedByDisplay.setUser(reconciliation.getCompletedBy());
+        completedOnDisplay.setTimestamp(reconciliation.getCompletedOn());
         detailTable.getItems().clear();
         detailTable.getItems().addAll(reconciliation.getStockTakeReconciliationFilteredDetail());
         super.refresh();

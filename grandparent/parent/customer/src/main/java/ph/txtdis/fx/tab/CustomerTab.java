@@ -28,13 +28,12 @@ import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.table.RoutingTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
-import ph.txtdis.model.Customer;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.Routing;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
-public class CustomerTab extends AbstractTab<Customer, CustomerDTO> {
+public class CustomerTab extends AbstractTab<CustomerDTO> {
 
     private ChannelDTO channel;
     private CustomerDTO customer;
@@ -50,7 +49,7 @@ public class CustomerTab extends AbstractTab<Customer, CustomerDTO> {
     private TableView<Routing> routingTable;
 
     public CustomerTab(Stage stage, CustomerDTO dto) {
-        super("Basic Information", stage, dto);
+        super("Basic Information", "customer", stage, dto);
         setDisableBindings();
         setEventListeners(stage);
     }
@@ -76,7 +75,7 @@ public class CustomerTab extends AbstractTab<Customer, CustomerDTO> {
                 }
 
         });
-        
+
         clearTypeComboIfChanged(provinceCombo, cityCombo, barangayCombo);
 
         typeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -159,22 +158,22 @@ public class CustomerTab extends AbstractTab<Customer, CustomerDTO> {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setAlignment(Pos.CENTER);
-        
+
         gridPane.add(idLabel, 0, 0);
         gridPane.add(idField, 1, 0);
         gridPane.add(nameLabel, 2, 0);
         gridPane.add(nameField, 3, 0, 3, 1);
-        
+
         gridPane.add(addressLabel, 0, 1);
         gridPane.add(addressField, 1, 1, 5, 1);
-        
+
         gridPane.add(provinceLabel, 0, 2);
-        gridPane.add(provinceCombo, 1, 2);        
+        gridPane.add(provinceCombo, 1, 2);
         gridPane.add(cityLabel, 2, 2);
         gridPane.add(cityCombo, 3, 2);
         gridPane.add(barangayLabel, 4, 2);
         gridPane.add(barangayCombo, 5, 2);
-        
+
         gridPane.add(typeLabel, 0, 3);
         gridPane.add(typeCombo, 1, 3);
         gridPane.add(channelLabel, 2, 3);

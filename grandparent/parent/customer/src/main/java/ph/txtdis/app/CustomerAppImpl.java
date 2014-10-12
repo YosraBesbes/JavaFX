@@ -16,7 +16,7 @@ import ph.txtdis.fx.dialog.FoundCustomerDialog;
 import ph.txtdis.fx.tab.CreditTab;
 import ph.txtdis.fx.tab.CustomerDiscountTab;
 import ph.txtdis.fx.tab.CustomerTab;
-import ph.txtdis.fx.tab.Tabled;
+import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Customer;
 import ph.txtdis.type.CustomerType;
@@ -28,7 +28,7 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched
     private CustomerTab customerTab;
     private CreditTab creditTab;
     private CustomerDiscountTab discountTab;
-    private Tabled[] tabsWithTables;
+    private Tabbed[] tabsWithTables;
 
     public CustomerAppImpl() {
         super("Customer", "");
@@ -41,7 +41,7 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched
 
     @Override
     public void refresh() {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             t.refresh();
         super.refresh();
     }
@@ -95,11 +95,11 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched
         customerTab = new CustomerTab(this, customer);
         creditTab = new CreditTab(this, customer);
         discountTab = new CustomerDiscountTab(this, customer);
-        tabsWithTables = new Tabled[] { customerTab, creditTab, discountTab };
+        tabsWithTables = new Tabbed[] { customerTab, creditTab, discountTab };
     }
 
     private void tabs() {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             tabs.add(t.getTab());
     }
 
@@ -113,7 +113,7 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Searched
 
     @Override
     public void save() throws InvalidException {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             t.save();
         customer.save();
     }

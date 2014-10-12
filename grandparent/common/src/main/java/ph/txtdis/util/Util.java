@@ -50,6 +50,22 @@ public class Util {
     }
 
     public static String formatZonedDateTime(ZonedDateTime zdt) {
-        return zdt == null ? "" : zdt.format(DateTimeFormatter.ofPattern("M/d/yyyy h:mma"));
+        return zdt == null ? "" : zdt.format(timestampFormat());
+    }
+
+    private static DateTimeFormatter timestampFormat() {
+        return DateTimeFormatter.ofPattern("M/d/yyyy h:mma");
+    }
+
+    public static ZonedDateTime parseZonedDateTime(String zdt) {
+        return zdt == null ? null : ZonedDateTime.parse(zdt, timestampFormat());
+    }
+
+    public static ZonedDateTime startOfDay(LocalDate date) {
+        return date == null ? null : date.atStartOfDay(ZoneId.systemDefault());
+    }
+
+    public static ZonedDateTime endOfDay(LocalDate date) {
+        return date == null ? null : date.plusDays(1L).atStartOfDay(ZoneId.systemDefault());
     }
 }

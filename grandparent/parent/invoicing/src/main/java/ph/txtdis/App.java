@@ -13,10 +13,10 @@ import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.CustomerSetup;
 import ph.txtdis.app.InvoiceBookletSetup;
 import ph.txtdis.app.InvoicingAppImpl;
+import ph.txtdis.app.InvoicingSetup;
 import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.PickingSetup;
 import ph.txtdis.app.Setup;
-import ph.txtdis.dto.InvoicingSetup;
 import ph.txtdis.fx.dialog.StartUpDialog;
 
 @Configuration

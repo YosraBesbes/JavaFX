@@ -1,6 +1,6 @@
 package ph.txtdis.app;
 
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,9 +16,10 @@ import ph.txtdis.App;
 import ph.txtdis.dto.InvoiceBookletDTO;
 import ph.txtdis.fx.dialog.InvoiceBookletDialog;
 import ph.txtdis.fx.table.AbstractInputTable;
-import ph.txtdis.fx.util.FX;
+import ph.txtdis.fx.tablecolumn.IdDisplayColumn;
+import ph.txtdis.fx.tablecolumn.TextDisplayColumn;
+import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
 
 public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> {
 
@@ -45,12 +46,15 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> 
             @Override
             @SuppressWarnings("unchecked")
             protected void addTableColumns() {
-                TableColumn<InvoiceBooklet, Integer> idStartCol = FX.addIntegerColumn("Starting No.", "startId");
-                TableColumn<InvoiceBooklet, Integer> idEndCol = FX.addIntegerColumn("Ending No.", "endId");
-                TableColumn<InvoiceBooklet, SystemUser> issuedToCol = FX.addComboColumn("Issued To", "issuedTo",
-                        dto.listUsers());
-                TableColumn<InvoiceBooklet, Timestamp> issuedByCol = FX.createColumn("Issued By", "createdBy", 120);
-                TableColumn<InvoiceBooklet, Timestamp> issuedOnCol = FX.createColumn("Issued On", "timeStamp", 180);
+                TableColumn<InvoiceBooklet, Integer> idStartCol = new IdDisplayColumn<>(stage, "Starting No.",
+                        "startId");
+                TableColumn<InvoiceBooklet, Integer> idEndCol = new IdDisplayColumn<>(stage, "Ending No.", "endId");
+                TableColumn<InvoiceBooklet, String> issuedToCol = new TextDisplayColumn<>(stage, "Issued To",
+                        "issuedTo", 120, Pos.CENTER_LEFT);
+                TableColumn<InvoiceBooklet, String> issuedByCol = new TextDisplayColumn<>(stage, "Issued By",
+                        "createdBy", 120, Pos.CENTER_LEFT);
+                TableColumn<InvoiceBooklet, ZonedDateTime> issuedOnCol = new TimestampDisplayColumn<>(stage,
+                        "Issued On", "timeStamp");
                 table.getColumns().addAll(idStartCol, idEndCol, issuedToCol, issuedByCol, issuedOnCol);
             }
 
@@ -79,11 +83,6 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> 
         box.setAlignment(Pos.CENTER);
 
         return new Node[] { box };
-    }
-
-    @Override
-    protected String titleName() {
-        return module;
     }
 
     @Override

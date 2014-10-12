@@ -38,8 +38,8 @@ public class App extends Application {
                 context.getBean(Setup.class).start();
                 context.getBean(ItemSetup.class).start();
                 context.getBean(CustomerSetup.class).start();
-                context.getBean(ReceivingSetup.class).start();
                 context.getBean(BookingSetup.class).start();
+                context.getBean(ReceivingSetup.class).start();
                 context.getBean(PickingSetup.class).start();
                 context.getBean(StockTakeSetup.class).start();
                 context.getBean(StockTakeReconciliationSetup.class).start();

@@ -9,6 +9,7 @@ import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.Routing;
+import ph.txtdis.type.CustomerType;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
@@ -26,6 +27,9 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
     @Query("select c.discounts from Customer c where c.id = ?1")
     List<CustomerDiscount> getDiscounts(int id);
+
+    @Query("select c.type from Customer c where c.id = ?1")
+    CustomerType getType(int id);
 
     List<Customer> findByNameContaining(String name);
 

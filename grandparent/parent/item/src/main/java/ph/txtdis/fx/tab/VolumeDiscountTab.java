@@ -1,8 +1,8 @@
 package ph.txtdis.fx.tab;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
@@ -13,6 +13,7 @@ import ph.txtdis.dto.ChannelDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.fx.dialog.VolumeDiscountDialog;
 import ph.txtdis.fx.table.AbstractInputTable;
+import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.SystemUser;
@@ -20,11 +21,11 @@ import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.UomType;
 import ph.txtdis.type.VolumeDiscountType;
 
-public class VolumeDiscountTab extends AbstractTab<VolumeDiscount, ItemDTO> {
+public class VolumeDiscountTab extends AbstractTab<ItemDTO> {
     private TableView<VolumeDiscount> table;
 
     public VolumeDiscountTab(Stage stage, ItemDTO dto) {
-        super("Volume Discount", stage, dto);
+        super("Volume Discount", "discount", stage, dto);
     }
 
     @Override
@@ -44,10 +45,11 @@ public class VolumeDiscountTab extends AbstractTab<VolumeDiscount, ItemDTO> {
                 TableColumn<VolumeDiscount, Integer> cutOffCol = FX.addIntegerColumn("Target", "cutOff");
                 TableColumn<VolumeDiscount, BigDecimal> discountCol = FX.addPriceColumn("Discount", "discount");
                 TableColumn<VolumeDiscount, LocalDate> startCol = FX.addDateColumn("Start", "startDate");
-                TableColumn<VolumeDiscount, Channel> channelLimitCol = FX.addComboColumn("Limited to",
-                        "channelLimit", channel.list());
+                TableColumn<VolumeDiscount, Channel> channelLimitCol = FX.addComboColumn("Limited to", "channelLimit",
+                        channel.list());
                 TableColumn<VolumeDiscount, SystemUser> givenByCol = FX.createColumn("Given By", "createdBy", 120);
-                TableColumn<VolumeDiscount, Timestamp> givenDateCol = FX.createColumn("Given On", "timeStamp", 180);
+                TableColumn<VolumeDiscount, ZonedDateTime> givenDateCol = new TimestampDisplayColumn<>(stage,
+                        "Given On", "timeStamp");
                 table.getColumns().addAll(typeCol, uomCol, cutOffCol, discountCol, startCol, channelLimitCol,
                         givenByCol, givenDateCol);
             }

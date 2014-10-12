@@ -35,8 +35,14 @@ public interface PickingRepository extends CrudRepository<Picking, Integer> {
     @Query("select t from Truck t where t.id not in (select p.truck from Picking p where p.pickDate = ?1)")
     List<Truck> getEmptyTrucks(LocalDate date);
 
+    @Query("select p.truck from Picking p where p.pickDate = ?1 ")
+    List<Truck> getLoadedTrucks(LocalDate date);
+
     @Query("select new ph.txtdis.model.PickList(i.id, i.name, sum(bd.qty * qpu.qty)) "
             + "from Picking p join p.details pd join pd.booking b join b.details bd join bd.item i "
             + "join i.qtyPerUom qpu where qpu.uom = bd.uom and p.id = ?1 group by i.id, i.name")
     List<PickList> generatePickList(int id);
+
+    @Query("select p.pickDate from Picking p join p.details d where d.booking = ?1")
+    LocalDate getPickDateFromSalesOrder(Booking booking);
 }

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.model.Customer;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Priced;
 
@@ -22,8 +21,6 @@ public interface OrderApp<D extends Priced> {
     void iterateDetailTableItems(List<Priced> details);
 
     LocalDate getPickerDate();
-
-    Customer getPartner();
 
     void setCustomerDTO();
 

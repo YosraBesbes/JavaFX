@@ -34,7 +34,7 @@ public interface OrderDTO<E extends Ordered<D>, D extends ItemDetailed> extends 
 
     void setDiscount(CustomerDiscount discount);
 
-    BigDecimal getAmount();
+    BigDecimal getTotalValue();
 
-    void setAmount(BigDecimal amount);
+    void setTotalValue(BigDecimal value);
 }

@@ -18,7 +18,7 @@ import ph.txtdis.fx.button.BookingButton;
 import ph.txtdis.fx.button.ChannelButton;
 import ph.txtdis.fx.button.CmDmButton;
 import ph.txtdis.fx.button.CustomerButton;
-import ph.txtdis.fx.button.DeliveryButton;
+import ph.txtdis.fx.button.DayEndReportButton;
 import ph.txtdis.fx.button.EwtButton;
 import ph.txtdis.fx.button.FamilyButton;
 import ph.txtdis.fx.button.GroupButton;
@@ -72,7 +72,7 @@ public class MainDialog extends Stage {
         Button channelButton = new ChannelButton(this).getButton();
         Button cmdmButton = new CmDmButton(this).getButton();
         Button customerButton = new CustomerButton(this).getButton();
-        Button deliveryButton = new DeliveryButton(this).getButton();
+        Button deliveryButton = new DayEndReportButton(this).getButton();
         Button ewtButton = new EwtButton(this).getButton();
         Button familyButton = new FamilyButton(this).getButton();
         Button groupButton = new GroupButton(this).getButton();

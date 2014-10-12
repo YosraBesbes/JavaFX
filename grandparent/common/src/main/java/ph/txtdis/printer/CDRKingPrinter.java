@@ -63,10 +63,10 @@ public abstract class CDRKingPrinter {
             }
         } catch (PortInUseException e) {
             e.printStackTrace();
-            throw new InvalidException("Port already in use;\nclose other apps.");
+            throw new InvalidException("Serial port 14 is in use;\nclose other apps.");
         } catch (UnsupportedCommOperationException e) {
             e.printStackTrace();
-            throw new InvalidException("UnsupportedCommOperation:\n" + e);
+            throw new InvalidException("Unsupported Comm Operation:\n" + e);
         } catch (IOException e) {
             e.printStackTrace();
             throw new InvalidException("No signal from printer;\nrestart it and try again.");
@@ -99,7 +99,7 @@ public abstract class CDRKingPrinter {
                 os.write((byte) value[i][j]);
             os.write(ESC);
             os.write(J);
-            os.write((byte) 14); // n/144" feed
+            os.write((byte) 16); // n/144" feed
         }
     }
 

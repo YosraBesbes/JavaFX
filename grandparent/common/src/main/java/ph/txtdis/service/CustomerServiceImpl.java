@@ -18,6 +18,7 @@ import ph.txtdis.repository.CreditDetailRepository;
 import ph.txtdis.repository.CustomerDiscountRepository;
 import ph.txtdis.repository.CustomerRepository;
 import ph.txtdis.repository.RoutingRepository;
+import ph.txtdis.type.CustomerType;
 
 @Service
 @Transactional()
@@ -92,5 +93,11 @@ public class CustomerServiceImpl extends AbstractService<Customer, Integer> impl
         List<CustomerDiscount> discounts = discountRepository.findByCustomerAndStartDateBeforeOrderByStartDateDesc(
                 customer, date.plusDays(1L), new PageRequest(0, 1));
         return discounts.isEmpty() ? null : discounts.get(0);
+    }
+
+    @Override
+    public boolean acceptsRemittance(int id) {
+        CustomerType type = repository.getType(id);
+        return type == CustomerType.BANK || type == CustomerType.CASHIER || type == CustomerType.SHORTAGE;
     }
 }

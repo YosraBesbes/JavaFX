@@ -6,5 +6,5 @@ import ph.txtdis.model.Route;
 import ph.txtdis.service.RouteService;
 
 @Component
-public class RouteDTOImpl extends AbstractListedName<Route, RouteService> implements RouteDTO {
+public class RouteDTOImpl extends AbstractListed<Route, RouteService> implements RouteDTO {
 }

@@ -1,5 +1,6 @@
 package ph.txtdis.fx.dialog;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,90 +8,66 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import ph.txtdis.App;
-import ph.txtdis.dto.Audited;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.dto.RemittanceDTO;
 import ph.txtdis.exception.NotFoundException;
+import ph.txtdis.fx.display.LabeledDisplay;
 import ph.txtdis.fx.input.InputNode;
-import ph.txtdis.fx.input.LabeledComboBox;
-import ph.txtdis.fx.input.LabeledIdNameField;
-import ph.txtdis.fx.input.LabeledMonetaryDisplay;
-import ph.txtdis.fx.input.LabeledMonetaryField;
+import ph.txtdis.fx.input.LabeledIdField;
+import ph.txtdis.model.Invoicing;
+import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
-import ph.txtdis.type.RemittanceReferenceType;
 
 public class RemittanceDialog extends AbstractFieldDialog<RemittanceDetail, RemittanceDTO> {
 
-    private LabeledComboBox<RemittanceReferenceType> referenceCombo;
-    private LabeledIdNameField referenceField;
-    private LabeledMonetaryDisplay amountDisplay, balanceDisplay;
-    private LabeledMonetaryField paymentField;
-    private Audited<?> dto;
+    private BigDecimal remainingPayment;
+    private LabeledIdField idField;
+    private LabeledDisplay partnerDisplay, dateDisplay;
+    private InvoicingDTO invoicing;
 
-    public RemittanceDialog(Stage stage, RemittanceDTO dto) {
+    public RemittanceDialog(Stage stage, RemittanceDTO dto, BigDecimal remainingPayment) {
         super("Remittance", stage, dto);
+        this.remainingPayment = remainingPayment;
+        invoicing = App.getContext().getBean(InvoicingDTO.class);
         setListeners();
     }
 
     @Override
     protected List<InputNode<?>> addNodes() {
-
-        referenceField = new LabeledIdNameField("Item ID No.", 18);
-        referenceCombo = new LabeledComboBox<>("Reference Type", RemittanceReferenceType.values());
-        amountDisplay = new LabeledMonetaryDisplay("Amount");
-        paymentField = new LabeledMonetaryField("Payment");
-        balanceDisplay = new LabeledMonetaryDisplay("Balance");
-
-        return Arrays.asList(referenceField, referenceCombo, amountDisplay, paymentField, balanceDisplay);
+        idField = new LabeledIdField("S/I No.");
+        return Arrays.asList(idField);
     }
 
     private void setListeners() {
-        referenceField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode() == KeyCode.TAB) {
-                int id = referenceField.getValue();
-                RemittanceReferenceType type = referenceCombo.getValue();
-                switch (type) {
-                    case DELIVERY:
-                        // dto = App.getContext().getBean(DeliveryDTO.class);
-                break;
-                    case EWT:
-                        // dto = App.getContext().getBean(EwtDTO.class);
-                break;
-                    case INVOICE:
-                        dto = App.getContext().getBean(InvoicingDTO.class);
-                        break;
-                    case REMITTANCE:
-                        dto = App.getContext().getBean(RemittanceDTO.class);
-                        break;
-                    case VALE:
-                        // dto = App.getContext().getBean(ValeDTO.class);
-                        break;
-                }
-                if (dto.exists(id)) {
-                    actWhenFound(id);
-                } else {
-                    try {
-                        throw new NotFoundException(type + " No. " + id);
-                    } catch (Exception e) {
-                        actOnError(this, e);
-                    }
-                }
-            }
-        });
-
-        amountDisplay.getTextField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+        idField.getTextField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
-                ;
-            // checkAvailableQty(amountDisplay.getValue());
-            });
-
+                verifyInvoiceId();
+        });
     }
 
-    private void actWhenFound(int id) {
-        dto.setById(id);
+    private void verifyInvoiceId() {
+        try {
+            checkInvoiceIdExists();
+        } catch (NotFoundException e) {
+            handleException(stage, e);
+        }
     }
 
-    private void actOnError(Stage stage, Exception e) {
+    private void checkInvoiceIdExists() throws NotFoundException {
+        int id = idField.getValue();
+        if (invoicing.exists(id))
+            handleFoundId(id);
+        else
+            throw new NotFoundException("S/I No. " + id);
+    }
+
+    private void handleFoundId(int id) {
+        invoicing.setById(id);
+        partnerDisplay.setText(invoicing.getPartnerName());
+        dateDisplay.setDate(invoicing.getOrderDate());
+    }
+
+    private void handleException(Stage stage, Exception e) {
         new ErrorDialog(stage, e.getMessage());
         inputNodes.forEach(inputNode -> inputNode.reset());
     }
@@ -98,13 +75,23 @@ public class RemittanceDialog extends AbstractFieldDialog<RemittanceDetail, Remi
     @Override
     protected RemittanceDetail createEntity(RemittanceDTO dto, List<InputNode<?>> inputNodes) {
 
-        // @SuppressWarnings("unchecked")
-        // Date date = ((RemittanceAppImpl) stage).getPickerDate();
-        // Remittance remittance = dto.get();
-        // UomType uom = getInputAtRow(1);
-        // BigDecimal qty = getInputAtRow(2);
+        Remittance remittance = dto.get();
+        Invoicing invoice = invoicing.get();
+        BigDecimal unpaid = invoicing.getTotalValue().subtract(dto.getPayment(invoice));
+        BigDecimal payment = remainingPayment.compareTo(unpaid) > 0 ? unpaid : remainingPayment;
+        remainingPayment = remainingPayment.subtract(payment);
 
-        RemittanceDetail detail = null;
-        return detail;
+        return new RemittanceDetail(remittance, invoice, unpaid, payment);
+    }
+
+    @Override
+    protected void addItems(RemittanceDTO dto, List<InputNode<?>> inputNodes) {
+        super.addItems(dto, inputNodes);
+        if (remainingPayment.compareTo(BigDecimal.ZERO) <= 0)
+            close();
+    }
+
+    public BigDecimal getRemainingPayment() {
+        return remainingPayment;
     }
 }

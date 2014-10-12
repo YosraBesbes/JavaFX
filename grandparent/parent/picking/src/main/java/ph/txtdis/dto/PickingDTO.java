@@ -60,4 +60,6 @@ public interface PickingDTO extends Spun, Audited<Picking> {
     List<Booking> getUnpickedBookings(LocalDate date, Route route);
 
     ObservableList<Truck> getEmptyTrucks(LocalDate date);
+
+    List<Truck> getLoadedTrucks(LocalDate date);
 }

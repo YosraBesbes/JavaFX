@@ -1,8 +1,9 @@
 package ph.txtdis.app;
 
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.util.List;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,32 +23,33 @@ import ph.txtdis.dto.RemittanceDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
+import ph.txtdis.fx.display.StringDisplay;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.MonetaryField;
 import ph.txtdis.fx.input.StringField;
-import ph.txtdis.fx.table.RemittanceDetailTable;
+import ph.txtdis.fx.table.RemittanceTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.type.RemittanceType;
-import ph.txtdis.util.Util;
 
-public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Searched {
+public class RemittanceAppImpl extends AbstractIdApp<Remittance> {
 
-    private RemittanceDTO remittance;
     private CustomerDTO customer;
-
     private List<RemittanceDetail> details;
+    private RemittanceDTO remittance;
 
     private ComboBox<RemittanceType> typeCombo;
     private DatePicker datePicker;
     private HBox partnerBox;
     private IdField idField, partnerIdField;
     private MonetaryField amountField;
-    private StringField partnerNameField, partnerAddressField, referenceField, remarkField;
+    private RemittanceTable remittanceTable;
+    private StringDisplay partnerNameDisplay, partnerAddressDisplay;
+    private StringField referenceField, remarkField;
     private TableView<RemittanceDetail> detailTable;
 
-    private RemittanceDetailTable remittanceTable;
+    private static SimpleObjectProperty<BigDecimal> remainingPayment;
 
     public RemittanceAppImpl() {
         super("Remittance", "");
@@ -67,9 +69,6 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
     @Override
     protected Node[] addVBoxNodes() {
 
-        remittanceTable = new RemittanceDetailTable(this, remittance);
-        detailTable = remittanceTable.getTable();
-
         Label idLabel = new Label("ID No.");
         idField = new IdField(remittance.getId());
         idField.setEditable(false);
@@ -77,13 +76,13 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         Label dateLabel = new Label("Date");
         datePicker = new DatePicker(remittance.getOrderDate());
 
-        Label partnerLabel = new Label("Partner ID No.");
+        Label partnerLabel = new Label("Partner No.");
         partnerIdField = new IdField(remittance.getPartnerId());
-        partnerNameField = new StringField(remittance.getPartnerName());
-        partnerBox = new HBox(partnerLabel, partnerIdField, partnerNameField);
+        partnerNameDisplay = new StringDisplay(remittance.getPartnerName());
+        partnerBox = new HBox(partnerLabel, partnerIdField, partnerNameDisplay);
 
         Label partnerAddressLabel = new Label("Address");
-        partnerAddressField = new StringField(remittance.getPartnerAddress());
+        partnerAddressDisplay = new StringDisplay(remittance.getPartnerAddress());
 
         Label typeLabel = new Label("Type");
         typeCombo = FX.createComboBox(RemittanceType.values(), remittance.getType());
@@ -92,10 +91,14 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         referenceField = new StringField(remittance.getReference());
 
         Label amountLabel = new Label("Amount");
-        amountField = new MonetaryField(remittance.getAmount());
+        amountField = new MonetaryField(remittance.getTotalValue());
+        remainingPayment = new SimpleObjectProperty<>(amountField.getValue());
 
         Label remarkLabel = new Label("Remarks");
         remarkField = new StringField(remittance.getRemarks());
+
+        remittanceTable = new RemittanceTable(this, remittance);
+        detailTable = remittanceTable.getTable();
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -111,7 +114,7 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         gridPane.add(partnerBox, 5, 0);
 
         gridPane.add(partnerAddressLabel, 0, 1);
-        gridPane.add(partnerAddressField, 1, 1, 5, 1);
+        gridPane.add(partnerAddressDisplay, 1, 1, 5, 1);
 
         gridPane.add(typeLabel, 0, 2);
         gridPane.add(typeCombo, 1, 2);
@@ -135,25 +138,25 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
 
     @Override
     protected void setBindings() {
-        buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
+        buttons.get("save").disableProperty()
+                .bind((FX.isEmpty(detailTable).and(FX.isEmpty(remarkField))).or(FX.isEmpty(idField).not()));
 
         partnerIdField.disableProperty().bind(FX.isEmpty(datePicker));
 
-        partnerNameField.setEditable(false);
-        partnerNameField.setFocusTraversable(false);
-
-        partnerAddressField.setEditable(false);
-        partnerAddressField.setFocusTraversable(false);
-
-        remarkField.disableProperty().bind(FX.isEmpty(partnerNameField));
-        detailTable.disableProperty().bind(FX.isEmpty(partnerNameField));
+        remarkField.disableProperty().bind(FX.isEmpty(partnerNameDisplay));
+        detailTable.disableProperty().bind(FX.isEmpty(partnerNameDisplay));
     }
 
     @Override
     protected void setListeners() {
-        partnerIdField.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+        partnerIdField.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.TAB)
                 validatePartnerId(partnerIdField.getIdNo());
+        });
+
+        amountField.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB)
+                remainingPayment.set(amountField.getValue());
         });
     }
 
@@ -166,8 +169,8 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
 
     private void actWhenFound(int id) {
         customer.setById(id);
-        partnerNameField.setText(customer.getName());
-        partnerAddressField.setText(customer.getSpecific());
+        partnerNameDisplay.setText(customer.getName());
+        partnerAddressDisplay.setText(customer.getSpecific());
     }
 
     private void throwNotFoundException(int id) {
@@ -181,24 +184,12 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
     private void actOnError(Stage stage, Exception e) {
         new ErrorDialog(stage, e.getMessage());
         partnerIdField.clear();
-        partnerNameField.setText("");
-        partnerAddressField.setText("");
+        partnerNameDisplay.setText("");
+        partnerAddressDisplay.setText("");
         typeCombo.getSelectionModel().clearSelection();
         referenceField.clear();
         amountField.clear();
         detailTable.getItems().clear();
-    }
-
-    @Override
-    public String setSearchedCriteria() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void listFoundEntities() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -207,7 +198,8 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         remittance.setOrderDate(datePicker.getValue());
         remittance.setType(typeCombo.getValue());
         remittance.setReference(referenceField.getText());
-        remittance.setAmount(amountField.getValue());
+        remittance.setTotalValue(amountField.getValue());
+        remittance.setRemarks(remarkField.getText());
         remittance.setDetails(detailTable.getItems());
         remittance.save();
     }
@@ -222,7 +214,7 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
     private void populateInputs() {
         idField.setIdNo(remittance.getId());
         datePicker.setValue(remittance.getOrderDate());
-        amountField.setValue(remittance.getAmount());
+        amountField.setValue(remittance.getTotalValue());
         remarkField.setText(remittance.getRemarks());
         details = remittance.getDetails();
     }
@@ -235,8 +227,8 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
 
     private void populatePartnerFields() {
         partnerIdField.setIdNo(remittance.getPartnerId());
-        partnerNameField.setText(remittance.getPartnerName());
-        partnerAddressField.setText(remittance.getPartnerAddress());
+        partnerNameDisplay.setText(remittance.getPartnerName());
+        partnerAddressDisplay.setText(remittance.getPartnerAddress());
     }
 
     private void iterateDetails() {
@@ -253,7 +245,7 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> implements Sear
         detailTable.getItems().addAll(details);
     }
 
-    public Date getPickerDate() {
-        return datePicker == null ? null : Util.localToSqlDate(datePicker.getValue());
+    public SimpleObjectProperty<BigDecimal> getRemainingPayment() {
+        return remainingPayment;
     }
 }

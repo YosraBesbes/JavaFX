@@ -13,11 +13,11 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Family;
 import ph.txtdis.type.FamilyType;
 
-public class FamilyTab extends AbstractTab<Family, EmployeeDTO> {
+public class FamilyTab extends AbstractTab<EmployeeDTO> {
     private TableView<Family> table;
 
     public FamilyTab(Stage stage, EmployeeDTO dto) {
-        super("Family", stage, dto);
+        super("Family", "family", stage, dto);
     }
 
     @Override

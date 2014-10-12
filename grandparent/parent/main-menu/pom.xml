@@ -24,6 +24,14 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- 
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>day-end-report</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
         <dependency>
             <groupId>ph.txtdis</groupId>
             <artifactId>employee</artifactId>

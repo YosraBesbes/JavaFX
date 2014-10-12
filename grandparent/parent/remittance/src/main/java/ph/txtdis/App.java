@@ -9,8 +9,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.CustomerSetup;
+import ph.txtdis.app.InvoiceBookletSetup;
+import ph.txtdis.app.InvoicingSetup;
 import ph.txtdis.app.ItemSetup;
+import ph.txtdis.app.PickingSetup;
 import ph.txtdis.app.RemittanceAppImpl;
 import ph.txtdis.app.Setup;
 import ph.txtdis.fx.dialog.StartUpDialog;
@@ -33,6 +37,10 @@ public class App extends Application {
                 context.getBean(Setup.class).start();
                 context.getBean(CustomerSetup.class).start();
                 context.getBean(ItemSetup.class).start();
+                context.getBean(BookingSetup.class).start();
+                context.getBean(InvoiceBookletSetup.class).start();
+                context.getBean(PickingSetup.class).start();
+                context.getBean(InvoicingSetup.class).start();
                 title = getParameters().getRaw().get(0);
             }
 

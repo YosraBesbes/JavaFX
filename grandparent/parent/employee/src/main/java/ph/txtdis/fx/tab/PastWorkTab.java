@@ -13,11 +13,11 @@ import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.PastWork;
 
-public class PastWorkTab extends AbstractTab<PastWork, EmployeeDTO> {
+public class PastWorkTab extends AbstractTab<EmployeeDTO> {
     private TableView<PastWork> table;
 
     public PastWorkTab(Stage stage, EmployeeDTO employee) {
-        super("Past Work", stage, employee);
+        super("Past Work", "work", stage, employee);
     }
 
     @Override

@@ -13,8 +13,8 @@ import ph.txtdis.util.Util;
 public class LatestStockTakeClosureOptionDialog extends OptionDialog {
 
     public LatestStockTakeClosureOptionDialog(Stage stage, LocalDate date) {
-        super(stage, "Latest stock take dated " + Util.formatDate(date)
-                + "\nmust be closed to complete data entry.\nContinue?");
+        super(stage, "Latest stock take dated " + Util.formatDate(date) + " must be closed first,\n"
+                + "enabling reconciliation, but not allowing further data entry.\nContinue?");
         showAndWait();
     }
 

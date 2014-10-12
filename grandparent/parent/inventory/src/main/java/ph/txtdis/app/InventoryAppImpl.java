@@ -2,6 +2,7 @@ package ph.txtdis.app;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import javafx.geometry.Insets;
@@ -48,23 +49,23 @@ public class InventoryAppImpl extends AbstractApp<Inventory, Integer> implements
     protected Node[] addVBoxNodes() {
         table = new AbstractTable<Inventory>(this) {
             {
-                TableColumn<Inventory, Integer> itemIdCol = new IdDisplayColumn<Inventory>(stage, "Item No.", "itemId",
-                        80);
+                TableColumn<Inventory, Integer> itemIdCol = new IdDisplayColumn<Inventory>(stage, "Item No.", "itemId");
                 TableColumn<Inventory, String> itemNameCol = new TextDisplayColumn<>(stage, "Name", "item", 180,
                         Pos.CENTER_LEFT);
                 TableColumn<Inventory, String> qualityCol = new TextDisplayColumn<>(stage, "Quality", "qualityType",
                         70, Pos.CENTER);
                 TableColumn<Inventory, BigDecimal> beginCol = new QtyDisplayColumn<>(stage, "Beginning "
-                        + dto.getStartDateText(), "beginQty", 90);
+                        + dto.getStartDateText(), "beginQty", 100);
                 TableColumn<Inventory, BigDecimal> inCol = new QtyDisplayColumn<>(stage, "In", "inQty", 80);
                 TableColumn<Inventory, BigDecimal> outCol = new QtyDisplayColumn<>(stage, "Out", "outQty", 80);
                 TableColumn<Inventory, BigDecimal> endCol = new QtyDisplayColumn<>(stage, "Current "
-                        + dto.getEndDateText(), "endQty", 90);
+                        + dto.getEndDateText(), "endQty", 100);
                 TableColumn<Inventory, String> daysLevelCol = new TextDisplayColumn<>(stage, "Days Level", "daysLevel",
                         80, Pos.CENTER_RIGHT);
                 table.getColumns().addAll(itemIdCol, itemNameCol, qualityCol, beginCol, inCol, outCol, endCol,
                         daysLevelCol);
                 table.setItems(dto.getInventoryList());
+                table.setId("Inventory");
             }
         }.getTable();
 
@@ -95,6 +96,6 @@ public class InventoryAppImpl extends AbstractApp<Inventory, Integer> implements
 
     @Override
     public void saveAsExcel() {
-        new ExcelWriter<Inventory>(table, module, Util.formatDate(LocalDate.now()));
+        new ExcelWriter(Arrays.asList(Arrays.asList(table)), module, Util.formatDate(LocalDate.now()));
     }
 }

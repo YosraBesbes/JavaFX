@@ -69,7 +69,7 @@ public abstract class AbstractOrderDetail extends AbstractAudited implements Ite
 
     @Override
     public BigDecimal getQty() {
-        return qty;
+        return qty == null ? BigDecimal.ZERO : qty;
     }
 
     @Override

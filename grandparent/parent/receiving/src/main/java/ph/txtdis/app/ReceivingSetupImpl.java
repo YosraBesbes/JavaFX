@@ -13,10 +13,13 @@ import ph.txtdis.model.Quality;
 import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
 import ph.txtdis.model.SystemUser;
+import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
 import ph.txtdis.service.ItemService;
+import ph.txtdis.service.PickingService;
 import ph.txtdis.service.QualityService;
 import ph.txtdis.service.ReceivingService;
+import ph.txtdis.service.TruckService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.ReceivingReferenceType;
 import ph.txtdis.type.UomType;
@@ -24,6 +27,9 @@ import ph.txtdis.util.Login;
 
 @Component
 public class ReceivingSetupImpl implements ReceivingSetup {
+
+    @Autowired
+    BookingService bookingService;
 
     @Autowired
     CustomerService customerService;
@@ -35,7 +41,13 @@ public class ReceivingSetupImpl implements ReceivingSetup {
     QualityService qualityService;
 
     @Autowired
+    PickingService pickingService;
+
+    @Autowired
     ReceivingService receivingService;
+
+    @Autowired
+    TruckService truckService;
 
     @Autowired
     UserService userService;
@@ -78,7 +90,7 @@ public class ReceivingSetupImpl implements ReceivingSetup {
         BigDecimal marinaPineSlice15DetailAmount = marinaQty.multiply(pineSlice15PricePerCS);
 
         marinaReceiving.setDetails(Arrays.asList(marinaPineSliceFlatDetail, marinaPineSlice15Detail));
-        marinaReceiving.setAmount(marinaPineSliceFlatDetailAmount.add(marinaPineSlice15DetailAmount));
+        marinaReceiving.setTotalValue(marinaPineSliceFlatDetailAmount.add(marinaPineSlice15DetailAmount));
         receivingService.save(marinaReceiving);
     }
 }

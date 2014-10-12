@@ -1,8 +1,8 @@
 package ph.txtdis.fx.tab;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
@@ -13,16 +13,17 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemFamilyDTO;
 import ph.txtdis.fx.dialog.CustomerDiscountDialog;
 import ph.txtdis.fx.table.AbstractInputTable;
+import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemFamily;
 import ph.txtdis.model.SystemUser;
 
-public class CustomerDiscountTab extends AbstractTab<CustomerDiscount, CustomerDTO> {
+public class CustomerDiscountTab extends AbstractTab<CustomerDTO> {
     private TableView<CustomerDiscount> table;
 
     public CustomerDiscountTab(Stage stage, CustomerDTO dto) {
-        super("Customer Discount", stage, dto);
+        super("Customer Discount", "discount", stage, dto);
     }
 
     @Override
@@ -42,7 +43,8 @@ public class CustomerDiscountTab extends AbstractTab<CustomerDiscount, CustomerD
                 TableColumn<CustomerDiscount, ItemFamily> familyLimitCol = FX.addComboColumn("Limited To",
                         "familyLimit", family.list());
                 TableColumn<CustomerDiscount, SystemUser> givenByCol = FX.createColumn("Given By", "createdBy", 120);
-                TableColumn<CustomerDiscount, Timestamp> givenDateCol = FX.createColumn("Given On", "timeStamp", 180);
+                TableColumn<CustomerDiscount, ZonedDateTime> givenDateCol = new TimestampDisplayColumn<>(stage,
+                        "Given On", "timeStamp");
                 table.getColumns().addAll(typeCol, discountCol, startCol, familyLimitCol, givenByCol, givenDateCol);
             }
 

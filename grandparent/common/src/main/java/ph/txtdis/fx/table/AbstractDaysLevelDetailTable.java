@@ -4,7 +4,7 @@ import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import ph.txtdis.fx.util.FX;
 
-public abstract class AbstractDaysLevelDetailTable<E, D> extends AbstractPriceDetailTable<E, D> {
+public abstract class AbstractDaysLevelDetailTable<E, D> extends AbstractPriceTable<E, D> {
 
     public AbstractDaysLevelDetailTable(Stage stage, D dto) {
         super(stage, dto);

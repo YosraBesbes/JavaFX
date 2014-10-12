@@ -6,5 +6,5 @@ import ph.txtdis.model.Truck;
 import ph.txtdis.service.TruckService;
 
 @Component
-public class TruckDTOImpl extends AbstractListedName<Truck, TruckService> implements TruckDTO {
+public class TruckDTOImpl extends AbstractListedNamed<Truck, TruckService> implements TruckDTO {
 }

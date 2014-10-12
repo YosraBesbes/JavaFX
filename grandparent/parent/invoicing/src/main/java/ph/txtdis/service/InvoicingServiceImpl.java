@@ -1,6 +1,5 @@
 package ph.txtdis.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -56,10 +55,5 @@ public class InvoicingServiceImpl extends AbstractService<Invoicing, Integer> im
     @Override
     public Integer getIdFromSalesOrder(Booking booking) {
         return repository.getIdFromSalesOrder(booking);
-    }
-
-    @Override
-    public LocalDate getPickDateFromSalesOrder(Booking booking) {
-        return repository.getPickDateFromSalesOrder(booking);
     }
 }

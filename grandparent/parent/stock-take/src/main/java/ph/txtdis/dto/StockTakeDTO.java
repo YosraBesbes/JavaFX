@@ -37,9 +37,9 @@ public interface StockTakeDTO extends Spun, Audited<StockTake> {
 
     String getOneTransactionAfter(LocalDate date);
 
-    String getClosureInfo(LocalDate date);
+    String getClosureStatus(LocalDate date);
 
-    String getOnGoingStockTake(LocalDate date);
+    String getOnGoingStockTakeStatus(LocalDate date);
 
     LocalDate getLatestCutoffDate();
 }

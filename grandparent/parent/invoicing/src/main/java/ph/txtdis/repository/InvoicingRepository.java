@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.InvoicingDetail;
+import ph.txtdis.model.Truck;
 
 public interface InvoicingRepository extends CrudRepository<Invoicing, Integer> {
 
@@ -27,6 +28,9 @@ public interface InvoicingRepository extends CrudRepository<Invoicing, Integer> 
     @Query("select i.id from Invoicing i where i.booking = ?1")
     Integer getIdFromSalesOrder(Booking booking);
 
-    @Query("select p.pickDate from Picking p join p.details d where d.booking = ?1")
-    LocalDate getPickDateFromSalesOrder(Booking booking);
+    @Query("select i from Invoicing i, Picking p join p.details d "
+            + "where i.booking = d.booking and i.orderDate = ?1 and p.truck = ?2 ")
+    List<Invoicing> getInvoices(LocalDate date, Truck truck);
+
+    List<Invoicing> findByOrderDateOrderByIdAsc(LocalDate date);
 }

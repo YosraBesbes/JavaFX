@@ -9,9 +9,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Invoicing extends AbstractOrder<InvoicingDetail> implements Remitted {
+public class Invoicing extends AbstractOrder<InvoicingDetail> {
 
-    private static final long serialVersionUID = 2322549783835028127L;
+    private static final long serialVersionUID = -9082525867532466618L;
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH)
     private Booking booking;

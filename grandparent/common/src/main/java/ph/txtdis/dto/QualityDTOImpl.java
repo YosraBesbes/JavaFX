@@ -6,7 +6,7 @@ import ph.txtdis.model.Quality;
 import ph.txtdis.service.QualityService;
 
 @Component
-public class QualityDTOImpl extends AbstractListedName<Quality, QualityService> implements QualityRated {
+public class QualityDTOImpl extends AbstractListed<Quality, QualityService> implements QualityRated {
 
     @Override
     public Quality good() {

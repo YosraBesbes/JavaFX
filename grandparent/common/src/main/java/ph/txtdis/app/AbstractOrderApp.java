@@ -23,12 +23,12 @@ import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
+import ph.txtdis.fx.display.MonetaryDisplay;
+import ph.txtdis.fx.display.StringDisplay;
 import ph.txtdis.fx.input.IdField;
-import ph.txtdis.fx.input.MonetaryDisplay;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
-import ph.txtdis.model.Customer;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.VolumeDiscount;
@@ -55,7 +55,8 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     protected HBox partnerBox;
     protected IdField idField, partnerIdField;
     protected Label idLabel, dateLabel, partnerLabel, partnerAddressLabel, remarkLabel;
-    protected StringField partnerNameField, partnerAddressField, remarkField;
+    protected StringDisplay partnerNameField, partnerAddressField;
+    protected StringField remarkField;
     protected TableView<D> detailTable;
 
     @Override
@@ -97,18 +98,22 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         idField.setEditable(false);
 
         dateLabel = new Label("Date");
-        datePicker = new DatePicker(orderDTO.getOrderDate());
+        datePicker = new DatePicker(getOrderDate());
 
         partnerLabel = new Label("Partner No.");
         partnerIdField = new IdField(orderDTO.getPartnerId());
-        partnerNameField = new StringField(orderDTO.getPartnerName());
+        partnerNameField = new StringDisplay(orderDTO.getPartnerName());
         partnerBox = new HBox(partnerLabel, partnerIdField, partnerNameField);
 
         partnerAddressLabel = new Label("Address");
-        partnerAddressField = new StringField(orderDTO.getPartnerAddress());
+        partnerAddressField = new StringDisplay(orderDTO.getPartnerAddress());
 
         remarkLabel = new Label("Remarks");
         remarkField = new StringField(orderDTO.getRemarks());
+    }
+
+    protected LocalDate getOrderDate() {
+        return orderDTO.getOrderDate();
     }
 
     protected void addGridPaneNodes(GridPane gridPane) {
@@ -128,15 +133,10 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     @Override
     protected void setBindings() {
-        buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
+        buttons.get("save").disableProperty()
+                .bind(FX.isEmpty(detailTable).or(FX.isEmpty(encoderDisplay).not()).or(FX.isEmpty(datePicker)));
 
         partnerIdField.disableProperty().bind(FX.isEmpty(datePicker));
-
-        partnerNameField.setEditable(false);
-        partnerNameField.setFocusTraversable(false);
-
-        partnerAddressField.setEditable(false);
-        partnerAddressField.setFocusTraversable(false);
 
         remarkField.disableProperty().bind(FX.isEmpty(partnerNameField));
         detailTable.disableProperty().bind(FX.isEmpty(partnerNameField));
@@ -144,10 +144,17 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     @Override
     protected void setListeners() {
-        partnerIdField.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+        partnerIdField.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.TAB)
                 validatePartnerId(partnerIdField.getIdNo());
         });
+
+        datePicker.setOnAction(event -> validateDate(datePicker.getValue()));
+    }
+
+    private void validateDate(LocalDate date) {
+        if (date != null && idField.getText().isEmpty() && date.isBefore(LocalDate.now()))
+            handleError(this, "Date cannot be in the past");
     }
 
     private void validatePartnerId(int id) {
@@ -165,10 +172,8 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     protected void handleError(Stage stage, String msg) {
         new ErrorDialog(stage, msg);
-        partnerIdField.clear();
-        partnerNameField.setText("");
-        partnerAddressField.setText("");
-        tableItems().clear();
+        orderDTO.reset();
+        refresh();
     }
 
     @Override
@@ -177,7 +182,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));
         orderDTO.setDiscount(customer.getLatestCustomerDiscount(getPickerDate()));
-        orderDTO.setAmount(totalField.getValue());
+        orderDTO.setTotalValue(totalField.getValue());
         orderDTO.setOrderDate(datePicker.getValue());
         orderDTO.setDetails(tableItems());
         orderDTO.save();
@@ -186,12 +191,15 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void refresh() {
-        idField.setIdNo(orderDTO.getId());
-        datePicker.setValue(orderDTO.getOrderDate());
-        remarkField.setText(orderDTO.getRemarks());
-        detailTableItems = orderDTO.getDetails();
+        updateInputFields();
         populateFields((OrderDTO) orderDTO);
         super.refresh();
+    }
+
+    protected void updateInputFields() {
+        idField.setIdNo(orderDTO.getId());
+        datePicker.setValue(getOrderDate());
+        remarkField.setText(orderDTO.getRemarks());
     }
 
     protected void populateFields(OrderDTO<Ordered<Priced>, Priced> dto) {
@@ -238,7 +246,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         vat = total.subtract(vatable);
 
         detailTableItem.setPrice(price);
-        detailTableItem.setSubtotal(price.multiply(detailTableItem.getQty()));
     }
 
     private void updateTotals() {
@@ -255,11 +262,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     private ObservableList<D> tableItems() {
         return detailTable.getItems();
-    }
-
-    @Override
-    public Customer getPartner() {
-        return customer.get();
     }
 
     @Override

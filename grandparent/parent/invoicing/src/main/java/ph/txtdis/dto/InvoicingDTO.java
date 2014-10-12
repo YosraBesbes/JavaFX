@@ -6,9 +6,8 @@ import ph.txtdis.model.Booking;
 import ph.txtdis.model.InvoiceBooklet;
 import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.InvoicingDetail;
-import ph.txtdis.model.Remitted;
 
-public interface InvoicingDTO extends OrderDTO<Invoicing, InvoicingDetail>, Remitted, Audited<Invoicing> {
+public interface InvoicingDTO extends OrderDTO<Invoicing, InvoicingDetail>, Audited<Invoicing> {
 
     int getBookingId();
 

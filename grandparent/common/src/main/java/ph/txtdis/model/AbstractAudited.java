@@ -19,18 +19,18 @@ import ph.txtdis.util.Login;
 @MappedSuperclass
 public class AbstractAudited implements Serializable, Key<Integer> {
 
-    private static final long serialVersionUID = 1945412496395116277L;
+    private static final long serialVersionUID = -5753015257974898395L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    protected int id;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private SystemUser createdBy;
+    protected SystemUser createdBy;
 
     @Column(updatable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
-    private ZonedDateTime timeStamp;
+    protected ZonedDateTime timeStamp;
 
     protected AbstractAudited() {
     }
@@ -44,8 +44,16 @@ public class AbstractAudited implements Serializable, Key<Integer> {
         return createdBy;
     }
 
+    public void setCreatedBy(SystemUser createdBy) {
+        this.createdBy = createdBy;
+    }
+
     public ZonedDateTime getTimeStamp() {
         return timeStamp;
+    }
+
+    public void setTimeStamp(ZonedDateTime timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     @PrePersist

@@ -66,11 +66,11 @@ public interface StockTakeReconciliationRepository extends CrudRepository<StockT
             + "    and i = s.item and q = s.quality group by s.item, s.quality), "
 
             + "(select sum(s.qty) from PickingSummary s where s.pickDate between ?1 and ?2 "
-            + "    and i = s.item and q = s.quality group by s.item, s.quality),"
+            + "    and i = s.item and q = s.quality group by s.item, s.quality), "
 
-            + "(select sum(s.qty)/26 from InvoicingSummary s where s.orderDate between ?3 and ?2 "
-            + "    and i = s.item and q = s.quality group by s.item, s.quality))"
+            + "(select sum(s.qty) from InvoicingSummary s where s.orderDate between ?3 and ?2 "
+            + "    and i = s.item and q = s.quality group by s.item, s.quality)) "
 
-            + " from Item i, Quality q order by i.id, q.id")
+            + "from Item i, Quality q order by i.id, q.id")
     List<Inventory> getInventory(LocalDate startDate, LocalDate endDate, LocalDate cutoffDate);
 }

@@ -21,7 +21,6 @@ import ph.txtdis.service.UserService;
 public class App extends Application {
 
     private static ConfigurableApplicationContext context;
-    private static String title;
 
     private UserService userService;
 
@@ -32,7 +31,6 @@ public class App extends Application {
             @Override
             protected void begin() {
                 context = SpringApplication.run(App.class);
-                title = getParameters().getRaw().get(0);
                 userService = context.getBean(UserService.class);
             }
 
@@ -61,14 +59,10 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch("txtDIS 0.0.2.0 ");
+        launch();
     }
 
     public static ConfigurableApplicationContext getContext() {
         return context;
-    }
-
-    public static String title() {
-        return title;
     }
 }

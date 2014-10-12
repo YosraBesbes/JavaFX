@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -21,40 +22,54 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import ph.txtdis.util.DIS;
 
-public class ExcelWriter<I> {
+public class ExcelWriter {
 
     private CellStyle titleStyle, headerStyle, rightStyle, redStyle, centerStyle, leftStyle, idStyle, integerStyle,
             decimalStyle, dateStyle;
     private Font normalFont, redFont, titleFont, boldFont;
     private DataFormat format;
     private HSSFWorkbook workbook;
+    private int colIdx;
 
-    public ExcelWriter(TableView<I> table, String module, String id) {
+    public ExcelWriter(List<List<TableView<?>>> tables, String module, String... ids) {
 
-        id = id.replace("/", "-");
         workbook = new HSSFWorkbook();
-        Sheet sheet = workbook.createSheet(id);
-        sheet.protectSheet("secretPassword");
-
         format = workbook.createDataFormat();
         setFonts();
         setCellStyles();
 
-        ArrayList<String> getters = new ArrayList<>();
-        addHeader(table.getColumns(), sheet, headerStyle, getters);
-        sheet.createFreezePane(0, 1, 0, 1);
-        populateRows(table.getItems(), sheet, getters);
+        for (int i = 0; i < ids.length; i++) {
+            String id = ids[i].replace("/", "-");
+            Sheet sheet = workbook.createSheet(id);
+            sheet.protectSheet("secretPassword");
+            sheet.createFreezePane(0, 2, 0, 2);
+            colIdx = 0;
+            for (TableView<?> table : tables.get(i)) {
+                ArrayList<String> getters = new ArrayList<>();
+                addTitle(table.getId(), sheet, getColumns(table).size());
+                addHeader(getColumns(table), sheet, headerStyle, getters);
+                populateRows(table.getItems(), sheet, getters);
+                colIdx += getColumns(table).size();
+                sheet.setColumnWidth(colIdx++, 750);
+            }
+        }
 
         try {
-            String file = System.getProperty("user.home") + "\\Desktop\\" + module + "." + id + ".xls";
+            String file = System.getProperty("user.home") + "\\Desktop\\" + module + "." + ids[0].replace("/", "-")
+                    + ".xls";
             writeWorkbook(file);
             openWorkbook(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private ObservableList<?> getColumns(TableView<?> table) {
+        return table.getColumns();
     }
 
     private void setFonts() {
@@ -68,7 +83,7 @@ public class ExcelWriter<I> {
         titleFont = workbook.createFont();
         titleFont.setFontName("Calibri");
         titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        titleFont.setFontHeightInPoints((short) 13);
+        titleFont.setFontHeightInPoints((short) 15);
     }
 
     private void setBoldFont() {
@@ -107,7 +122,7 @@ public class ExcelWriter<I> {
     private void setTitleStyle() {
         titleStyle = workbook.createCellStyle();
         titleStyle.setFont(titleFont);
-        titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        titleStyle.setAlignment(CellStyle.ALIGN_LEFT);
         titleStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         titleStyle.setWrapText(true);
         titleStyle.setLocked(true);
@@ -192,35 +207,47 @@ public class ExcelWriter<I> {
         return df.getFormat("m/d/yyyy");
     }
 
-    private void addHeader(List<TableColumn<I, ?>> columns, Sheet sheet, CellStyle headerStyle,
-            ArrayList<String> getters) {
-        Row row = sheet.createRow(0);
-        for (int i = 0; i < columns.size(); i++) {
-            TableColumn<I, ?> column = columns.get(i);
-            sheet.setColumnWidth(i, (int) (column.getWidth() / 10 + 2) * 256);
-            addCell(headerStyle, row, i, column);
+    private void addTitle(String title, Sheet sheet, int colCount) {
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, colIdx, colIdx + colCount - 1));
+        Row row = getRow(sheet, 0);
+        row.setHeightInPoints(30);
+        Cell cell = row.createCell(colIdx);
+        cell.setCellValue(title);
+        cell.setCellStyle(titleStyle);
+    }
+
+    private void addHeader(ObservableList<?> list, Sheet sheet, CellStyle headerStyle, ArrayList<String> getters) {
+        for (int i = 0; i < list.size(); i++) {
+            TableColumn<?, ?> column = (TableColumn<?, ?>) list.get(i);
+            sheet.setColumnWidth(i + colIdx, (int) (column.getWidth() / 10 + 2) * 256);
+            addCell(headerStyle, getRow(sheet, 1), i + colIdx, column);
             getters.add("get" + StringUtils.capitalize(column.getId()));
         }
     }
 
-    private void addCell(CellStyle headerStyle, Row row, int i, TableColumn<I, ?> column) {
+    private Row getRow(Sheet sheet, int rowIdx) {
+        Row row = sheet.getRow(rowIdx);
+        return row == null ? sheet.createRow(rowIdx) : row;
+    }
+
+    private void addCell(CellStyle headerStyle, Row row, int i, TableColumn<?, ?> column) {
         Cell cell = row.createCell(i);
         cell.setCellValue(column.getText());
         cell.setCellStyle(headerStyle);
     }
 
-    private void populateRows(List<I> items, Sheet sheet, ArrayList<String> getters) {
+    private void populateRows(List<?> items, Sheet sheet, ArrayList<String> getters) {
         for (int i = 0; i < items.size(); i++)
-            populateColumns(getters, items.get(i), sheet.createRow(i + 1));
+            populateColumns(getters, items.get(i), getRow(sheet, i + 2));
 
     }
 
-    private void populateColumns(ArrayList<String> getters, I item, Row row) {
+    private void populateColumns(ArrayList<String> getters, Object item, Row row) {
         for (int i = 0; i < getters.size(); i++)
-            setValue(getValue(getters, item, i), getters.get(i), row.createCell(i));
+            setValue(getValue(getters, item, i), getters.get(i), row.createCell(i + colIdx));
     }
 
-    private Object getValue(ArrayList<String> getters, I item, int i) {
+    private Object getValue(ArrayList<String> getters, Object item, int i) {
         return DIS.invokeMethod(item, getters.get(i));
     }
 

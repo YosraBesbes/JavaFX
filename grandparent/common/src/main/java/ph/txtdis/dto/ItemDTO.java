@@ -15,14 +15,14 @@ import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.ItemType;
 import ph.txtdis.type.UomType;
 
-public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Named, Audited<Item> {
+public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Named<Item>, Audited<Item> {
 
     ItemType getType();
 
     void setType(ItemType type);
-    
+
     String getDescription();
-    
+
     void setDescription(String description);
 
     long getVendorId();
@@ -52,13 +52,13 @@ public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Na
     ObservableList<Bom> getBoms();
 
     void setBoms(List<Bom> boms);
-    
+
     BigDecimal getLatestPurchasePrice(LocalDate date);
-    
+
     BigDecimal getLatestSellingPrice(LocalDate date);
-    
+
     VolumeDiscount getLatestVolumeDiscount(LocalDate date);
-    
+
     Map<UomType, BigDecimal> getQtyPerUomMap();
 
     List<UomType> getPurchasingUoms();

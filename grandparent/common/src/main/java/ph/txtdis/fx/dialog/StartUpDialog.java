@@ -43,7 +43,7 @@ public abstract class StartUpDialog extends Stage {
         initModality(Modality.APPLICATION_MODAL);
         initStyle(StageStyle.UNDECORATED);
         FX.loadIcomoon();
-        FX.loadTxtdis();
+        FX.loadTxtdisIcons();
         FX.loadFont("Ubuntu-BI");
 
         Label trademark = new Label("txtDIS");

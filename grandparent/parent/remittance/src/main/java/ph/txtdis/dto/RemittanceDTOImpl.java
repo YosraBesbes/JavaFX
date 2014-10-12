@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Customer;
+import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.service.RemittanceService;
@@ -36,32 +37,17 @@ public class RemittanceDTOImpl extends AbstractSpunById<Remittance, RemittanceSe
 
     @Override
     public int getPartnerId() {
-        return entity.getPartnerId();
-    }
-
-    @Override
-    public void setPartnerId(int partnerId) {
-        entity.setPartnerId(partnerId);
+        return getPartner() == null ? 0 : getPartner().getId();
     }
 
     @Override
     public String getPartnerName() {
-        return entity.getPartnerName();
-    }
-
-    @Override
-    public void setPartnerName(String partnerName) {
-        entity.setPartnerName(partnerName);
+        return getPartner() == null ? null : getPartner().getName();
     }
 
     @Override
     public String getPartnerAddress() {
-        return entity.getPartnerAddress();
-    }
-
-    @Override
-    public void setPartnerAddress(String partnerAddress) {
-        entity.setPartnerAddress(partnerAddress);
+        return getPartner() == null ? null : getPartner().getAddress();
     }
 
     @Override
@@ -85,13 +71,13 @@ public class RemittanceDTOImpl extends AbstractSpunById<Remittance, RemittanceSe
     }
 
     @Override
-    public BigDecimal getAmount() {
-        return entity.getAmount();
+    public BigDecimal getTotalValue() {
+        return entity.getTotalValue();
     }
 
     @Override
-    public void setAmount(BigDecimal amount) {
-        entity.setAmount(amount);
+    public void setTotalValue(BigDecimal value) {
+        entity.setTotalValue(value);
     }
 
     @Override
@@ -122,5 +108,11 @@ public class RemittanceDTOImpl extends AbstractSpunById<Remittance, RemittanceSe
     @Override
     public void setDetails(List<RemittanceDetail> details) {
         entity.setDetails(details);
+    }
+
+    @Override
+    public BigDecimal getPayment(Invoicing invoice) {
+        BigDecimal payment = service.getPayment(invoice);
+        return payment == null ? BigDecimal.ZERO : payment;
     }
 }

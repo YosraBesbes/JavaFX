@@ -62,7 +62,7 @@ public class PurchasingSetupImpl implements PurchasingSetup {
 
         List<PurchasingDetail> details = Arrays.asList(detail);
         purchasing.setDetails(details);
-        purchasing.setAmount(qty.multiply(pricePerCS));
+        purchasing.setTotalValue(qty.multiply(pricePerCS));
 
         purchasingService.save(purchasing);
     }

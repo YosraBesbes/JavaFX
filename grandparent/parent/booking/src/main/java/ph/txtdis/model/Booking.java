@@ -33,6 +33,10 @@ public class Booking extends AbstractOrder<BookingDetail> {
         this.orderDate = orderDate;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public List<BookingDetail> getDetails() {
         return details;
@@ -41,6 +45,14 @@ public class Booking extends AbstractOrder<BookingDetail> {
     @Override
     public void setDetails(List<BookingDetail> details) {
         this.details = details;
+    }
+
+    public void setCreatedBy(SystemUser createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setTimestamp(ZonedDateTime timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public SystemUser getPrintedBy() {

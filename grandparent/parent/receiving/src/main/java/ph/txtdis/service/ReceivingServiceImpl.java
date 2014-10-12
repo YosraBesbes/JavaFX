@@ -46,4 +46,9 @@ public class ReceivingServiceImpl extends AbstractService<Receiving, Integer> im
     public List<ReceivingSummary> getSummary(LocalDate startDate, LocalDate endDate) {
         return summaryRepository.findByOrderDateBetween(startDate, endDate);
     }
+
+    @Override
+    public LocalDate getDateFromPurchaseOrder(int id) {
+        return repository.getDateFromPurchaseOrder(id);
+    }
 }

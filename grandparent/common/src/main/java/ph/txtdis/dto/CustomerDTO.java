@@ -77,4 +77,6 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, Specif
     CreditDetail getLatestCreditDetail(LocalDate date);
 
     CustomerDiscount getLatestCustomerDiscount(LocalDate date);
+
+    boolean acceptsRemittance();
 }

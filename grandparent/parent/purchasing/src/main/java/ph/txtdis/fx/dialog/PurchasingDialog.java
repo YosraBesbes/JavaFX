@@ -13,11 +13,11 @@ import ph.txtdis.app.OrderApp;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.PurchasingDTO;
 import ph.txtdis.exception.NotFoundException;
+import ph.txtdis.fx.display.LabeledIntegerDisplay;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.fx.input.LabeledIdNameField;
-import ph.txtdis.fx.input.LabeledIntegerDisplay;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
@@ -109,8 +109,7 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
         int daysLevelAfter = getInputAtRow(4);
 
         PurchasingDetail detail = new PurchasingDetail(purchasing, item, uom, qty);
-        detail.setPrice(itemDTO.getLatestPurchasePrice(date));
-        detail.setSubtotal(detail.getPrice().multiply(qty.multiply(itemDTO.getQtyPerUomMap().get(uom))));
+        detail.setPrice(itemDTO.getLatestPurchasePrice(date).multiply(itemDTO.getQtyPerUomMap().get(uom)));
         detail.setDaysLevelBefore(daysLevelBefore);
         detail.setDaysLevelAfter(daysLevelAfter);
         return detail;

@@ -8,17 +8,23 @@ import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
-import ph.txtdis.fx.input.StringDisplay;
-import ph.txtdis.fx.table.BookingDetailTable;
+import ph.txtdis.dto.Reorder;
+import ph.txtdis.fx.button.EditButton;
+import ph.txtdis.fx.display.TimestampDisplay;
+import ph.txtdis.fx.display.UserDisplay;
+import ph.txtdis.fx.table.BookingTable;
+import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.model.Priced;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, BookingDTO> {
+public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, BookingDTO> implements Reorder {
 
-    private StringDisplay printedByDisplay, printedOnDisplay;
+    private UserDisplay printedByDisplay;
+    private TimestampDisplay printedOnDisplay;
+    private BookingTable bookingTable;
 
     public BookingAppImpl() {
         super("Booking", "S/O");
@@ -41,25 +47,33 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
     }
 
     @Override
+    protected void setButtons() {
+        super.setButtons();
+        buttons.put("re-use", new EditButton<Booking>(this).getButton());
+    }
+
+    @Override
     protected void createOrderedLabeledInputs() {
         super.createOrderedLabeledInputs();
         dateLabel.setText("Pick Date");
     }
 
     @Override
-    protected void setListeners() {
-        super.setListeners();
-        datePicker.setOnAction(event -> validateDate(datePicker.getValue()));
-    }
+    protected void setBindings() {
+        super.setBindings();
+        buttons.get("re-use")
+                .disableProperty()
+                .bind(buttons.get("save").disabledProperty().not()
+                        .or(datePicker.valueProperty().isEqualTo(LocalDate.now())));
 
-    private void validateDate(LocalDate date) {
-        if (date != null && idField.getText().isEmpty() && date.isBefore(LocalDate.now()))
-            handleError(this, "Pick date cannot be in the past");
+        partnerIdField.editableProperty().bind(FX.isEmpty(partnerNameField));
+        partnerIdField.focusTraversableProperty().bind(partnerIdField.editableProperty());
     }
 
     @Override
     public void createDetailTable() {
-        detailTable = new BookingDetailTable(this, orderDTO).getTable();
+        bookingTable = new BookingTable(this, orderDTO);
+        detailTable = bookingTable.getTable();
     }
 
     @Override
@@ -75,16 +89,33 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
 
     private Node[] addPrinterNodes() {
         Label printedByLabel = new Label("Printed By");
-        printedByDisplay = new StringDisplay(DIS.toString(orderDTO.getPrintedBy()));
+        printedByDisplay = new UserDisplay(orderDTO.getPrintedBy());
         Label printedOnLabel = new Label("On");
-        printedOnDisplay = new StringDisplay(Util.formatZonedDateTime(orderDTO.getPrintedOn()));
+        printedOnDisplay = new TimestampDisplay(orderDTO.getPrintedOn());
         return new Node[] { printedByLabel, printedByDisplay, printedOnLabel, printedOnDisplay };
     }
 
     @Override
     public void refresh() {
+        bookingTable.resetLineNo();
+        updatePrintStamps();
+        super.refresh();
+    }
+
+    private void updatePrintStamps() {
         printedByDisplay.setText(DIS.toString(orderDTO.getPrintedBy()));
         printedOnDisplay.setText(Util.formatZonedDateTime(orderDTO.getPrintedOn()));
-        super.refresh();
+    }
+
+    @Override
+    public void reorder() {
+        orderDTO.reorder();
+        updateDisplayValues();
+    }
+
+    private void updateDisplayValues() {
+        updateInputFields();
+        updateCreationStamps();
+        updatePrintStamps();
     }
 }

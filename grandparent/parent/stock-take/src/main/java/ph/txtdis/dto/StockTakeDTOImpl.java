@@ -89,12 +89,12 @@ public class StockTakeDTOImpl extends AbstractSpunById<StockTake, StockTakeServi
     }
 
     @Override
-    public String getClosureInfo(LocalDate date) {
+    public String getClosureStatus(LocalDate date) {
         return service.getClosureStamp(date);
     }
 
     @Override
-    public String getOnGoingStockTake(LocalDate date) {
+    public String getOnGoingStockTakeStatus(LocalDate date) {
         return service.getOnGoingStockTake(date);
     }
 

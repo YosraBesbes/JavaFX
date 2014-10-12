@@ -70,7 +70,7 @@ public class SalesOrderPrinter extends Printer<BookingDTO> {
 
     @Override
     protected void printFooter() {
-        BigDecimal total = dto.getAmount();
+        BigDecimal total = dto.getTotalValue();
         BigDecimal vatable = total.divide(new BigDecimal(1.12), 2, RoundingMode.HALF_UP);
         BigDecimal vat = total.subtract(vatable);
 
@@ -84,7 +84,7 @@ public class SalesOrderPrinter extends Printer<BookingDTO> {
         ps.println(StringUtils.leftPad("--", 20));
         ps.println(StringUtils.leftPad("--------", COLUMN_WIDTH));
         ps.print(StringUtils.leftPad("TOTAL", 33));
-        ps.println(StringUtils.leftPad(DIS.NO_COMMA_DECIMAL.format(dto.getAmount()), 9));
+        ps.println(StringUtils.leftPad(DIS.NO_COMMA_DECIMAL.format(dto.getTotalValue()), 9));
         ps.println(StringUtils.leftPad("========", COLUMN_WIDTH));
         ps.println();
         ps.println("    PREPARED BY:          RECEIVED BY:");

@@ -1,5 +1,6 @@
 package ph.txtdis.fx.tablecolumn;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -13,7 +14,7 @@ public class TextInputColumn<S> extends AbstractInputColumn<S, String> {
     }
 
     @Override
-    protected Callback<TableColumn<S, String>, TableCell<S, String>> getCallback(Stage stage) {
+    protected Callback<TableColumn<S, String>, TableCell<S, String>> getCallback(Stage stage, Pos pos) {
         return TextFieldTableCell.<S> forTableColumn();
     }
 

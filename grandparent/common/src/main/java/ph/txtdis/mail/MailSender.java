@@ -23,19 +23,19 @@ import ph.txtdis.model.SystemUser;
 
 public class MailSender {
 
-    private final String fromEmail;
-    private final MimeMessage message;
+    private String fromEmail;
+    private MimeMessage message;
 
-    public MailSender(final SystemUser mailOwner, final String module, final String primaryKey, final String[] toEmails)
+    public MailSender(SystemUser mailOwner, String subjectPrefix, String module, String primaryKey, String[] toEmails)
             throws Exception {
 
         fromEmail = mailOwner.getEmail();
-        final String password = mailOwner.getPassword();
-        final String subject = "For approval: " + module + " " + primaryKey;
-        final String body = "Send decision via a reply with the subject: " + module + " " + primaryKey
+        String password = mailOwner.getPassword();
+        String subject = subjectPrefix + module + " " + primaryKey;
+        String body = "Send decision via a reply with the subject: " + module + " " + primaryKey
                 + " is approved/disapproved.";
-        final String file = System.getProperty("user.home") + "\\Desktop\\" + module + "."
-                + primaryKey.replace("/", "-") + ".xls";
+        String file = System.getProperty("user.home") + "\\Desktop\\" + module + "." + primaryKey.replace("/", "-")
+                + ".xls";
 
         message = new MimeMessage(Session.getInstance(setProperties(), setAuthenticator(password)));
         generateAndSendEmail(toEmails, subject, body, file);
@@ -110,7 +110,8 @@ public class MailSender {
         try {
             SystemUser user = new SystemUser("TXTDIS", "txtDIS@1", true);
             user.setEmail("txtdis.mgdc.edsa.dmpi@gmail.com");
-            new MailSender(user, "Stock Take Reconciliation", "9/1/2014", new String[] { "txtdis.erp@gmail.com" });
+            new MailSender(user, "For approval: ", "Stock Take Reconciliation", "9/1/2014",
+                    new String[] { "txtdis.erp@gmail.com" });
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,8 +1,8 @@
 package ph.txtdis.fx.tab;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
@@ -13,17 +13,18 @@ import ph.txtdis.dto.ChannelDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.fx.dialog.PricingDialog;
 import ph.txtdis.fx.table.AbstractInputTable;
+import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.PricingType;
 
-public class PricingTab extends AbstractTab<Pricing, ItemDTO> {
+public class PricingTab extends AbstractTab<ItemDTO> {
     private TableView<Pricing> table;
 
     public PricingTab(Stage stage, ItemDTO dto) {
-        super("Pricing", stage, dto);
+        super("Pricing", "pricing", stage, dto);
     }
 
     @Override
@@ -43,8 +44,9 @@ public class PricingTab extends AbstractTab<Pricing, ItemDTO> {
                 TableColumn<Pricing, Channel> channelLimitCol = FX.addComboColumn("Limited To", "channelLimit",
                         channel.list());
                 TableColumn<Pricing, SystemUser> pricedByCol = FX.createColumn("Priced By", "createdBy", 120);
-                TableColumn<Pricing, Timestamp> pricedDateCol = FX.createColumn("Priced On", "timeStamp", 180);
-                table.getColumns().addAll(typeCol, priceCol, startCol, channelLimitCol, pricedByCol, pricedDateCol);
+                TableColumn<Pricing, ZonedDateTime> pricedOnCol = new TimestampDisplayColumn<>(stage, "Priced On",
+                        "timeStamp");
+                table.getColumns().addAll(typeCol, priceCol, startCol, channelLimitCol, pricedByCol, pricedOnCol);
             }
 
             @Override
@@ -56,7 +58,7 @@ public class PricingTab extends AbstractTab<Pricing, ItemDTO> {
 
         return new Node[] { table };
     }
-    
+
     public TableView<Pricing> getTable() {
         return table;
     }

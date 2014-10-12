@@ -13,7 +13,7 @@ public class BookingDetail extends AbstractPricedDetail {
 
     private static final long serialVersionUID = 3818816253461961960L;
 
-    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Booking booking;
 
     protected BookingDetail() {

@@ -202,4 +202,9 @@ public class CustomerDTOImpl extends AbstractSearchedSpunDTO<Customer, String, C
     public CustomerDiscount getLatestCustomerDiscount(LocalDate date) {
         return service.getLatestCustomerDiscount(entity, date);
     }
+
+    @Override
+    public boolean acceptsRemittance() {
+        return service.acceptsRemittance(id);
+    }
 }

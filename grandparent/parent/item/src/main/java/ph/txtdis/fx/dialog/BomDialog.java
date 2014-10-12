@@ -6,10 +6,10 @@ import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.ItemDTO;
+import ph.txtdis.fx.display.LabeledDisplay;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDecimalField;
-import ph.txtdis.fx.input.LabeledDisplayField;
 import ph.txtdis.fx.input.LabeledIdField;
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
@@ -25,7 +25,7 @@ public class BomDialog extends AbstractFieldDialog<Bom, ItemDTO> {
     protected List<InputNode<?>> addNodes() {
 
         LabeledIdField partField = new LabeledIdField("Part ID");
-        LabeledDisplayField nameField = new LabeledDisplayField("Name", 180);
+        LabeledDisplay nameField = new LabeledDisplay("Name", 180);
         LabeledComboBox<UomType> uomCombo = new LabeledComboBox<UomType>("UOM", UomType.values());
         LabeledDecimalField qtyField = new LabeledDecimalField("Quantity");
         return Arrays.asList(partField, nameField, uomCombo, qtyField);

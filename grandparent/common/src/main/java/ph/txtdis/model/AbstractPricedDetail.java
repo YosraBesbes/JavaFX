@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class AbstractPricedDetail extends AbstractOrderDetail implements Priced {
@@ -13,9 +12,6 @@ public abstract class AbstractPricedDetail extends AbstractOrderDetail implement
 
     @Column(nullable = false)
     private BigDecimal price;
-
-    @Transient
-    private BigDecimal subtotal;
 
     protected AbstractPricedDetail() {
     }
@@ -32,12 +28,7 @@ public abstract class AbstractPricedDetail extends AbstractOrderDetail implement
 
     @Override
     public BigDecimal getSubtotal() {
-        return subtotal == null ? getQty().multiply(getPrice()) : subtotal;
-    }
-
-    @Override
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
+        return getQty().multiply(getPrice());
     }
 
     @Override
@@ -45,7 +36,6 @@ public abstract class AbstractPricedDetail extends AbstractOrderDetail implement
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((subtotal == null) ? 0 : subtotal.hashCode());
         return result;
     }
 
@@ -62,11 +52,6 @@ public abstract class AbstractPricedDetail extends AbstractOrderDetail implement
             if (other.price != null)
                 return false;
         } else if (!price.equals(other.price))
-            return false;
-        if (subtotal == null) {
-            if (other.subtotal != null)
-                return false;
-        } else if (!subtotal.equals(other.subtotal))
             return false;
         return true;
     }

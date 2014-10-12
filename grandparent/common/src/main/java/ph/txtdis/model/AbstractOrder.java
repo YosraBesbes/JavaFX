@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -19,15 +18,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     protected Customer partner;
 
-    @Transient
-    private int partnerId;
-
-    @Transient
-    private String partnerName;
-
-    @Transient
-    private String partnerAddress;
-
     @ManyToOne(cascade = CascadeType.REFRESH)
     protected Route route;
 
@@ -38,7 +28,7 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     private CustomerDiscount discount;
 
     @Column(nullable = false)
-    protected BigDecimal amount;
+    protected BigDecimal value;
 
     @Column(nullable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
@@ -57,33 +47,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     @Override
     public void setPartner(Customer partner) {
         this.partner = partner;
-    }
-
-    @Override
-    public int getPartnerId() {
-        return partner == null ? 0 : partner.getId();
-    }
-
-    public void setPartnerId(int partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    @Override
-    public String getPartnerName() {
-        return partner == null ? null : partner.getName();
-    }
-
-    public void setPartnerName(String partnerName) {
-        this.partnerName = partnerName;
-    }
-
-    @Override
-    public String getPartnerAddress() {
-        return partner == null ? null : partner.getFullAdddress();
-    }
-
-    public void setPartnerAddress(String partnerAddress) {
-        this.partnerAddress = partnerAddress;
     }
 
     public Route getRoute() {
@@ -111,12 +74,13 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     }
 
     @Override
-    public BigDecimal getAmount() {
-        return amount;
+    public BigDecimal getTotalValue() {
+        return value;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
+    @Override
+    public void setTotalValue(BigDecimal value) {
+        this.value = value;
     }
 
     @Override
@@ -143,14 +107,11 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((amount == null) ? 0 : amount.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
         result = prime * result + ((credit == null) ? 0 : credit.hashCode());
         result = prime * result + ((discount == null) ? 0 : discount.hashCode());
         result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
         result = prime * result + ((partner == null) ? 0 : partner.hashCode());
-        result = prime * result + ((partnerAddress == null) ? 0 : partnerAddress.hashCode());
-        result = prime * result + partnerId;
-        result = prime * result + ((partnerName == null) ? 0 : partnerName.hashCode());
         result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
         result = prime * result + ((route == null) ? 0 : route.hashCode());
         return result;
@@ -165,10 +126,10 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         if (getClass() != obj.getClass())
             return false;
         AbstractOrder<?> other = (AbstractOrder<?>) obj;
-        if (amount == null) {
-            if (other.amount != null)
+        if (value == null) {
+            if (other.value != null)
                 return false;
-        } else if (!amount.equals(other.amount))
+        } else if (!value.equals(other.value))
             return false;
         if (credit == null) {
             if (other.credit != null)
@@ -189,18 +150,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
             if (other.partner != null)
                 return false;
         } else if (!partner.equals(other.partner))
-            return false;
-        if (partnerAddress == null) {
-            if (other.partnerAddress != null)
-                return false;
-        } else if (!partnerAddress.equals(other.partnerAddress))
-            return false;
-        if (partnerId != other.partnerId)
-            return false;
-        if (partnerName == null) {
-            if (other.partnerName != null)
-                return false;
-        } else if (!partnerName.equals(other.partnerName))
             return false;
         if (remarks == null) {
             if (other.remarks != null)

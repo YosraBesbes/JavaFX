@@ -62,6 +62,11 @@ public class PickingServiceImpl extends AbstractService<Picking, Integer> implem
     }
 
     @Override
+    public List<Truck> getLoadedTrucks(LocalDate date) {
+        return repository.getLoadedTrucks(date);
+    }
+
+    @Override
     public List<PickList> generatePickList(int id) {
         return repository.generatePickList(id);
     }
@@ -69,5 +74,10 @@ public class PickingServiceImpl extends AbstractService<Picking, Integer> implem
     @Override
     public List<PickingSummary> getSummary(LocalDate startDate, LocalDate endDate) {
         return summaryRepository.findByPickDateBetween(startDate, endDate);
+    }
+
+    @Override
+    public LocalDate getPickDateFromSalesOrder(Booking booking) {
+        return repository.getPickDateFromSalesOrder(booking);
     }
 }

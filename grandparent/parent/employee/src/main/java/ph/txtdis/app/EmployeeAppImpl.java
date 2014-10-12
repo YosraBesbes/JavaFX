@@ -22,7 +22,7 @@ import ph.txtdis.fx.tab.GovtIdTab;
 import ph.txtdis.fx.tab.LeaveLoanTab;
 import ph.txtdis.fx.tab.PastWorkTab;
 import ph.txtdis.fx.tab.PersonalTab;
-import ph.txtdis.fx.tab.Tabled;
+import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Employee;
 
@@ -31,7 +31,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
     private EmployeeDTO employee;
     private List<Tab> tabs = new ArrayList<>();
     private PersonalTab personalTab;
-    private Tabled[] tabsWithTables;
+    private Tabbed[] tabsWithTables;
 
     public EmployeeAppImpl() {
         super("Employee", "");
@@ -44,7 +44,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
 
     @Override
     public void refresh() {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             t.refresh();
         super.refresh();
     }
@@ -66,9 +66,9 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
 
     @Override
     protected Node[] addVBoxNodes() {
-        tabledTabs();
-        tabs();
-        return new Node[] { tabPane() };
+        createTabledTabs();
+        addTabs();
+        return new Node[] { createTabPane() };
     }
 
     @Override
@@ -89,15 +89,15 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
         buttons.get("save").disableProperty().bind(isSurnameOrNameEmpty());
     }
 
-    private void tabledTabs() {
+    private void createTabledTabs() {
         personalTab = new PersonalTab(this, employee);
-        tabsWithTables = new Tabled[] { personalTab, new GovtIdTab(this, employee), new FamilyTab(this, employee),
+        tabsWithTables = new Tabbed[] { personalTab, new GovtIdTab(this, employee), new FamilyTab(this, employee),
                 new EducationTab(this, employee), new PastWorkTab(this, employee), new CurrentJobTab(this, employee),
                 new LeaveLoanTab(this, employee), new DisciplineTab(this, employee) };
     }
 
-    private void tabs() {
-        for (Tabled t : tabsWithTables)
+    private void addTabs() {
+        for (Tabbed t : tabsWithTables)
             tabs.add(t.getTab());
     }
 
@@ -107,7 +107,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
         return FX.isEmpty(surname).or(FX.isEmpty(name));
     }
 
-    private TabPane tabPane() {
+    private TabPane createTabPane() {
         TabPane tabPane = new TabPane();
         tabPane.setStyle("-fx-tab-min-width: 80;");
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -117,7 +117,7 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
 
     @Override
     public void save() throws InvalidException {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             t.save();
         employee.save();
     }

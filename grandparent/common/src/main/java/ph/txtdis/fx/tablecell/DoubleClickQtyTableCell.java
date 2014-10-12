@@ -15,7 +15,7 @@ public class DoubleClickQtyTableCell<E> extends DoubleClickTableCell<E, BigDecim
     }
 
     public DoubleClickQtyTableCell(Stage stage) {
-        super(stage, Pos.CENTER_LEFT);
+        super(stage, Pos.CENTER_RIGHT);
     }
 
     @Override

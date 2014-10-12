@@ -146,7 +146,7 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public ZonedDateTime getCompleteOn() {
+    public ZonedDateTime getCompletedOn() {
         return entity.getCompletedOn();
     }
 

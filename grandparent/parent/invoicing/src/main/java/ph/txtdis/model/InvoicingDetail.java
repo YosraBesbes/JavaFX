@@ -54,6 +54,7 @@ public class InvoicingDetail extends AbstractPricedDetail {
 
     @Override
     public String toString() {
-        return invoicing + ": " + qty + uom + " " + (quality == null ? "GOOD" : quality) + " " + item;
+        return invoicing + ": " + qty + uom + " " + (quality == null ? "GOOD" : quality) + " " + item + " @P"
+                + getPrice() + " each";
     }
 }

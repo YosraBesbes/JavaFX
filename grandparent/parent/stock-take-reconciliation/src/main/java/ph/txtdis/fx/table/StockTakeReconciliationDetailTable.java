@@ -19,9 +19,10 @@ public class StockTakeReconciliationDetailTable extends AbstractTable<StockTakeR
     public StockTakeReconciliationDetailTable(Stage stage) {
         table.setEditable(true);
         table.setTooltip(new Tooltip("Double-click \"Adjust\" or \"Justification\"\ncolumn cell to enter data"));
+        table.setId("Stock Take Reconciliation");
 
         TableColumn<StockTakeReconciliationFilteredDetail, Integer> itemIdCol = new IdDisplayColumn<>(stage,
-                "Item No.", "itemId", 80);
+                "Item No.", "itemId");
         TableColumn<StockTakeReconciliationFilteredDetail, String> itemNameCol = new TextDisplayColumn<>(stage, "Name",
                 "item", 180, Pos.CENTER_LEFT);
         TableColumn<StockTakeReconciliationFilteredDetail, String> qualityCol = new TextDisplayColumn<>(stage,

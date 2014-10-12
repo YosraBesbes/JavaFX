@@ -12,13 +12,13 @@ import ph.txtdis.fx.button.NewButton;
 import ph.txtdis.fx.button.NextButton;
 import ph.txtdis.fx.button.OpenButton;
 import ph.txtdis.fx.button.SaveButton;
-import ph.txtdis.fx.input.StringDisplay;
-import ph.txtdis.util.DIS;
-import ph.txtdis.util.Util;
+import ph.txtdis.fx.display.TimestampDisplay;
+import ph.txtdis.fx.display.UserDisplay;
 
 public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     protected Audited<E> dto;
-    protected StringDisplay encoderField, timestampField;
+    protected UserDisplay encoderDisplay;
+    protected TimestampDisplay timestampDisplay;
     protected HBox summaryBox, userHBox;
 
     public AbstractIdApp(String module, String abbr) {
@@ -27,14 +27,14 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
 
     @Override
     public void refresh() {
-        setEncoderData();
+        updateCreationStamps();
         super.refresh();
     }
 
-    private void setEncoderData() {
-        if (encoderField != null) {
-            encoderField.setText(DIS.toString(dto.getCreatedBy()));
-            timestampField.setText(Util.formatZonedDateTime(dto.getTimeStamp()));
+    protected void updateCreationStamps() {
+        if (encoderDisplay != null) {
+            encoderDisplay.setUser(dto.getCreatedBy());
+            timestampDisplay.setTimestamp(dto.getTimeStamp());
         }
     }
 
@@ -61,10 +61,10 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
 
     private Node[] addEncoderNodes() {
         Label encoderLabel = new Label("Created By");
-        encoderField = new StringDisplay(DIS.toString(dto.getCreatedBy()));
+        encoderDisplay = new UserDisplay(dto.getCreatedBy());
         Label timestampLabel = new Label("On");
-        timestampField = new StringDisplay(Util.formatZonedDateTime(dto.getTimeStamp()));
-        return new Node[] { encoderLabel, encoderField, timestampLabel, timestampField };
+        timestampDisplay = new TimestampDisplay(dto.getTimeStamp());
+        return new Node[] { encoderLabel, encoderDisplay, timestampLabel, timestampDisplay };
     }
 
     private void setHBoxProperties(HBox hBox) {
@@ -89,10 +89,10 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     }
 
     private String newModule() {
-        return "[New " + abbr + "]";
+        return "[ New " + abbr + " ]";
     }
 
     private String moduleNo() {
-        return "[" + abbr + " No. " + dto.getId() + "]";
+        return "[" + abbr + " No. " + dto.getId() + " ]";
     }
 }

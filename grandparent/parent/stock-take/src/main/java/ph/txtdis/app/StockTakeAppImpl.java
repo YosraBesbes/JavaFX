@@ -160,15 +160,15 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
     }
 
     private void verifyNoOpenStockTake(LocalDate date) throws InvalidException {
-        String onGoingStockTake = stockTake.getOnGoingStockTake(date);
+        String onGoingStockTake = stockTake.getOnGoingStockTakeStatus(date);
         if (onGoingStockTake != null)
             throw new InvalidException(onGoingStockTake);
     }
 
     private void verifyNotClosed(LocalDate date) throws InvalidException {
-        String closureInfo = stockTake.getClosureInfo(date);
-        if (closureInfo != null)
-            throw new InvalidException(closureInfo);
+        String closure = stockTake.getClosureStatus(date);
+        if (closure != null)
+            throw new InvalidException(closure);
     }
 
     private void cutOtherTransactionsWhileOnGoing(LocalDate date) {
@@ -189,6 +189,7 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
         stockTake.setChecker(checkerCombo.getValue());
         stockTake.setDetails(detailTable.getItems());
         stockTake.save();
+        new CurrentStockTakeClosureOptionDialog(this, datePicker.getValue());
     }
 
     @Override
@@ -200,7 +201,6 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
         checkerCombo.setValue(stockTake.getChecker());
         detailTable.getItems().clear();
         detailTable.getItems().addAll(stockTake.getDetails());
-        new CurrentStockTakeClosureOptionDialog(this, datePicker.getValue());
         super.refresh();
     }
 }

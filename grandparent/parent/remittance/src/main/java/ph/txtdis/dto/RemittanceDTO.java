@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import ph.txtdis.model.Customer;
+import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.type.RemittanceType;
@@ -18,15 +19,9 @@ public interface RemittanceDTO extends Spun, Audited<Remittance> {
 
     int getPartnerId();
 
-    void setPartnerId(int partnerId);
-
     String getPartnerName();
 
-    void setPartnerName(String partnerName);
-
     String getPartnerAddress();
-
-    void setPartnerAddress(String partnerAddress);
 
     RemittanceType getType();
 
@@ -36,9 +31,9 @@ public interface RemittanceDTO extends Spun, Audited<Remittance> {
 
     void setReference(String reference);
 
-    BigDecimal getAmount();
+    BigDecimal getTotalValue();
 
-    void setAmount(BigDecimal amount);
+    void setTotalValue(BigDecimal amount);
 
     LocalDate getOrderDate();
 
@@ -51,4 +46,6 @@ public interface RemittanceDTO extends Spun, Audited<Remittance> {
     ObservableList<RemittanceDetail> getDetails();
 
     void setDetails(List<RemittanceDetail> details);
+
+    BigDecimal getPayment(Invoicing invoice);
 }

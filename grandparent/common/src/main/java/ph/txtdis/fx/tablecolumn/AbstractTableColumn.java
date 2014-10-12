@@ -12,11 +12,11 @@ import javafx.util.Callback;
 
 public abstract class AbstractTableColumn<S, E> extends TableColumn<S, E> {
 
-    public AbstractTableColumn(Stage stage, String text, String field, int minWidth) {
+    public AbstractTableColumn(Stage stage, String text, String field, int minWidth, Pos pos) {
         super(text);
         setCellValueFactory(new PropertyValueFactory<>(field));
         makeHeaderWrappable();
-        setCellFactory(getCallback(stage));
+        setCellFactory(getCallback(stage, pos));
         setId(field);
         setMinWidth(minWidth);
         setPrefWidth(minWidth);
@@ -36,5 +36,5 @@ public abstract class AbstractTableColumn<S, E> extends TableColumn<S, E> {
         setGraphic(stack);
     }
 
-    protected abstract Callback<TableColumn<S, E>, TableCell<S, E>> getCallback(Stage stage);
+    protected abstract Callback<TableColumn<S, E>, TableCell<S, E>> getCallback(Stage stage, Pos pos);
 }

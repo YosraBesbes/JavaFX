@@ -10,12 +10,6 @@ public interface Ordered<D extends ItemDetailed> {
 
     void setPartner(Customer partner);
 
-    int getPartnerId();
-
-    String getPartnerName();
-
-    String getPartnerAddress();
-
     LocalDate getOrderDate();
 
     void setOrderDate(LocalDate orderDate);
@@ -27,6 +21,8 @@ public interface Ordered<D extends ItemDetailed> {
     List<D> getDetails();
 
     void setDetails(List<D> details);
-    
-    BigDecimal getAmount();
+
+    BigDecimal getTotalValue();
+
+    void setTotalValue(BigDecimal value);
 }

@@ -12,11 +12,11 @@ import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Education;
 
-public class EducationTab extends AbstractTab<Education, EmployeeDTO> {
+public class EducationTab extends AbstractTab<EmployeeDTO> {
     private TableView<Education> table;
 
     public EducationTab(Stage stage, EmployeeDTO dto) {
-        super("Education", stage, dto);
+        super("Education", "education", stage, dto);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ph.txtdis.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
 import ph.txtdis.repository.RemittanceRepository;
@@ -34,5 +36,10 @@ public class RemittanceServiceImpl extends AbstractService<Remittance, Integer> 
     @Override
     public List<RemittanceDetail> getDetails(int id) {
         return repository.getDetails(id);
+    }
+
+    @Override
+    public BigDecimal getPayment(Invoicing invoice) {
+        return repository.getPayment(invoice);
     }
 }

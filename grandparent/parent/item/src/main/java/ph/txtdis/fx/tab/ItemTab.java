@@ -24,12 +24,11 @@ import ph.txtdis.fx.table.BomTable;
 import ph.txtdis.fx.table.QtyPerUomTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Bom;
-import ph.txtdis.model.Item;
 import ph.txtdis.model.ItemFamily;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.type.ItemType;
 
-public class ItemTab extends AbstractTab<Item, ItemDTO> {
+public class ItemTab extends AbstractTab<ItemDTO> {
 
     private CheckBox notDiscountedCheckbox;
     private ComboBox<ItemType> typeCombo;
@@ -41,7 +40,7 @@ public class ItemTab extends AbstractTab<Item, ItemDTO> {
     private TableView<QtyPerUom> qtyPerUomTable;
 
     public ItemTab(Stage stage, ItemDTO dto) {
-        super("Basic Information", stage, dto);
+        super("Basic Information", "item", stage, dto);
         setDisableBindings();
         setEventListeners(stage);
     }

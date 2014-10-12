@@ -108,7 +108,7 @@ public class FX {
         loadFont("icomoon");
     }
 
-    public static void loadTxtdis() {
+    public static void loadTxtdisIcons() {
         loadFont("txtdis");
     }
 

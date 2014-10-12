@@ -14,13 +14,9 @@ import ph.txtdis.fx.dialog.ProgressDialog;
 import ph.txtdis.util.Util;
 
 public class SaveButton<E, K> extends FontButton<E> {
-
     public SaveButton(Apped app, DTO<E, K> dto) {
-
         super("\ue823", "Save...");
-
         button.setOnAction(event -> {
-
             new ProgressDialog((Stage) app) {
                 private Exception e;
 
@@ -38,7 +34,7 @@ public class SaveButton<E, K> extends FontButton<E> {
                     if (e == null)
                         new InfoDialog((Stage) app, "Successfully posted data of\n" + getIdAndName(app, dto));
                     else
-                        new ErrorDialog(stage, e.getMessage());
+                        new ErrorDialog((Stage) app, e.getMessage());
                     app.refresh();
                 }
 

@@ -9,7 +9,7 @@ import ph.txtdis.util.DIS;
 public abstract class AbstractInputColumn<S, T> extends AbstractTableColumn<S, T> {
 
     public AbstractInputColumn(Stage stage, String text, String field, int minWidth) {
-        super(stage, text, field, minWidth);
+        super(stage, text, field, minWidth, null);
         setOnEditCommit(event -> {
             try {
                 DIS.invokeOneParameterMethod(event.getRowValue(), "set" + StringUtils.capitalize(field),

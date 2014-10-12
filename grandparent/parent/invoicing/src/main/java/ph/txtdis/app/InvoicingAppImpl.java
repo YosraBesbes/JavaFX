@@ -14,8 +14,8 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.InvoicingDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
-import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.exception.InvalidException;
+import ph.txtdis.exception.NotFoundException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.table.InvoicingDetailTable;
@@ -72,16 +72,17 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         bookingIdField = new IdField(orderDTO.getBookingId());
 
         partnerIdField.setEditable(false);
-        partnerIdField.setFocusTraversable(false);
+        partnerIdField.focusTraversableProperty().set(false);
 
-        datePicker.setEditable(false);
-        datePicker.setFocusTraversable(false);
-        datePicker.setValue(getInvoiceDate());
+        datePicker.setValue(getOrderDate());
+        datePicker.setDisable(true);
+        datePicker.setStyle("-fx-opacity: 1");
 
         idField.setEditable(true);
     }
 
-    private LocalDate getInvoiceDate() {
+    @Override
+    protected LocalDate getOrderDate() {
         return booking.getOrderDate() == null ? LocalDate.now() : booking.getOrderDate();
     }
 
@@ -89,19 +90,18 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     protected void addGridPaneNodes(GridPane gridPane) {
         gridPane.add(idLabel, 0, 0);
         gridPane.add(idField, 1, 0);
-        gridPane.add(dateLabel, 2, 0);
-        gridPane.add(datePicker, 3, 0);
+        gridPane.add(bookingLabel, 2, 0);
+        gridPane.add(bookingIdField, 3, 0);
+        gridPane.add(dateLabel, 4, 0);
+        gridPane.add(datePicker, 5, 0);
+        gridPane.add(partnerLabel, 6, 0);
+        gridPane.add(partnerBox, 7, 0);
 
-        gridPane.add(bookingLabel, 0, 1);
-        gridPane.add(bookingIdField, 1, 1);
-        gridPane.add(partnerLabel, 2, 1);
-        gridPane.add(partnerBox, 3, 1);
+        gridPane.add(partnerAddressLabel, 0, 1);
+        gridPane.add(partnerAddressField, 1, 1, 7, 1);
 
-        gridPane.add(partnerAddressLabel, 0, 2);
-        gridPane.add(partnerAddressField, 1, 2, 3, 1);
-
-        gridPane.add(remarkLabel, 0, 3);
-        gridPane.add(remarkField, 1, 3, 3, 1);
+        gridPane.add(remarkLabel, 0, 2);
+        gridPane.add(remarkField, 1, 2, 7, 1);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         if (invoiceId == null)
             checkSalesOrderWasPicked();
         else
-            throw new InvalidException("S/O No. " + booking.getId() + "\nhas been used in\nS/I No. " + invoiceId);
+            throw new InvalidException("S/O No. " + booking.getId() + "\nhas been invoiced per\nS/I No. " + invoiceId);
     }
 
     private void checkSalesOrderWasPicked() throws InvalidException {
@@ -252,6 +252,5 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
         total = BigDecimal.ZERO;
         bookingIdField.setIdNo(orderDTO.getBookingId());
         super.refresh();
-        datePicker.setValue(getInvoiceDate());
     }
 }

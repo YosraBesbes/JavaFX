@@ -16,7 +16,7 @@ import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundItemDialog;
 import ph.txtdis.fx.tab.ItemTab;
 import ph.txtdis.fx.tab.PricingTab;
-import ph.txtdis.fx.tab.Tabled;
+import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.tab.VolumeDiscountTab;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Item;
@@ -29,7 +29,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     private ItemTab itemTab;
     private PricingTab pricingTab;
     private VolumeDiscountTab discountTab;
-    private Tabled[] tabsWithTables;
+    private Tabbed[] tabsWithTables;
 
     public ItemAppImpl() {
         super("Item", "");
@@ -68,10 +68,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
                         .or(isAssembledButNoBOM()));
         discountTab.getTab().disableProperty().bind(FX.isEmpty(pricingTab.getTable()));
         buttons.get("cancel").setDisable(true);
-        buttons.get("save")
-                .disableProperty()
-                .bind(FX.isEmpty(itemTab.getIdField()).not().or(noSelectedType())
-                        .or(noPricing().and(isNotMonetaryAndFree())));
+        buttons.get("save").disableProperty().bind(noSelectedType().or(noPricing().and(isNotMonetaryAndFree())));
     }
 
     private BooleanBinding noSelectedType() {
@@ -114,11 +111,11 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
         itemTab = new ItemTab(this, item);
         pricingTab = new PricingTab(this, item);
         discountTab = new VolumeDiscountTab(this, item);
-        tabsWithTables = new Tabled[] { itemTab, pricingTab, discountTab };
+        tabsWithTables = new Tabbed[] { itemTab, pricingTab, discountTab };
     }
 
     private void tabs() {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             tabs.add(t.getTab());
     }
 
@@ -132,14 +129,25 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
 
     @Override
     public void save() throws InvalidException {
-        for (Tabled t : tabsWithTables)
-            t.save();
+        allowOnlyPricingUpdatesWhenSavingPreviouslyPostedItemElsePersistAll();
         item.save();
+    }
+
+    private void allowOnlyPricingUpdatesWhenSavingPreviouslyPostedItemElsePersistAll() throws InvalidException {
+        if (encoderDisplay.getText().isEmpty())
+            saveAll();
+        else
+            pricingTab.save();
+    }
+
+    private void saveAll() throws InvalidException {
+        for (Tabbed t : tabsWithTables)
+            t.save();
     }
 
     @Override
     public void refresh() {
-        for (Tabled t : tabsWithTables)
+        for (Tabbed t : tabsWithTables)
             t.refresh();
         super.refresh();
     }

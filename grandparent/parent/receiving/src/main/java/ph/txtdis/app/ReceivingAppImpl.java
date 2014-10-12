@@ -1,5 +1,6 @@
 package ph.txtdis.app;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.scene.control.ComboBox;
@@ -14,7 +15,6 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
 import ph.txtdis.dto.PurchasingDTO;
-import ph.txtdis.dto.QualityRated;
 import ph.txtdis.dto.ReceivingDTO;
 import ph.txtdis.dto.UserDTO;
 import ph.txtdis.exception.InvalidException;
@@ -31,13 +31,13 @@ import ph.txtdis.model.ReceivingDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.ReceivingReferenceType;
+import ph.txtdis.util.Util;
 
 public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetail, ReceivingDTO> {
 
     private PurchasingDTO purchasing;
     private BookingDTO booking;
     private UserDTO user;
-    private QualityRated quality;
 
     private ComboBox<ReceivingReferenceType> referenceCombo;
     private ComboBox<SystemUser> checkerCombo;
@@ -77,6 +77,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     @Override
     protected void createOrderedLabeledInputs() {
         super.createOrderedLabeledInputs();
+
         partnerReferenceIdLabel = new Label("Partner Reference ID");
         partnerReferenceIdField = new IntegerField(orderDTO.getPartnerReferenceId());
 
@@ -87,6 +88,15 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
         referenceCombo = FX.createComboBox(ReceivingReferenceType.values(), orderDTO.getReference());
         referenceIdField = new IdField(orderDTO.getReferenceId());
         referenceBox = new HBox(referenceCombo, referenceIdField);
+
+        datePicker.setValue(getOrderDate());
+        datePicker.setDisable(true);
+        datePicker.setStyle("-fx-opacity: 1");
+    }
+
+    @Override
+    protected LocalDate getOrderDate() {
+        return orderDTO.getOrderDate() == null ? LocalDate.now() : orderDTO.getOrderDate();
     }
 
     @Override
@@ -95,13 +105,13 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
         gridPane.add(idField, 1, 0);
         gridPane.add(dateLabel, 2, 0);
         gridPane.add(datePicker, 3, 0);
-        gridPane.add(partnerReferenceIdLabel, 4, 0);
-        gridPane.add(partnerReferenceIdField, 5, 0);
+        gridPane.add(referenceLabel, 4, 0);
+        gridPane.add(referenceBox, 5, 0);
 
         gridPane.add(checkerLabel, 0, 1);
         gridPane.add(checkerCombo, 1, 1);
-        gridPane.add(referenceLabel, 2, 1);
-        gridPane.add(referenceBox, 3, 1);
+        gridPane.add(partnerReferenceIdLabel, 2, 1);
+        gridPane.add(partnerReferenceIdField, 3, 1);
         gridPane.add(partnerLabel, 4, 1);
         gridPane.add(partnerBox, 5, 1);
 
@@ -110,6 +120,11 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
 
         gridPane.add(remarkLabel, 0, 3);
         gridPane.add(remarkField, 1, 3, 5, 1);
+    }
+
+    @Override
+    public void setFocus() {
+        referenceCombo.requestFocus();
     }
 
     @Override
@@ -139,7 +154,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     @Override
     public void setDetail(Priced priced) {
         detailTableItem = new ReceivingDetail(orderDTO.get(), priced.getItem(), priced.getUom(), priced.getQty(),
-                quality.good());
+                priced.getQuality());
     }
 
     @Override
@@ -171,10 +186,9 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
         partnerIdField.setEditable(false);
         partnerIdField.setFocusTraversable(false);
 
-        partnerReferenceIdField.disableProperty().bind(FX.isEmpty(datePicker));
-        checkerCombo.disableProperty().bind(FX.isEmpty(datePicker));
-        referenceCombo.disableProperty().bind(FX.isEmpty(checkerCombo));
         referenceIdField.disableProperty().bind(FX.isEmpty(referenceCombo));
+        checkerCombo.disableProperty().bind(FX.isEmpty(partnerNameField));
+        partnerReferenceIdField.disableProperty().bind(FX.isEmpty(partnerNameField));
     }
 
     @Override
@@ -185,32 +199,75 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
                     verifyReference(referenceIdField.getIdNo());
                 } catch (Exception e) {
                     new ErrorDialog(this, e.getMessage());
+                    refresh();
                 }
         });
     }
 
-    private void verifyReference(int id) throws NotFoundException {
+    private void verifyReference(int id) throws InvalidException {
         if (isAPurchase())
             verifyPurchaseOrder(id);
         else
             verifySalesOrder(id);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void verifyPurchaseOrder(int id) throws NotFoundException {
+    private void verifyPurchaseOrder(int id) throws InvalidException {
         if (purchasing.exists(id)) {
-            purchasing.setById(id);
-            populateFields((OrderDTO) purchasing);
+            checkPurchaseOrderHasBeenReceived(id);
         } else
             throw new NotFoundException("P/O No. " + id);
     }
 
+    private void checkPurchaseOrderHasBeenReceived(int id) throws InvalidException {
+        purchasing.setById(id);
+        handlePurchaseOrderHasBeenReceivedCheck(getReceivedDate());
+    }
+
+    private LocalDate getReceivedDate() {
+        return orderDTO.getReceivedDateFromPurchaseOrder(purchasing.getId());
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private void verifySalesOrder(int id) throws NotFoundException {
-        if (booking.exists(id)) {
-            booking.setById(id);
-            populateFields((OrderDTO) booking);
-        } else
+    private void handlePurchaseOrderHasBeenReceivedCheck(LocalDate receivedDate) throws InvalidException {
+        if (receivedDate != null && receivedDate.isBefore(LocalDate.now()))
+            throw new InvalidException(receivedBeforeToday(receivedDate));
+        else
+            populateFields((OrderDTO) purchasing);
+    }
+
+    private String receivedBeforeToday(LocalDate receivedDate) {
+        return "P/O No. " + purchasing.getId() + " has been served;\nit was received last "
+                + Util.formatDate(receivedDate);
+    }
+
+    private void verifySalesOrder(int id) throws InvalidException {
+        if (booking.exists(id))
+            checkSalesOrderWasPicked(id);
+        else
             throw new NotFoundException("S/O No. " + id);
+    }
+
+    private void checkSalesOrderWasPicked(int id) throws InvalidException {
+        booking.setById(id);
+        handleSalesOrderHasBeenPickedCheck(getPickDate());
+    }
+
+    private LocalDate getPickDate() {
+        return orderDTO.getPickDateFromSalesOrder(booking.get());
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private void handleSalesOrderHasBeenPickedCheck(LocalDate pickDate) throws InvalidException {
+        if (pickDate == null)
+            throw new InvalidException("S/O No. " + booking.getId() + "\nhas not been picked");
+        else if (pickDate.isBefore(LocalDate.now()))
+            throw new InvalidException(pickedBeforeToday(pickDate));
+        else
+            populateFields((OrderDTO) booking);
+    }
+
+    private String pickedBeforeToday(LocalDate pickDate) {
+        return "S/O No. " + booking.getId() + "\nis not part of the delivery today;\nit was picked last "
+                + Util.formatDate(pickDate);
     }
 }

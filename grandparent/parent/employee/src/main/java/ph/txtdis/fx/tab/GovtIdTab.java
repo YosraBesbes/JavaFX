@@ -13,11 +13,11 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.GovtId;
 import ph.txtdis.type.GovtIdType;
 
-public class GovtIdTab extends AbstractTab<GovtId, EmployeeDTO> {
+public class GovtIdTab extends AbstractTab<EmployeeDTO> {
     private TableView<GovtId> table;
 
     public GovtIdTab(Stage stage, EmployeeDTO dto) {
-        super("Gov't ID", stage, dto);
+        super("Gov't ID", "govtId", stage, dto);
     }
 
     @Override

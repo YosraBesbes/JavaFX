@@ -21,7 +21,11 @@ public interface PickingService extends SpunService<Picking, Integer> {
 
     List<Truck> getEmptyTrucks(LocalDate date);
 
+    List<Truck> getLoadedTrucks(LocalDate date);
+
     List<PickList> generatePickList(int id);
 
     List<PickingSummary> getSummary(LocalDate startDate, LocalDate endDate);
+
+    LocalDate getPickDateFromSalesOrder(Booking booking);
 }

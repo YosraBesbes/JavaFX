@@ -130,6 +130,11 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     }
 
     @Override
+    public List<Truck> getLoadedTrucks(LocalDate date) {
+        return service.getLoadedTrucks(date);
+    }
+
+    @Override
     public SystemUser getPrintedBy() {
         return entity.getPrintedBy();
     }

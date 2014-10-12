@@ -9,6 +9,4 @@ public interface Priced extends ItemDetailed {
     void setPrice(BigDecimal price);
 
     BigDecimal getSubtotal();
-
-    void setSubtotal(BigDecimal subtotal);
 }

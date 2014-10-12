@@ -1,6 +1,7 @@
 package ph.txtdis.app;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,10 +17,13 @@ import ph.txtdis.App;
 import ph.txtdis.dto.BookingDTO;
 import ph.txtdis.dto.PickingDTO;
 import ph.txtdis.dto.UserDTO;
+import ph.txtdis.excel.Excel;
+import ph.txtdis.excel.ExcelWriter;
 import ph.txtdis.exception.InvalidException;
+import ph.txtdis.fx.button.ExcelButton;
 import ph.txtdis.fx.button.PrintButton;
+import ph.txtdis.fx.display.StringDisplay;
 import ph.txtdis.fx.input.IdField;
-import ph.txtdis.fx.input.StringDisplay;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.table.PickListTable;
 import ph.txtdis.fx.table.PickingDetailTable;
@@ -29,12 +33,11 @@ import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
-import ph.txtdis.printer.PicklistPrinter;
 import ph.txtdis.printer.SalesOrderPrinter;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
 
-public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, Referenced<PickList> {
+public class PickingAppImpl extends AbstractIdApp<Picking> implements Excel, Printed {
 
     private BookingDTO booking;
     private PickingDTO picking;
@@ -72,6 +75,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     @Override
     protected void setButtons() {
         super.setButtons();
+        buttons.put("excel", new ExcelButton<Picking>(this).getButton());
         buttons.put("print", new PrintButton<Picking>(this, dto).getButton());
     }
 
@@ -157,6 +161,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     @Override
     protected void setBindings() {
         buttons.get("save").disableProperty().bind(FX.isEmpty(detailTable).or(FX.isEmpty(idField).not()));
+        buttons.get("excel").disableProperty().bind(FX.isEmpty(pickListTable));
         buttons.get("print").disableProperty().bind(FX.isEmpty(pickListTable).or(FX.isEmpty(printedByDisplay).not()));
 
         truckCombo.disableProperty().bind(FX.isEmpty(datePicker));
@@ -165,7 +170,6 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
         helper2Combo.disableProperty().bind(FX.isEmpty(driverCombo));
         remarkField.disableProperty().bind(FX.isEmpty(helper1Combo));
         detailTable.disableProperty().bind(FX.isEmpty(helper1Combo));
-        pickListTable.disableProperty().bind(FX.isEmpty(idField).not());
     }
 
     @Override
@@ -183,8 +187,8 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
     }
 
     @Override
-    public void listFoundReferences(PickList entity) {
-        // TODO Auto-generated method stub
+    public void saveAsExcel() {
+        new ExcelWriter(Arrays.asList(Arrays.asList(pickListTable)), module, Util.formatDate(getPickerDate()));
     }
 
     @Override
@@ -193,7 +197,6 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Printed, R
             booking.set(detail.getBooking());
             new SalesOrderPrinter(booking);
         }
-        new PicklistPrinter(picking);
     }
 
     @Override

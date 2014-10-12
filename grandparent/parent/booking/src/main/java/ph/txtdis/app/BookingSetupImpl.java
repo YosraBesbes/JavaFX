@@ -69,7 +69,7 @@ public class BookingSetupImpl implements BookingSetup {
 
         sarisariBooking.setDetails(Arrays.asList(sarisariDetail));
         sarisariBooking.setRoute(customerService.getLatestRoute(sarisari, newDate));
-        sarisariBooking.setAmount(sarisariQty.multiply(pineSliceFlatpricePerPC));
+        sarisariBooking.setTotalValue(sarisariQty.multiply(pineSliceFlatpricePerPC));
         bookingService.save(sarisariBooking);
 
         Customer palengke = customerService.get(5);
@@ -95,7 +95,7 @@ public class BookingSetupImpl implements BookingSetup {
 
         palengkeBooking.setDetails(Arrays.asList(palengkeDetail1, palengkeDetail2, palengkeDetail3));
         palengkeBooking.setRoute(customerService.getLatestRoute(palengke, newDate));
-        palengkeBooking.setAmount(palengkeDetail1Amt.add(palengkeDetail2Amt).add(palengkeDetail3Amt));
+        palengkeBooking.setTotalValue(palengkeDetail1Amt.add(palengkeDetail2Amt).add(palengkeDetail3Amt));
 
         bookingService.save(palengkeBooking);
 
@@ -106,7 +106,7 @@ public class BookingSetupImpl implements BookingSetup {
         varietyDetail.setPrice(pineSliceFlatpricePerPC);
         varietyBooking.setDetails(Arrays.asList(varietyDetail));
         varietyBooking.setRoute(customerService.getLatestRoute(variety, oldDate));
-        varietyBooking.setAmount(varietyQty.multiply(pineSliceFlatpricePerPC));
+        varietyBooking.setTotalValue(varietyQty.multiply(pineSliceFlatpricePerPC));
         bookingService.save(varietyBooking);
 
         Customer wetMarket = customerService.get(7);
@@ -117,7 +117,7 @@ public class BookingSetupImpl implements BookingSetup {
         wetMarketDetail.setPrice(pineSliceFlatpricePerPC);
         wetMarketBooking.setDetails(Arrays.asList(wetMarketDetail));
         wetMarketBooking.setRoute(customerService.getLatestRoute(wetMarket, oldDate));
-        wetMarketBooking.setAmount(wetMarketQty.multiply(pineSliceFlatpricePerPC));
+        wetMarketBooking.setTotalValue(wetMarketQty.multiply(pineSliceFlatpricePerPC));
         bookingService.save(wetMarketBooking);
 
         Customer dryMarket = customerService.get(8);
@@ -128,7 +128,7 @@ public class BookingSetupImpl implements BookingSetup {
         dryMarketDetail.setPrice(pineSliceFlatpricePerCS);
         dryMarketBooking.setDetails(Arrays.asList(dryMarketDetail));
         dryMarketBooking.setRoute(customerService.getLatestRoute(dryMarket, oldDate));
-        dryMarketBooking.setAmount(dryMarketQty.multiply(pineSliceFlatpricePerCS));
+        dryMarketBooking.setTotalValue(dryMarketQty.multiply(pineSliceFlatpricePerCS));
         bookingService.save(dryMarketBooking);
     }
 }

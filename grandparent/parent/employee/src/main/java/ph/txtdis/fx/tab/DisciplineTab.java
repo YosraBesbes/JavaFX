@@ -12,11 +12,11 @@ import ph.txtdis.fx.table.AbstractInputTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Discipline;
 
-public class DisciplineTab extends AbstractTab<Discipline, EmployeeDTO> {
+public class DisciplineTab extends AbstractTab<EmployeeDTO> {
     private TableView<Discipline> table;
 
     public DisciplineTab(Stage stage, EmployeeDTO dto) {
-        super("Discipline", stage, dto);
+        super("Discipline", "discipline", stage, dto);
     }
 
     @Override
@@ -56,6 +56,7 @@ public class DisciplineTab extends AbstractTab<Discipline, EmployeeDTO> {
         dto.setDisciplinaryActions(table.getItems());
     }
 
+    @Override
     public void refresh() {
         table.setItems(dto.getDisciplinaryActions());
     }

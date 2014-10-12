@@ -53,7 +53,7 @@ public interface StockTakeReconciliationDTO extends Spun, DTO<StockTakeReconcili
 
     void setCompletedBy(SystemUser completedBy);
 
-    ZonedDateTime getCompleteOn();
+    ZonedDateTime getCompletedOn();
 
     void setCompleteOn(ZonedDateTime completedOn);
 

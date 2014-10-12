@@ -15,19 +15,18 @@ import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.table.CreditTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CreditDetail;
-import ph.txtdis.model.Customer;
 
-public class CreditTab extends AbstractTab<Customer, CustomerDTO> {
+public class CreditTab extends AbstractTab<CustomerDTO> {
 
     private IntegerField mobileField;
     private StringField contactNameField, contactSurnameField, titleField;
     private TableView<CreditDetail> creditTable;
 
     public CreditTab(Stage stage, CustomerDTO dto) {
-        super("Credit Details", stage, dto);
+        super("Credit Details", "credit", stage, dto);
         setDisableBindings();
     }
-    
+
     private void setDisableBindings() {
         contactSurnameField.disableProperty().bind(FX.isEmpty(contactNameField));
         titleField.disableProperty().bind(FX.isEmpty(contactSurnameField));
@@ -37,7 +36,7 @@ public class CreditTab extends AbstractTab<Customer, CustomerDTO> {
 
     @Override
     protected Node[] addNodes(Stage stage, CustomerDTO dto) {
-        
+
         Label contactLabel = FX.createBigLabel("Credit Contact");
 
         Label givenNameLabel = new Label("Given Name");
@@ -69,9 +68,9 @@ public class CreditTab extends AbstractTab<Customer, CustomerDTO> {
         gridPane.add(titleField, 1, 2);
         gridPane.add(mobileLabel, 2, 2);
         gridPane.add(mobileField, 3, 2);
-        
+
         VBox routingBox = new VBox(gridPane, creditLabel, creditTable);
-        
+
         return new Node[] { routingBox };
     }
 
