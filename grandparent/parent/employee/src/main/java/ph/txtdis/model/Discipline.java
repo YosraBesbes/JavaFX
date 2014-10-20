@@ -1,6 +1,6 @@
 package ph.txtdis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "incidence", "allegation" }))
@@ -19,14 +21,16 @@ public class Discipline extends AbstractAudited {
     private Employee employee;
 
     @Column(nullable = false)
-    private Date incidence;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate incidence;
 
     @Column(nullable = false)
     private String allegation;
 
     private String decision;
 
-    private Date effectivity;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate effectivity;
 
     private int dayCount;
 
@@ -39,7 +43,7 @@ public class Discipline extends AbstractAudited {
     protected Discipline() {
     }
 
-    public Discipline(Employee employee, Date incidence, String allegation) {
+    public Discipline(Employee employee, LocalDate incidence, String allegation) {
         this.employee = employee;
         this.incidence = incidence;
         this.allegation = allegation;
@@ -53,11 +57,11 @@ public class Discipline extends AbstractAudited {
         this.employee = employee;
     }
 
-    public Date getIncidence() {
+    public LocalDate getIncidence() {
         return incidence;
     }
 
-    public void setIncidence(Date incidence) {
+    public void setIncidence(LocalDate incidence) {
         this.incidence = incidence;
     }
 
@@ -77,11 +81,11 @@ public class Discipline extends AbstractAudited {
         this.decision = decision;
     }
 
-    public Date getEffectivity() {
+    public LocalDate getEffectivity() {
         return effectivity;
     }
 
-    public void setEffectivity(Date effectivity) {
+    public void setEffectivity(LocalDate effectivity) {
         this.effectivity = effectivity;
     }
 

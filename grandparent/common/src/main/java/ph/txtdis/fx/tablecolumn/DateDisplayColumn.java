@@ -9,8 +9,8 @@ import ph.txtdis.fx.tablecell.DateDisplayTableCell;
 
 public class DateDisplayColumn<S> extends AbstractDisplayColumn<S, LocalDate> {
 
-    public DateDisplayColumn(Stage stage, String text, String field) {
-        super(stage, text, field, 90, null);
+    public DateDisplayColumn(Stage stage, String text, String fieldWithDateSuffix) {
+        super(stage, text, fieldWithDateSuffix, 90, null);
     }
 
     @Override

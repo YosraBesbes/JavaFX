@@ -9,13 +9,14 @@ import javafx.collections.ObservableList;
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.ItemFamily;
+import ph.txtdis.model.Named;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.ItemType;
 import ph.txtdis.type.UomType;
 
-public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Named<Item>, Audited<Item> {
+public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Named, Audited<Item> {
 
     ItemType getType();
 

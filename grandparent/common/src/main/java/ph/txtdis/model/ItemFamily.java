@@ -11,7 +11,7 @@ public class ItemFamily extends AbstractNamed {
 
     private ItemTier tier;
 
-    protected ItemFamily() {
+    public ItemFamily() {
     }
 
     public ItemFamily(String name, ItemTier tier) {

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -93,10 +94,21 @@ public abstract class AbstractSettlementTab<D> extends AbstractTab<SummaryDTO> i
 
     @Override
     public BooleanBinding isAllReconciled() {
-        BooleanBinding isReconciled = null;
+        if (tabsExist().get())
+            return isReconciled();
+        else
+            return tabsExist();
+    }
+
+    private BooleanBinding isReconciled() {
+        BooleanBinding isReconciled = tabsExist();
         for (Tabbed tab : tabMap.values())
-            isReconciled = (isReconciled == null ? isReconciled(tab) : isReconciled.and(isReconciled(tab)));
+            isReconciled = isReconciled.and(isReconciled(tab));
         return isReconciled;
+    }
+
+    private BooleanBinding tabsExist() {
+        return Bindings.isEmpty(tabPane.getTabs()).not();
     }
 
     private BooleanBinding isReconciled(Tabbed tabbed) {
@@ -105,9 +117,16 @@ public abstract class AbstractSettlementTab<D> extends AbstractTab<SummaryDTO> i
 
     @Override
     public BooleanBinding isAnyOpen() {
-        BooleanBinding isOpen = null;
+        if (tabsExist().get())
+            return isOpen();
+        else
+            return tabsExist();
+    }
+
+    private BooleanBinding isOpen() {
+        BooleanBinding isOpen = tabsExist().not();
         for (Tabbed tab : tabMap.values())
-            isOpen = (isOpen == null ? isOpen(tab) : isOpen.or(isOpen(tab)));
+            isOpen = isOpen.or(isOpen(tab));
         return isOpen;
     }
 

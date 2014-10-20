@@ -8,7 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import ph.txtdis.fx.tablecolumn.DateDisplayColumn;
 import ph.txtdis.fx.tablecolumn.IdDisplayColumn;
-import ph.txtdis.fx.tablecolumn.MonetaryDisplayColumn;
+import ph.txtdis.fx.tablecolumn.CurrencyDisplayColumn;
 import ph.txtdis.fx.tablecolumn.TextDisplayColumn;
 import ph.txtdis.model.Remittance;
 
@@ -21,7 +21,7 @@ public class RemittanceTable extends AbstractTable<Remittance> {
         TableColumn<Remittance, String> partnerCol = new TextDisplayColumn<>(stage, "Partner", "partner", 180,
                 Pos.CENTER_LEFT);
         TableColumn<Remittance, LocalDate> dateCol = new DateDisplayColumn<>(stage, "Date", "orderDate");
-        TableColumn<Remittance, BigDecimal> valueCol = new MonetaryDisplayColumn<>(stage, "Value", "totalValue");
+        TableColumn<Remittance, BigDecimal> valueCol = new CurrencyDisplayColumn<>(stage, "Value", "totalValue");
         table.getColumns().addAll(idCol, typeCol, partnerCol, dateCol, valueCol);
         table.setId("Remittance");
     }

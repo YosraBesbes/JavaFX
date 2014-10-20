@@ -33,5 +33,14 @@
     	<module>stock-take-reconciliation</module>
     	<module>inventory</module>
     	<module>day-end-report</module>
+    	<module>truck</module>
+    	<module>route</module>
+    	<module>channel</module>
+    	<module>family</module>
+    	<module>warehouse</module>
+    	<module>tree</module>
+    	<module>vat</module>
+    	<module>aging</module>
+    	<module>sales-report</module>
     </modules>
 </project>

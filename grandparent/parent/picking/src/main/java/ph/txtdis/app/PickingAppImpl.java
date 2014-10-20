@@ -75,7 +75,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Excel, Pri
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.put("excel", new ExcelButton<Picking>(this).getButton());
+        buttons.put("excel", new ExcelButton(this).getButton());
         buttons.put("print", new PrintButton<Picking>(this, dto).getButton());
     }
 

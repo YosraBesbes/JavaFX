@@ -1,12 +1,11 @@
 package ph.txtdis.fx.dialog;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledDatePicker;
 import ph.txtdis.fx.input.LabeledStringField;
@@ -29,7 +28,7 @@ public class DisciplineDialog extends AbstractFieldDialog<Discipline, EmployeeDT
     @Override
     protected Discipline createEntity(EmployeeDTO dto, List<InputNode<?>> inputNodes) {
         Employee employee = dto.get();
-        Date incidenceDate = getInputAtRow(0);
+        LocalDate incidenceDate = getInputAtRow(0);
         String allegation = getInputAtRow(1);
         return new Discipline(employee, incidenceDate, allegation);
     }

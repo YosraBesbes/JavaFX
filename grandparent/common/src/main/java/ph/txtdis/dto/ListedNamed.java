@@ -1,6 +1,4 @@
 package ph.txtdis.dto;
 
-public interface ListedNamed<E> extends Listed<E> {
-
-    E get(String name);
+public interface ListedNamed<E> extends Listed<E>, NamedDTO<E> {
 }

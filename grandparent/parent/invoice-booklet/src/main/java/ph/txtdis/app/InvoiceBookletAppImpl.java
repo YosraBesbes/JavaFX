@@ -8,7 +8,9 @@ import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -73,6 +75,12 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> 
                 });
                 return booklets;
             }
+
+            @Override
+            protected ContextMenu createPerTableRowMenu(TableView<InvoiceBooklet> table, TableRow<InvoiceBooklet> row) {
+                return null;
+            }
+
         }.getTable();
 
         table.setItems(((InvoiceBookletDTO) dto).list());

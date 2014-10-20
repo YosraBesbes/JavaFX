@@ -47,7 +47,7 @@ public abstract class AbstractApp<E, K> extends Stage implements Apped {
 
     @Override
     public void refresh() {
-        setTitle(titleName());
+        setTitle(getModule());
         setFocus();
     }
 
@@ -103,7 +103,8 @@ public abstract class AbstractApp<E, K> extends Stage implements Apped {
         return new FontToImage("icomoon", "\ue601", Color.NAVY).getImage();
     }
 
-    protected String titleName() {
+    @Override
+    public String getModule() {
         return module;
     }
 
@@ -115,8 +116,12 @@ public abstract class AbstractApp<E, K> extends Stage implements Apped {
 
     private void setStage(VBox box) {
         getIcons().add(icon());
-        setTitle(titleName());
+        setTitle(getTitleName());
         setScene(createScene(box));
+    }
+
+    protected String getTitleName() {
+        return getModule();
     }
 
     public void setDTO(E entity) {

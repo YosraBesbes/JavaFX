@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import ph.txtdis.App;
+import ph.txtdis.dto.Spun;
 import ph.txtdis.dto.SummaryDTO;
 import ph.txtdis.excel.Excel;
 import ph.txtdis.excel.ExcelWriter;
@@ -22,8 +23,8 @@ import ph.txtdis.fx.button.BackButton;
 import ph.txtdis.fx.button.ExcelButton;
 import ph.txtdis.fx.button.MailButton;
 import ph.txtdis.fx.button.NextButton;
+import ph.txtdis.fx.button.OpenByDateButton;
 import ph.txtdis.fx.button.SaveButton;
-import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.dialog.LatestTruckRelatedTransactionClosureOptionDialog;
 import ph.txtdis.fx.tab.ConsolidationTab;
 import ph.txtdis.fx.tab.LoadSettlementTab;
@@ -98,11 +99,11 @@ public class DayEndAppImpl extends AbstractApp<DailySummary, LocalDate> implemen
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.put("back", new BackButton<DailySummary, LocalDate>(this, dto).getButton());
-        buttons.put("open", new SearchByDateButton<DailySummary>(this, dto).getButton());
-        buttons.put("next", new NextButton<DailySummary, LocalDate>(this, dto).getButton());
+        buttons.put("back", new BackButton(this, (Spun) dto).getButton());
+        buttons.put("open", new OpenByDateButton<DailySummary>(this, dto).getButton());
+        buttons.put("next", new NextButton(this, (Spun) dto).getButton());
         buttons.put("save", new SaveButton<DailySummary, LocalDate>(this, dto).getButton());
-        buttons.put("excel", new ExcelButton<DailySummary>(this).getButton());
+        buttons.put("excel", new ExcelButton(this).getButton());
         buttons.put("mail", new MailButton<DailySummary, LocalDate>(this, dto).getButton());
     }
 

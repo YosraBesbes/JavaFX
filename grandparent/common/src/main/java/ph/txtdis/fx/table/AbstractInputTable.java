@@ -85,10 +85,10 @@ public abstract class AbstractInputTable<E, D> {
         return row;
     }
 
-    private ContextMenu createPerTableRowMenu(TableView<E> table, final TableRow<E> row) {
+    protected ContextMenu createPerTableRowMenu(TableView<E> table, final TableRow<E> row) {
         ContextMenu rowMenu = new ContextMenu();
         addTableMenuToRowMenu(table, rowMenu);
-        createRemoveMenuItem(row, rowMenu);
+        createRowMenuItem(row, rowMenu);
         return rowMenu;
     }
 
@@ -98,13 +98,17 @@ public abstract class AbstractInputTable<E, D> {
             rowMenu.getItems().addAll(tableMenu.getItems());
     }
 
-    private void createRemoveMenuItem(TableRow<E> row, ContextMenu rowMenu) {
-        MenuItem removeMenuItem = new MenuItem("Delete row");
-        removeMenuItem.setOnAction(event -> removeTableItem(row));
-        rowMenu.getItems().add(removeMenuItem);
+    private void createRowMenuItem(TableRow<E> row, ContextMenu rowMenu) {
+        MenuItem rowMenuItem = createRowMenuItem();
+        rowMenuItem.setOnAction(event -> handleRowMenuItemSelection(row));
+        rowMenu.getItems().add(rowMenuItem);
     }
 
-    protected void removeTableItem(TableRow<E> row) {
+    protected MenuItem createRowMenuItem() {
+        return new MenuItem("Delete row");
+    }
+
+    protected void handleRowMenuItemSelection(TableRow<E> row) {
         table.getItems().remove(row.getItem());
     }
 

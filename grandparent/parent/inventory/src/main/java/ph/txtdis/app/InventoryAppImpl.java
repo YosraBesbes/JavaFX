@@ -41,7 +41,7 @@ public class InventoryAppImpl extends AbstractApp<Inventory, Integer> implements
     @Override
     protected void setButtons() {
         buttons = new LinkedHashMap<>();
-        buttons.put("excel", new ExcelButton<Inventory>(this).getButton());
+        buttons.put("excel", new ExcelButton(this).getButton());
     }
 
     @SuppressWarnings("unchecked")

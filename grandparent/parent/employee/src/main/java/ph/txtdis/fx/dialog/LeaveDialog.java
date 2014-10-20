@@ -1,12 +1,11 @@
 package ph.txtdis.fx.dialog;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDatePicker;
@@ -33,7 +32,7 @@ public class LeaveDialog extends AbstractFieldDialog<Leave, EmployeeDTO> {
     protected Leave createEntity(EmployeeDTO dto, List<InputNode<?>> inputNodes) {
         Employee employee = dto.get();
         LeaveType type = getInputAtRow(0);
-        Date start = getInputAtRow(1);
+        LocalDate start = getInputAtRow(1);
         int day = getInputAtRow(2);
         return new Leave(employee, type, start, day);
     }

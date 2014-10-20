@@ -1,6 +1,6 @@
 package ph.txtdis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.CivilStatus;
 import ph.txtdis.type.FamilyType;
@@ -25,14 +27,16 @@ public class Employee extends AbstractAudited {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "middle_initial", length = 1)
+    @Column(length = 1)
     private String middleInitial;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
 
-    private Date birthdate;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate birthdate;
+
     private String birthplace;
     private CivilStatus civilStatus;
     private String emergencyContact;
@@ -112,11 +116,11 @@ public class Employee extends AbstractAudited {
         this.photo = photo;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 

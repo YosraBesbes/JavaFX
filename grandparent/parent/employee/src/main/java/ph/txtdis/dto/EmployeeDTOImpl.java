@@ -3,7 +3,6 @@ package ph.txtdis.dto;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import ph.txtdis.model.PastWork;
 import ph.txtdis.service.EmployeeService;
 import ph.txtdis.type.CivilStatus;
 import ph.txtdis.type.FamilyType;
-import ph.txtdis.util.Util;
 
 @Component
 public class EmployeeDTOImpl extends AbstractSearchedSpunDTO<Employee, String, EmployeeService> implements EmployeeDTO {
@@ -111,13 +109,12 @@ public class EmployeeDTOImpl extends AbstractSearchedSpunDTO<Employee, String, E
 
     @Override
     public LocalDate getBirthdate() {
-        Date birthdate = entity.getBirthdate();
-        return birthdate == null ? null : birthdate.toLocalDate();
+        return entity.getBirthdate();
     }
 
     @Override
     public void setBirthdate(LocalDate birthdate) {
-        entity.setBirthdate(Util.localToSqlDate(birthdate));
+        entity.setBirthdate(birthdate);
     }
 
     @Override

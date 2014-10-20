@@ -1,12 +1,11 @@
 package ph.txtdis.fx.dialog;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledDatePicker;
 import ph.txtdis.fx.input.LabeledStringField;
@@ -30,7 +29,7 @@ public class AssignmentDialog extends AbstractFieldDialog<Assignment, EmployeeDT
     @Override
     protected Assignment createEntity(EmployeeDTO dto, List<InputNode<?>> inputNodes) {
         Employee employee = dto.get();
-        Date startDate = getInputAtRow(0);
+        LocalDate startDate = getInputAtRow(0);
         String location = getInputAtRow(1);
         String designation = getInputAtRow(2);
         return new Assignment(employee, startDate, location, designation);

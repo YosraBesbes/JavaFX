@@ -1,12 +1,11 @@
 package ph.txtdis.fx.dialog;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDatePicker;
@@ -37,8 +36,8 @@ public class GovtIdDialog extends AbstractFieldDialog<GovtId, EmployeeDTO> {
         Employee employee = dto.get();
         Byte[] image = Util.inputStreamToBytes(FX.getDefaultImageStream("id"));
         GovtIdType type = getInputAtRow(0);
-        Date issuance = getInputAtRow(1);
-        Date expiry = getInputAtRow(2);
+        LocalDate issuance = getInputAtRow(1);
+        LocalDate expiry = getInputAtRow(2);
         String detail = getInputAtRow(3);
         return new GovtId(employee, image, type, issuance, expiry, detail);
     }

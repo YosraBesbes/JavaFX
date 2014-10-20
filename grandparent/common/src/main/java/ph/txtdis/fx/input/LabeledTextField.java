@@ -10,8 +10,8 @@ import javafx.scene.control.TextField;
 
 public abstract class LabeledTextField<T> implements InputNode<T> {
     protected List<Node> nodes;
-	protected final TextField textField;
-	protected final Label label;
+    protected final TextField textField;
+    protected final Label label;
 
     public LabeledTextField(String name, TextField textField) {
         this.textField = textField;
@@ -19,31 +19,31 @@ public abstract class LabeledTextField<T> implements InputNode<T> {
         nodes = Arrays.asList(label, textField);
     }
 
-	@Override
+    @Override
     public List<Node> getNodes() {
-		return nodes;
-	}
-	
-	@Override
-	public void reset() {
-		textField.clear();
-	}
-	
-	@Override
-	public void requestFocus() {
-		textField.requestFocus();
-	}
-	
-	@Override
-	public BooleanBinding isEmpty() {
-		return textField.textProperty().isEmpty();
-	}
-	
-	public TextField getTextField() {
-	    return textField;
-	}
-	
-	protected String getText() {
-		return textField.getText();
-	}
+        return nodes;
+    }
+
+    @Override
+    public void reset() {
+        textField.clear();
+    }
+
+    @Override
+    public void requestFocus() {
+        textField.requestFocus();
+    }
+
+    @Override
+    public BooleanBinding isEmpty() {
+        return textField.textProperty().isEmpty();
+    }
+
+    public TextField getTextField() {
+        return textField;
+    }
+
+    protected String getText() {
+        return textField.getText();
+    }
 }

@@ -1,6 +1,6 @@
 package ph.txtdis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,10 +9,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Type;
+
 import ph.txtdis.type.LeaveType;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "type", "start_date" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "type", "startDate" }))
 public class Leave extends AbstractAudited {
 
     private static final long serialVersionUID = -3939404843675593545L;
@@ -22,16 +24,17 @@ public class Leave extends AbstractAudited {
 
     private LeaveType type;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    @Column(nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate startDate;
 
-    @Column(name = "day_count", nullable = false)
+    @Column(nullable = false)
     private int dayCount;
 
     protected Leave() {
     }
 
-    public Leave(Employee employee, LeaveType type, Date startDate, int dayCount) {
+    public Leave(Employee employee, LeaveType type, LocalDate startDate, int dayCount) {
         this.employee = employee;
         this.type = type;
         this.startDate = startDate;
@@ -54,11 +57,11 @@ public class Leave extends AbstractAudited {
         this.type = type;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

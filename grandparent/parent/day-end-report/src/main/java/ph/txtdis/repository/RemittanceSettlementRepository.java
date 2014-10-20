@@ -14,7 +14,7 @@ import ph.txtdis.model.Truck;
 public interface RemittanceSettlementRepository extends CrudRepository<RemittanceSettlement, Integer> {
 
     @Query("select new ph.txtdis.model.RemittanceSettlementDetail(i, "
-            + "(select sum(rd.payment) from RemittanceDetail rd where i = rd.invoice), "
+            + "(select sum(rd.payment) from RemittanceDetail rd where i = rd.invoicing), "
             + "(select s from RemittanceSettlementAdjustment s where i = s.invoice)) "
             + "from Invoicing i, Picking p, PickingDetail pd "
             + "where p = pd.picking and i.booking = pd.booking and p.truck = ?1 and i.orderDate = ?2 order by i.id ")

@@ -12,7 +12,6 @@ import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.model.Route;
 import ph.txtdis.repository.BookingRepository;
-import ph.txtdis.util.Util;
 
 @Service
 @Transactional()
@@ -41,7 +40,7 @@ public class BookingServiceImpl extends AbstractService<Booking, Integer> implem
 
     @Override
     public List<Route> getRoutes(LocalDate date) {
-        return repository.getRoutes(Util.localToSqlDate(date));
+        return repository.getRoutes(date);
     }
 
     @Override

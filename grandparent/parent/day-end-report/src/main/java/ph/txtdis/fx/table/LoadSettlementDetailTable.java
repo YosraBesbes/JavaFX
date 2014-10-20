@@ -3,6 +3,7 @@ package ph.txtdis.fx.table;
 import java.math.BigDecimal;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class LoadSettlementDetailTable extends AbstractTable<LoadSettlementFilte
     public LoadSettlementDetailTable(Stage stage) {
         table.setEditable(true);
         table.setTooltip(new Tooltip("Double-click \"Adjustment\" or \"Action Taken\"\ncolumn cell to enter data"));
+        table.setPlaceholder(new Label("Good job! Everything's in order"));
 
         TableColumn<LoadSettlementFilteredDetail, Integer> itemIdCol = new IdDisplayColumn<>(stage, "Item No.",
                 "itemId");

@@ -15,7 +15,7 @@ public class MonetaryFieldTableCell<S> extends TextFieldTableCell<S, BigDecimal>
 
             @Override
             public String toString(BigDecimal number) {
-                return DIS.formatMonetary(number);
+                return DIS.formatCurrency(number);
             }
 
             @Override

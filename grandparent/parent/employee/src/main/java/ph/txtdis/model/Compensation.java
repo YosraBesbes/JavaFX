@@ -1,7 +1,7 @@
 package ph.txtdis.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Type;
+
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "start_date" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "startDate" }))
 public class Compensation extends AbstractAudited {
 
     private static final long serialVersionUID = -2803418471196037075L;
@@ -19,16 +21,17 @@ public class Compensation extends AbstractAudited {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Employee employee;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    @Column(nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate startDate;
 
-    @Column(name = "daily_rate", nullable = false)
+    @Column(nullable = false)
     private BigDecimal dailyRate;
 
     protected Compensation() {
     }
 
-    public Compensation(Employee employee, Date startDate, BigDecimal dailyRate) {
+    public Compensation(Employee employee, LocalDate startDate, BigDecimal dailyRate) {
         this.employee = employee;
         this.startDate = startDate;
         this.dailyRate = dailyRate;
@@ -42,11 +45,11 @@ public class Compensation extends AbstractAudited {
         this.employee = employee;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

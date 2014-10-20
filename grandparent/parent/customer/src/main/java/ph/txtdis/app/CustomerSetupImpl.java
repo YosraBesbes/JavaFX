@@ -62,14 +62,13 @@ public class CustomerSetupImpl implements CustomerSetup {
         SystemUser dsp6 = userService.get("HENRY");
         SystemUser dsp7 = userService.get("ROLAND");
 
-        Route s41 = routeService.save(new Route("S41"));
-        Route s42 = routeService.save(new Route("S42"));
-        Route s43 = routeService.save(new Route("S43"));
-        Route s44 = routeService.save(new Route("S44"));
-        routeService.save(new Route("S45"));
-        Route pms1 = routeService.save(new Route("PMS1"));
-        Route pms2 = routeService.save(new Route("PMS2"));
-        Route pms3 = routeService.save(new Route("PMS3"));
+        Route s41 = routeService.get("S41");
+        Route s42 = routeService.get("S42");
+        Route s43 = routeService.get("S43");
+        Route s44 = routeService.get("S44");
+        Route pms1 = routeService.get("PMS1");
+        Route pms2 = routeService.get("PMS2");
+        Route pms3 = routeService.get("PMS3");
 
         LocalDate startDate = LocalDate.parse("2014-07-01");
         accountService.save(new Account(dsp1, s41, startDate));

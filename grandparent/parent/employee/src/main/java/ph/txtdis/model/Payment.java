@@ -1,7 +1,7 @@
 package ph.txtdis.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,9 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(indexes = @Index(columnList = "loan_id"), uniqueConstraints = @UniqueConstraint(columnNames = { "loan_id",
-        "payment_date" }))
+        "paymentDate" }))
 public class Payment extends AbstractAudited {
 
     private static final long serialVersionUID = 4346280650221114961L;
@@ -21,16 +23,17 @@ public class Payment extends AbstractAudited {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Loan loan;
 
-    @Column(name = "payment_date", nullable = false)
-    private Date paymentDate;
+    @Column(nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate paymentDate;
 
-    @Column(name = "amount", nullable = false)
+    @Column(nullable = false)
     private BigDecimal amount;
 
     protected Payment() {
     }
 
-    public Payment(Loan loan, Date paymentDate, BigDecimal amount) {
+    public Payment(Loan loan, LocalDate paymentDate, BigDecimal amount) {
         this.loan = loan;
         this.paymentDate = paymentDate;
         this.amount = amount;
@@ -44,11 +47,11 @@ public class Payment extends AbstractAudited {
         this.loan = loan;
     }
 
-    public Date getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 

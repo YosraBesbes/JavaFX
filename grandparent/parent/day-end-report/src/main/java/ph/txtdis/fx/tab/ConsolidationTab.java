@@ -1,5 +1,6 @@
 package ph.txtdis.fx.tab;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -26,9 +27,9 @@ import ph.txtdis.dto.UserDTO;
 import ph.txtdis.excel.Excel;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.InfoDialog;
+import ph.txtdis.fx.display.CurrencyDisplay;
 import ph.txtdis.fx.display.DateDisplay;
 import ph.txtdis.fx.display.DecimalDisplay;
-import ph.txtdis.fx.display.MonetaryDisplay;
 import ph.txtdis.fx.display.TimestampDisplay;
 import ph.txtdis.fx.display.UserDisplay;
 import ph.txtdis.fx.table.RemittanceTable;
@@ -54,7 +55,7 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private CheckBox approvalCheckBox;
     private DateDisplay dateDisplay;
     private DecimalDisplay totalVolumeDisplay;
-    private MonetaryDisplay totalRevenueDisplay, totalRemittanceDisplay;
+    private CurrencyDisplay totalRevenueDisplay, totalRemittanceDisplay;
     private String[] addresses;
     private SimpleObjectProperty<UserType> userType;
     private SystemUser txtDIS;
@@ -137,14 +138,15 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
         box.setPadding(new Insets(5));
         box.setAlignment(Pos.CENTER);
 
-        VBox routingBox = new VBox(gridPane, box);
-        return new Node[] { routingBox };
+        VBox vBox = new VBox(gridPane, box);
+        return new Node[] { vBox };
     }
 
     private VBox setVolumeTableVBox() {
         volumeTable = new VolumeTable(stage).getTable();
         volumeTable.setItems(dto.getVolumeSummary());
-        totalVolumeDisplay = new DecimalDisplay(dto.getTotalVolume());
+        volumeTable.setUserData(dto.getTotalVolume());
+        totalVolumeDisplay = new DecimalDisplay((BigDecimal) volumeTable.getUserData());
         HBox hBox = new HBox(new Label("Total(CS)"), totalVolumeDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Volume"), volumeTable, hBox);
@@ -153,7 +155,8 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private VBox setRevenueTableVBox() {
         revenueTable = new RevenueTable(stage).getTable();
         revenueTable.setItems(dto.getInvoices());
-        totalRevenueDisplay = new MonetaryDisplay(dto.getTotalRevenue());
+        revenueTable.setUserData(dto.getTotalRevenue());
+        totalRevenueDisplay = new CurrencyDisplay((BigDecimal) revenueTable.getUserData());
         HBox hBox = new HBox(new Label("Total"), totalRevenueDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Revenue"), revenueTable, hBox);
@@ -162,7 +165,8 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private VBox setRemittanceTableVBox() {
         remittanceTable = new RemittanceTable(stage).getTable();
         remittanceTable.setItems(dto.getRemittances());
-        totalRemittanceDisplay = new MonetaryDisplay(dto.getTotalRemittance());
+        remittanceTable.setUserData(dto.getTotalRemittance());
+        totalRemittanceDisplay = new CurrencyDisplay((BigDecimal) remittanceTable.getUserData());
         HBox hBox = new HBox(new Label("Total"), totalRemittanceDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Remittance"), remittanceTable, hBox);

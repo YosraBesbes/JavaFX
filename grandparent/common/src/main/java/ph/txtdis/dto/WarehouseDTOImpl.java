@@ -6,5 +6,11 @@ import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.WarehouseService;
 
 @Component
-public class WarehouseDTOImpl extends AbstractListed<Warehouse, WarehouseService> implements WarehouseDTO {
+public class WarehouseDTOImpl extends AbstractListedNamedDTO<Warehouse, WarehouseService> implements WarehouseDTO {
+
+    @Override
+    public void reset() {
+        id = 0;
+        entity = new Warehouse();
+    }
 }

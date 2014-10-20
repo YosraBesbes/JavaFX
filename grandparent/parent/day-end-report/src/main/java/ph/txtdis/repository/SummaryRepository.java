@@ -18,11 +18,11 @@ public interface SummaryRepository extends CrudRepository<DailySummary, LocalDat
     @Query("select max(s.id) from DailySummary s")
     LocalDate getLatestDate();
 
-    @Query("select new ph.txtdis.model.VolumeSummary(s.item, sum(s.qty)) from InvoicingSummary s "
+    @Query("select new ph.txtdis.model.VolumeSummary(s.item, sum(s.qty)) from InvoicedVolumeView s "
             + "where s.orderDate = ?1 group by s.item ")
     List<VolumeSummary> getVolumeSummary(LocalDate date);
 
-    @Query("select new ph.txtdis.model.VolumeSummary(s.item, sum(s.qty)) from InvoicingSummaryByTruck s "
+    @Query("select new ph.txtdis.model.VolumeSummary(s.item, sum(s.qty)) from InvoicedVolumeByTruckView s "
             + "where s.orderDate = ?1 and s.truck = ?2 group by s.item ")
     List<VolumeSummary> getVolumeSummary(LocalDate date, Truck truck);
 }

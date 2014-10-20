@@ -23,7 +23,7 @@ import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.OrderDTO;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
-import ph.txtdis.fx.display.MonetaryDisplay;
+import ph.txtdis.fx.display.CurrencyDisplay;
 import ph.txtdis.fx.display.StringDisplay;
 import ph.txtdis.fx.input.IdField;
 import ph.txtdis.fx.input.StringField;
@@ -51,7 +51,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     protected List<D> detailTableItems;
 
     protected DatePicker datePicker;
-    protected MonetaryDisplay vatableField, vatField, totalField;
+    protected CurrencyDisplay vatableField, vatField, totalField;
     protected HBox partnerBox;
     protected IdField idField, partnerIdField;
     protected Label idLabel, dateLabel, partnerLabel, partnerAddressLabel, remarkLabel;
@@ -293,11 +293,11 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     @Override
     protected Node[] addSummaryNodes() {
         Label vatableLabel = new Label("Vatable");
-        vatableField = new MonetaryDisplay(vatable);
+        vatableField = new CurrencyDisplay(vatable);
         Label vatLabel = new Label("VAT");
-        vatField = new MonetaryDisplay(vat);
+        vatField = new CurrencyDisplay(vat);
         Label totalLabel = new Label("Total");
-        totalField = new MonetaryDisplay(total);
+        totalField = new CurrencyDisplay(total);
         return new Node[] { vatableLabel, vatableField, vatLabel, vatField, totalLabel, totalField };
     }
 }

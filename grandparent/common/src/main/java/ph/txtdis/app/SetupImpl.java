@@ -6,12 +6,14 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.ItemFamily;
 import ph.txtdis.model.Quality;
+import ph.txtdis.model.Route;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
 import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.ChannelService;
 import ph.txtdis.service.ItemFamilyService;
 import ph.txtdis.service.QualityService;
+import ph.txtdis.service.RouteService;
 import ph.txtdis.service.TruckService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.service.WarehouseService;
@@ -33,6 +35,9 @@ public class SetupImpl implements Setup {
 
     @Autowired
     QualityService qualityService;
+
+    @Autowired
+    RouteService routeService;
 
     @Autowired
     TruckService truckService;
@@ -85,6 +90,15 @@ public class SetupImpl implements Setup {
         truckService.save(new Truck("RDM801"));
         truckService.save(new Truck("KDL170"));
         truckService.save(new Truck("WSN519"));
+
+        routeService.save(new Route("S41"));
+        routeService.save(new Route("S42"));
+        routeService.save(new Route("S43"));
+        routeService.save(new Route("S44"));
+        routeService.save(new Route("S45"));
+        routeService.save(new Route("PMS1"));
+        routeService.save(new Route("PMS2"));
+        routeService.save(new Route("PMS3"));
 
         userService.save(new SystemUser("LARRY", "dsp", true));
         userService.save(new SystemUser("VICENTE", "dsp", true));

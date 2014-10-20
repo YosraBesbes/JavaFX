@@ -175,7 +175,7 @@ public class DIS {
         return isZero(number) ? "" : TWO_PLACE_DECIMAL.format(number);
     }
 
-    public static String formatMonetary(BigDecimal number) {
+    public static String formatCurrency(BigDecimal number) {
         return "₱" + formatDecimal(number);
     }
 

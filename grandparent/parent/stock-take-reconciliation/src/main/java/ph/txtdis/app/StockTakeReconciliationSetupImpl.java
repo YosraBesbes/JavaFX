@@ -34,24 +34,10 @@ public class StockTakeReconciliationSetupImpl implements StockTakeReconciliation
     @Override
     public void start() {
 
-        LocalDate date1 = LocalDate.ofEpochDay(0);
-        LocalDate date2 = LocalDate.parse("2014-09-01");
+        LocalDate date = LocalDate.parse("2014-09-01");
         SystemUser user = userService.get("BUTCH");
         Login.setUser(user);
 
-        reconService.save(new StockTakeReconciliation(user, date2));
-
-        pickingService.getSummary(date1, date2).forEach(
-                s -> System.err.println("Picking: " + s.getItem().getId() + ", " + s.getItem() + ", " + s.getQuality()
-                        + ", " + s.getQty()));
-        receivingService.getSummary(date1, date2).forEach(
-                s -> System.err.println("Receiving: " + s.getItem().getId() + ", " + s.getItem() + ", "
-                        + s.getQuality() + ", " + s.getQty()));
-
-        reconService.getDetail(date1, date2).forEach(
-                s -> System.err.println("Item Log: " + s.getItem().getId() + ", " + s.getItem() + ", " + s.getQuality()
-                        + ", " + s.getStartQty() + ", " + s.getStartAdjustQty() + ", " + s.getInQty() + ", "
-                        + s.getOutQty() + ", " + s.getCountQty() + ", " + s.getAdjustmentQty() + ", "
-                        + s.getJustification()));
+        reconService.save(new StockTakeReconciliation(user, date));
     }
 }

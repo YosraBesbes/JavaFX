@@ -9,8 +9,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.fx.dialog.ChangePasswordDialog;
-import ph.txtdis.fx.dialog.LoginDialog;
 import ph.txtdis.fx.dialog.MainDialog;
 import ph.txtdis.fx.dialog.StartUpDialog;
 import ph.txtdis.service.UserService;
@@ -36,24 +34,25 @@ public class App extends Application {
 
             @Override
             protected void next() {
-                LoginDialog loginDialog = new LoginDialog(userService);
-                loginDialog.showAndWait();
-                if (loginDialog.isValid())
-                    switch (loginDialog.getType()) {
-                        case LOGIN:
-                            new MainDialog(context).showAndWait();
-                            break;
-                        case SERVER:
-                            next();
-                            break;
-                        case CHANGE:
-                            ChangePasswordDialog pd = new ChangePasswordDialog(userService);
-                            pd.showAndWait();
-                            next();
-                            break;
-                        default:
-                            break;
-                    }
+                // LoginDialog loginDialog = new LoginDialog(userService);
+                // loginDialog.showAndWait();
+                // if (loginDialog.isValid())
+                // switch (loginDialog.getType()) {
+                // case LOGIN:
+                new MainDialog(context).showAndWait();
+                // break;
+                // case SERVER:
+                // next();
+                // break;
+                // case CHANGE:
+                // ChangePasswordDialog pd = new
+                // ChangePasswordDialog(userService);
+                // pd.showAndWait();
+                // next();
+                // break;
+                // default:
+                // break;
+                // }
             }
         };
     }

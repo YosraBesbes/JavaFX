@@ -1,5 +1,5 @@
 package ph.txtdis.type;
 
 public enum ItemTier {
-    PRINCIPAL, UNIT, CATEGORY, LINE, BRAND, VARIANT, PRODUCT;
+    PRINCIPAL, BIZUNIT, CATEGORY, LINE, BRAND, VARIANT, PRODUCT;
 }

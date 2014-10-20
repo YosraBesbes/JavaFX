@@ -1,19 +1,18 @@
 package ph.txtdis.fx.button;
 
-import ph.txtdis.app.Apped;
 import ph.txtdis.excel.Excel;
 
-public class ExcelButton<E> extends FontButton<E> {
+public class ExcelButton extends FontButton<Object> {
 
-    public ExcelButton(Apped app) {
+    public ExcelButton(Excel app) {
         super("\ue810", "Save as Excel...");
         button.setOnAction(event -> {
             // new ProgressDialog((Stage) app) {
             // @Override
             // protected void begin() {
-            ((Excel) app).saveAsExcel();
+            app.saveAsExcel();
             // }
-
+            //
             // @Override
             // protected void next() {
             // }

@@ -11,30 +11,46 @@
 	<properties>
 		<start-class>ph.txtdis.App</start-class>
 	</properties>
-	<dependencies>
+	    <dependencies>
+	        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>aging</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>ph.txtdis</groupId>
 			<artifactId>booking</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ph.txtdis</groupId>
-			<artifactId>customer</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- 
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>channel</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>customer</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>ph.txtdis</groupId>
             <artifactId>day-end-report</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        -->
         <dependency>
             <groupId>ph.txtdis</groupId>
             <artifactId>employee</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>family</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -56,12 +72,12 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ph.txtdis</groupId>
-			<artifactId>item</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>item</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>ph.txtdis</groupId>
 			<artifactId>picking</artifactId>
@@ -80,12 +96,18 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ph.txtdis</groupId>
-			<artifactId>remittance</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>remittance</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>route</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>ph.txtdis</groupId>
             <artifactId>stock-take</artifactId>
@@ -95,6 +117,30 @@
         <dependency>
             <groupId>ph.txtdis</groupId>
             <artifactId>stock-take-reconciliation</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>tree</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>truck</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>vat</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ph.txtdis</groupId>
+            <artifactId>warehouse</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

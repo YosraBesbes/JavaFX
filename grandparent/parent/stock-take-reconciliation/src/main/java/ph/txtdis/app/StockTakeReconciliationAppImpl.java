@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javax.mail.MessagingException;
 
 import ph.txtdis.App;
+import ph.txtdis.dto.Spun;
 import ph.txtdis.dto.StockTakeAdjustmentDTO;
 import ph.txtdis.dto.StockTakeDTO;
 import ph.txtdis.dto.StockTakeReconciliationDTO;
@@ -29,8 +30,8 @@ import ph.txtdis.fx.button.BackButton;
 import ph.txtdis.fx.button.ExcelButton;
 import ph.txtdis.fx.button.MailButton;
 import ph.txtdis.fx.button.NextButton;
+import ph.txtdis.fx.button.OpenByDateButton;
 import ph.txtdis.fx.button.SaveButton;
-import ph.txtdis.fx.button.SearchByDateButton;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.LatestStockTakeClosureOptionDialog;
@@ -101,11 +102,11 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     @Override
     protected void setButtons() {
         super.setButtons();
-        buttons.put("back", new BackButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
-        buttons.put("open", new SearchByDateButton<StockTakeReconciliation>(this, dto).getButton());
-        buttons.put("next", new NextButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("back", new BackButton(this, (Spun) dto).getButton());
+        buttons.put("open", new OpenByDateButton<StockTakeReconciliation>(this, dto).getButton());
+        buttons.put("next", new NextButton(this, (Spun) dto).getButton());
         buttons.put("save", new SaveButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
-        buttons.put("excel", new ExcelButton<StockTakeReconciliation>(this).getButton());
+        buttons.put("excel", new ExcelButton(this).getButton());
         buttons.put("mail", new MailButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
     }
 
@@ -254,7 +255,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     @Override
-    protected String titleName() {
+    protected String getTitleName() {
         return module + " " + reconciliation.getId();
     }
 

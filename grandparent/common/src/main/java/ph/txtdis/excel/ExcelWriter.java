@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +26,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import ph.txtdis.util.DIS;
+import ph.txtdis.util.Util;
 
 public class ExcelWriter {
 
     private CellStyle titleStyle, headerStyle, rightStyle, redStyle, centerStyle, leftStyle, idStyle, integerStyle,
-            decimalStyle, dateStyle;
+            decimalStyle, decimalSumStyle, currencyStyle, currencySumStyle, dateStyle;
     private Font normalFont, redFont, titleFont, boldFont;
     private DataFormat format;
     private HSSFWorkbook workbook;
@@ -52,7 +54,7 @@ public class ExcelWriter {
                 ArrayList<String> getters = new ArrayList<>();
                 addTitle(table.getId(), sheet, getColumns(table).size());
                 addHeader(getColumns(table), sheet, headerStyle, getters);
-                populateRows(table.getItems(), sheet, getters);
+                populateRows(table, sheet, getters);
                 colIdx += getColumns(table).size();
                 sheet.setColumnWidth(colIdx++, 750);
             }
@@ -112,6 +114,9 @@ public class ExcelWriter {
         setIntegerStyle();
         setIdStyle();
         setDecimalStyle();
+        setDecimalSumStyle();
+        setCurrencyStyle();
+        setCurrencySumStyle();
         setDateStyle();
         setRightStyle();
         setLeftStyle();
@@ -165,6 +170,16 @@ public class ExcelWriter {
         decimalStyle.setLocked(true);
     }
 
+    private void setDecimalSumStyle() {
+        decimalSumStyle = workbook.createCellStyle();
+        decimalSumStyle.setFont(normalFont);
+        decimalSumStyle.setDataFormat(format.getFormat("#,##0.00;[Red](#,##0.00)"));
+        decimalSumStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+        decimalSumStyle.setBorderTop(CellStyle.BORDER_THIN);
+        decimalSumStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
+        decimalSumStyle.setLocked(true);
+    }
+
     private void setRedStyle() {
         redStyle = workbook.createCellStyle();
         redStyle.setFont(redFont);
@@ -191,6 +206,30 @@ public class ExcelWriter {
         leftStyle.setFont(normalFont);
         leftStyle.setAlignment(CellStyle.ALIGN_LEFT);
         leftStyle.setLocked(true);
+    }
+
+    private void setCurrencyStyle() {
+        currencyStyle = workbook.createCellStyle();
+        currencyStyle.setFont(normalFont);
+        currencyStyle.setDataFormat(getCurrencyFormat());
+        currencyStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+        currencyStyle.setLocked(true);
+    }
+
+    private void setCurrencySumStyle() {
+        currencySumStyle = workbook.createCellStyle();
+        currencySumStyle.setFont(normalFont);
+        currencySumStyle.setDataFormat(getCurrencyFormat());
+        currencySumStyle.setAlignment(CellStyle.ALIGN_RIGHT);
+        currencySumStyle.setBorderTop(CellStyle.BORDER_THIN);
+        currencySumStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
+        currencySumStyle.setLocked(true);
+    }
+
+    private short getCurrencyFormat() {
+        CreationHelper ch = workbook.getCreationHelper();
+        DataFormat df = ch.createDataFormat();
+        return df.getFormat("_(₱* #,##0.00_);_(₱* (#,##0.00);_(₱* \"-\"??_);_(@_)");
     }
 
     private void setDateStyle() {
@@ -236,10 +275,41 @@ public class ExcelWriter {
         cell.setCellStyle(headerStyle);
     }
 
-    private void populateRows(List<?> items, Sheet sheet, ArrayList<String> getters) {
+    private void populateRows(TableView<?> table, Sheet sheet, ArrayList<String> getters) {
+        List<?> items = table.getItems();
         for (int i = 0; i < items.size(); i++)
             populateColumns(getters, items.get(i), getRow(sheet, i + 2));
+        addSummationIfRequired(table, getters, sheet);
+    }
 
+    private void addSummationIfRequired(TableView<?> table, ArrayList<String> getters, Sheet sheet) {
+        if (table.getUserData() != null)
+            for (int i = toObjectArray(table).length - 1; i >= 0; i--)
+                setValue(toObjectArray(table)[i], addSumToGetter(table, getters, i), createSumCell(table, sheet, i));
+    }
+
+    private Cell createSumCell(TableView<?> table, Sheet sheet, int i) {
+        return getLastRow(table, sheet).createCell(i + colIdx + getOffset(table));
+    }
+
+    private String addSumToGetter(TableView<?> table, ArrayList<String> getters, int i) {
+        return getters.get(i + getOffset(table)) + "Sum";
+    }
+
+    private int getOffset(TableView<?> table) {
+        return table.getColumns().size() - toObjectArray(table).length;
+    }
+
+    private Object[] toObjectArray(TableView<?> table) {
+        return table.getUserData() == null ? new Object[] {} : (Object[]) table.getUserData();
+    }
+
+    private Row getLastRow(TableView<?> table, Sheet sheet) {
+        return getRow(sheet, getLastRowIdx(table));
+    }
+
+    private int getLastRowIdx(TableView<?> table) {
+        return table.getItems().size() + 2;
     }
 
     private void populateColumns(ArrayList<String> getters, Object item, Row row) {
@@ -254,8 +324,20 @@ public class ExcelWriter {
     private void setValue(Object object, String getter, Cell cell) {
         if (getter.contains("Id"))
             setIdValue(cell, object);
+        else if (getter.contains("Count"))
+            setIntValue(cell, object);
+        else if (getter.contains("Vol"))
+            setDecimalValue(cell, object);
+        else if (getter.contains("ValueSum"))
+            setCurrencySum(cell, object);
+        else if (getter.contains("QtySum"))
+            setQtySum(cell, object);
+        else if (getter.contains("Value"))
+            setCurrencyValue(cell, object);
         else if (getter.contains("Qty"))
             setQtyValue(cell, object);
+        else if (getter.contains("Date"))
+            setDateValue(cell, object);
         else if (getter.contains("Type"))
             setCenterValue(cell, object);
         else if (getter.contains("Level"))
@@ -269,10 +351,44 @@ public class ExcelWriter {
         cell.setCellStyle(idStyle);
     }
 
-    private void setQtyValue(Cell cell, Object object) {
-        double decimal = ((BigDecimal) object).doubleValue();
-        cell.setCellValue(decimal);
+    private void setIntValue(Cell cell, Object id) {
+        cell.setCellValue((int) id);
         cell.setCellStyle(integerStyle);
+    }
+
+    private void setDecimalValue(Cell cell, Object object) {
+        double qty = ((BigDecimal) object).doubleValue();
+        cell.setCellValue(qty);
+        cell.setCellStyle(decimalStyle);
+    }
+
+    private void setQtyValue(Cell cell, Object object) {
+        double qty = ((BigDecimal) object).doubleValue();
+        cell.setCellValue(qty);
+        cell.setCellStyle(integerStyle);
+    }
+
+    private void setQtySum(Cell cell, Object object) {
+        double qty = ((BigDecimal) object).doubleValue();
+        cell.setCellValue(qty);
+        cell.setCellStyle(decimalSumStyle);
+    }
+
+    private void setCurrencyValue(Cell cell, Object object) {
+        double currency = ((BigDecimal) object).doubleValue();
+        cell.setCellValue(currency);
+        cell.setCellStyle(currencyStyle);
+    }
+
+    private void setCurrencySum(Cell cell, Object object) {
+        double currency = ((BigDecimal) object).doubleValue();
+        cell.setCellValue(currency);
+        cell.setCellStyle(currencySumStyle);
+    }
+
+    private void setDateValue(Cell cell, Object object) {
+        cell.setCellValue(Util.localToDate((LocalDate) object));
+        cell.setCellStyle(dateStyle);
     }
 
     private void setCenterValue(Cell cell, Object object) {
@@ -289,7 +405,7 @@ public class ExcelWriter {
     private void setTextValue(Cell cell, Object object) {
         String text = DIS.toString(object);
         cell.setCellValue(text);
-        cell.setCellStyle(text.contains(">") ? rightStyle : leftStyle);
+        cell.setCellStyle(text.contains(">") ? redStyle : leftStyle);
     }
 
     private void writeWorkbook(String file) throws FileNotFoundException, IOException {

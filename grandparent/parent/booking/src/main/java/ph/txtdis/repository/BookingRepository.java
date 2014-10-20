@@ -1,6 +1,5 @@
 package ph.txtdis.repository;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
     List<BookingDetail> getDetails(int id);
 
     @Query("select distinct b.route from Booking b where b.orderDate = ?1")
-    List<Route> getRoutes(Date date);
+    List<Route> getRoutes(LocalDate date);
 
     List<Booking> findByRouteAndOrderDate(Route route, LocalDate date);
 }

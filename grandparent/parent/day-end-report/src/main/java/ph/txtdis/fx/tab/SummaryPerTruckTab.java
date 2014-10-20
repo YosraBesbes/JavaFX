@@ -1,5 +1,6 @@
 package ph.txtdis.fx.tab;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ph.txtdis.dto.SummaryDTO;
 import ph.txtdis.fx.display.DecimalDisplay;
-import ph.txtdis.fx.display.MonetaryDisplay;
+import ph.txtdis.fx.display.CurrencyDisplay;
 import ph.txtdis.fx.table.RemittanceTable;
 import ph.txtdis.fx.table.RevenueTable;
 import ph.txtdis.fx.table.VolumeTable;
@@ -25,7 +26,7 @@ import ph.txtdis.model.VolumeSummary;
 public class SummaryPerTruckTab extends AbstractTab<SummaryDTO> implements MultiTabled {
 
     private DecimalDisplay totalVolumeDisplay;
-    private MonetaryDisplay totalRevenueDisplay, totalRemittanceDisplay;
+    private CurrencyDisplay totalRevenueDisplay, totalRemittanceDisplay;
     private TableView<Invoicing> revenueTable;
     private TableView<Remittance> remittanceTable;
     private TableView<VolumeSummary> volumeTable;
@@ -46,7 +47,8 @@ public class SummaryPerTruckTab extends AbstractTab<SummaryDTO> implements Multi
     private VBox setVolumeTableVBox() {
         volumeTable = new VolumeTable(stage).getTable();
         volumeTable.setItems(dto.getVolumeSummary(name));
-        totalVolumeDisplay = new DecimalDisplay(dto.getTotalVolume());
+        volumeTable.setUserData(dto.getTotalVolume());
+        totalVolumeDisplay = new DecimalDisplay((BigDecimal) volumeTable.getUserData());
         HBox hBox = new HBox(new Label("Total(CS)"), totalVolumeDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Volume"), volumeTable, hBox);
@@ -55,7 +57,8 @@ public class SummaryPerTruckTab extends AbstractTab<SummaryDTO> implements Multi
     private VBox setRevenueTableVBox() {
         revenueTable = new RevenueTable(stage).getTable();
         revenueTable.setItems(dto.getInvoices(name));
-        totalRevenueDisplay = new MonetaryDisplay(dto.getTotalRevenue());
+        revenueTable.setUserData(dto.getTotalRevenue());
+        totalRevenueDisplay = new CurrencyDisplay((BigDecimal) revenueTable.getUserData());
         HBox hBox = new HBox(new Label("Total"), totalRevenueDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Revenue"), revenueTable, hBox);
@@ -64,7 +67,8 @@ public class SummaryPerTruckTab extends AbstractTab<SummaryDTO> implements Multi
     private VBox setRemittanceTableVBox() {
         remittanceTable = new RemittanceTable(stage).getTable();
         remittanceTable.setItems(dto.getRemittances(name));
-        totalRemittanceDisplay = new MonetaryDisplay(dto.getTotalRemittance());
+        remittanceTable.setUserData(dto.getTotalRemittance());
+        totalRemittanceDisplay = new CurrencyDisplay((BigDecimal) remittanceTable.getUserData());
         HBox hBox = new HBox(new Label("Total"), totalRemittanceDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Remittance"), remittanceTable, hBox);

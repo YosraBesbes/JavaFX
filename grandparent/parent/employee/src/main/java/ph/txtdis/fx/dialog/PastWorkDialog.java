@@ -1,16 +1,15 @@
 package ph.txtdis.fx.dialog;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
+import ph.txtdis.fx.input.LabeledCurrencyField;
 import ph.txtdis.fx.input.LabeledDatePicker;
-import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.fx.input.LabeledStringField;
 import ph.txtdis.model.Employee;
 import ph.txtdis.model.PastWork;
@@ -27,7 +26,7 @@ public class PastWorkDialog extends AbstractFieldDialog<PastWork, EmployeeDTO> {
         LabeledDatePicker endDatePicker = new LabeledDatePicker("End");
         LabeledStringField employerField = new LabeledStringField("Employer");
         LabeledStringField designationField = new LabeledStringField("Designation");
-        LabeledDecimalField lastPayField = new LabeledDecimalField("Last Pay Rate");
+        LabeledCurrencyField lastPayField = new LabeledCurrencyField("Last Pay Rate");
         LabeledStringField reasonForLeavingField = new LabeledStringField("Reason for Leaving");
         LabeledStringField referenceNameField = new LabeledStringField("Reference Name");
         LabeledStringField referenceDesignationField = new LabeledStringField("Reference Designation");
@@ -39,8 +38,8 @@ public class PastWorkDialog extends AbstractFieldDialog<PastWork, EmployeeDTO> {
     @Override
     protected PastWork createEntity(EmployeeDTO dto, List<InputNode<?>> inputNodes) {
         Employee employee = dto.get();
-        Date startDate = getInputAtRow(0);
-        Date endDate = getInputAtRow(1);
+        LocalDate startDate = getInputAtRow(0);
+        LocalDate endDate = getInputAtRow(1);
         String employer = getInputAtRow(2);
         String designation = getInputAtRow(3);
         BigDecimal lastPay = getInputAtRow(4);

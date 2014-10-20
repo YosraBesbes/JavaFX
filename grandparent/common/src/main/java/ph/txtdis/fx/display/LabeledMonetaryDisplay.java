@@ -8,7 +8,7 @@ import ph.txtdis.fx.input.LabeledTextField;
 public class LabeledMonetaryDisplay extends LabeledTextField<BigDecimal>{
 
 	public LabeledMonetaryDisplay(String name) {
-		super(name, new MonetaryDisplay());
+		super(name, new CurrencyDisplay());
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package ph.txtdis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.GovtIdType;
 
@@ -30,10 +32,12 @@ public class GovtId extends AbstractAudited {
     private GovtIdType type;
 
     @Column(nullable = false)
-    private Date issuance;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate issuance;
 
     @Column(nullable = false)
-    private Date expiry;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate expiry;
 
     @Column(nullable = false)
     private String detail;
@@ -41,7 +45,7 @@ public class GovtId extends AbstractAudited {
     protected GovtId() {
     }
 
-    public GovtId(Employee employee, Byte[] image, GovtIdType type, Date issuance, Date expiry, String detail) {
+    public GovtId(Employee employee, Byte[] image, GovtIdType type, LocalDate issuance, LocalDate expiry, String detail) {
         this.employee = employee;
         this.image = image;
         this.type = type;
@@ -74,19 +78,19 @@ public class GovtId extends AbstractAudited {
         this.type = type;
     }
 
-    public Date getIssuance() {
+    public LocalDate getIssuance() {
         return issuance;
     }
 
-    public void setIssuance(Date issuance) {
+    public void setIssuance(LocalDate issuance) {
         this.issuance = issuance;
     }
 
-    public Date getExpiry() {
+    public LocalDate getExpiry() {
         return expiry;
     }
 
-    public void setExpiry(Date expiry) {
+    public void setExpiry(LocalDate expiry) {
         this.expiry = expiry;
     }
 

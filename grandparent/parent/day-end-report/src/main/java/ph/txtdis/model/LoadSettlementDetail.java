@@ -2,6 +2,8 @@ package ph.txtdis.model;
 
 import java.math.BigDecimal;
 
+import ph.txtdis.util.Util;
+
 public class LoadSettlementDetail {
 
     private Item item;
@@ -13,15 +15,11 @@ public class LoadSettlementDetail {
     public LoadSettlementDetail(Item item, Double pickedQty, Double soldQty, Double returnedQty,
             BigDecimal adjustmentQty, String actionTaken) {
         this.item = item;
-        this.pickedQty = toBigDecimal(pickedQty);
-        this.soldQty = toBigDecimal(soldQty);
-        this.returnedQty = toBigDecimal(returnedQty);
+        this.pickedQty = Util.toBigDecimal(pickedQty);
+        this.soldQty = Util.toBigDecimal(soldQty);
+        this.returnedQty = Util.toBigDecimal(returnedQty);
         this.adjustmentQty = adjustmentQty;
         this.actionTaken = actionTaken;
-    }
-
-    private BigDecimal toBigDecimal(Double qty) {
-        return qty == null ? null : new BigDecimal(qty);
     }
 
     public Item getItem() {

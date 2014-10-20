@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ph.txtdis.dto.Audited;
+import ph.txtdis.dto.Spun;
 import ph.txtdis.fx.button.BackButton;
 import ph.txtdis.fx.button.NewButton;
 import ph.txtdis.fx.button.NextButton;
@@ -42,9 +43,9 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     protected void setButtons() {
         super.setButtons();
         buttons.put("new", new NewButton<E>(this, dto).getButton());
-        buttons.put("back", new BackButton<E, Integer>(this, dto).getButton());
+        buttons.put("back", new BackButton(this, (Spun) dto).getButton());
         buttons.put("open", new OpenButton<E>(this, dto).getButton());
-        buttons.put("next", new NextButton<E, Integer>(this, dto).getButton());
+        buttons.put("next", new NextButton(this, (Spun) dto).getButton());
         buttons.put("save", new SaveButton<E, Integer>(this, dto).getButton());
     }
 
@@ -84,7 +85,7 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     };
 
     @Override
-    protected String titleName() {
+    protected String getTitleName() {
         return module + (dto.getId() == 0 ? newModule() : moduleNo());
     }
 

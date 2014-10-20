@@ -7,7 +7,7 @@ public class Quality extends AbstractNamed {
 
     private static final long serialVersionUID = -8062062383997440000L;
 
-    protected Quality() {
+    public Quality() {
     }
 
     public Quality(String name) {

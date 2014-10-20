@@ -25,11 +25,11 @@ public interface RemittanceRepository extends CrudRepository<Remittance, Integer
     List<RemittanceDetail> getDetails(int id);
 
     @Query("select r from Remittance r join r.details rd, Invoicing i, Picking p join p.details pd "
-            + "where rd.invoice = i and i.booking = pd.booking and r.orderDate = ?1 and p.truck = ?2 ")
+            + "where rd.invoicing = i and i.booking = pd.booking and r.orderDate = ?1 and p.truck = ?2 ")
     List<Remittance> getRemittances(LocalDate date, Truck truck);
 
-    List<Remittance> findByTimeStampBetweenOrderByIdAsc(ZonedDateTime zdtStart, ZonedDateTime zdtEnd);
-
-    @Query("select sum(d.payment) from Remittance r join r.details d where d.invoice = ?1")
+    @Query("select sum(d.payment) from Remittance r join r.details d where d.invoicing = ?1")
     BigDecimal getPayment(Invoicing invoice);
+
+    List<Remittance> findByTimeStampBetweenOrderByIdAsc(ZonedDateTime zdtStart, ZonedDateTime zdtEnd);
 }

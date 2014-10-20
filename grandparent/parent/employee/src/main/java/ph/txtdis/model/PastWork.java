@@ -1,7 +1,7 @@
 package ph.txtdis.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +10,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Type;
+
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "start_date", "employer", "designation" }), name = "past_work")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "startDate", "employer", "designation" }),
+        name = "past_work")
 public class PastWork extends AbstractAudited {
 
     private static final long serialVersionUID = 4972100444095311026L;
@@ -19,11 +22,12 @@ public class PastWork extends AbstractAudited {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Employee employee;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
+    @Column(nullable = false)
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate startDate;
 
-    @Column(name = "end_date")
-    private Date endDate;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate endDate;
 
     @Column(nullable = false)
     private String employer;
@@ -31,25 +35,25 @@ public class PastWork extends AbstractAudited {
     @Column(nullable = false)
     private String designation;
 
-    @Column(name = "last_pay", nullable = false)
+    @Column(nullable = false)
     private BigDecimal lastPay;
 
-    @Column(name = "reason_for_leaving", nullable = false)
+    @Column(nullable = false)
     private String reasonForLeaving;
 
-    @Column(name = "reference_name", nullable = false)
+    @Column(nullable = false)
     private String referenceName;
 
-    @Column(name = "reference_designation", nullable = false)
+    @Column(nullable = false)
     private String referenceDesignation;
 
-    @Column(name = "reference_phone", nullable = false)
+    @Column(nullable = false)
     private String referencePhone;
 
     protected PastWork() {
     }
 
-    public PastWork(Employee employee, Date startDate, Date endDate, String employer, String designation,
+    public PastWork(Employee employee, LocalDate startDate, LocalDate endDate, String employer, String designation,
             BigDecimal lastPay, String reasonForLeaving, String referenceName, String referenceDesignation,
             String referencePhone) {
         this.employee = employee;
@@ -72,19 +76,19 @@ public class PastWork extends AbstractAudited {
         this.employee = employee;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

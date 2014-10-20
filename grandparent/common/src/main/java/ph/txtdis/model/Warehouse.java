@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 
 @Entity
 public class Warehouse extends AbstractNamed {
-    
+
     private static final long serialVersionUID = -902162181604587549L;
 
-    protected Warehouse() {
+    public Warehouse() {
     }
 
     public Warehouse(String name) {

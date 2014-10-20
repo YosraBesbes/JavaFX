@@ -29,12 +29,12 @@ public class SearchDialog extends AbstractInputDialog<String> {
 
     @Override
     protected Button[] createButtons(String criteria) {
-        Button findButton = createOpenButton(criteria);
+        Button findButton = createOpenButton();
         Button closeButton = createCloseButton();
         return new Button[] { findButton, closeButton };
     }
 
-    private Button createOpenButton(String criteria) {
+    private Button createOpenButton() {
         Button findButton = FX.createLargeButton("Find");
         findButton.setOnAction(event -> {
             text = textField.getText();

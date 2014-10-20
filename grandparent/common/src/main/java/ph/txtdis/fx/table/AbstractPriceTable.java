@@ -7,7 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.stage.Stage;
 import ph.txtdis.app.OrderApp;
-import ph.txtdis.fx.tablecolumn.MonetaryDisplayColumn;
+import ph.txtdis.fx.tablecolumn.CurrencyDisplayColumn;
 import ph.txtdis.model.Priced;
 
 public abstract class AbstractPriceTable<E, D> extends AbstractQualityDetailTable<E, D> {
@@ -20,8 +20,8 @@ public abstract class AbstractPriceTable<E, D> extends AbstractQualityDetailTabl
     @SuppressWarnings("unchecked")
     protected void addTableColumns() {
         super.addTableColumns();
-        TableColumn<E, BigDecimal> priceCol = new MonetaryDisplayColumn<>(stage, "Price", "price");
-        TableColumn<E, BigDecimal> subtotalCol = new MonetaryDisplayColumn<>(stage, "Subtotal", "subtotal");
+        TableColumn<E, BigDecimal> priceCol = new CurrencyDisplayColumn<>(stage, "Price", "price");
+        TableColumn<E, BigDecimal> subtotalCol = new CurrencyDisplayColumn<>(stage, "Subtotal", "subtotal");
         table.getColumns().addAll(priceCol, subtotalCol);
     }
 
@@ -32,8 +32,8 @@ public abstract class AbstractPriceTable<E, D> extends AbstractQualityDetailTabl
     }
 
     @Override
-    protected void removeTableItem(TableRow<E> row) {
-        super.removeTableItem(row);
+    protected void handleRowMenuItemSelection(TableRow<E> row) {
+        super.handleRowMenuItemSelection(row);
         refreshTableandTotals();
     }
 

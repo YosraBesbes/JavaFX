@@ -44,15 +44,12 @@ public abstract class AbstractOrderDialog<E extends Ordered<D>, D extends Priced
 
     @Override
     protected List<InputNode<?>> addNodes() {
-
         QualityRated quality = getQuality();
-
         itemField = new LabeledIdNameField("Item No.", 180);
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
         qualityCombo = new LabeledComboBox<Quality>("Quality", quality.list());
         qualityCombo.setSelection(quality.good());
-
         return Arrays.asList(itemField, uomCombo, qtyField, qualityCombo);
     }
 

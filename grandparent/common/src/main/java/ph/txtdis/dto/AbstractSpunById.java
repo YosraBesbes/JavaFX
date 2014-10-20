@@ -15,9 +15,9 @@ public abstract class AbstractSpunById<E extends AbstractAudited, S extends Spun
 
     @Override
     public void back() {
-        if (id == 0 || id == service.getMinId())
-            setById(service.getMaxId());
-        else if (exists(--id))
+        if (id == 0 || id == service.getMinId()) {
+            setByIdIfDifferent(id, service.getMaxId());
+        } else if (noGaps(--id))
             setById(id);
         else
             back();
@@ -25,12 +25,20 @@ public abstract class AbstractSpunById<E extends AbstractAudited, S extends Spun
 
     @Override
     public void next() {
-        int max = service.getMaxId();
-        if (id == max && max != 0)
-            setById(service.getMinId());
-        else if (exists(++id))
+        if (id == service.getMaxId())
+            setByIdIfDifferent(id, service.getMinId());
+        else if (noGaps(++id))
             setById(id);
-        else if (max != 0)
+        else
             next();
+    }
+
+    private void setByIdIfDifferent(int id1, int id2) {
+        if (id1 != id2)
+            setById(service.getMaxId());
+    }
+
+    private boolean noGaps(int id) {
+        return exists(id);
     }
 }

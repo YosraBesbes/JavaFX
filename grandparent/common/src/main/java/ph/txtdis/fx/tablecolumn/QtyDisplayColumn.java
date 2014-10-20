@@ -9,8 +9,8 @@ import ph.txtdis.fx.tablecell.QtyDisplayTableCell;
 
 public class QtyDisplayColumn<S> extends AbstractDisplayColumn<S, BigDecimal> {
 
-    public QtyDisplayColumn(Stage stage, String text, String field, int minWidth) {
-        super(stage, text, field, minWidth, null);
+    public QtyDisplayColumn(Stage stage, String text, String fieldWithQtySuffix, int minWidth) {
+        super(stage, text, fieldWithQtySuffix, minWidth, null);
     }
 
     @Override
