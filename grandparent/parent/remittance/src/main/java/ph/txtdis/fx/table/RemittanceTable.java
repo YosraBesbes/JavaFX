@@ -34,7 +34,7 @@ public class RemittanceTable extends AbstractInputTable<RemittanceDetail, Remitt
         TableColumn<RemittanceDetail, Integer> invoiceIdCol = FX.addIntegerColumn("ID No.", "invoiceId");
         TableColumn<RemittanceDetail, String> partnerCol = FX.addStringColumn("Customer", "partner", 180);
         TableColumn<RemittanceDetail, LocalDate> dateCol = FX.addDateColumn("Date", "date");
-        TableColumn<RemittanceDetail, BigDecimal> unpaidCol = FX.addPriceColumn("Unpaid", "amountValue");
+        TableColumn<RemittanceDetail, BigDecimal> unpaidCol = FX.addPriceColumn("Unpaid", "unpaidValue");
         TableColumn<RemittanceDetail, BigDecimal> paymentCol = FX.addPriceColumn("Payment", "paymentValue");
         TableColumn<RemittanceDetail, BigDecimal> balanceCol = FX.addPriceColumn("Balance", "balanceValue");
         table.getColumns().addAll(invoiceIdCol, partnerCol, dateCol, unpaidCol, paymentCol, balanceCol);

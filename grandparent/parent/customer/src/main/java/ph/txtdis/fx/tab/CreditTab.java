@@ -40,10 +40,10 @@ public class CreditTab extends AbstractTab<CustomerDTO> {
         Label contactLabel = FX.createBigLabel("Credit Contact");
 
         Label givenNameLabel = new Label("Given Name");
-        contactNameField = new StringField(dto.getCreditContactName(), 16);
+        contactNameField = new StringField(dto.getCreditContactName(), 160);
 
         Label surnameLabel = new Label("Surname");
-        contactSurnameField = new StringField(dto.getCreditContactSurname(), 16);
+        contactSurnameField = new StringField(dto.getCreditContactSurname(), 160);
 
         Label titleLabel = new Label("Job Title");
         titleField = new StringField(dto.getContactTitle());

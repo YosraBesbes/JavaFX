@@ -67,4 +67,6 @@ public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Na
     List<UomType> getSellingUoms();
 
     List<UomType> getReportingUoms();
+
+    ObservableList<Item> list();
 }

@@ -24,4 +24,6 @@ public interface CustomerService extends SearchedSpunService<Customer, Integer, 
     CustomerDiscount getLatestCustomerDiscount(Customer customer, LocalDate date);
 
     boolean acceptsRemittance(int id);
+
+    List<Customer> list();
 }

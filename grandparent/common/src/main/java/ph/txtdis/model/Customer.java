@@ -3,7 +3,6 @@ package ph.txtdis.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -12,14 +11,11 @@ import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
 @Entity
-public class Customer extends AbstractAudited implements Named {
+public class Customer extends AbstractDisabledNamed implements Disable, Named {
 
     private static final long serialVersionUID = 2888326520266278498L;
 
-    @Column(nullable = false, length = 32, unique = true)
-    private String name;
-
-    private String address;
+    private String street;
 
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Location barangay;
@@ -58,26 +54,16 @@ public class Customer extends AbstractAudited implements Named {
         this.type = type;
     }
 
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public CustomerType getType() {
         return type;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public Location getBarangay() {
@@ -181,14 +167,14 @@ public class Customer extends AbstractAudited implements Named {
     }
 
     public String getFullAdddress() {
-        return address + ", " + barangay + ", " + city + ", " + province;
+        return street + ", " + barangay + ", " + city + ", " + province;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((street == null) ? 0 : street.hashCode());
         result = prime * result + ((barangay == null) ? 0 : barangay.hashCode());
         result = prime * result + ((channel == null) ? 0 : channel.hashCode());
         result = prime * result + ((city == null) ? 0 : city.hashCode());
@@ -198,7 +184,6 @@ public class Customer extends AbstractAudited implements Named {
         result = prime * result + ((creditDetails == null) ? 0 : creditDetails.hashCode());
         result = prime * result + ((discounts == null) ? 0 : discounts.hashCode());
         result = prime * result + (int) (mobile ^ (mobile >>> 32));
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((province == null) ? 0 : province.hashCode());
         result = prime * result + ((routeHistory == null) ? 0 : routeHistory.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -215,10 +200,10 @@ public class Customer extends AbstractAudited implements Named {
         if (getClass() != obj.getClass())
             return false;
         Customer other = (Customer) obj;
-        if (address == null) {
-            if (other.address != null)
+        if (street == null) {
+            if (other.street != null)
                 return false;
-        } else if (!address.equals(other.address))
+        } else if (!street.equals(other.street))
             return false;
         if (barangay == null) {
             if (other.barangay != null)
@@ -261,11 +246,6 @@ public class Customer extends AbstractAudited implements Named {
         } else if (!discounts.equals(other.discounts))
             return false;
         if (mobile != other.mobile)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
             return false;
         if (province == null) {
             if (other.province != null)

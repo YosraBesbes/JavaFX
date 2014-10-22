@@ -28,7 +28,7 @@ import ph.txtdis.type.UomType;
 public class ItemServiceImpl extends AbstractService<Item, Integer> implements ItemService {
 
     @Autowired
-    private ItemRepository itemRepository;
+    private ItemRepository repository;
 
     @Autowired
     private PricingRepository pricingRepository;
@@ -41,37 +41,37 @@ public class ItemServiceImpl extends AbstractService<Item, Integer> implements I
 
     @Override
     public Integer getMinId() {
-        return itemRepository.getMinId();
+        return repository.getMinId();
     }
 
     @Override
     public Integer getMaxId() {
-        return itemRepository.getMaxId();
+        return repository.getMaxId();
     }
 
     @Override
     public List<Item> findAll(String description) {
-        return itemRepository.findByDescriptionContaining(description);
+        return repository.findByDescriptionContaining(description);
     }
 
     @Override
     public List<QtyPerUom> getQtyPerUom(int id) {
-        return itemRepository.getQtyPerUom(id);
+        return repository.getQtyPerUom(id);
     }
 
     @Override
     public List<Pricing> getPriceHistory(int id) {
-        return itemRepository.getPriceHistory(id);
+        return repository.getPriceHistory(id);
     }
 
     @Override
     public List<VolumeDiscount> getVolumeDiscounts(int id) {
-        return itemRepository.getVolumeDiscounts(id);
+        return repository.getVolumeDiscounts(id);
     }
 
     @Override
     public List<Bom> getBoms(int id) {
-        return itemRepository.getBoms(id);
+        return repository.getBoms(id);
     }
 
     @Override
@@ -99,21 +99,26 @@ public class ItemServiceImpl extends AbstractService<Item, Integer> implements I
 
     @Override
     public List<UomType> getPurchasingUoms(Item item) {
-        return itemRepository.getPurchasingUoms(item);
+        return repository.getPurchasingUoms(item);
     }
 
     @Override
     public List<UomType> getSellingUoms(Item item) {
-        return itemRepository.getSellingUoms(item);
+        return repository.getSellingUoms(item);
     }
 
     @Override
     public List<UomType> getReportingUoms(Item item) {
-        return itemRepository.getReportingUoms(item);
+        return repository.getReportingUoms(item);
     }
 
     @Override
     public boolean exists(String name) {
-        return !itemRepository.findByName(name).isEmpty();
+        return !repository.findByName(name).isEmpty();
+    }
+
+    @Override
+    public List<Item> list() {
+        return repository.findByDisabledByOrderByDescriptionAsc(null);
     }
 }

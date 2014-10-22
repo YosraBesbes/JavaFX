@@ -100,4 +100,9 @@ public class CustomerServiceImpl extends AbstractService<Customer, Integer> impl
         CustomerType type = repository.getType(id);
         return type == CustomerType.BANK || type == CustomerType.CASHIER || type == CustomerType.SHORTAGE;
     }
+
+    @Override
+    public List<Customer> list() {
+        return repository.findByDisabledByOrderByNameAsc(null);
+    }
 }

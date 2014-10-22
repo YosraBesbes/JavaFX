@@ -11,7 +11,7 @@ public abstract class AbstractPricedDetail extends AbstractOrderDetail implement
     private static final long serialVersionUID = 257754573072417395L;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    protected BigDecimal price;
 
     protected AbstractPricedDetail() {
     }

@@ -27,11 +27,12 @@ import ph.txtdis.excel.Excel;
 import ph.txtdis.excel.ExcelWriter;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.BackButton;
+import ph.txtdis.fx.button.CheckMailButton;
 import ph.txtdis.fx.button.ExcelButton;
-import ph.txtdis.fx.button.MailButton;
 import ph.txtdis.fx.button.NextButton;
 import ph.txtdis.fx.button.OpenByDateButton;
 import ph.txtdis.fx.button.SaveButton;
+import ph.txtdis.fx.button.SendMailButton;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.dialog.InfoDialog;
 import ph.txtdis.fx.dialog.LatestStockTakeClosureOptionDialog;
@@ -107,7 +108,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         buttons.put("next", new NextButton(this, (Spun) dto).getButton());
         buttons.put("save", new SaveButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
         buttons.put("excel", new ExcelButton(this).getButton());
-        buttons.put("mail", new MailButton<StockTakeReconciliation, LocalDate>(this, dto).getButton());
+        buttons.put("send", new SendMailButton(this).getButton());
+        buttons.put("check", new CheckMailButton(this).getButton());
     }
 
     @Override
@@ -248,7 +250,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private void setMailButtonBindings() {
-        buttons.get("mail")
+        buttons.get("check")
                 .disableProperty()
                 .bind(FX.isEmpty(reconciledByDisplay).or(FX.isEmpty(approvedByDisplay).not())
                         .or(userType.isEqualTo(UserType.MANAGER)));

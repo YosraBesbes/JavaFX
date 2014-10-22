@@ -9,7 +9,7 @@ public class AbstractNamed extends AbstractAudited implements Named {
     private static final long serialVersionUID = -5859599323217964344L;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    protected String name;
 
     protected AbstractNamed() {
     }

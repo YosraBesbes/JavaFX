@@ -12,7 +12,7 @@ import ph.txtdis.App;
 import ph.txtdis.app.OrderApp;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.PurchasingDTO;
-import ph.txtdis.exception.NotFoundException;
+import ph.txtdis.dto.QualityRated;
 import ph.txtdis.fx.display.LabeledIntegerDisplay;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
@@ -21,6 +21,7 @@ import ph.txtdis.fx.input.LabeledIdNameField;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
+import ph.txtdis.model.Quality;
 import ph.txtdis.type.UomType;
 
 public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, PurchasingDTO> {
@@ -39,44 +40,46 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
     @Override
     protected List<InputNode<?>> addNodes() {
 
-        itemField = new LabeledIdNameField("Item ID No.", 18);
-        daysLevelOldDisplay = new LabeledIntegerDisplay("Days' Level Now");
+        itemField = new LabeledIdNameField("Item ID No.", 180);
+        daysLevelOldDisplay = new LabeledIntegerDisplay("Days Level Now");
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
-        daysLevelNewDisplay = new LabeledIntegerDisplay("New Days' Level");
+        daysLevelNewDisplay = new LabeledIntegerDisplay("New Days Level");
 
         return Arrays.asList(itemField, daysLevelOldDisplay, uomCombo, qtyField, daysLevelNewDisplay);
     }
 
     private void setListeners() {
         itemDTO = App.getContext().getBean(ItemDTO.class);
+
         itemField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-            if (event.getCode() == KeyCode.TAB) {
-                int id = itemField.getValue();
-                if (itemDTO.exists(id)) {
-                    actWhenFound(id);
-                } else {
-                    try {
-                        throw new NotFoundException("Item ID No. " + id);
-                    } catch (Exception e) {
-                        actOnError(this, e);
-                    }
-                }
-            }
+            if (event.getCode() == KeyCode.TAB)
+                verifyExistence(itemField.getValue());
         });
 
         qtyField.getDecimalField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
                 showDaysLevel(qtyField.getValue());
         });
-
     }
 
-    private void actWhenFound(int id) {
+    private void verifyExistence(int id) {
+        if (itemDTO.exists(id))
+            populateItemRelatedFields(id);
+        else
+            showErrorDialog(id);
+    }
+
+    private void populateItemRelatedFields(int id) {
         itemDTO.setById(id);
         uomCombo.setItems(itemDTO.getPurchasingUoms());
         itemField.getNameField().setText(itemDTO.getName());
         showDaysLevel();
+    }
+
+    private void showErrorDialog(int id) {
+        new ErrorDialog(stage, "Item ID No. " + id + "\nis not in this database");
+        inputNodes.forEach(inputNode -> inputNode.reset());
     }
 
     private void showDaysLevel(BigDecimal qty) {
@@ -91,27 +94,49 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
         return 999;
     }
 
-    private void actOnError(Stage stage, Exception e) {
-        new ErrorDialog(stage, e.getMessage());
-        inputNodes.forEach(inputNode -> inputNode.reset());
-    }
-
     @Override
     protected PurchasingDetail createEntity(PurchasingDTO dto, List<InputNode<?>> inputNodes) {
+        return new PurchasingDetail(getEntity(dto), getItem(), getUom(), getQty(), getPrice(), getQuality(),
+                getDaysLevel());
+    }
 
-        @SuppressWarnings("rawtypes")
-        LocalDate date = ((OrderApp) stage).getPickerDate();
-        Purchasing purchasing = dto.get();
-        Item item = itemDTO.get();
-        int daysLevelBefore = getInputAtRow(1);
-        UomType uom = getInputAtRow(2);
-        BigDecimal qty = getInputAtRow(3);
-        int daysLevelAfter = getInputAtRow(4);
+    private Purchasing getEntity(PurchasingDTO dto) {
+        return dto.get();
+    }
 
-        PurchasingDetail detail = new PurchasingDetail(purchasing, item, uom, qty);
-        detail.setPrice(itemDTO.getLatestPurchasePrice(date).multiply(itemDTO.getQtyPerUomMap().get(uom)));
-        detail.setDaysLevelBefore(daysLevelBefore);
-        detail.setDaysLevelAfter(daysLevelAfter);
-        return detail;
+    private Item getItem() {
+        return itemDTO.get();
+    }
+
+    private UomType getUom() {
+        return getInputAtRow(2);
+    }
+
+    private BigDecimal getQty() {
+        return getInputAtRow(3);
+    }
+
+    private BigDecimal getPrice() {
+        return getPricePerPC().multiply(getQtyInPCs());
+    }
+
+    private BigDecimal getPricePerPC() {
+        return itemDTO.getLatestPurchasePrice(getDate());
+    }
+
+    private LocalDate getDate() {
+        return ((OrderApp<?>) stage).getPickerDate();
+    }
+
+    private BigDecimal getQtyInPCs() {
+        return itemDTO.getQtyPerUomMap().get(getUom());
+    }
+
+    private Quality getQuality() {
+        return App.getContext().getBean(QualityRated.class).good();
+    }
+
+    private int getDaysLevel() {
+        return getInputAtRow(4);
     }
 }

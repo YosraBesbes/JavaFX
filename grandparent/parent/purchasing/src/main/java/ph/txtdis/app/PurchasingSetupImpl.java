@@ -3,7 +3,6 @@ package ph.txtdis.app;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,13 +54,8 @@ public class PurchasingSetupImpl implements PurchasingSetup {
         Quality good = qualityService.good();
 
         Purchasing purchasing = new Purchasing(marina, date);
-
-        PurchasingDetail detail = new PurchasingDetail(purchasing, item, UomType.CS, qty);
-        detail.setPrice(pricePerCS);
-        detail.setQuality(good);
-
-        List<PurchasingDetail> details = Arrays.asList(detail);
-        purchasing.setDetails(details);
+        purchasing.setDetails(Arrays.asList(new PurchasingDetail(purchasing, item, UomType.CS, qty, pricePerCS, good,
+                999)));
         purchasing.setTotalValue(qty.multiply(pricePerCS));
 
         purchasingService.save(purchasing);

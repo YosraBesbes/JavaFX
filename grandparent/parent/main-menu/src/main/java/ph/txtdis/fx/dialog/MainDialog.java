@@ -1,9 +1,11 @@
 package ph.txtdis.fx.dialog;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -97,29 +99,61 @@ public class MainDialog extends Stage {
         gridPane.add(dayEndButton, 5, 0);
         gridPane.add(salesButton, 6, 0);
 
-        gridPane.add(familyButton, 0, 1);
-        gridPane.add(itemButton, 1, 1);
-        gridPane.add(treeButton, 2, 1);
-        gridPane.add(warehouseButton, 3, 1);
-        gridPane.add(inventoryButton, 4, 1);
-        gridPane.add(stockTakeButton, 5, 1);
-        gridPane.add(stockTakeReconciliationButton, 6, 1);
+        gridPane.add(getLabel("Purchasing"), 0, 1);
+        gridPane.add(getLabel("Receiving"), 1, 1);
+        gridPane.add(getLabel("Booking"), 2, 1);
+        gridPane.add(getLabel("RMA"), 3, 1);
+        gridPane.add(getLabel("Picking"), 4, 1);
+        gridPane.add(getLabel("Day-End"), 5, 1);
+        gridPane.add(getLabel("Month-End"), 6, 1);
 
-        gridPane.add(truckButton, 0, 2);
-        gridPane.add(routeButton, 1, 2);
-        gridPane.add(channelButton, 2, 2);
-        gridPane.add(customerButton, 3, 2);
-        gridPane.add(invoiceBookletButton, 4, 2);
-        gridPane.add(invoicingButton, 5, 2);
-        gridPane.add(remittanceButton, 6, 2);
+        gridPane.add(itemButton, 0, 2);
+        gridPane.add(familyButton, 1, 2);
+        gridPane.add(treeButton, 2, 2);
+        gridPane.add(warehouseButton, 3, 2);
+        gridPane.add(inventoryButton, 4, 2);
+        gridPane.add(stockTakeButton, 5, 2);
+        gridPane.add(stockTakeReconciliationButton, 6, 2);
 
-        gridPane.add(groupButton, 0, 3);
-        gridPane.add(userButton, 1, 3);
-        gridPane.add(hrButton, 2, 3);
-        gridPane.add(styleButton, 3, 3);
-        gridPane.add(backupButton, 4, 3);
-        gridPane.add(agingButton, 5, 3);
-        gridPane.add(vatButton, 6, 3);
+        gridPane.add(getLabel("Item"), 0, 3);
+        gridPane.add(getLabel("Family"), 1, 3);
+        gridPane.add(getLabel("Tree"), 2, 3);
+        gridPane.add(getLabel("Warehouse"), 3, 3);
+        gridPane.add(getLabel("Inventory"), 4, 3);
+        gridPane.add(getLabel("Stock Take"), 5, 3);
+        gridPane.add(getLabel("Reconciliation"), 6, 3);
+
+        gridPane.add(truckButton, 0, 4);
+        gridPane.add(routeButton, 1, 4);
+        gridPane.add(channelButton, 2, 4);
+        gridPane.add(customerButton, 3, 4);
+        gridPane.add(invoiceBookletButton, 4, 4);
+        gridPane.add(invoicingButton, 5, 4);
+        gridPane.add(remittanceButton, 6, 4);
+
+        gridPane.add(getLabel("Truck"), 0, 5);
+        gridPane.add(getLabel("Route"), 1, 5);
+        gridPane.add(getLabel("Channel"), 2, 5);
+        gridPane.add(getLabel("Customer"), 3, 5);
+        gridPane.add(getLabel("Invoice"), 4, 5);
+        gridPane.add(getLabel("Invoicing"), 5, 5);
+        gridPane.add(getLabel("Remittance"), 6, 5);
+
+        gridPane.add(userButton, 0, 6);
+        gridPane.add(groupButton, 1, 6);
+        gridPane.add(hrButton, 2, 6);
+        gridPane.add(styleButton, 3, 6);
+        gridPane.add(backupButton, 4, 6);
+        gridPane.add(agingButton, 5, 6);
+        gridPane.add(vatButton, 6, 6);
+
+        gridPane.add(getLabel("User"), 0, 7);
+        gridPane.add(getLabel("Group"), 1, 7);
+        gridPane.add(getLabel("HR"), 2, 7);
+        gridPane.add(getLabel("Style"), 3, 7);
+        gridPane.add(getLabel("Backup"), 4, 7);
+        gridPane.add(getLabel("Aging"), 5, 7);
+        gridPane.add(getLabel("VAT"), 6, 7);
 
         HBox dialogBox = new HBox(gridPane);
         dialogBox.setPadding(new Insets(10));
@@ -132,6 +166,12 @@ public class MainDialog extends Stage {
 
         getScene().getStylesheets().addAll("/css/base.css");
         setTitle("Welcome to txtDIS!");
+    }
+
+    private Label getLabel(String name) {
+        Label label = new Label(name);
+        GridPane.setHalignment(label, HPos.CENTER);
+        return label;
     }
 
     private void setDefaultStyle(SystemUser user) {

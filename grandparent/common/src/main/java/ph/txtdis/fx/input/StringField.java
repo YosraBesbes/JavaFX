@@ -34,7 +34,7 @@ public class StringField extends TextField {
 
         textProperty().addListener(new ChangeListener<String>() {
             private boolean ignore;
-            private IntegerProperty maximumLength = new SimpleIntegerProperty(maxLength);
+            private IntegerProperty maximumLength = new SimpleIntegerProperty(maxLength / 10);
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

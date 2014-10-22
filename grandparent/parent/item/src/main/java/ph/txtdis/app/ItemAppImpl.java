@@ -1,6 +1,8 @@
 package ph.txtdis.app;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.beans.binding.BooleanBinding;
@@ -8,21 +10,27 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import ph.txtdis.App;
 import ph.txtdis.dto.ItemDTO;
+import ph.txtdis.excel.Excel;
+import ph.txtdis.excel.ExcelWriter;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.CancelButton;
+import ph.txtdis.fx.button.ExcelButton;
 import ph.txtdis.fx.button.SearchByTextButton;
 import ph.txtdis.fx.dialog.FoundItemDialog;
 import ph.txtdis.fx.tab.ItemTab;
 import ph.txtdis.fx.tab.PricingTab;
 import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.tab.VolumeDiscountTab;
+import ph.txtdis.fx.table.ItemTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Item;
 import ph.txtdis.type.ItemType;
+import ph.txtdis.util.Util;
 
-public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
+public class ItemAppImpl extends AbstractIdApp<Item> implements Excel, Searched {
 
     private List<Tab> tabs = new ArrayList<>();
     private ItemDTO item;
@@ -48,6 +56,7 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     @Override
     protected void setButtons() {
         super.setButtons();
+        buttons.put("excel", new ExcelButton(this).getButton());
         buttons.put("cancel", new CancelButton<Item>(this, dto).getButton());
         buttons.put("search", new SearchByTextButton<Item>(this, dto).getButton());
     }
@@ -160,5 +169,12 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Searched {
     @Override
     public void listFoundEntities() {
         new FoundItemDialog(this, (ItemDTO) dto);
+    }
+
+    @Override
+    public void saveAsExcel() {
+        TableView<Item> itemTable = new ItemTable(this).getTable();
+        itemTable.setItems(item.list());
+        new ExcelWriter(Arrays.asList(Arrays.asList(itemTable)), module, Util.dateToFileName(LocalDate.now()));
     }
 }

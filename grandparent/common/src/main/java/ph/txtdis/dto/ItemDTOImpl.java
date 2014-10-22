@@ -169,4 +169,9 @@ public class ItemDTOImpl extends AbstractSearchedSpunDTO<Item, String, ItemServi
     public boolean exists(String name) {
         return service.exists(name);
     }
+
+    @Override
+    public ObservableList<Item> list() {
+        return FXCollections.observableList(service.list());
+    }
 }

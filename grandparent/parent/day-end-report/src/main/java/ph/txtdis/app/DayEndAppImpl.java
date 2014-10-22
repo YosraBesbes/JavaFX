@@ -20,11 +20,12 @@ import ph.txtdis.excel.Excel;
 import ph.txtdis.excel.ExcelWriter;
 import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.button.BackButton;
+import ph.txtdis.fx.button.CheckMailButton;
 import ph.txtdis.fx.button.ExcelButton;
-import ph.txtdis.fx.button.MailButton;
 import ph.txtdis.fx.button.NextButton;
 import ph.txtdis.fx.button.OpenByDateButton;
 import ph.txtdis.fx.button.SaveButton;
+import ph.txtdis.fx.button.SendMailButton;
 import ph.txtdis.fx.dialog.LatestTruckRelatedTransactionClosureOptionDialog;
 import ph.txtdis.fx.tab.ConsolidationTab;
 import ph.txtdis.fx.tab.LoadSettlementTab;
@@ -104,7 +105,8 @@ public class DayEndAppImpl extends AbstractApp<DailySummary, LocalDate> implemen
         buttons.put("next", new NextButton(this, (Spun) dto).getButton());
         buttons.put("save", new SaveButton<DailySummary, LocalDate>(this, dto).getButton());
         buttons.put("excel", new ExcelButton(this).getButton());
-        buttons.put("mail", new MailButton<DailySummary, LocalDate>(this, dto).getButton());
+        buttons.put("send", new SendMailButton(this).getButton());
+        buttons.put("check", new CheckMailButton(this).getButton());
     }
 
     @Override
@@ -140,7 +142,7 @@ public class DayEndAppImpl extends AbstractApp<DailySummary, LocalDate> implemen
         userType = new SimpleObjectProperty<>(Login.user().getType());
         buttons.get("save").disableProperty().bind(isAllReconciled().or(isAnyOpen()));
         buttons.get("excel").disableProperty().bind(isAllReconciled().not());
-        buttons.get("mail").disableProperty()
+        buttons.get("check").disableProperty()
                 .bind(isAllReconciled().not().or(isConfirmed()).or(userType.isEqualTo(UserType.MANAGER)));
         tabMap.get("main").getTab().disableProperty().bind(isAllReconciled().not());
         tabMap.get("summary").getTab().disableProperty().bind(isAllReconciled().not());

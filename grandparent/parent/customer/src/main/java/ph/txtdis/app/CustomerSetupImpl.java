@@ -1101,28 +1101,28 @@ public class CustomerSetupImpl implements CustomerSetup {
         locationTreeService.save(new LocationTree(camarin, caloocan));
 
         Customer magnum_talayan = new Customer("MAGNUM TALAYAN", CustomerType.CASHIER);
-        magnum_talayan.setAddress("MARIA CLARA");
+        magnum_talayan.setStreet("MARIA CLARA");
         magnum_talayan.setBarangay(talayan);
         magnum_talayan.setCity(quezon_city);
         magnum_talayan.setProvince(metro_manila);
         customerService.save(magnum_talayan);
 
         Customer magnum_edsa = new Customer("MAGNUM EDSA", CustomerType.CASHIER);
-        magnum_edsa.setAddress("48 HOWMART RD.");
+        magnum_edsa.setStreet("48 HOWMART RD.");
         magnum_edsa.setBarangay(apolonio_samson);
         magnum_edsa.setCity(quezon_city);
         magnum_edsa.setProvince(metro_manila);
         customerService.save(magnum_edsa);
 
         Customer marina = new Customer("MARINA SALES", CustomerType.VENDOR);
-        marina.setAddress("HOWMART RD.");
+        marina.setStreet("HOWMART RD.");
         marina.setBarangay(apolonio_samson);
         marina.setCity(quezon_city);
         marina.setProvince(metro_manila);
         customerService.save(marina);
 
         Customer sarisari = new Customer("SARI SARI", CustomerType.OUTLET);
-        sarisari.setAddress("123 DAANAN ST.");
+        sarisari.setStreet("123 DAANAN ST.");
         sarisari.setBarangay(guadalupe_nuevo);
         sarisari.setCity(makati);
         sarisari.setProvince(metro_manila);
@@ -1132,7 +1132,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         customerService.save(sarisari);
 
         Customer palengke = new Customer("TALIPAPA", CustomerType.OUTLET);
-        palengke.setAddress("456 TALIPAPAAN ST.");
+        palengke.setStreet("456 TALIPAPAAN ST.");
         palengke.setBarangay(apolonio_samson);
         palengke.setCity(quezon_city);
         palengke.setProvince(metro_manila);
@@ -1142,7 +1142,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         customerService.save(palengke);
 
         Customer variety = new Customer("VARIETY", CustomerType.OUTLET);
-        variety.setAddress("ROAD 789");
+        variety.setStreet("ROAD 789");
         variety.setBarangay(guadalupe_viejo);
         variety.setCity(makati);
         variety.setProvince(metro_manila);
@@ -1152,7 +1152,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         customerService.save(variety);
 
         Customer wetStall = new Customer("WET MARKET STALL", CustomerType.OUTLET);
-        wetStall.setAddress("STALL 1, GALAS MARKET");
+        wetStall.setStreet("STALL 1, GALAS MARKET");
         wetStall.setBarangay(san_isidro_galas);
         wetStall.setCity(quezon_city);
         wetStall.setProvince(metro_manila);
@@ -1162,7 +1162,7 @@ public class CustomerSetupImpl implements CustomerSetup {
         customerService.save(wetStall);
 
         Customer dryStall = new Customer("DRY MARKET STALL", CustomerType.OUTLET);
-        dryStall.setAddress("STALL 2, GALAS MARKET");
+        dryStall.setStreet("STALL 2, GALAS MARKET");
         dryStall.setBarangay(san_isidro_galas);
         dryStall.setCity(quezon_city);
         dryStall.setProvince(metro_manila);

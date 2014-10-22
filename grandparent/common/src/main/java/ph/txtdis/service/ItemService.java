@@ -34,4 +34,6 @@ public interface ItemService extends SearchedSpunService<Item, Integer, String>,
     List<UomType> getSellingUoms(Item item);
 
     List<UomType> getReportingUoms(Item item);
+
+    List<Item> list();
 }

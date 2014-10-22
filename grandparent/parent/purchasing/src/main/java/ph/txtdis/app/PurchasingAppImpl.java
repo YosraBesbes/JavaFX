@@ -5,7 +5,7 @@ import ph.txtdis.dto.CustomerDTO;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.PurchasingDTO;
 import ph.txtdis.fx.button.CancelButton;
-import ph.txtdis.fx.table.PurchasingDetailTable;
+import ph.txtdis.fx.table.PurchasingTable;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
@@ -40,14 +40,13 @@ public class PurchasingAppImpl extends AbstractOrderApp<Purchasing, PurchasingDe
 
     @Override
     public void createDetailTable() {
-        detailTable = new PurchasingDetailTable(this, orderDTO).getTable();
+        detailTable = new PurchasingTable(this, orderDTO).getTable();
     }
 
     @Override
     protected void setValues(Priced priced) {
         super.setValues(priced);
-        detailTableItem.setDaysLevelBefore(999);
-        detailTableItem.setDaysLevelAfter(999);
+        detailTableItem.setDaysLevel(999);
     }
 
     @Override

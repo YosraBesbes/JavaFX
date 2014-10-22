@@ -54,7 +54,7 @@ public class SettingDialog extends AbstractInputDialog<Object> {
     }
 
     private void saveEntity() {
-        setting = (Style) object;
+        setting = object == null ? new Style() : (Style) object;
         setting.setBase(colorToRGBA(basePicker.getValue()));
         setting.setBackground(colorToRGBA(backgroundPicker.getValue()));
         setting.setAccent(colorToRGBA(accentPicker.getValue()));

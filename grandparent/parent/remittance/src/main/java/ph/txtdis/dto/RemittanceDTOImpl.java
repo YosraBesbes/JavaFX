@@ -47,7 +47,7 @@ public class RemittanceDTOImpl extends AbstractSpunById<Remittance, RemittanceSe
 
     @Override
     public String getPartnerAddress() {
-        return getPartner() == null ? null : getPartner().getAddress();
+        return getPartner() == null ? null : getPartner().getStreet();
     }
 
     @Override

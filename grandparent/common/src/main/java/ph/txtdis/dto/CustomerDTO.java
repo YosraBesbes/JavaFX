@@ -8,13 +8,15 @@ import ph.txtdis.model.Channel;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.Disable;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
+import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
-public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, SpecificName<Customer>, UniqueName {
+public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, SpecificName<Customer>, UniqueName, Disable {
 
     String getAddress();
 
@@ -79,4 +81,9 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, Specif
     CustomerDiscount getLatestCustomerDiscount(LocalDate date);
 
     boolean acceptsRemittance();
+
+    ObservableList<Customer> list();
+
+    @Override
+    SystemUser getDisabledBy();
 }

@@ -109,7 +109,7 @@ public abstract class AbstractApp<E, K> extends Stage implements Apped {
     }
 
     private Scene createScene(VBox box) {
-        Scene scene = new Scene(box, 1024, 512);
+        Scene scene = new Scene(box, 1280, 640);
         scene.getStylesheets().addAll("/css/base.css");
         return scene;
     }

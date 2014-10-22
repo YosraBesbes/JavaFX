@@ -9,6 +9,7 @@ import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
+import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.UomType;
 
@@ -19,7 +20,7 @@ public interface ItemRepository extends CrudRepository<Item, Integer> {
 
     @Query("select max(i.id) from Item i")
     int getMaxId();
-    
+
     @Query("select i.qtyPerUom from Item i where i.id = ?1")
     List<QtyPerUom> getQtyPerUom(int id);
 
@@ -35,13 +36,15 @@ public interface ItemRepository extends CrudRepository<Item, Integer> {
     @Query("select q.uom from QtyPerUom q where q.item = ?1 and q.isPurchased = true")
     List<UomType> getPurchasingUoms(Item item);
 
-    @Query("select q.uom from QtyPerUom q where q.item = ?1 and q.isSold = true" )
+    @Query("select q.uom from QtyPerUom q where q.item = ?1 and q.isSold = true")
     List<UomType> getSellingUoms(Item item);
 
     @Query("select q.uom from QtyPerUom q where q.item = ?1 and q.isReported = true")
     List<UomType> getReportingUoms(Item item);
 
     List<Item> findByDescriptionContaining(String description);
-    
+
     List<Item> findByName(String name);
+
+    List<Item> findByDisabledByOrderByDescriptionAsc(SystemUser disabledBy);
 }

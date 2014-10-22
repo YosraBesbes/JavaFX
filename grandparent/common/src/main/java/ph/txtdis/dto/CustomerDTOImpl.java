@@ -20,7 +20,8 @@ import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
 @Component
-public class CustomerDTOImpl extends AbstractSearchedSpunDTO<Customer, String, CustomerService> implements CustomerDTO {
+public class CustomerDTOImpl extends AbstractDisabledSearchedSpunDTO<Customer, String, CustomerService> implements
+        CustomerDTO {
 
     @Override
     public void reset() {
@@ -40,12 +41,12 @@ public class CustomerDTOImpl extends AbstractSearchedSpunDTO<Customer, String, C
 
     @Override
     public String getAddress() {
-        return entity.getAddress();
+        return entity.getStreet();
     }
 
     @Override
     public void setAddress(String address) {
-        entity.setAddress(address);
+        entity.setStreet(address);
     }
 
     @Override
@@ -206,5 +207,10 @@ public class CustomerDTOImpl extends AbstractSearchedSpunDTO<Customer, String, C
     @Override
     public boolean acceptsRemittance() {
         return service.acceptsRemittance(id);
+    }
+
+    @Override
+    public ObservableList<Customer> list() {
+        return FXCollections.observableList(service.list());
     }
 }

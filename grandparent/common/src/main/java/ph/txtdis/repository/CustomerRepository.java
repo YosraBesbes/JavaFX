@@ -9,6 +9,7 @@ import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.Routing;
+import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.CustomerType;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
@@ -34,4 +35,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
     List<Customer> findByNameContaining(String name);
 
     List<Customer> findByName(String name);
+
+    List<Customer> findByDisabledByOrderByNameAsc(SystemUser disabledBy);
 }

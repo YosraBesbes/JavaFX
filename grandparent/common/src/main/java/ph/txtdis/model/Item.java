@@ -11,12 +11,9 @@ import javax.persistence.OneToMany;
 import ph.txtdis.type.ItemType;
 
 @Entity
-public class Item extends AbstractAudited implements Named {
+public class Item extends AbstractDisabledNamed implements Disable, Named {
 
     private static final long serialVersionUID = -3012020260825126952L;
-
-    @Column(nullable = false, length = 18, unique = true)
-    private String name;
 
     @Column(nullable = false)
     private String description;
@@ -50,16 +47,6 @@ public class Item extends AbstractAudited implements Named {
         this.name = name;
         this.description = description;
         this.type = type;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
