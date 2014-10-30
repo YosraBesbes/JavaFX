@@ -18,11 +18,12 @@ import org.hibernate.annotations.Type;
 import ph.txtdis.util.DIS;
 
 @Entity
-@Subselect("select l.id, i.order_date, l.id, r.name, sum(d.qty * qpu.qty / cs.qty) qty from invoicing i "
+@Subselect("select l.id, i.order_date, cm.city_id, r.name, sum(d.qty * qpu.qty / cs.qty) qty from invoicing i "
         + "join customer cm on i.partner_id = cm.id join location l on cm.city_id = l.id "
         + "join invoicing_detail d on i.id = d.invoicing_id join route r on r.id = i.route_id "
         + "join qty_per_uom qpu on d.item_id = qpu.item_id and qpu.uom = d.uom "
-        + "join qty_per_uom cs on d.item_id = cs.item_id and qpu.uom = 1 group by l.id, i.order_date, r.name ")
+        + "join qty_per_uom cs on d.item_id = cs.item_id and qpu.uom = 1 "
+        + "group by l.id, cm.city_id, i.order_date, r.name ")
 @Synchronize({ "invoicing", "invoicing_detail", "item", "location", "route", "qty_per_uom" })
 public class InvoicedVolumePerTownByRouteView {
 

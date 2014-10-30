@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.model.VolumeDiscount;
@@ -35,5 +36,5 @@ public interface ItemService extends SearchedSpunService<Item, Integer, String>,
 
     List<UomType> getReportingUoms(Item item);
 
-    List<Item> list();
+    List<ItemPrice> list();
 }

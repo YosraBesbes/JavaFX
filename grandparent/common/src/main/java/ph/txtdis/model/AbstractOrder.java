@@ -22,10 +22,10 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     protected Route route;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private CreditDetail credit;
+    protected CreditDetail credit;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private CustomerDiscount discount;
+    protected CustomerDiscount discount;
 
     @Column(nullable = false)
     protected BigDecimal value;

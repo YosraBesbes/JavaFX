@@ -19,7 +19,7 @@ public class LatestTruckRelatedTransactionClosureOptionDialog extends OptionDial
 
     public LatestTruckRelatedTransactionClosureOptionDialog(Stage stage, LocalDate date) {
         super(stage, "Current truck-related transactions must be closed first,\n"
-                + "enabling settlement, but allowing further data entry.\nContinue?");
+                + "enabling settlement, but not allowing further data entry.\nContinue?");
         this.date = date;
         showAndWait();
     }

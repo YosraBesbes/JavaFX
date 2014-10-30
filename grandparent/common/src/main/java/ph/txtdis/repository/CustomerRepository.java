@@ -8,8 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.model.Routing;
-import ph.txtdis.model.SystemUser;
 import ph.txtdis.type.CustomerType;
 
 public interface CustomerRepository extends CrudRepository<Customer, Integer> {
@@ -36,5 +36,9 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
 
     List<Customer> findByName(String name);
 
-    List<Customer> findByDisabledByOrderByNameAsc(SystemUser disabledBy);
+    @Query("select new ph.txtdis.model.CustomerRoute(c.id, c.name, c.street, c.barangay, c.city, c.province, "
+            + "   (select r.route from Routing r where r.customer = c and r.startDate = "
+            + "          (select max(r.startDate) from Routing r where r.customer = c group by r.customer "
+            + "))) from Customer c where c.disabledBy is null ")
+    List<CustomerRoute> getExistingCustomersWithTheirLatestRoute();
 }

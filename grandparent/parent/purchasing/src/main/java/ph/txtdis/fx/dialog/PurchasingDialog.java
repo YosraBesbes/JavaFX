@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -13,11 +14,12 @@ import ph.txtdis.app.OrderApp;
 import ph.txtdis.dto.ItemDTO;
 import ph.txtdis.dto.PurchasingDTO;
 import ph.txtdis.dto.QualityRated;
-import ph.txtdis.fx.display.LabeledIntegerDisplay;
+import ph.txtdis.fx.display.LabeledDisplay;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDecimalField;
 import ph.txtdis.fx.input.LabeledIdNameField;
+import ph.txtdis.fx.input.LabeledStringField;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
@@ -26,11 +28,13 @@ import ph.txtdis.type.UomType;
 
 public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, PurchasingDTO> {
 
-    private LabeledComboBox<UomType> uomCombo;
     private LabeledIdNameField itemField;
-    private LabeledIntegerDisplay daysLevelOldDisplay, daysLevelNewDisplay;
+    private LabeledComboBox<UomType> uomCombo;
+    private LabeledDisplay oldDaysLevelDisplay, newDaysLevelDisplay;
     private LabeledDecimalField qtyField;
+    private LabeledStringField reasonField;
     private ItemDTO itemDTO;
+    private PurchasingDTO dto;
 
     public PurchasingDialog(Stage stage, PurchasingDTO dto) {
         super("Purchasing", stage, dto);
@@ -39,24 +43,51 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
 
     @Override
     protected List<InputNode<?>> addNodes() {
-
         itemField = new LabeledIdNameField("Item ID No.", 180);
-        daysLevelOldDisplay = new LabeledIntegerDisplay("Days Level Now");
+        oldDaysLevelDisplay = new LabeledDisplay("Days Level Now", 80);
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
-        daysLevelNewDisplay = new LabeledIntegerDisplay("New Days Level");
+        newDaysLevelDisplay = new LabeledDisplay("New Days Level", 80);
+        reasonField = new LabeledStringField("Justification");
+        return Arrays.asList(itemField, oldDaysLevelDisplay, uomCombo, qtyField, newDaysLevelDisplay, reasonField);
+    }
 
-        return Arrays.asList(itemField, daysLevelOldDisplay, uomCombo, qtyField, daysLevelNewDisplay);
+    @Override
+    protected BooleanBinding getAddButtonBindings() {
+        return areInputFieldsEmpty().or(isExcessivePurchaseNotJustified());
+    }
+
+    private BooleanBinding areInputFieldsEmpty() {
+        return itemField.isEmpty().or(uomCombo.isEmpty()).or(qtyField.isEmpty());
+    }
+
+    private BooleanBinding isExcessivePurchaseNotJustified() {
+        return reasonField.isEmpty().and(isOverStocked(newDaysLevelDisplay).or(isOverStocked(oldDaysLevelDisplay)));
+    }
+
+    private BooleanBinding isOverStocked(LabeledDisplay display) {
+        return display.getTextField().textProperty().isEqualTo(">365");
     }
 
     private void setListeners() {
-        itemDTO = App.getContext().getBean(ItemDTO.class);
+        setDTOs();
+        setItemFieldListener();
+        setQtyFieldListener();
+    }
 
+    private void setDTOs() {
+        itemDTO = App.getContext().getBean(ItemDTO.class);
+        dto = object;
+    }
+
+    private void setItemFieldListener() {
         itemField.getIdField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
                 verifyExistence(itemField.getValue());
         });
+    }
 
+    private void setQtyFieldListener() {
         qtyField.getDecimalField().addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
             if (event.getCode() == KeyCode.TAB)
                 showDaysLevel(qtyField.getValue());
@@ -83,21 +114,22 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
     }
 
     private void showDaysLevel(BigDecimal qty) {
-        daysLevelNewDisplay.setInt(computeDaysLevel(qty));
+        newDaysLevelDisplay.setText(getDaysLevel(qty));
     }
 
     private void showDaysLevel() {
-        daysLevelOldDisplay.setInt(computeDaysLevel(BigDecimal.ZERO));
+        oldDaysLevelDisplay.setText(getDaysLevel(BigDecimal.ZERO));
     }
 
-    private int computeDaysLevel(BigDecimal qty) {
-        return 999;
+    private String getDaysLevel(BigDecimal qty) {
+        int daysLevel = dto.getDaysLevel(itemDTO.get(), qty);
+        return daysLevel > 365 ? ">365" : String.valueOf(daysLevel);
     }
 
     @Override
     protected PurchasingDetail createEntity(PurchasingDTO dto, List<InputNode<?>> inputNodes) {
         return new PurchasingDetail(getEntity(dto), getItem(), getUom(), getQty(), getPrice(), getQuality(),
-                getDaysLevel());
+                getDaysLevel(), getJustification());
     }
 
     private Purchasing getEntity(PurchasingDTO dto) {
@@ -136,7 +168,11 @@ public class PurchasingDialog extends AbstractFieldDialog<PurchasingDetail, Purc
         return App.getContext().getBean(QualityRated.class).good();
     }
 
-    private int getDaysLevel() {
+    private String getDaysLevel() {
         return getInputAtRow(4);
+    }
+
+    private String getJustification() {
+        return getInputAtRow(5);
     }
 }

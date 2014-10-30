@@ -146,7 +146,10 @@ public abstract class AbstractOrderDialog<E extends Ordered<D>, D extends Priced
     }
 
     private BigDecimal computeDiscount(BigDecimal qtyInPCs, VolumeDiscount discount) {
-        return determineDiscountBasedOnQty(qtyInPCs, discount, new BigDecimal(discount.getCutOff()));
+        if (discount == null)
+            return BigDecimal.ZERO;
+        else
+            return determineDiscountBasedOnQty(qtyInPCs, discount, new BigDecimal(discount.getCutOff()));
     }
 
     private BigDecimal determineDiscountBasedOnQty(BigDecimal qtyInPCs, VolumeDiscount discount, BigDecimal cutoff) {

@@ -6,6 +6,7 @@ import java.util.List;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
 
@@ -25,5 +26,5 @@ public interface CustomerService extends SearchedSpunService<Customer, Integer, 
 
     boolean acceptsRemittance(int id);
 
-    List<Customer> list();
+    List<CustomerRoute> list();
 }

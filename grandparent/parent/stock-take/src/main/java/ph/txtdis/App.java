@@ -9,11 +9,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.Setup;
 import ph.txtdis.app.StockTakeAppImpl;
 import ph.txtdis.app.StockTakeSetup;
-import ph.txtdis.fx.dialog.StartUpDialog;
 
 @Configuration
 @EnableAutoConfiguration
@@ -21,37 +19,20 @@ import ph.txtdis.fx.dialog.StartUpDialog;
 public class App extends Application {
 
     private static ConfigurableApplicationContext context;
-    private static String title;
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        new StartUpDialog() {
-            @Override
-            protected void begin() {
-                context = SpringApplication.run(App.class);
-                context.getBean(Setup.class).start();
-                context.getBean(ItemSetup.class).start();
-                context.getBean(StockTakeSetup.class).start();
-                title = getParameters().getRaw().get(0);
-            }
-
-            @Override
-            protected void next() {
-                new StockTakeAppImpl().start();
-            }
-        };
+        context = SpringApplication.run(App.class);
+        context.getBean(Setup.class).start();
+        context.getBean(StockTakeSetup.class).start();
+        new StockTakeAppImpl().start();
     }
 
     public static void main(String[] args) {
-        launch("Stock Take 0.9.0.0 ");
+        launch();
     }
 
     public static ConfigurableApplicationContext getContext() {
         return context;
-    }
-
-    public static String title() {
-        return title;
     }
 }

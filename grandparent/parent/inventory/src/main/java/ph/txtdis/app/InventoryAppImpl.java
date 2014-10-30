@@ -44,8 +44,8 @@ public class InventoryAppImpl extends AbstractApp<Inventory, Integer> implements
         buttons.put("excel", new ExcelButton(this).getButton());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     protected Node[] addVBoxNodes() {
         table = new AbstractTable<Inventory>(this) {
             {

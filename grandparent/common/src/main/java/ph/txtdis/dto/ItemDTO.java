@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.ItemFamily;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.model.Named;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
@@ -68,5 +69,5 @@ public interface ItemDTO extends SearchedDTO<Item, String>, Spun, UniqueName, Na
 
     List<UomType> getReportingUoms();
 
-    ObservableList<Item> list();
+    ObservableList<ItemPrice> list();
 }

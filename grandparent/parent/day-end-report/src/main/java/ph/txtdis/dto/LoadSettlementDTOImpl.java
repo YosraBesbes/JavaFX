@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.LoadSettlement;
 import ph.txtdis.model.LoadSettlementDetail;
-import ph.txtdis.model.LoadSettlementFilteredDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.LoadSettlementService;
@@ -74,15 +73,15 @@ public class LoadSettlementDTOImpl extends AbstractDTO<LoadSettlement, LoadSettl
     }
 
     @Override
-    public ObservableList<LoadSettlementFilteredDetail> getSettlementFilteredDetail(Truck truck, LocalDate date) {
-        List<LoadSettlementFilteredDetail> isfx = new ArrayList<>();
-        service.getDetail(truck, date).forEach(is -> selectItemsWithVariance(isfx, is));
-        return FXCollections.observableArrayList(isfx);
+    public ObservableList<LoadSettlementDetail> getSettlementDetail(Truck truck, LocalDate date) {
+        return FXCollections.observableArrayList(removeBalancedItems(service.getDetail(truck, date)));
     }
 
-    private void selectItemsWithVariance(List<LoadSettlementFilteredDetail> isfx, LoadSettlementDetail is) {
-        if (!DIS.isZero(is.getVarianceQty()))
-            isfx.add(new LoadSettlementFilteredDetail(is.getItem(), is.getPickedQty(), is.getSoldQty(), is
-                    .getReturnedQty(), is.getAdjustmentQty(), is.getActionTaken()));
+    private List<LoadSettlementDetail> removeBalancedItems(List<LoadSettlementDetail> details) {
+        List<LoadSettlementDetail> list = new ArrayList<>();
+        for (LoadSettlementDetail detail : details)
+            if (!DIS.isZero(detail.getVarianceQty()))
+                list.add(detail);
+        return list;
     }
 }

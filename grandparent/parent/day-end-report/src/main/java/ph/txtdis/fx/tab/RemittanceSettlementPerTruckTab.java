@@ -23,7 +23,7 @@ import ph.txtdis.fx.display.UserDisplay;
 import ph.txtdis.fx.table.RemittanceSettlementTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.RemittanceSettlementAdjustment;
-import ph.txtdis.model.RemittanceSettlementFilteredDetail;
+import ph.txtdis.model.RemittanceSettlementDetail;
 import ph.txtdis.model.Truck;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
@@ -35,7 +35,7 @@ public class RemittanceSettlementPerTruckTab extends AbstractTab<RemittanceSettl
     private TimestampDisplay closedOnDisplay, reconciledOnDisplay;
     private TruckDTO truckDTO;
     private UserDisplay closedByDisplay, reconciledByDisplay;
-    private TableView<RemittanceSettlementFilteredDetail> detailTable;
+    private TableView<RemittanceSettlementDetail> detailTable;
 
     public RemittanceSettlementPerTruckTab(Truck truck, Stage stage, RemittanceSettlementDTO dto) {
         super(truck.getName(), truck.getName(), stage, dto);
@@ -63,7 +63,7 @@ public class RemittanceSettlementPerTruckTab extends AbstractTab<RemittanceSettl
         reconciledOnDisplay = new TimestampDisplay(dto.getReconciledOn());
 
         detailTable = new RemittanceSettlementTable(stage).getTable();
-        detailTable.setItems(dto.getSettlementFilteredDetail(getTruck(), dto.getDate()));
+        detailTable.setItems(dto.getSettlementDetail(getTruck(), dto.getDate()));
         detailTable.setId(name);
 
         GridPane gridPane = new GridPane();
@@ -117,25 +117,25 @@ public class RemittanceSettlementPerTruckTab extends AbstractTab<RemittanceSettl
     }
 
     private void ensureVariancesAreJustified() throws InvalidException {
-        for (RemittanceSettlementFilteredDetail item : detailTable.getItems())
+        for (RemittanceSettlementDetail item : detailTable.getItems())
             if (isVarianceUnjustified(item))
                 throw new InvalidException("A specific action must be taken\non each and every " + dto.getTruck()
                         + " remittance variances");
     }
 
-    private boolean isVarianceUnjustified(RemittanceSettlementFilteredDetail item) {
+    private boolean isVarianceUnjustified(RemittanceSettlementDetail item) {
         return !DIS.isZero(item.getVarianceValue()) && DIS.isEmpty(item.getActionTaken());
     }
 
     private void saveAdjustments() throws InvalidException {
-        for (RemittanceSettlementFilteredDetail item : detailTable.getItems())
+        for (RemittanceSettlementDetail item : detailTable.getItems())
             saveAdjustment(item);
         updateSettlementStamps();
     }
 
-    private void saveAdjustment(RemittanceSettlementFilteredDetail item) {
+    private void saveAdjustment(RemittanceSettlementDetail item) {
         adjustment.set(new RemittanceSettlementAdjustment(dto.getDate(), dto.getTruck(), item.getInvoice(), item
-                .getAdjustmentValue(), item.getActionTaken()));
+                .getActionTaken()));
         adjustment.save();
     }
 
@@ -152,7 +152,7 @@ public class RemittanceSettlementPerTruckTab extends AbstractTab<RemittanceSettl
         reconciledByDisplay.setUser(dto.getReconciledBy());
         reconciledOnDisplay.setTimestamp(dto.getReconciledOn());
         detailTable.getItems().clear();
-        detailTable.getItems().addAll(dto.getSettlementFilteredDetail(getTruck(), dto.getDate()));
+        detailTable.getItems().addAll(dto.getSettlementDetail(getTruck(), dto.getDate()));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ph.txtdis.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -9,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
-
-import ph.txtdis.util.DIS;
 
 @Entity
 public class RemittanceSettlementAdjustment extends AbstractAudited {
@@ -27,21 +24,16 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Invoicing invoice;
 
-    @Column(precision = 10, scale = 4)
-    private BigDecimal value;
-
     @Column(nullable = false)
     private String actionTaken;
 
     protected RemittanceSettlementAdjustment() {
     }
 
-    public RemittanceSettlementAdjustment(LocalDate pickDate, Truck truck, Invoicing invoicing, BigDecimal value,
-            String actionTaken) {
+    public RemittanceSettlementAdjustment(LocalDate pickDate, Truck truck, Invoicing invoicing, String actionTaken) {
         this.pickDate = pickDate;
         this.truck = truck;
         this.invoice = invoicing;
-        this.value = value;
         this.actionTaken = actionTaken;
     }
 
@@ -69,14 +61,6 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
         this.truck = truck;
     }
 
-    public BigDecimal getTotalValue() {
-        return value == null ? BigDecimal.ZERO : value;
-    }
-
-    public void setTotalValue(BigDecimal value) {
-        this.value = value;
-    }
-
     public String getActionTaken() {
         return actionTaken;
     }
@@ -91,7 +75,6 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
         int result = super.hashCode();
         result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
         result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
         result = prime * result + ((pickDate == null) ? 0 : pickDate.hashCode());
         result = prime * result + ((truck == null) ? 0 : truck.hashCode());
         return result;
@@ -116,11 +99,6 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
                 return false;
         } else if (!actionTaken.equals(other.actionTaken))
             return false;
-        if (value == null) {
-            if (other.value != null)
-                return false;
-        } else if (!value.equals(other.value))
-            return false;
         if (pickDate == null) {
             if (other.pickDate != null)
                 return false;
@@ -132,10 +110,5 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
         } else if (!truck.equals(other.truck))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return DIS.formatQuantity(value);
     }
 }

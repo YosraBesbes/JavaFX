@@ -10,10 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import ph.txtdis.app.BookingSetup;
-import ph.txtdis.app.CustomerSetup;
 import ph.txtdis.app.DayEndAppImpl;
 import ph.txtdis.app.DayEndSetup;
-import ph.txtdis.app.ItemSetup;
 import ph.txtdis.app.ReceivingSetup;
 import ph.txtdis.app.Setup;
 import ph.txtdis.fx.util.FX;
@@ -31,8 +29,6 @@ public class App extends Application {
         context = SpringApplication.run(App.class);
         // context.getBean(TestSetup.class).start();
         context.getBean(Setup.class).start();
-        context.getBean(ItemSetup.class).start();
-        context.getBean(CustomerSetup.class).start();
         context.getBean(ReceivingSetup.class).start();
         context.getBean(BookingSetup.class).start();
         context.getBean(DayEndSetup.class).start();

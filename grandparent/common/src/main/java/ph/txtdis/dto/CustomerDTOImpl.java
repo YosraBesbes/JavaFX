@@ -12,6 +12,7 @@ import ph.txtdis.model.Channel;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
@@ -210,7 +211,7 @@ public class CustomerDTOImpl extends AbstractDisabledSearchedSpunDTO<Customer, S
     }
 
     @Override
-    public ObservableList<Customer> list() {
+    public ObservableList<CustomerRoute> list() {
         return FXCollections.observableList(service.list());
     }
 }

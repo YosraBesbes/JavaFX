@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.ItemFamily;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.model.VolumeDiscount;
@@ -171,7 +172,7 @@ public class ItemDTOImpl extends AbstractSearchedSpunDTO<Item, String, ItemServi
     }
 
     @Override
-    public ObservableList<Item> list() {
+    public ObservableList<ItemPrice> list() {
         return FXCollections.observableList(service.list());
     }
 }

@@ -27,6 +27,7 @@ import ph.txtdis.fx.tab.VolumeDiscountTab;
 import ph.txtdis.fx.table.ItemTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Item;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.type.ItemType;
 import ph.txtdis.util.Util;
 
@@ -173,8 +174,9 @@ public class ItemAppImpl extends AbstractIdApp<Item> implements Excel, Searched 
 
     @Override
     public void saveAsExcel() {
-        TableView<Item> itemTable = new ItemTable(this).getTable();
+        TableView<ItemPrice> itemTable = new ItemTable(this).getTable();
         itemTable.setItems(item.list());
+        itemTable.setId(module + " List as of " + Util.formatDate(LocalDate.now()));
         new ExcelWriter(Arrays.asList(Arrays.asList(itemTable)), module, Util.dateToFileName(LocalDate.now()));
     }
 }

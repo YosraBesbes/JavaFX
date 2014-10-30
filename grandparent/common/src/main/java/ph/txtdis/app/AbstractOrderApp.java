@@ -36,10 +36,6 @@ import ph.txtdis.model.VolumeDiscount;
 public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O extends OrderDTO<E, D>> extends
         AbstractIdApp<E> implements OrderApp<D> {
 
-    public AbstractOrderApp(String module, String abbr) {
-        super(module, abbr);
-    }
-
     protected BigDecimal price, subtotal;
     protected BigDecimal vat = BigDecimal.ZERO;
     protected BigDecimal vatable = BigDecimal.ZERO;
@@ -58,6 +54,12 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     protected StringDisplay partnerNameField, partnerAddressField;
     protected StringField remarkField;
     protected TableView<D> detailTable;
+
+    private VolumeDiscount latestVolumeDiscount;
+
+    public AbstractOrderApp(String module, String abbr) {
+        super(module, abbr);
+    }
 
     @Override
     protected void setDTO() {
@@ -123,10 +125,8 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         gridPane.add(datePicker, 3, 0);
         gridPane.add(partnerLabel, 4, 0);
         gridPane.add(partnerBox, 5, 0);
-
         gridPane.add(partnerAddressLabel, 0, 1);
         gridPane.add(partnerAddressField, 1, 1, 5, 1);
-
         gridPane.add(remarkLabel, 0, 2);
         gridPane.add(remarkField, 1, 2, 5, 2);
     }
@@ -135,9 +135,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     protected void setBindings() {
         buttons.get("save").disableProperty()
                 .bind(FX.isEmpty(detailTable).or(FX.isEmpty(encoderDisplay).not()).or(FX.isEmpty(datePicker)));
-
         partnerIdField.disableProperty().bind(FX.isEmpty(datePicker));
-
         remarkField.disableProperty().bind(FX.isEmpty(partnerNameField));
         detailTable.disableProperty().bind(FX.isEmpty(partnerNameField));
     }
@@ -155,6 +153,8 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     private void validateDate(LocalDate date) {
         if (date != null && idField.getText().isEmpty() && date.isBefore(LocalDate.now()))
             handleError(this, "Date cannot be in the past");
+        else
+            latestVolumeDiscount = item.getLatestVolumeDiscount(getPickerDate());
     }
 
     private void validatePartnerId(int id) {
@@ -242,7 +242,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
         subtotal = price.multiply(detailTableItem.getQty());
         total = total.add(subtotal);
-        vatable = total.divide(new BigDecimal(1.12), 2, RoundingMode.HALF_UP);
+        vatable = total.divide(new BigDecimal("1.12"), 2, RoundingMode.HALF_EVEN);
         vat = total.subtract(vatable);
 
         detailTableItem.setPrice(price);
@@ -276,13 +276,24 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     private BigDecimal getVolumeDiscount() {
-        VolumeDiscount volumeDiscount = item.getLatestVolumeDiscount(getPickerDate());
-        Channel limit = volumeDiscount.getChannelLimit();
-        if ((limit == null || limit.equals(customer.get().getChannel()))
-                && detailTableItem.getQty().multiply(getQtyPerUomUnit())
-                        .compareTo(new BigDecimal(volumeDiscount.getCutOff())) >= 0)
-            return volumeDiscount.getDiscount();
-        return BigDecimal.ZERO;
+        if (latestVolumeDiscount != null && (getChannelLimit() == null || isCustomersChannelSameAsLimits())
+                && hasItemMetVolumeDiscountTarget())
+            return latestVolumeDiscount.getDiscount();
+        else
+            return BigDecimal.ZERO;
+    }
+
+    private boolean isCustomersChannelSameAsLimits() {
+        return getChannelLimit().equals(customer.get().getChannel());
+    }
+
+    private boolean hasItemMetVolumeDiscountTarget() {
+        return detailTableItem.getQty().multiply(getQtyPerUomUnit())
+                .compareTo(new BigDecimal(latestVolumeDiscount.getCutOff())) >= 0;
+    }
+
+    private Channel getChannelLimit() {
+        return latestVolumeDiscount.getChannelLimit();
     }
 
     @Override

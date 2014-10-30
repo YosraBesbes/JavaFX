@@ -20,10 +20,10 @@ import ph.txtdis.exception.InvalidException;
 import ph.txtdis.fx.dialog.ErrorDialog;
 import ph.txtdis.fx.display.TimestampDisplay;
 import ph.txtdis.fx.display.UserDisplay;
-import ph.txtdis.fx.table.LoadSettlementDetailTable;
+import ph.txtdis.fx.table.LoadSettlementTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.LoadSettlementAdjustment;
-import ph.txtdis.model.LoadSettlementFilteredDetail;
+import ph.txtdis.model.LoadSettlementDetail;
 import ph.txtdis.model.Truck;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
@@ -34,7 +34,7 @@ public class LoadSettlementPerTruckTab extends AbstractTab<LoadSettlementDTO> im
     private TimestampDisplay closedOnDisplay, reconciledOnDisplay;
     private TruckDTO truckDTO;
     private UserDisplay closedByDisplay, reconciledByDisplay;
-    private TableView<LoadSettlementFilteredDetail> detailTable;
+    private TableView<LoadSettlementDetail> detailTable;
 
     public LoadSettlementPerTruckTab(Truck truck, Stage stage, LoadSettlementDTO dto) {
         super(truck.getName(), truck.getName(), stage, dto);
@@ -61,8 +61,8 @@ public class LoadSettlementPerTruckTab extends AbstractTab<LoadSettlementDTO> im
         Label reconciledOnLabel = new Label("on");
         reconciledOnDisplay = new TimestampDisplay(dto.getReconciledOn());
 
-        detailTable = new LoadSettlementDetailTable(stage).getTable();
-        detailTable.setItems(dto.getSettlementFilteredDetail(getTruck(), dto.getDate()));
+        detailTable = new LoadSettlementTable(stage).getTable();
+        detailTable.setItems(dto.getSettlementDetail(getTruck(), dto.getDate()));
         detailTable.setId(name);
 
         GridPane gridPane = new GridPane();
@@ -116,26 +116,26 @@ public class LoadSettlementPerTruckTab extends AbstractTab<LoadSettlementDTO> im
     }
 
     private void ensureVariancesAreJustified() throws InvalidException {
-        for (LoadSettlementFilteredDetail item : detailTable.getItems())
+        for (LoadSettlementDetail item : detailTable.getItems())
             if (isVarianceUnjustified(item))
                 throw new InvalidException("A specific action must be taken\non each and every " + dto.getTruck()
                         + " item variances");
     }
 
-    private boolean isVarianceUnjustified(LoadSettlementFilteredDetail item) {
+    private boolean isVarianceUnjustified(LoadSettlementDetail item) {
         return !DIS.isZero(item.getSoldQty().add(item.getReturnedQty()).subtract(item.getPickedQty()))
                 && DIS.isEmpty(item.getActionTaken());
     }
 
     private void saveAdjustments() {
-        for (LoadSettlementFilteredDetail item : detailTable.getItems())
+        for (LoadSettlementDetail item : detailTable.getItems())
             saveAdjustment(item);
         updateSettlementStamps();
     }
 
-    private void saveAdjustment(LoadSettlementFilteredDetail item) {
+    private void saveAdjustment(LoadSettlementDetail item) {
         adjustment.set(new LoadSettlementAdjustment(dto.getDate(), dto.getTruck(), item.getItem(), item
-                .getAdjustmentQty(), item.getActionTaken()));
+                .getActionTaken()));
         adjustment.save();
     }
 
@@ -152,7 +152,7 @@ public class LoadSettlementPerTruckTab extends AbstractTab<LoadSettlementDTO> im
         reconciledByDisplay.setUser(dto.getReconciledBy());
         reconciledOnDisplay.setTimestamp(dto.getReconciledOn());
         detailTable.getItems().clear();
-        detailTable.getItems().addAll(dto.getSettlementFilteredDetail(getTruck(), dto.getDate()));
+        detailTable.getItems().addAll(dto.getSettlementDetail(getTruck(), dto.getDate()));
     }
 
     @Override

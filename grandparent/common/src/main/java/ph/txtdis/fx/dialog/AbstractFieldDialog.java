@@ -63,7 +63,7 @@ public abstract class AbstractFieldDialog<E, D> extends AbstractInputDialog<D> i
         addButton.disableProperty().bind(getAddButtonBindings());
     }
 
-    private BooleanBinding getAddButtonBindings() {
+    protected BooleanBinding getAddButtonBindings() {
         BooleanBinding binding = inputNodes.get(0).isEmpty();
         for (int i = 1; i < inputNodes.size(); i++)
             binding = binding.or(inputNodes.get(i).isEmpty());

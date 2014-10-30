@@ -8,7 +8,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.DIS;
 
 @Entity
 public class PurchasingDetail extends AbstractPricedDetail {
@@ -18,14 +17,16 @@ public class PurchasingDetail extends AbstractPricedDetail {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Purchasing purchasing;
 
+    private String justification;
+
     @Transient
-    private int daysLevel;
+    private String daysLevel;
 
     protected PurchasingDetail() {
     }
 
     public PurchasingDetail(Purchasing purchasing, Item item, UomType uom, BigDecimal qty, BigDecimal price,
-            Quality quality, int daysLevel) {
+            Quality quality, String daysLevel, String justification) {
         this.purchasing = purchasing;
         this.item = item;
         this.uom = uom;
@@ -33,13 +34,22 @@ public class PurchasingDetail extends AbstractPricedDetail {
         this.price = price;
         this.quality = quality;
         this.daysLevel = daysLevel;
+        this.justification = justification;
+    }
+
+    public String getJustification() {
+        return justification;
+    }
+
+    public void setJustification(String justification) {
+        this.justification = justification;
     }
 
     public String getDaysLevel() {
-        return daysLevel > 365 ? ">365" : DIS.formatInt(daysLevel);
+        return daysLevel;
     }
 
-    public void setDaysLevel(int daysLevel) {
+    public void setDaysLevel(String daysLevel) {
         this.daysLevel = daysLevel;
     }
 
@@ -47,7 +57,8 @@ public class PurchasingDetail extends AbstractPricedDetail {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + daysLevel;
+        result = prime * result + ((daysLevel == null) ? 0 : daysLevel.hashCode());
+        result = prime * result + ((justification == null) ? 0 : justification.hashCode());
         result = prime * result + ((purchasing == null) ? 0 : purchasing.hashCode());
         return result;
     }
@@ -61,7 +72,15 @@ public class PurchasingDetail extends AbstractPricedDetail {
         if (getClass() != obj.getClass())
             return false;
         PurchasingDetail other = (PurchasingDetail) obj;
-        if (daysLevel != other.daysLevel)
+        if (daysLevel == null) {
+            if (other.daysLevel != null)
+                return false;
+        } else if (!daysLevel.equals(other.daysLevel))
+            return false;
+        if (justification == null) {
+            if (other.justification != null)
+                return false;
+        } else if (!justification.equals(other.justification))
             return false;
         if (purchasing == null) {
             if (other.purchasing != null)

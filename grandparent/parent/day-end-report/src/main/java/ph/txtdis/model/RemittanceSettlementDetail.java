@@ -1,6 +1,7 @@
 package ph.txtdis.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class RemittanceSettlementDetail {
 
@@ -8,42 +9,58 @@ public class RemittanceSettlementDetail {
 
     private BigDecimal payment;
 
-    private RemittanceSettlementAdjustment settlement;
+    private String actionTaken;
 
-    public RemittanceSettlementDetail(Invoicing invoice, BigDecimal payment, RemittanceSettlementAdjustment settlement) {
+    public RemittanceSettlementDetail(Invoicing invoice, BigDecimal payment, String actionTaken) {
 
         this.invoice = invoice;
         this.payment = payment;
-        this.settlement = settlement;
+        this.actionTaken = actionTaken;
     }
 
     public Invoicing getInvoice() {
         return invoice;
     }
 
-    public BigDecimal getVariance() {
-        return invoice.getTotalValue().subtract(getRemittedValue());
+    public int getInvoiceId() {
+        return invoice == null ? 0 : invoice.getId();
+    }
+
+    public LocalDate getDate() {
+        return invoice == null ? null : invoice.getOrderDate();
+    }
+
+    public Customer getPartner() {
+        return invoice == null ? null : invoice.getPartner();
+    }
+
+    public BigDecimal getInvoicedValue() {
+        return invoice == null ? BigDecimal.ZERO : invoice.getTotalValue();
+    }
+
+    public BigDecimal getVarianceValue() {
+        return getInvoicedValue().subtract(getRemittedValue());
     }
 
     public BigDecimal getRemittedValue() {
         return payment == null ? BigDecimal.ZERO : payment;
     }
 
-    public BigDecimal getAdjustmentValue() {
-        return settlement == null ? BigDecimal.ZERO : settlement.getTotalValue();
+    public String getActionTaken() {
+        return actionTaken;
     }
 
-    public String getActionTaken() {
-        return settlement == null ? null : settlement.getActionTaken();
+    public void setActionTaken(String actionTaken) {
+        this.actionTaken = actionTaken;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((payment == null) ? 0 : payment.hashCode());
+        result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
         result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
-        result = prime * result + ((settlement == null) ? 0 : settlement.hashCode());
+        result = prime * result + ((payment == null) ? 0 : payment.hashCode());
         return result;
     }
 
@@ -56,27 +73,27 @@ public class RemittanceSettlementDetail {
         if (getClass() != obj.getClass())
             return false;
         RemittanceSettlementDetail other = (RemittanceSettlementDetail) obj;
-        if (payment == null) {
-            if (other.payment != null)
+        if (actionTaken == null) {
+            if (other.actionTaken != null)
                 return false;
-        } else if (!payment.equals(other.payment))
+        } else if (!actionTaken.equals(other.actionTaken))
             return false;
         if (invoice == null) {
             if (other.invoice != null)
                 return false;
         } else if (!invoice.equals(other.invoice))
             return false;
-        if (settlement == null) {
-            if (other.settlement != null)
+        if (payment == null) {
+            if (other.payment != null)
                 return false;
-        } else if (!settlement.equals(other.settlement))
+        } else if (!payment.equals(other.payment))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "RemittanceSettlementDetail [invoice=" + invoice + ", detail=" + payment + ", settlement=" + settlement
-                + "]";
+        return "RemittanceSettlementDetail [invoice=" + invoice + ", payment=" + payment + ", actionTaken="
+                + actionTaken + "]";
     }
 }

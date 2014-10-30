@@ -145,8 +145,8 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private VBox setVolumeTableVBox() {
         volumeTable = new VolumeTable(stage).getTable();
         volumeTable.setItems(dto.getVolumeSummary());
-        volumeTable.setUserData(dto.getTotalVolume());
-        totalVolumeDisplay = new DecimalDisplay((BigDecimal) volumeTable.getUserData());
+        volumeTable.setUserData(new BigDecimal[] { dto.getTotalVolume() });
+        totalVolumeDisplay = new DecimalDisplay(((BigDecimal[]) volumeTable.getUserData())[0]);
         HBox hBox = new HBox(new Label("Total(CS)"), totalVolumeDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Volume"), volumeTable, hBox);
@@ -155,8 +155,8 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private VBox setRevenueTableVBox() {
         revenueTable = new RevenueTable(stage).getTable();
         revenueTable.setItems(dto.getInvoices());
-        revenueTable.setUserData(dto.getTotalRevenue());
-        totalRevenueDisplay = new CurrencyDisplay((BigDecimal) revenueTable.getUserData());
+        revenueTable.setUserData(new BigDecimal[] { dto.getTotalRevenue() });
+        totalRevenueDisplay = new CurrencyDisplay(((BigDecimal[]) revenueTable.getUserData())[0]);
         HBox hBox = new HBox(new Label("Total"), totalRevenueDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Revenue"), revenueTable, hBox);
@@ -165,8 +165,8 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private VBox setRemittanceTableVBox() {
         remittanceTable = new RemittanceTable(stage).getTable();
         remittanceTable.setItems(dto.getRemittances());
-        remittanceTable.setUserData(dto.getTotalRemittance());
-        totalRemittanceDisplay = new CurrencyDisplay((BigDecimal) remittanceTable.getUserData());
+        remittanceTable.setUserData(new BigDecimal[] { dto.getTotalRemittance() });
+        totalRemittanceDisplay = new CurrencyDisplay(((BigDecimal[]) remittanceTable.getUserData())[0]);
         HBox hBox = new HBox(new Label("Total"), totalRemittanceDisplay);
         setHBoxProperties(hBox);
         return new VBox(setLabel("Remittance"), remittanceTable, hBox);

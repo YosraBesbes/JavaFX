@@ -19,7 +19,6 @@ import ph.txtdis.service.QualityService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.PricingType;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 @Component
 public class BookingSetupImpl implements BookingSetup {
@@ -44,7 +43,6 @@ public class BookingSetupImpl implements BookingSetup {
 
     @Override
     public void start() {
-        Login.setUser(userService.get("SYSGEN"));
         LocalDate oldDate = LocalDate.parse("2014-08-31");
         LocalDate newDate = LocalDate.now();
         Quality good = qualityService.good();

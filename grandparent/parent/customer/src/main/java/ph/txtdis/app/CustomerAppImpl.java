@@ -30,6 +30,7 @@ import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.table.CustomerTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Customer;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.util.Login;
 import ph.txtdis.util.Util;
@@ -138,7 +139,7 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Disable,
 
     @Override
     public void saveAsExcel() {
-        TableView<Customer> customerTable = new CustomerTable(this).getTable();
+        TableView<CustomerRoute> customerTable = new CustomerTable(this).getTable();
         customerTable.setId(module + " List as of " + Util.formatDate(LocalDate.now()));
         customerTable.setItems(customer.list());
         new ExcelWriter(Arrays.asList(Arrays.asList(customerTable)), module, Util.dateToFileName(LocalDate.now()));
@@ -151,9 +152,9 @@ public class CustomerAppImpl extends AbstractIdApp<Customer> implements Disable,
     }
 
     private Node[] addDisablerNodes() {
-        Label disabledByLabel = new Label("Disabled By");
+        Label disabledByLabel = new Label("Disabled by");
         disabledByDisplay = new UserDisplay(customer.getDisabledBy());
-        Label disabledOnLabel = new Label("On");
+        Label disabledOnLabel = new Label("on");
         disabledOnDisplay = new TimestampDisplay(customer.getDisabledOn());
         return new Node[] { disabledByLabel, disabledByDisplay, disabledOnLabel, disabledOnDisplay };
     }

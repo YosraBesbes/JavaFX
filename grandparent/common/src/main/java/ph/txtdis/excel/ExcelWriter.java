@@ -149,9 +149,13 @@ public class ExcelWriter {
     private void setIntegerStyle() {
         integerStyle = workbook.createCellStyle();
         integerStyle.setFont(normalFont);
-        integerStyle.setDataFormat(format.getFormat("#,##0;[Red](#,##0)"));
+        integerStyle.setDataFormat(getIntegerFormat());
         integerStyle.setAlignment(CellStyle.ALIGN_RIGHT);
         integerStyle.setLocked(true);
+    }
+
+    private short getIntegerFormat() {
+        return format.getFormat("_(#,##0_);[Red]_((#,##0);_(\"-\"??_);_(@_)");
     }
 
     private void setIdStyle() {
@@ -165,7 +169,7 @@ public class ExcelWriter {
     private void setDecimalStyle() {
         decimalStyle = workbook.createCellStyle();
         decimalStyle.setFont(normalFont);
-        decimalStyle.setDataFormat(format.getFormat("#,##0.00;[Red](#,##0.00)"));
+        decimalStyle.setDataFormat(getDecimalFormat());
         decimalStyle.setAlignment(CellStyle.ALIGN_RIGHT);
         decimalStyle.setLocked(true);
     }
@@ -173,11 +177,15 @@ public class ExcelWriter {
     private void setDecimalSumStyle() {
         decimalSumStyle = workbook.createCellStyle();
         decimalSumStyle.setFont(normalFont);
-        decimalSumStyle.setDataFormat(format.getFormat("#,##0.00;[Red](#,##0.00)"));
+        decimalSumStyle.setDataFormat(getDecimalFormat());
         decimalSumStyle.setAlignment(CellStyle.ALIGN_RIGHT);
         decimalSumStyle.setBorderTop(CellStyle.BORDER_THIN);
         decimalSumStyle.setBorderBottom(CellStyle.BORDER_DOUBLE);
         decimalSumStyle.setLocked(true);
+    }
+
+    private short getDecimalFormat() {
+        return format.getFormat("_(#,##0.00_);[Red]_((#,##0.00);_(\"-\"??_);_(@_)");
     }
 
     private void setRedStyle() {
@@ -227,9 +235,7 @@ public class ExcelWriter {
     }
 
     private short getCurrencyFormat() {
-        CreationHelper ch = workbook.getCreationHelper();
-        DataFormat df = ch.createDataFormat();
-        return df.getFormat("_(₱* #,##0.00_);_(₱* (#,##0.00);_(₱* \"-\"??_);_(@_)");
+        return format.getFormat("_(₱* #,##0.00_);[Red]_(₱* (#,##0.00);_(₱* \"-\"??_);_(@_)");
     }
 
     private void setDateStyle() {

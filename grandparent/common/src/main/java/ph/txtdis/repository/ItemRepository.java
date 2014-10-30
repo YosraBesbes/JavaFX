@@ -7,9 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
-import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.type.UomType;
 
@@ -42,9 +42,14 @@ public interface ItemRepository extends CrudRepository<Item, Integer> {
     @Query("select q.uom from QtyPerUom q where q.item = ?1 and q.isReported = true")
     List<UomType> getReportingUoms(Item item);
 
+    @Query("select new ph.txtdis.model.ItemPrice(i.id, i.name, i.description, "
+            + "   (select distinct p.price from Pricing p where p.item = i and p.type = ph.txtdis.type.PricingType.LIST "
+            + "       and p.startDate = "
+            + "          (select max(p.startDate) from Pricing p where p.type = ph.txtdis.type.PricingType.LIST and "
+            + "                  p.item = i))) from Item i where i.disabledBy is null ")
+    List<ItemPrice> getItemsWithTheirLatestPrices();
+
     List<Item> findByDescriptionContaining(String description);
 
     List<Item> findByName(String name);
-
-    List<Item> findByDisabledByOrderByDescriptionAsc(SystemUser disabledBy);
 }

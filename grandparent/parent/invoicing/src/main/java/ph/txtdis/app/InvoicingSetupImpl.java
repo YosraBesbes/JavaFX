@@ -38,7 +38,7 @@ public class InvoicingSetupImpl implements InvoicingSetup {
     public void start() {
 
         SystemUser sysgen = userService.get("SYSGEN");
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.now().minusDays(1);
 
         Booking booking = bookingService.get(1);
         Truck truck = truckService.get(3);

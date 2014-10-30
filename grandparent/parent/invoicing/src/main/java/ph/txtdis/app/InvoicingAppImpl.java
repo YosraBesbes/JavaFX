@@ -1,6 +1,7 @@
 package ph.txtdis.app;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -239,12 +240,25 @@ public class InvoicingAppImpl extends AbstractOrderApp<Invoicing, InvoicingDetai
     private void handleSalesOrderHasBeenPickedCheck(LocalDate pickDate) throws InvalidException {
         if (pickDate == null)
             throw new InvalidException("S/O No. " + booking.getId() + "\nhas not been picked");
-        else if (pickDate.isBefore(LocalDate.now()))
-            throw new InvalidException("S/O No. " + booking.getId() + "\nis not part of the delivery today;\n "
-                    + "it was picked last " + Util.formatDate(pickDate));
+        else if (isPickedBeforeYesterday(pickDate))
+            throw new InvalidException("S/O No. " + booking.getId() + "is not part of the delivery\n"
+                    + "today nor the previous business day;\nit was picked last " + Util.formatDate(pickDate));
         else
             populateFields((OrderDTO) booking);
+    }
 
+    @Override
+    protected void populateFields(OrderDTO<Ordered<Priced>, Priced> dto) {
+        datePicker.setValue(getPickDate());
+        super.populateFields(dto);
+    }
+
+    private boolean isPickedBeforeYesterday(LocalDate pickDate) {
+        return pickDate.isBefore(LocalDate.now().minusDays(minus2DaysOnWeekends(pickDate)));
+    }
+
+    private int minus2DaysOnWeekends(LocalDate pickDate) {
+        return pickDate.getDayOfWeek() == DayOfWeek.MONDAY ? 2 : 1;
     }
 
     @Override

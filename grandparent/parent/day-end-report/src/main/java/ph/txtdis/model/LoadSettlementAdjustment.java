@@ -1,6 +1,5 @@
 package ph.txtdis.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -10,12 +9,10 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
-import ph.txtdis.util.DIS;
-
 @Entity
 public class LoadSettlementAdjustment extends AbstractAudited {
 
-    private static final long serialVersionUID = 6040269414390198739L;
+    private static final long serialVersionUID = 9083329396715031474L;
 
     @Column(nullable = false)
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
@@ -27,20 +24,16 @@ public class LoadSettlementAdjustment extends AbstractAudited {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Item item;
 
-    @Column(precision = 10, scale = 4)
-    private BigDecimal qty;
-
     @Column(nullable = false)
     private String actionTaken;
 
     protected LoadSettlementAdjustment() {
     }
 
-    public LoadSettlementAdjustment(LocalDate pickDate, Truck truck, Item item, BigDecimal qty, String actionTaken) {
+    public LoadSettlementAdjustment(LocalDate pickDate, Truck truck, Item item, String actionTaken) {
         this.pickDate = pickDate;
         this.truck = truck;
         this.item = item;
-        this.qty = qty;
         this.actionTaken = actionTaken;
     }
 
@@ -68,14 +61,6 @@ public class LoadSettlementAdjustment extends AbstractAudited {
         this.truck = truck;
     }
 
-    public BigDecimal getQty() {
-        return qty == null ? BigDecimal.ZERO : qty;
-    }
-
-    public void setQty(BigDecimal qty) {
-        this.qty = qty;
-    }
-
     public String getActionTaken() {
         return actionTaken;
     }
@@ -90,7 +75,6 @@ public class LoadSettlementAdjustment extends AbstractAudited {
         int result = super.hashCode();
         result = prime * result + ((item == null) ? 0 : item.hashCode());
         result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
-        result = prime * result + ((qty == null) ? 0 : qty.hashCode());
         result = prime * result + ((pickDate == null) ? 0 : pickDate.hashCode());
         result = prime * result + ((truck == null) ? 0 : truck.hashCode());
         return result;
@@ -115,11 +99,6 @@ public class LoadSettlementAdjustment extends AbstractAudited {
                 return false;
         } else if (!actionTaken.equals(other.actionTaken))
             return false;
-        if (qty == null) {
-            if (other.qty != null)
-                return false;
-        } else if (!qty.equals(other.qty))
-            return false;
         if (pickDate == null) {
             if (other.pickDate != null)
                 return false;
@@ -131,10 +110,5 @@ public class LoadSettlementAdjustment extends AbstractAudited {
         } else if (!truck.equals(other.truck))
             return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return DIS.formatQuantity(qty);
     }
 }

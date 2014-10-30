@@ -80,6 +80,10 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                     varietyDetails.add(detail);
                 });
         varietyInvoice.setDetails(varietyDetails);
+        varietyInvoice.setRoute(varietyBook.getRoute());
+        varietyInvoice.setTotalValue(varietyBook.getTotalValue());
+        varietyInvoice.setCredit(varietyBook.getCredit());
+        varietyInvoice.setDiscount(varietyBook.getDiscount());
         invoicingService.save(varietyInvoice);
 
         List<InvoicingDetail> wetMarketDetails = new ArrayList<>();
@@ -93,6 +97,10 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                     wetMarketDetails.add(detail);
                 });
         wetMarketInvoice.setDetails(wetMarketDetails);
+        wetMarketInvoice.setRoute(wetMarketBook.getRoute());
+        wetMarketInvoice.setTotalValue(wetMarketBook.getTotalValue());
+        wetMarketInvoice.setCredit(wetMarketBook.getCredit());
+        wetMarketInvoice.setDiscount(wetMarketBook.getDiscount());
         invoicingService.save(wetMarketInvoice);
 
         List<InvoicingDetail> dryMarketDetails = new ArrayList<>();
@@ -106,6 +114,10 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                     dryMarketDetails.add(detail);
                 });
         dryMarketInvoice.setDetails(dryMarketDetails);
+        dryMarketInvoice.setRoute(dryMarketBook.getRoute());
+        dryMarketInvoice.setTotalValue(dryMarketBook.getTotalValue());
+        dryMarketInvoice.setCredit(dryMarketBook.getCredit());
+        dryMarketInvoice.setDiscount(dryMarketBook.getDiscount());
         invoicingService.save(dryMarketInvoice);
     }
 }

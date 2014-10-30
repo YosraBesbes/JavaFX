@@ -8,22 +8,24 @@ public class LoadSettlementDetail {
 
     private Item item;
 
-    private BigDecimal pickedQty, soldQty, returnedQty, adjustmentQty;
+    private BigDecimal pickedQty, soldQty, returnedQty;
 
     private String actionTaken;
 
-    public LoadSettlementDetail(Item item, Double pickedQty, Double soldQty, Double returnedQty,
-            BigDecimal adjustmentQty, String actionTaken) {
+    public LoadSettlementDetail(Item item, Double pickedQty, Double soldQty, Double returnedQty, String actionTaken) {
         this.item = item;
         this.pickedQty = Util.toBigDecimal(pickedQty);
         this.soldQty = Util.toBigDecimal(soldQty);
         this.returnedQty = Util.toBigDecimal(returnedQty);
-        this.adjustmentQty = adjustmentQty;
         this.actionTaken = actionTaken;
     }
 
     public Item getItem() {
         return item;
+    }
+
+    public int getItemId() {
+        return item == null ? 0 : item.getId();
     }
 
     public BigDecimal getPickedQty() {
@@ -42,10 +44,6 @@ public class LoadSettlementDetail {
         return getSoldQty().add(getReturnedQty()).subtract(getPickedQty());
     }
 
-    public BigDecimal getAdjustmentQty() {
-        return adjustmentQty == null ? BigDecimal.ZERO : adjustmentQty;
-    }
-
     public String getActionTaken() {
         return actionTaken;
     }
@@ -58,7 +56,6 @@ public class LoadSettlementDetail {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((adjustmentQty == null) ? 0 : adjustmentQty.hashCode());
         result = prime * result + ((item == null) ? 0 : item.hashCode());
         result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
         result = prime * result + ((pickedQty == null) ? 0 : pickedQty.hashCode());
@@ -76,11 +73,6 @@ public class LoadSettlementDetail {
         if (getClass() != obj.getClass())
             return false;
         LoadSettlementDetail other = (LoadSettlementDetail) obj;
-        if (adjustmentQty == null) {
-            if (other.adjustmentQty != null)
-                return false;
-        } else if (!adjustmentQty.equals(other.adjustmentQty))
-            return false;
         if (item == null) {
             if (other.item != null)
                 return false;
@@ -112,7 +104,6 @@ public class LoadSettlementDetail {
     @Override
     public String toString() {
         return "LoadSettlementDetail [item=" + item + ", pickedQty=" + pickedQty + ", soldQty=" + soldQty
-                + ", returnedQty=" + returnedQty + ", adjustmentQty=" + adjustmentQty + ", justification="
-                + actionTaken + "]";
+                + ", returnedQty=" + returnedQty + ", justification=" + actionTaken + "]";
     }
 }

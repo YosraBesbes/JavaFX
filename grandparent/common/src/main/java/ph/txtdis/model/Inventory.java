@@ -60,12 +60,18 @@ public class Inventory {
         return getBeginQty().add(getInQty()).subtract(getOutQty());
     }
 
-    private BigDecimal getAvg4wkSoldQty() {
+    public BigDecimal get4WkSoldQty() {
         return avg4wkSoldQty == null ? new BigDecimal(0.0001) : avg4wkSoldQty;
     }
 
     public String getDaysLevel() {
-        int daysLevel = getEndQty().divide(getAvg4wkSoldQty(), 0, RoundingMode.HALF_EVEN).intValue();
+        int daysLevel = getEndQty().divide(get4WkSoldQty(), 0, RoundingMode.HALF_EVEN).intValue();
         return daysLevel > 365 ? ">365" : DIS.formatInt(daysLevel);
+    }
+
+    @Override
+    public String toString() {
+        return quality + " " + item + ": start=" + startQty + " + adjust=" + startAdjustQty + " + in=" + inQty
+                + " - out=" + outQty + " = daysLevel: " + getDaysLevel();
     }
 }

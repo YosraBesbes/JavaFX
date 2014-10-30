@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
 import ph.txtdis.repository.CreditDetailRepository;
@@ -102,7 +103,7 @@ public class CustomerServiceImpl extends AbstractService<Customer, Integer> impl
     }
 
     @Override
-    public List<Customer> list() {
-        return repository.findByDisabledByOrderByNameAsc(null);
+    public List<CustomerRoute> list() {
+        return repository.getExistingCustomersWithTheirLatestRoute();
     }
 }

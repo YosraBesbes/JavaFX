@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.RemittanceSettlement;
 import ph.txtdis.model.RemittanceSettlementDetail;
-import ph.txtdis.model.RemittanceSettlementFilteredDetail;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.RemittanceSettlementService;
@@ -74,15 +73,15 @@ public class RemittanceSettlementDTOImpl extends
     }
 
     @Override
-    public ObservableList<RemittanceSettlementFilteredDetail> getSettlementFilteredDetail(Truck truck, LocalDate date) {
-        List<RemittanceSettlementFilteredDetail> isfx = new ArrayList<>();
-        service.getDetail(truck, date).forEach(is -> selectInvoicesNotFullyPaid(isfx, is));
-        return FXCollections.observableArrayList(isfx);
+    public ObservableList<RemittanceSettlementDetail> getSettlementDetail(Truck truck, LocalDate date) {
+        return FXCollections.observableArrayList(removeFullyPaidInvoices(service.getDetail(truck, date)));
     }
 
-    private void selectInvoicesNotFullyPaid(List<RemittanceSettlementFilteredDetail> isfx, RemittanceSettlementDetail is) {
-        if (!DIS.isZero(is.getVariance()))
-            isfx.add(new RemittanceSettlementFilteredDetail(is.getInvoice(), is.getRemittedValue(), is
-                    .getAdjustmentValue(), is.getActionTaken()));
+    private List<RemittanceSettlementDetail> removeFullyPaidInvoices(List<RemittanceSettlementDetail> details) {
+        List<RemittanceSettlementDetail> list = new ArrayList<>();
+        for (RemittanceSettlementDetail detail : details)
+            if (!DIS.isZero(detail.getVarianceValue()))
+                list.add(detail);
+        return list;
     }
 }

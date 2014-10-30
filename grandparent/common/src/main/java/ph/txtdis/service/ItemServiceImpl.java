@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.Bom;
 import ph.txtdis.model.Item;
+import ph.txtdis.model.ItemPrice;
 import ph.txtdis.model.Pricing;
 import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.model.VolumeDiscount;
@@ -86,7 +87,7 @@ public class ItemServiceImpl extends AbstractService<Item, Integer> implements I
     public VolumeDiscount getLatestVolumeDiscount(Item item, LocalDate date) {
         List<VolumeDiscount> discounts = discountRepository.findByItemAndStartDateBeforeOrderByStartDateDesc(item,
                 date.plusDays(1L), new PageRequest(0, 1));
-        return discounts.get(0);
+        return discounts.isEmpty() ? null : discounts.get(0);
     }
 
     @Override
@@ -118,7 +119,7 @@ public class ItemServiceImpl extends AbstractService<Item, Integer> implements I
     }
 
     @Override
-    public List<Item> list() {
-        return repository.findByDisabledByOrderByDescriptionAsc(null);
+    public List<ItemPrice> list() {
+        return repository.getItemsWithTheirLatestPrices();
     }
 }

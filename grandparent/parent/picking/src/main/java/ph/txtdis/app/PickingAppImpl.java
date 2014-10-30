@@ -193,10 +193,14 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Excel, Pri
 
     @Override
     public void print() throws InvalidException {
-        for (PickingDetail detail : picking.getDetails()) {
-            booking.set(detail.getBooking());
+        for (PickingDetail detail : picking.getDetails())
+            printIfNot(detail);
+    }
+
+    private void printIfNot(PickingDetail detail) throws InvalidException {
+        booking.set(detail.getBooking());
+        if (booking.getPrintedBy() == null)
             new SalesOrderPrinter(booking);
-        }
     }
 
     @Override

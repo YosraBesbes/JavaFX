@@ -8,6 +8,7 @@ import ph.txtdis.model.Channel;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.CustomerDiscount;
+import ph.txtdis.model.CustomerRoute;
 import ph.txtdis.model.Disable;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.Route;
@@ -82,7 +83,7 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, Specif
 
     boolean acceptsRemittance();
 
-    ObservableList<Customer> list();
+    ObservableList<CustomerRoute> list();
 
     @Override
     SystemUser getDisabledBy();

@@ -61,14 +61,14 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     }
 
     private Node[] addEncoderNodes() {
-        Label encoderLabel = new Label("Created By");
+        Label encoderLabel = new Label("Created by");
         encoderDisplay = new UserDisplay(dto.getCreatedBy());
-        Label timestampLabel = new Label("On");
+        Label timestampLabel = new Label("on");
         timestampDisplay = new TimestampDisplay(dto.getTimeStamp());
         return new Node[] { encoderLabel, encoderDisplay, timestampLabel, timestampDisplay };
     }
 
-    private void setHBoxProperties(HBox hBox) {
+    protected void setHBoxProperties(HBox hBox) {
         hBox.setSpacing(10);
         hBox.setPadding(new Insets(0, 10, 10, 10));
         hBox.setAlignment(Pos.CENTER);
