@@ -5,12 +5,11 @@ import ph.txtdis.fx.util.FX;
 public class IdField extends IntegerField {
 
     public IdField() {
-        setMaxWidth(80);
+        super();
     }
 
     public IdField(int id) {
         super(id);
-        setIdNo(id);
     }
 
     @Override
@@ -19,10 +18,10 @@ public class IdField extends IntegerField {
     }
 
     public int getIdNo() {
-        return super.getInt();
+        return getInt();
     }
 
     public void setIdNo(int id) {
-        this.setInt(id);
+        setInt(id);
     }
 }

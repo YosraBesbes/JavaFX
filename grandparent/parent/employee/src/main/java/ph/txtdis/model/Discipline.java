@@ -93,7 +93,7 @@ public class Discipline extends AbstractAudited {
         return dayCount;
     }
 
-    public void setDayCount(int dayCount) {
+    public void setDayCount(Integer dayCount) {
         this.dayCount = dayCount;
     }
 

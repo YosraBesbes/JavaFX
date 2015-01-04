@@ -11,34 +11,48 @@ import ph.txtdis.util.DIS;
 
 public class IntegerField extends TextField implements TextStyled {
 
+    public IntegerField() {
+        this(8.1);
+    }
+
     public IntegerField(int integer) {
-        this();
-        setMaxWidth(80);
+        this(8.0);
         setInt(integer);
     }
 
     public IntegerField(long number) {
-        this();
-        setMaxWidth(110);
+        this(11.1);
         setLong(number);
     }
 
-    public IntegerField() {
+    public IntegerField(double length) {
         StringProperty restrict = new SimpleStringProperty("[0-9-]");
         textProperty().addListener(new ChangeListener<String>() {
             private boolean ignore;
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
                 if (ignore || newValue == null)
                     return;
-                if (!newValue.matches(restrict.get() + "*") || (newValue.length() > 1 && newValue.endsWith("-"))) {
+
+                if (!newValue.matches(restrict.get() + "*")
+                        || ((length != 8.0 || newValue.length() > 1) && newValue.endsWith("-"))) {
                     ignore = true;
                     setText(oldValue);
                     ignore = false;
+                } else if (newValue.length() > length) {
+                    ignore = true;
+                    setText(newValue.substring(0, (int) length));
+                    ignore = false;
+                } else {
+                    setText(newValue);
                 }
             }
         });
+
+        setMaxWidth(length * 12);
+        setPrefWidth(length * 12);
         setAlignment(Pos.TOP_RIGHT);
     }
 

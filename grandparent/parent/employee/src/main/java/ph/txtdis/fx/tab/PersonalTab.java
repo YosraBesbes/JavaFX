@@ -50,15 +50,15 @@ public class PersonalTab extends AbstractTab<EmployeeDTO> {
         idField.setEditable(false);
 
         Label surnameLabel = new Label("Surname");
-        surnameField = new StringField(dto.getSurname(), 12);
+        surnameField = new StringField(dto.getSurname());
         surnameField.setPromptText("LAST NAME");
 
         Label nameLabel = new Label("Name");
-        nameField = new StringField(dto.getName(), 18);
+        nameField = new StringField(dto.getName());
         nameField.setPromptText("GIVEN NAME/S");
 
         Label middleInitialLabel = new Label("M.I.");
-        middleInitialField = new StringField(dto.getMiddleInitial(), 1);
+        middleInitialField = new StringField(dto.getMiddleInitial(), 10);
 
         Label addressLabel = new Label("Address");
         addressTable = new AddressTable(stage, dto).getTable();

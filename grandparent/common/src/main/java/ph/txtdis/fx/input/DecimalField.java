@@ -25,7 +25,9 @@ public class DecimalField extends TextField implements TextStyled {
 
                 if (ignore || newValue == null)
                     return;
-                if (!newValue.matches(restrict.get() + "*")) {
+
+                if (!newValue.matches(restrict.get() + "*") || (oldValue.contains(".") && newValue.endsWith("."))
+                        || (newValue.length() > 1 && newValue.endsWith("-"))) {
                     ignore = true;
                     setText(oldValue);
                     ignore = false;

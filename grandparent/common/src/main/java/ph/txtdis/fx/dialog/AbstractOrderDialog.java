@@ -45,7 +45,7 @@ public abstract class AbstractOrderDialog<E extends Ordered<D>, D extends Priced
     @Override
     protected List<InputNode<?>> addNodes() {
         QualityRated quality = getQuality();
-        itemField = new LabeledIdNameField("Item No.", 180);
+        itemField = new LabeledIdNameField("Item No.", 18);
         uomCombo = new LabeledComboBox<>("UOM", UomType.values());
         qtyField = new LabeledDecimalField("Quantity");
         qualityCombo = new LabeledComboBox<Quality>("Quality", quality.list());
@@ -87,7 +87,7 @@ public abstract class AbstractOrderDialog<E extends Ordered<D>, D extends Priced
             throw new NotFoundException("Item No. " + id);
     }
 
-    private void handleFoundId(int id) {
+    protected void handleFoundId(int id) {
         itemDTO.setById(id);
         uomCombo.setItems(itemDTO.getSellingUoms());
         itemField.getNameField().setText(itemDTO.getName());

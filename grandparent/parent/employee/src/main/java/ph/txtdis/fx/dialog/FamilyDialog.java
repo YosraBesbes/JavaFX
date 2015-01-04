@@ -1,12 +1,11 @@
 package ph.txtdis.fx.dialog;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.Stage;
 import ph.txtdis.dto.EmployeeDTO;
-import ph.txtdis.fx.dialog.AbstractFieldDialog;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledDatePicker;
@@ -41,7 +40,7 @@ public class FamilyDialog extends AbstractFieldDialog<Family, EmployeeDTO> {
         String surname = getInputAtRow(1);
         String name = getInputAtRow(2);
         String middleInitial = getInputAtRow(3);
-        Date birthdate = getInputAtRow(4);
+        LocalDate birthdate = getInputAtRow(4);
         String instution = getInputAtRow(5);
         String designation = getInputAtRow(6);
         return new Family(employee, type, surname, name, middleInitial, birthdate, instution, designation);

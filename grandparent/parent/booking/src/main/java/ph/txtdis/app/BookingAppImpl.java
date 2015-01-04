@@ -1,6 +1,8 @@
 package ph.txtdis.app;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -16,6 +18,7 @@ import ph.txtdis.fx.table.BookingTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
+import ph.txtdis.model.BookingDiscount;
 import ph.txtdis.model.Priced;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Util;
@@ -79,6 +82,32 @@ public class BookingAppImpl extends AbstractOrderApp<Booking, BookingDetail, Boo
     @Override
     public void setDetail(Priced priced) {
         detailTableItem = (BookingDetail) priced;
+    }
+
+    @Override
+    protected void setValues(Priced priced) {
+        super.setValues(priced);
+        discountList.clear();
+        List<BookingDiscount> discounts = orderDTO.getDiscounts();
+        if (discounts != null && !discounts.isEmpty())
+            setDiscountList(discounts);
+    }
+
+    private void setDiscountList(List<BookingDiscount> discounts) {
+        if (discounts.size() == 1) {
+            BookingDiscount discount = discounts.get(0);
+            discountList.add("[" + discount.getPerCent() + "%]: " + DIS.formatCurrency(discount.getValue()));
+        } else {
+            discountList.add("[TOTAL]: ");
+            BigDecimal total = BigDecimal.ZERO;
+            for (BookingDiscount discount : discounts) {
+                BigDecimal value = discount.getValue();
+                discountList.add("[" + discount.getLevel() + "- " + discount.getPerCent() + "%]: "
+                        + DIS.formatCurrency(value));
+                total = total.add(value);
+            }
+            discountList.set(0, discountList.get(0) + DIS.formatCurrency(total));
+        }
     }
 
     @Override

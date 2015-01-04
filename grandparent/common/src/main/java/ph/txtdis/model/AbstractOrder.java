@@ -24,9 +24,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
     @ManyToOne(cascade = CascadeType.REFRESH)
     protected CreditDetail credit;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    protected CustomerDiscount discount;
-
     @Column(nullable = false)
     protected BigDecimal value;
 
@@ -65,14 +62,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         this.credit = credit;
     }
 
-    public CustomerDiscount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(CustomerDiscount discount) {
-        this.discount = discount;
-    }
-
     @Override
     public BigDecimal getTotalValue() {
         return value;
@@ -109,7 +98,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
         int result = super.hashCode();
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         result = prime * result + ((credit == null) ? 0 : credit.hashCode());
-        result = prime * result + ((discount == null) ? 0 : discount.hashCode());
         result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
         result = prime * result + ((partner == null) ? 0 : partner.hashCode());
         result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
@@ -135,11 +123,6 @@ public abstract class AbstractOrder<D extends ItemDetailed> extends AbstractAudi
             if (other.credit != null)
                 return false;
         } else if (!credit.equals(other.credit))
-            return false;
-        if (discount == null) {
-            if (other.discount != null)
-                return false;
-        } else if (!discount.equals(other.discount))
             return false;
         if (orderDate == null) {
             if (other.orderDate != null)

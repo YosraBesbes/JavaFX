@@ -9,6 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import ph.txtdis.app.Setup;
 import ph.txtdis.fx.dialog.ChangePasswordDialog;
 import ph.txtdis.fx.dialog.LoginDialog;
 import ph.txtdis.fx.dialog.MainDialog;
@@ -36,6 +37,8 @@ public class App extends Application {
 
             @Override
             protected void next() {
+                if (!userService.exists("JACKIE"))
+                    context.getBean(Setup.class).start();
                 LoginDialog loginDialog = new LoginDialog(userService);
                 loginDialog.showAndWait();
                 if (loginDialog.isValid())

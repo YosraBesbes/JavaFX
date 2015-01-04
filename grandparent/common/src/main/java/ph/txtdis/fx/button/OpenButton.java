@@ -16,7 +16,7 @@ public class OpenButton<E> extends FontButton<E> {
                 dto.setById(id);
                 app.refresh();
                 app.setFocus();
-            } else {
+            } else if (id != 0) {
                 new ErrorDialog((Stage) app, app.getModule() + " No. " + id + "\nwas not found.");
             }
         });

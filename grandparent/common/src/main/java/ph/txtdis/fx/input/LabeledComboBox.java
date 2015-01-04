@@ -21,6 +21,7 @@ public class LabeledComboBox<T> implements InputNode<T> {
 
     public LabeledComboBox(String name, ObservableList<T> items) {
         Label label = new Label(name);
+        label.setMinWidth(name.length() * 9);
         comboBox = FX.createComboBox(items, null);
         nodes = Arrays.asList(label, comboBox);
         selectItemIfOnlyOne();

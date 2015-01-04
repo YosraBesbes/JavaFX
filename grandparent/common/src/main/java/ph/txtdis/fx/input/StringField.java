@@ -28,13 +28,13 @@ public class StringField extends TextField {
 
     public StringField(int maxLength) {
         if (maxLength < 256) {
-            setMaxWidth(maxLength);
-            setPrefWidth(maxLength);
+            setMaxWidth(maxLength * 12);
+            setPrefWidth(maxLength * 12);
         }
 
         textProperty().addListener(new ChangeListener<String>() {
             private boolean ignore;
-            private IntegerProperty maximumLength = new SimpleIntegerProperty(maxLength / 10);
+            private IntegerProperty maximumLength = new SimpleIntegerProperty(maxLength);
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -45,8 +45,7 @@ public class StringField extends TextField {
                     setText(newValue.substring(0, maximumLength.get()));
                     ignore = false;
                 } else {
-                    oldValue = newValue;
-                    setText(StringUtils.upperCase(oldValue));
+                    setText(StringUtils.upperCase(newValue));
                 }
             }
         });

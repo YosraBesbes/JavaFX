@@ -55,7 +55,7 @@ public class ItemTab extends AbstractTab<ItemDTO> {
         idField.setEditable(false);
 
         Label nameLabel = new Label("Name");
-        nameField = new StringField(dto.getName(), 180);
+        nameField = new StringField(dto.getName(), 18);
 
         Label descriptionLabel = new Label("Description");
         descriptionField = new StringField(dto.getDescription());
@@ -101,7 +101,7 @@ public class ItemTab extends AbstractTab<ItemDTO> {
         gridPane.add(familyCombo, 3, 2);
         gridPane.add(vendorIdLabel, 0, 3);
         gridPane.add(vendorIdField, 1, 3);
-        gridPane.add(notDiscountedCheckbox, 2, 3, 2, 1);
+        gridPane.add(notDiscountedCheckbox, 2, 3, 3, 1);
 
         HBox gridBox = new HBox(gridPane);
         gridBox.setAlignment(Pos.TOP_CENTER);

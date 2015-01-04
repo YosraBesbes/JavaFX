@@ -11,6 +11,7 @@ import ph.txtdis.dto.QualityRated;
 import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
+import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Quality;
 import ph.txtdis.printer.SalesOrderPrinter;
@@ -42,5 +43,11 @@ public class BookingDialog extends AbstractOrderDialog<Booking, BookingDetail, B
         super.addItems(dto, inputNodes);
         if (++lineNo > SalesOrderPrinter.LINES_PER_PAGE)
             close();
+    }
+
+    @Override
+    protected void handleFoundId(int id) {
+        List<CustomerDiscount> discounts;
+        super.handleFoundId(id);
     }
 }

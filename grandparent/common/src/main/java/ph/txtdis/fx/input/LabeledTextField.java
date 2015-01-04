@@ -16,6 +16,7 @@ public abstract class LabeledTextField<T> implements InputNode<T> {
     public LabeledTextField(String name, TextField textField) {
         this.textField = textField;
         label = new Label(name);
+        label.setMinWidth(name.length() * 9);
         nodes = Arrays.asList(label, textField);
     }
 

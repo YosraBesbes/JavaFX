@@ -19,6 +19,9 @@ public class Booking extends AbstractOrder<BookingDetail> {
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetail> details;
 
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookingDiscount> discounts;
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     private SystemUser printedBy;
 
@@ -47,6 +50,15 @@ public class Booking extends AbstractOrder<BookingDetail> {
         this.details = details;
     }
 
+    public List<BookingDiscount> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(List<BookingDiscount> discounts) {
+        this.discounts = discounts;
+    }
+
+    @Override
     public void setCreatedBy(SystemUser createdBy) {
         this.createdBy = createdBy;
     }

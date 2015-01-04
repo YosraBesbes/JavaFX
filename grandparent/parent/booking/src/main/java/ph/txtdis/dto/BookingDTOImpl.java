@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
+import ph.txtdis.model.BookingDiscount;
 import ph.txtdis.model.SystemUser;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
@@ -76,5 +77,15 @@ public class BookingDTOImpl extends AbstractOrderDTO<Booking, BookingService, Bo
             newDetail.setPrice(oldDetail.getPrice());
             newDetails.add(newDetail);
         });
+    }
+
+    @Override
+    public List<BookingDiscount> getDiscounts() {
+        return service.getDiscounts(id);
+    }
+
+    @Override
+    public void setDiscounts(List<BookingDiscount> discounts) {
+        entity.setDiscounts(discounts);
     }
 }

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
-import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemDetailed;
 import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Route;
@@ -31,8 +30,6 @@ public interface OrderDTO<E extends Ordered<D>, D extends ItemDetailed> extends 
     void setRoute(Route route);
 
     void setCredit(CreditDetail credit);
-
-    void setDiscount(CustomerDiscount discount);
 
     BigDecimal getTotalValue();
 

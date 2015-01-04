@@ -29,6 +29,7 @@ public abstract class AbstractDialog<D> extends Stage {
         vbox.setStyle(" -fx-border-color: derive(-fx-base, -20%); -fx-border-radius: 0.5em;"
                 + " -fx-background-radius: 0.5em;");
         Scene dialogScene = new Scene(vbox);
+        dialogScene.getStylesheets().addAll("/css/base.css");
         dialogScene.setFill(Color.TRANSPARENT);
         setScene(dialogScene);
     }

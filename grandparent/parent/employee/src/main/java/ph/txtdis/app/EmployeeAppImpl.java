@@ -26,7 +26,7 @@ import ph.txtdis.fx.tab.Tabbed;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Employee;
 
-public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched {
+public class EmployeeAppImpl extends AbstractIdApp<Employee> implements EmployeeApp {
 
     private EmployeeDTO employee;
     private List<Tab> tabs = new ArrayList<>();
@@ -85,8 +85,14 @@ public class EmployeeAppImpl extends AbstractIdApp<Employee> implements Searched
     protected void setBindings() {
         for (Tab tab : tabs)
             tab.disableProperty().bind(isSurnameOrNameEmpty());
+        enablePersonalTab();
         buttons.get("cancel").disableProperty().bind(FX.isEmpty(personalTab.getIdField()));
         buttons.get("save").disableProperty().bind(isSurnameOrNameEmpty());
+    }
+
+    private void enablePersonalTab() {
+        personalTab.getTab().disableProperty().unbind();
+        personalTab.getTab().setDisable(false);
     }
 
     private void createTabledTabs() {

@@ -82,7 +82,7 @@ public class MainDialog extends Stage {
         Button styleButton = new StyleButton(this, styleSheet, styleService).getButton();
         Button treeButton = new ItemTreeButton(this).getButton();
         Button truckButton = new TruckButton(this).getButton();
-        Button userButton = new UserButton(this).getButton();
+        Button userButton = new UserButton(context).getButton();
         Button vatButton = new VatButton(this).getButton();
         Button warehouseButton = new WarehouseButton(this).getButton();
 

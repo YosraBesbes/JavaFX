@@ -5,10 +5,12 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -46,6 +48,9 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     protected O orderDTO;
     protected List<D> detailTableItems;
 
+    protected ObservableList<String> discountList;
+
+    protected ComboBox<String> discountCombo;
     protected DatePicker datePicker;
     protected CurrencyDisplay vatableField, vatField, totalField;
     protected HBox partnerBox;
@@ -153,8 +158,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     private void validateDate(LocalDate date) {
         if (date != null && idField.getText().isEmpty() && date.isBefore(LocalDate.now()))
             handleError(this, "Date cannot be in the past");
-        else
-            latestVolumeDiscount = item.getLatestVolumeDiscount(getPickerDate());
     }
 
     private void validatePartnerId(int id) {
@@ -181,7 +184,6 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         orderDTO.setPartner(customer.get(partnerIdField.getIdNo()));
         orderDTO.setRoute(customer.getLatestRoute(getPickerDate()));
         orderDTO.setCredit(customer.getLatestCreditDetail(getPickerDate()));
-        orderDTO.setDiscount(customer.getLatestCustomerDiscount(getPickerDate()));
         orderDTO.setTotalValue(totalField.getValue());
         orderDTO.setOrderDate(datePicker.getValue());
         orderDTO.setDetails(tableItems());
@@ -230,6 +232,7 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
     }
 
     private void zeroTotals() {
+        discountList = FXCollections.observableArrayList();
         vatable = BigDecimal.ZERO;
         vat = BigDecimal.ZERO;
         total = BigDecimal.ZERO;
@@ -244,11 +247,13 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
         total = total.add(subtotal);
         vatable = total.divide(new BigDecimal("1.12"), 2, RoundingMode.HALF_EVEN);
         vat = total.subtract(vatable);
-
         detailTableItem.setPrice(price);
     }
 
     private void updateTotals() {
+        discountCombo.setItems(discountList);
+        discountCombo.getSelectionModel().select(0);
+
         vatableField.setValue(vatable);
         vatField.setValue(vat);
         totalField.setValue(total);
@@ -303,12 +308,15 @@ public abstract class AbstractOrderApp<E extends Ordered<D>, D extends Priced, O
 
     @Override
     protected Node[] addSummaryNodes() {
+        Label discountLabel = new Label("Discount");
+        discountCombo = new ComboBox<>(discountList);
         Label vatableLabel = new Label("Vatable");
         vatableField = new CurrencyDisplay(vatable);
         Label vatLabel = new Label("VAT");
         vatField = new CurrencyDisplay(vat);
         Label totalLabel = new Label("Total");
         totalField = new CurrencyDisplay(total);
-        return new Node[] { vatableLabel, vatableField, vatLabel, vatField, totalLabel, totalField };
+        return new Node[] { discountLabel, discountCombo, vatableLabel, vatableField, vatLabel, vatField, totalLabel,
+                totalField };
     }
 }

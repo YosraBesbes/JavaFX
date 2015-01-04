@@ -164,8 +164,8 @@
 						</goals>
 						<configuration>
 							<headerType>gui</headerType>
-							<jar>${project.build.directory}/${artifactId}-${version}.jar</jar>
-							<outfile>${project.build.directory}/${artifactId}-${version}.exe</outfile>
+							<jar>${project.build.directory}/${project.artifactId}-${project.version}.jar</jar>
+							<outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
 							<icon>txtdis.ico</icon>
 							<jre>
@@ -173,12 +173,12 @@
 								<jdkPreference>preferJre</jdkPreference>
 							</jre>
 							<versionInfo>
-								<fileVersion>${version}</fileVersion>
+								<fileVersion>${project.version}</fileVersion>
 								<txtFileVersion>${project.version}</txtFileVersion>
 								<fileDescription>${project.name}</fileDescription>
 								<copyright>2014 txtDIS.ph</copyright>
-								<productVersion>${version}</productVersion>
-								<txtProductVersion>${version}</txtProductVersion>
+								<productVersion>${project.version}</productVersion>
+								<txtProductVersion>${project.version}</txtProductVersion>
 								<productName>${project.name}</productName>
 								<companyName>txtDIS.ph</companyName>
 								<internalName>txtDIS</internalName>

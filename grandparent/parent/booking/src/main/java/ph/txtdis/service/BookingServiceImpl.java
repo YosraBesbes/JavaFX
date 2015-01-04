@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
+import ph.txtdis.model.BookingDiscount;
 import ph.txtdis.model.Route;
 import ph.txtdis.repository.BookingRepository;
 
@@ -46,5 +47,10 @@ public class BookingServiceImpl extends AbstractService<Booking, Integer> implem
     @Override
     public List<Booking> getBookings(Route route, LocalDate date) {
         return repository.findByRouteAndOrderDate(route, date);
+    }
+
+    @Override
+    public List<BookingDiscount> getDiscounts(int id) {
+        return repository.getDiscounts(id);
     }
 }

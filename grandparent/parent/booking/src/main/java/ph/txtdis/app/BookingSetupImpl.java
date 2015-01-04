@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
+import ph.txtdis.model.BookingDiscount;
 import ph.txtdis.model.Customer;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Quality;
@@ -105,6 +106,8 @@ public class BookingSetupImpl implements BookingSetup {
         varietyBooking.setDetails(Arrays.asList(varietyDetail));
         varietyBooking.setRoute(customerService.getLatestRoute(variety, oldDate));
         varietyBooking.setTotalValue(varietyQty.multiply(pineSliceFlatpricePerPC));
+        varietyBooking.setDiscounts(Arrays.asList(new BookingDiscount(varietyBooking, 1, new BigDecimal("10.00"),
+                varietyBooking.getTotalValue().multiply(new BigDecimal("0.10")))));
         bookingService.save(varietyBooking);
 
         Customer wetMarket = customerService.get(7);
@@ -112,10 +115,15 @@ public class BookingSetupImpl implements BookingSetup {
         Booking wetMarketBooking = new Booking(wetMarket, oldDate);
         BookingDetail wetMarketDetail = new BookingDetail(wetMarketBooking, pineSliceFlat, UomType.PC, wetMarketQty,
                 good);
+        BookingDiscount wetBooking5Discount = new BookingDiscount(wetMarketBooking, 1, new BigDecimal("5.00"),
+                varietyBooking.getTotalValue().multiply(new BigDecimal("0.05")));
+        BookingDiscount wetBooking1Discount = new BookingDiscount(wetMarketBooking, 2, new BigDecimal("1.00"),
+                varietyBooking.getTotalValue().multiply(new BigDecimal("0.95")).multiply(new BigDecimal("0.10")));
         wetMarketDetail.setPrice(pineSliceFlatpricePerPC);
         wetMarketBooking.setDetails(Arrays.asList(wetMarketDetail));
         wetMarketBooking.setRoute(customerService.getLatestRoute(wetMarket, oldDate));
         wetMarketBooking.setTotalValue(wetMarketQty.multiply(pineSliceFlatpricePerPC));
+        wetMarketBooking.setDiscounts(Arrays.asList(wetBooking5Discount, wetBooking1Discount));
         bookingService.save(wetMarketBooking);
 
         Customer dryMarket = customerService.get(8);

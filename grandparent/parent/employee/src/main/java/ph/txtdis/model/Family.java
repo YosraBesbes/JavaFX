@@ -1,11 +1,13 @@
 package ph.txtdis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.FamilyType;
 
@@ -29,7 +31,8 @@ public class Family extends AbstractAudited {
     private String middleInitial;
 
     @Column(nullable = false)
-    private Date birthdate;
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentLocalDate")
+    private LocalDate birthdate;
 
     @Column(length = 16, nullable = false)
     private String institution;
@@ -41,7 +44,7 @@ public class Family extends AbstractAudited {
     }
 
     public Family(Employee employee, FamilyType type, String surname, String name, String middleInitial,
-            Date birthdate, String institution, String designation) {
+            LocalDate birthdate, String institution, String designation) {
         this.employee = employee;
         this.type = type;
         this.surname = surname;
@@ -92,11 +95,11 @@ public class Family extends AbstractAudited {
         this.middleInitial = middleInitial;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 

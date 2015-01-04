@@ -4,12 +4,12 @@ import ph.txtdis.util.DIS;
 
 public class LabeledIntegerField extends LabeledTextField<Integer> {
 
-	public LabeledIntegerField(String name) {
-		super(name, new IntegerField());
-	}
+    public LabeledIntegerField(String name) {
+        super(name, new IntegerField());
+    }
 
-	@Override
-	public Integer getValue() {
-		return DIS.parseInt(getText());
-	}
+    @Override
+    public Integer getValue() {
+        return DIS.parseInt(getText());
+    }
 }

@@ -3,7 +3,9 @@ package ph.txtdis.fx.dialog;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import ph.txtdis.App;
+
+import org.springframework.context.ConfigurableApplicationContext;
+
 import ph.txtdis.exception.DuplicateException;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.util.FX;
@@ -13,8 +15,8 @@ import ph.txtdis.service.UserService;
 public class AddUserDialog extends AbstractPasswordDialog {
     private StringField userField;
 
-    public AddUserDialog() {
-        super("Add New User", App.getContext().getBean(UserService.class));
+    public AddUserDialog(ConfigurableApplicationContext context) {
+        super("Add New User", context.getBean(UserService.class));
         closeButton.disableProperty().bind(FX.isEmpty(userField).or(FX.isEmpty(password1)).or(FX.isEmpty(password2)));
     }
 

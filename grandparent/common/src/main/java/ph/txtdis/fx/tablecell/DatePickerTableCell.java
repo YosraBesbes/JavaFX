@@ -56,15 +56,22 @@ public class DatePickerTableCell<T> extends TableCell<T, LocalDate> {
     @Override
     public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
-        setText(empty ? null : date.format(DateTimeFormatter.ofPattern("M/d/yy")));
-        setGraphic(empty ? null : datePicker);
+        if (date != null) {
+            setText(date.format(DateTimeFormatter.ofPattern("M/d/yy")));
+        }
+        setGraphic(datePicker);
         setStyle("-fx-alignment: top-center;");
     }
 
     @Override
     public void startEdit() {
         super.startEdit();
-        LocalDate date = LocalDate.parse(getText(), DateTimeFormatter.ofPattern("M/d/yy"));
-        datePicker.setValue(date == null ? LocalDate.now() : date);
+        datePicker.setValue(getDate());
+    }
+
+    private LocalDate getDate() {
+        if (getText() == null)
+            return LocalDate.now();
+        return LocalDate.parse(getText(), DateTimeFormatter.ofPattern("M/d/yy"));
     }
 }

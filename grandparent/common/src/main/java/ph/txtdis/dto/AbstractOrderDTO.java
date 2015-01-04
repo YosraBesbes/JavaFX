@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.AbstractOrder;
 import ph.txtdis.model.CreditDetail;
 import ph.txtdis.model.Customer;
-import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemDetailed;
 import ph.txtdis.model.Route;
 import ph.txtdis.service.OrderService;
@@ -69,11 +68,6 @@ public abstract class AbstractOrderDTO<E extends AbstractOrder<D>, S extends Ord
     @Override
     public void setCredit(CreditDetail credit) {
         entity.setCredit(credit);
-    }
-
-    @Override
-    public void setDiscount(CustomerDiscount discount) {
-        entity.setDiscount(discount);
     }
 
     @Override
