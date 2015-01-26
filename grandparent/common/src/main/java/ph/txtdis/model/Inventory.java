@@ -3,75 +3,51 @@ package ph.txtdis.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ph.txtdis.util.DIS;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Inventory {
 
     private Item item;
 
     private Quality quality;
 
-    private BigDecimal startQty, startAdjustQty, inQty, outQty, avg4wkSoldQty;
+    private BigDecimal startQty = BigDecimal.ZERO;
 
-    public Inventory(Item item, Quality quality, BigDecimal startQty, BigDecimal startAdjustQty, BigDecimal inQty,
-            BigDecimal outQty, BigDecimal avg4wkSoldQty) {
-        this.item = item;
-        this.quality = quality;
-        this.startQty = startQty;
-        this.startAdjustQty = startAdjustQty;
-        this.inQty = inQty;
-        this.outQty = outQty;
-        this.avg4wkSoldQty = avg4wkSoldQty;
-    }
+    private BigDecimal startAdjustQty = BigDecimal.ZERO;
 
-    public Item getItem() {
-        return item;
-    }
+    private BigDecimal inQty = BigDecimal.ZERO;
+
+    private BigDecimal outQty = BigDecimal.ZERO;
+
+    private BigDecimal avg4wkSoldQty = new BigDecimal("0.0001");
 
     public int getItemId() {
         return item == null ? 0 : item.getId();
-    }
-
-    public Quality getQualityType() {
-        return quality;
-    }
-
-    private BigDecimal getStartQty() {
-        return startQty == null ? BigDecimal.ZERO : startQty;
-    }
-
-    private BigDecimal getStartAdjustQty() {
-        return startAdjustQty == null ? BigDecimal.ZERO : startAdjustQty;
     }
 
     public BigDecimal getBeginQty() {
         return getStartQty().add(getStartAdjustQty());
     }
 
-    public BigDecimal getInQty() {
-        return inQty == null ? BigDecimal.ZERO : inQty;
-    }
-
-    public BigDecimal getOutQty() {
-        return outQty == null ? BigDecimal.ZERO : outQty;
-    }
-
     public BigDecimal getEndQty() {
         return getBeginQty().add(getInQty()).subtract(getOutQty());
     }
 
-    public BigDecimal get4WkSoldQty() {
-        return avg4wkSoldQty == null ? new BigDecimal(0.0001) : avg4wkSoldQty;
-    }
-
     public String getDaysLevel() {
-        int daysLevel = getEndQty().divide(get4WkSoldQty(), 0, RoundingMode.HALF_EVEN).intValue();
+        int daysLevel = getEndQty().divide(getAvg4wkSoldQty(), 0, RoundingMode.HALF_EVEN).intValue();
         return daysLevel > 365 ? ">365" : DIS.formatInt(daysLevel);
-    }
-
-    @Override
-    public String toString() {
-        return quality + " " + item + ": start=" + startQty + " + adjust=" + startAdjustQty + " + in=" + inQty
-                + " - out=" + outQty + " = daysLevel: " + getDaysLevel();
     }
 }

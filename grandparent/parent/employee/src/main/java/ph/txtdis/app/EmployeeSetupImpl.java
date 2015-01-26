@@ -3,7 +3,7 @@ package ph.txtdis.app;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.EmployeeService;
 import ph.txtdis.service.StyleService;
 import ph.txtdis.service.UserService;
@@ -27,7 +27,7 @@ public class EmployeeSetupImpl implements EmployeeSetup {
     public void start() {
 
         if (userService.get("JACKIE") == null)
-            userService.save(new SystemUser("JACKIE", "robbie", true));
+            userService.save(new Users("JACKIE", "robbie", true));
 
         /**
          * byte[] female = getImagebytes("female"); byte[] wolf =

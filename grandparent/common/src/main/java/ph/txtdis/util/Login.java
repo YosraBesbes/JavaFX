@@ -1,25 +1,30 @@
 package ph.txtdis.util;
 
-import ph.txtdis.model.SystemUser;
-import ph.txtdis.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import ph.txtdis.model.Users;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Login {
-    private static SystemUser user;
 
-    public static SystemUser validate(UserService service, String username, String password) {
-        user = service.get(username, password);
-        return user;
+    private ConfigurableApplicationContext context;
+
+    public void validate(String username, String password) {
+        AuthenticationManager authenticationManager = new JpaAuthenticationManager(context);
+        Authentication authToken = new UsernamePasswordAuthenticationToken(username, password);
+        authToken = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 
-    public static SystemUser user() {
-        return user;
-    }
-
-    public static void setUser(SystemUser user) {
-        Login.user = user;
-    }
-
-    public static String getVersion() {
-        return "txtDIS 0.9";
+    public static Users user() {
+        return (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

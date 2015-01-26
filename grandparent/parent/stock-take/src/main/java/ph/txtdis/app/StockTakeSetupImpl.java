@@ -12,7 +12,7 @@ import ph.txtdis.model.Quality;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
 import ph.txtdis.model.StockTakeReconciliation;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.ItemService;
 import ph.txtdis.service.QualityService;
@@ -49,7 +49,7 @@ public class StockTakeSetupImpl implements StockTakeSetup {
     @Override
     public void start() {
 
-        SystemUser sysgen = userService.get("SYSGEN");
+        Users sysgen = userService.get("SYSGEN");
         LocalDate date = LocalDate.parse("2014-09-01");
         Quality bad = qualityService.get(3);
         Item item1 = itemService.get(1);

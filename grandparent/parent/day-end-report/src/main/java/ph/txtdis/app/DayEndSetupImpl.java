@@ -17,7 +17,7 @@ import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Remittance;
 import ph.txtdis.model.RemittanceDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
@@ -58,7 +58,7 @@ public class DayEndSetupImpl implements DayEndSetup {
     @Override
     public void start() {
 
-        SystemUser sysgen = userService.get("SYSGEN");
+        Users sysgen = userService.get("SYSGEN");
         Customer edsa = customerService.get(2);
         LocalDate date = LocalDate.now();
 
@@ -81,7 +81,7 @@ public class DayEndSetupImpl implements DayEndSetup {
 
         List<InvoicingDetail> varietyDetails = new ArrayList<>();
         Invoicing varietyInvoice = new Invoicing(varietyBook.getPartner(), varietyBook, date);
-        varietyInvoice.setTotalValue(varietyBook.getTotalValue());
+        varietyInvoice.setValue(varietyBook.getValue());
         bookingService.getDetails(3).forEach(
                 variety -> {
                     InvoicingDetail detail = new InvoicingDetail(varietyInvoice, variety.getItem(), variety.getUom(),
@@ -94,7 +94,7 @@ public class DayEndSetupImpl implements DayEndSetup {
 
         List<InvoicingDetail> wetMarketDetails = new ArrayList<>();
         Invoicing wetMarketInvoice = new Invoicing(wetMarketBook.getPartner(), wetMarketBook, date);
-        wetMarketInvoice.setTotalValue(wetMarketBook.getTotalValue());
+        wetMarketInvoice.setValue(wetMarketBook.getValue());
         bookingService.getDetails(4).forEach(
                 wetMarket -> {
                     InvoicingDetail detail = new InvoicingDetail(wetMarketInvoice, wetMarket.getItem(), wetMarket

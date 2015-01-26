@@ -18,7 +18,7 @@ public class InvoicingDiscount extends AbstractAudited implements CustomerDiscou
     @Column(nullable = false)
     private int level;
 
-    @Column(nullable = false, precision = 7, scale = 4)
+    @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal perCent;
 
     @Column(nullable = false)

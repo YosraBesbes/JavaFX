@@ -30,7 +30,8 @@ public class RouteTable extends AbstractInputTable<Route, RouteDTO> {
         TableColumn<Route, String> nameCol = new TextDisplayColumn<>(stage, "Name", "name", 120, Pos.CENTER_LEFT);
         TableColumn<Route, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
-        TableColumn<Route, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on", "timeStamp");
+        TableColumn<Route, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
+                "createdDate");
         table.getColumns().addAll(idCol, nameCol, createdByCol, createdOnCol);
     }
 

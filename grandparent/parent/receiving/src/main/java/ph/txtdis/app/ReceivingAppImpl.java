@@ -28,7 +28,7 @@ import ph.txtdis.model.Ordered;
 import ph.txtdis.model.Priced;
 import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.ReceivingReferenceType;
 import ph.txtdis.util.Util;
@@ -40,7 +40,7 @@ public class ReceivingAppImpl extends AbstractOrderApp<Receiving, ReceivingDetai
     private UserDTO user;
 
     private ComboBox<ReceivingReferenceType> referenceCombo;
-    private ComboBox<SystemUser> checkerCombo;
+    private ComboBox<Users> checkerCombo;
     private HBox referenceBox;
     private IdField referenceIdField;
     private IntegerField partnerReferenceIdField;

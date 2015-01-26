@@ -7,10 +7,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.FamilyType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class Family extends AbstractAudited {
 
@@ -39,85 +51,6 @@ public class Family extends AbstractAudited {
 
     @Column(length = 24, nullable = false)
     private String designation;
-
-    protected Family() {
-    }
-
-    public Family(Employee employee, FamilyType type, String surname, String name, String middleInitial,
-            LocalDate birthdate, String institution, String designation) {
-        this.employee = employee;
-        this.type = type;
-        this.surname = surname;
-        this.name = name;
-        this.middleInitial = middleInitial;
-        this.birthdate = birthdate;
-        this.institution = institution;
-        this.designation = designation;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public FamilyType getType() {
-        return type;
-    }
-
-    public void setType(FamilyType type) {
-        this.type = type;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMiddleInitial() {
-        return middleInitial;
-    }
-
-    public void setMiddleInitial(String middleInitial) {
-        this.middleInitial = middleInitial;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(String institution) {
-        this.institution = institution;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
 
     @Override
     public String toString() {

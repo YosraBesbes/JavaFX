@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.repository.InvoiceBookletRepository;
 import ph.txtdis.repository.UserRepository;
 
@@ -29,7 +29,7 @@ public class InvoiceBookletServiceImpl extends AbstractService<InvoiceBooklet, I
     }
 
     @Override
-    public List<SystemUser> listUsers() {
+    public List<Users> listUsers() {
         return userRepository.list();
     }
 

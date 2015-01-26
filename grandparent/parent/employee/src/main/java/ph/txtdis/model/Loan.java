@@ -15,10 +15,20 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.LoanType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "startDate", "amount" }))
 public class Loan extends AbstractAudited {
@@ -35,10 +45,10 @@ public class Loan extends AbstractAudited {
     private LocalDate startDate;
 
     @Column(nullable = false)
-    private BigDecimal amount;
+    private BigDecimal amount = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Payment> payments;
+    private List<Payment> payments = new ArrayList<Payment>();
 
     @Transient
     private BigDecimal payment;
@@ -46,50 +56,11 @@ public class Loan extends AbstractAudited {
     @Transient
     private BigDecimal balance;
 
-    protected Loan() {
-    }
-
     public Loan(Employee employee, LoanType type, LocalDate startDate, BigDecimal amount) {
         this.employee = employee;
         this.type = type;
         this.startDate = startDate;
         this.amount = amount;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public LoanType getType() {
-        return type;
-    }
-
-    public void setType(LoanType type) {
-        this.type = type;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public BigDecimal getAmount() {
-        return amount == null ? BigDecimal.ZERO : amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public List<Payment> getPayments() {
-        return payments == null ? new ArrayList<>() : payments;
     }
 
     public void setPayments(List<Payment> payments) {
@@ -109,20 +80,11 @@ public class Loan extends AbstractAudited {
         return total;
     }
 
-    public void setPayment(BigDecimal payment) {
-        this.payment = payment;
-    }
-
     public BigDecimal getBalance() {
         return getAmount().subtract(getPayment());
     }
 
     public void setBalance() {
         this.balance = getBalance();
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + type + " - " + startDate + ": " + amount;
     }
 }

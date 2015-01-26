@@ -7,10 +7,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ph.txtdis.type.AddressType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "employee_id", "type", "location" }) }, name = "employee_address")
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "employee_id", "type", "location" }) })
 public class EmployeeAddress extends AbstractAudited {
 
     private static final long serialVersionUID = -305821699879355751L;
@@ -22,42 +33,4 @@ public class EmployeeAddress extends AbstractAudited {
 
     @Column(length = 64, nullable = false)
     private String location;
-
-    protected EmployeeAddress() {
-    }
-
-    public EmployeeAddress(Employee employee, AddressType type, String location) {
-        this.employee = employee;
-        this.type = type;
-        this.location = location;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public AddressType getType() {
-        return type;
-    }
-
-    public void setType(AddressType type) {
-        this.type = type;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + type + ": " + location;
-    }
 }

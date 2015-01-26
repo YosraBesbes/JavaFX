@@ -77,9 +77,8 @@ public class CustomerServiceImpl extends AbstractService<Customer, Integer> impl
 
     @Override
     public Route getLatestRoute(Customer customer, LocalDate date) {
-        List<Routing> routes = routingRepository.findByCustomerAndStartDateBeforeOrderByStartDateDesc(customer,
-                date.plusDays(1L), new PageRequest(0, 1));
-        return routes.isEmpty() ? null : routes.get(0).getRoute();
+        return routingRepository.findFirstByCustomerAndStartDateLessThanEqualOrderByStartDateDesc(customer, date)
+                .getRoute();
     }
 
     @Override

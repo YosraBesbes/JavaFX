@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ph.txtdis.dto.CustomerDTO;
-import ph.txtdis.fx.input.IntegerField;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.table.CreditTable;
 import ph.txtdis.fx.util.FX;
@@ -18,8 +17,7 @@ import ph.txtdis.model.CreditDetail;
 
 public class CreditTab extends AbstractTab<CustomerDTO> {
 
-    private IntegerField mobileField;
-    private StringField contactNameField, contactSurnameField, titleField;
+    private StringField contactNameField, contactSurnameField, titleField, mobileField;
     private TableView<CreditDetail> creditTable;
 
     public CreditTab(Stage stage, CustomerDTO dto) {
@@ -49,7 +47,7 @@ public class CreditTab extends AbstractTab<CustomerDTO> {
         titleField = new StringField(dto.getContactTitle());
 
         Label mobileLabel = new Label("Mobile No.");
-        mobileField = new IntegerField(dto.getMobile());
+        // mobileField = new StringField(dto.getMobile());
 
         Label creditLabel = FX.createBigLabel("Approved Credit History");
         creditTable = new CreditTable(stage, dto).getTable();
@@ -83,7 +81,7 @@ public class CreditTab extends AbstractTab<CustomerDTO> {
         dto.setCreditContactName(contactNameField.getText());
         dto.setCreditContactSurname(contactSurnameField.getText());
         dto.setContactTitle(titleField.getText());
-        dto.setMobile(mobileField.getInt());
+        // dto.setMobile(mobileField.getText());
         dto.setCreditDetails(creditTable.getItems());
     }
 
@@ -92,7 +90,7 @@ public class CreditTab extends AbstractTab<CustomerDTO> {
         contactNameField.setText(dto.getCreditContactName());
         contactSurnameField.setText(dto.getCreditContactSurname());
         titleField.setText(dto.getContactTitle());
-        mobileField.setLong(dto.getMobile());
+        // mobileField.setText(dto.getMobile());
         creditTable.getItems().clear();
         creditTable.getItems().addAll(dto.getCreditDetails());
     }

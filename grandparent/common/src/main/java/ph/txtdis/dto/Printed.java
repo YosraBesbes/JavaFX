@@ -2,13 +2,13 @@ package ph.txtdis.dto;
 
 import java.time.ZonedDateTime;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public interface Printed {
 
-    SystemUser getPrintedBy();
+    Users getPrintedBy();
 
-    void setPrintedBy(SystemUser printedBy);
+    void setPrintedBy(Users user);
 
     ZonedDateTime getPrintedOn();
 

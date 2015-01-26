@@ -9,7 +9,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.InvoiceBookletSetup;
 import ph.txtdis.app.InvoicingAppImpl;
 import ph.txtdis.app.InvoicingSetup;
@@ -28,7 +27,6 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         context = SpringApplication.run(App.class);
         context.getBean(Setup.class).start();
-        context.getBean(BookingSetup.class).start();
         context.getBean(InvoiceBookletSetup.class).start();
         context.getBean(PickingSetup.class).start();
         context.getBean(InvoicingSetup.class).start();

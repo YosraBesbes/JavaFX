@@ -17,7 +17,7 @@ import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CustomerDiscount;
 import ph.txtdis.model.ItemFamily;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class CustomerDiscountTab extends AbstractTab<CustomerDTO> {
     private TableView<CustomerDiscount> table;
@@ -42,9 +42,9 @@ public class CustomerDiscountTab extends AbstractTab<CustomerDTO> {
                 TableColumn<CustomerDiscount, LocalDate> startCol = FX.addDateColumn("Start", "startDate");
                 TableColumn<CustomerDiscount, ItemFamily> familyLimitCol = FX.addComboColumn("Limited To",
                         "familyLimit", family.list());
-                TableColumn<CustomerDiscount, SystemUser> givenByCol = FX.createColumn("Given By", "createdBy", 120);
+                TableColumn<CustomerDiscount, Users> givenByCol = FX.createColumn("Given By", "createdBy", 120);
                 TableColumn<CustomerDiscount, ZonedDateTime> givenDateCol = new TimestampDisplayColumn<>(stage,
-                        "Given On", "timeStamp");
+                        "Given On", "createdDate");
                 table.getColumns().addAll(typeCol, discountCol, startCol, familyLimitCol, givenByCol, givenDateCol);
             }
 

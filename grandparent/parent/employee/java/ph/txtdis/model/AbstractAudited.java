@@ -20,11 +20,6 @@ public abstract class AbstractAudited implements Serializable {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    private SystemUser createdBy;
-
-    @Column(columnDefinition = "timestamp DEFAULT current_timestamp", updatable = false, insertable = false)
-    private Timestamp createdDate;
-
     protected AbstractAudited() {
     }
 

@@ -5,16 +5,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.service.UserService;
 import ph.txtdis.util.Login;
 
 public abstract class AbstractPasswordDialog extends AbstractInputDialog<Object> {
+
     protected PasswordField password1, password2;
 
-    public AbstractPasswordDialog(String name, UserService service) {
-        super(name, null, service);
-        FX.putIconAndTitle(this);        
+    public AbstractPasswordDialog(String name, ConfigurableApplicationContext context) {
+        super(name, null, context.getBean(UserService.class));
+        FX.putIconAndTitle(this);
         initStyle(StageStyle.DECORATED);
     }
 
@@ -53,8 +58,16 @@ public abstract class AbstractPasswordDialog extends AbstractInputDialog<Object>
     }
 
     protected void saveUser() {
-        Login.user().setPassword(getPassword2());
+        Login.user().setPassword(getEncodedPassword());
         ((UserService) object).save(Login.user());
+    }
+
+    private String getEncodedPassword() {
+        return encode(getPassword2());
+    }
+
+    private String encode(String password) {
+        return new BCryptPasswordEncoder().encode(password);
     }
 
     protected String getPassword2() {

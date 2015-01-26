@@ -25,7 +25,7 @@ import ph.txtdis.fx.table.StockTakeDetailTable;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Warehouse;
 
 public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
@@ -35,7 +35,7 @@ public class StockTakeAppImpl extends AbstractIdApp<StockTake> {
     private WarehouseDTO warehouse;
 
     private IdField idField;
-    private ComboBox<SystemUser> takerCombo, checkerCombo;
+    private ComboBox<Users> takerCombo, checkerCombo;
     private ComboBox<Warehouse> warehouseCombo;
     private DatePicker datePicker;
     private TableView<StockTakeDetail> detailTable;

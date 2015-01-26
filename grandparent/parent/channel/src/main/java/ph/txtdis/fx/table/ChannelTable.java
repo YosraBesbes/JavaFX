@@ -31,7 +31,7 @@ public class ChannelTable extends AbstractInputTable<Channel, ChannelDTO> {
         TableColumn<Channel, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
         TableColumn<Channel, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(idCol, nameCol, createdByCol, createdOnCol);
     }
 

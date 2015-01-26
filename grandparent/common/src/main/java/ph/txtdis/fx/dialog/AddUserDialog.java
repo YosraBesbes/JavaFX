@@ -9,14 +9,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import ph.txtdis.exception.DuplicateException;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.util.FX;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.UserService;
 
 public class AddUserDialog extends AbstractPasswordDialog {
     private StringField userField;
 
     public AddUserDialog(ConfigurableApplicationContext context) {
-        super("Add New User", context.getBean(UserService.class));
+        super("Add New User", context);
         closeButton.disableProperty().bind(FX.isEmpty(userField).or(FX.isEmpty(password1)).or(FX.isEmpty(password2)));
     }
 
@@ -66,8 +66,8 @@ public class AddUserDialog extends AbstractPasswordDialog {
         ((UserService) object).save(createNewUser());
     }
 
-    private SystemUser createNewUser() {
-        return new SystemUser(getUserName(), getPassword2(), true);
+    private Users createNewUser() {
+        return new Users(getUserName(), getPassword2(), true);
     }
 
     private String getUserName() {

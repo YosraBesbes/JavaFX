@@ -12,7 +12,7 @@ import ph.txtdis.model.Item;
 import ph.txtdis.model.Quality;
 import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
 import ph.txtdis.service.ItemService;
@@ -23,7 +23,6 @@ import ph.txtdis.service.TruckService;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.ReceivingReferenceType;
 import ph.txtdis.type.UomType;
-import ph.txtdis.util.Login;
 
 @Component
 public class ReceivingSetupImpl implements ReceivingSetup {
@@ -57,8 +56,7 @@ public class ReceivingSetupImpl implements ReceivingSetup {
 
     @Override
     public void start() {
-        SystemUser sysgen = userService.get("SYSGEN");
-        Login.setUser(sysgen);
+        Users sysgen = userService.get("SYSGEN");
 
         LocalDate date = LocalDate.parse("2014-07-28");
         Quality good = qualityService.good();
@@ -90,7 +88,7 @@ public class ReceivingSetupImpl implements ReceivingSetup {
         BigDecimal marinaPineSlice15DetailAmount = marinaQty.multiply(pineSlice15PricePerCS);
 
         marinaReceiving.setDetails(Arrays.asList(marinaPineSliceFlatDetail, marinaPineSlice15Detail));
-        marinaReceiving.setTotalValue(marinaPineSliceFlatDetailAmount.add(marinaPineSlice15DetailAmount));
+        marinaReceiving.setValue(marinaPineSliceFlatDetailAmount.add(marinaPineSlice15DetailAmount));
         receivingService.save(marinaReceiving);
     }
 }

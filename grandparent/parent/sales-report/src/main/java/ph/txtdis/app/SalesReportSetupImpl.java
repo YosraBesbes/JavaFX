@@ -14,7 +14,7 @@ import ph.txtdis.model.InvoicingDetail;
 import ph.txtdis.model.InvoicingDiscount;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
@@ -54,7 +54,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
     @Override
     public void start() {
 
-        SystemUser sysgen = userService.get("SYSGEN");
+        Users sysgen = userService.get("SYSGEN");
         LocalDate date = LocalDate.now();
 
         Booking varietyBook = bookingService.get(VARIETY);
@@ -76,7 +76,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
 
         List<InvoicingDetail> varietyDetails = new ArrayList<>();
         Invoicing varietyInvoice = new Invoicing(varietyBook.getPartner(), varietyBook, date);
-        varietyInvoice.setTotalValue(varietyBook.getTotalValue());
+        varietyInvoice.setValue(varietyBook.getValue());
         bookingService.getDetails(VARIETY).forEach(
                 variety -> {
                     InvoicingDetail detail = new InvoicingDetail(varietyInvoice, variety.getItem(), variety.getUom(),
@@ -86,7 +86,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                 });
         varietyInvoice.setDetails(varietyDetails);
         varietyInvoice.setRoute(varietyBook.getRoute());
-        varietyInvoice.setTotalValue(varietyBook.getTotalValue());
+        varietyInvoice.setValue(varietyBook.getValue());
         varietyInvoice.setCredit(varietyBook.getCredit());
         List<InvoicingDiscount> varietyDiscounts = new ArrayList<>();
         bookingService.getDiscounts(VARIETY).forEach(
@@ -95,7 +95,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
         invoicingService.save(varietyInvoice);
 
         Invoicing wetMarketInvoice = new Invoicing(wetMarketBook.getPartner(), wetMarketBook, date);
-        wetMarketInvoice.setTotalValue(wetMarketBook.getTotalValue());
+        wetMarketInvoice.setValue(wetMarketBook.getValue());
         List<InvoicingDetail> wetMarketDetails = new ArrayList<>();
         bookingService.getDetails(WET_MARKET).forEach(
                 wetMarket -> {
@@ -106,7 +106,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                 });
         wetMarketInvoice.setDetails(wetMarketDetails);
         wetMarketInvoice.setRoute(wetMarketBook.getRoute());
-        wetMarketInvoice.setTotalValue(wetMarketBook.getTotalValue());
+        wetMarketInvoice.setValue(wetMarketBook.getValue());
         wetMarketInvoice.setCredit(wetMarketBook.getCredit());
         List<InvoicingDiscount> wetMarketDiscounts = new ArrayList<>();
         bookingService.getDiscounts(WET_MARKET).forEach(
@@ -116,7 +116,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
 
         List<InvoicingDetail> dryMarketDetails = new ArrayList<>();
         Invoicing dryMarketInvoice = new Invoicing(dryMarketBook.getPartner(), dryMarketBook, date);
-        dryMarketInvoice.setTotalValue(dryMarketBook.getTotalValue());
+        dryMarketInvoice.setValue(dryMarketBook.getValue());
         bookingService.getDetails(DRY_MARKET).forEach(
                 dryMarket -> {
                     InvoicingDetail detail = new InvoicingDetail(dryMarketInvoice, dryMarket.getItem(), dryMarket
@@ -126,7 +126,7 @@ public class SalesReportSetupImpl implements SalesReportSetup {
                 });
         dryMarketInvoice.setDetails(dryMarketDetails);
         dryMarketInvoice.setRoute(dryMarketBook.getRoute());
-        dryMarketInvoice.setTotalValue(dryMarketBook.getTotalValue());
+        dryMarketInvoice.setValue(dryMarketBook.getValue());
         dryMarketInvoice.setCredit(dryMarketBook.getCredit());
         List<InvoicingDiscount> dryMarketDiscounts = new ArrayList<>();
         bookingService.getDiscounts(DRY_MARKET).forEach(

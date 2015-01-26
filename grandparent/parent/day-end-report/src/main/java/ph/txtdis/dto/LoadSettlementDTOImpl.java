@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.LoadSettlement;
 import ph.txtdis.model.LoadSettlementDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.LoadSettlementService;
 import ph.txtdis.util.DIS;
@@ -43,7 +43,7 @@ public class LoadSettlementDTOImpl extends AbstractDTO<LoadSettlement, LoadSettl
     }
 
     @Override
-    public SystemUser getClosedBy() {
+    public Users getClosedBy() {
         return entity.getClosedBy();
     }
 
@@ -53,12 +53,12 @@ public class LoadSettlementDTOImpl extends AbstractDTO<LoadSettlement, LoadSettl
     }
 
     @Override
-    public SystemUser getReconciledBy() {
+    public Users getReconciledBy() {
         return entity.getReconciledBy();
     }
 
     @Override
-    public void setReconciledBy(SystemUser reconciledBy) {
+    public void setReconciledBy(Users reconciledBy) {
         entity.setReconciledBy(reconciledBy);
     }
 

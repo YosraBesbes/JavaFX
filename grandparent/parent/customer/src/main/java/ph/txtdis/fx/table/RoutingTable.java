@@ -13,7 +13,7 @@ import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class RoutingTable extends AbstractInputTable<Routing, CustomerDTO> {
 
@@ -29,9 +29,9 @@ public class RoutingTable extends AbstractInputTable<Routing, CustomerDTO> {
 
         TableColumn<Routing, Route> routeCol = FX.addComboColumn("Route", "route", route.list());
         TableColumn<Routing, LocalDate> startCol = FX.addDateColumn("Start", "startDate");
-        TableColumn<Routing, SystemUser> assignedByCol = FX.createColumn("Assigned By", "createdBy", 120);
+        TableColumn<Routing, Users> assignedByCol = FX.createColumn("Assigned By", "createdBy", 120);
         TableColumn<Routing, ZonedDateTime> assignedDateCol = new TimestampDisplayColumn<>(stage, "Assigned On",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(routeCol, startCol, assignedByCol, assignedDateCol);
         table.setMinHeight(65);
     }

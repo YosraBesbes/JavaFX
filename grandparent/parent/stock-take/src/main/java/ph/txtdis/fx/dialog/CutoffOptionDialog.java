@@ -9,6 +9,7 @@ import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.util.Login;
 
 public class CutoffOptionDialog extends OptionDialog {
+
     private LocalDate date;
 
     public CutoffOptionDialog(Stage stage, LocalDate date) {

@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Mail {
 
-    SystemUser getMailedBy();
+    Users getMailedBy();
 
-    void setMailedBy(SystemUser mailedBy);
+    void setMailedBy(Users mailedBy);
 
     ZonedDateTime getMailedOn();
 

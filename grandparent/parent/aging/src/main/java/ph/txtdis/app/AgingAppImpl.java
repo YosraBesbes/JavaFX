@@ -34,7 +34,7 @@ public class AgingAppImpl extends AbstractApp<Vat, Integer> implements Excel {
 
     @Override
     protected void setDTO() {
-        dto = App.getContext().getBean(AgingDTO.class);
+        dto = App.context().getBean(AgingDTO.class);
     }
 
     @Override

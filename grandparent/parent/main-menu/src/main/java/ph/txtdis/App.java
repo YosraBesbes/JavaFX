@@ -8,22 +8,24 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import ph.txtdis.app.Setup;
 import ph.txtdis.fx.dialog.ChangePasswordDialog;
 import ph.txtdis.fx.dialog.LoginDialog;
 import ph.txtdis.fx.dialog.MainDialog;
 import ph.txtdis.fx.dialog.StartUpDialog;
-import ph.txtdis.service.UserService;
 
 @Configuration
+@EnableJpaRepositories
+@EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableAutoConfiguration
 @ComponentScan
+@Import({ DataSourceConfiguration.class })
 public class App extends Application {
 
     private static ConfigurableApplicationContext context;
-
-    private UserService userService;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -32,15 +34,11 @@ public class App extends Application {
             @Override
             protected void begin() {
                 context = SpringApplication.run(App.class);
-                userService = context.getBean(UserService.class);
             }
 
             @Override
             protected void next() {
-                if (!userService.exists("JACKIE"))
-                    context.getBean(Setup.class).start();
-                LoginDialog loginDialog = new LoginDialog(userService);
-                loginDialog.showAndWait();
+                LoginDialog loginDialog = new LoginDialog(context);
                 if (loginDialog.isValid())
                     switch (loginDialog.getType()) {
                         case LOGIN:
@@ -50,7 +48,7 @@ public class App extends Application {
                             next();
                             break;
                         case CHANGE:
-                            ChangePasswordDialog pd = new ChangePasswordDialog(userService);
+                            ChangePasswordDialog pd = new ChangePasswordDialog(context);
                             pd.showAndWait();
                             next();
                             break;
@@ -65,7 +63,7 @@ public class App extends Application {
         launch();
     }
 
-    public static ConfigurableApplicationContext getContext() {
+    public static ConfigurableApplicationContext context() {
         return context;
     }
 }

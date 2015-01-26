@@ -4,12 +4,19 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 
 import javafx.scene.image.Image;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import ph.txtdis.dto.DTO;
 import ph.txtdis.dto.Printed;
 import ph.txtdis.exception.InvalidException;
-import ph.txtdis.util.Login;
+import ph.txtdis.util.SpringSecurityAuditorAware;
 
 public abstract class Printer<D> extends CDRKingPrinter {
+
+    @Autowired
+    SpringSecurityAuditorAware auditor;
+
     protected D dto;
 
     public Printer(D dto) throws InvalidException {
@@ -70,7 +77,7 @@ public abstract class Printer<D> extends CDRKingPrinter {
 
     private void saveStamps() throws IOException, InterruptedException {
         waitForPrintingToEnd();
-        ((Printed) dto).setPrintedBy(Login.user());
+        ((Printed) dto).setPrintedBy(auditor.getCurrentAuditor());
         ((Printed) dto).setPrintedOn(ZonedDateTime.now());
         ((DTO<?, ?>) dto).save();
     }

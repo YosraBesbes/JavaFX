@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Cancel {
 
-    SystemUser getCancelledBy();
+    Users getCancelledBy();
 
-    void setCancelledBy(SystemUser cancelledBy);
+    void setCancelledBy(Users cancelledBy);
 
     ZonedDateTime getCancelledOn();
 

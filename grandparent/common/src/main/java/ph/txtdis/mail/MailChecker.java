@@ -12,14 +12,14 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class MailChecker {
     private Boolean isApproved;
     private String approverAddress;
     private ZonedDateTime approvalTimestamp;
 
-    public MailChecker(SystemUser mailOwner, String module, String primaryKey, LocalDate sentDate, String... approvers)
+    public MailChecker(Users mailOwner, String module, String primaryKey, LocalDate sentDate, String... approvers)
             throws MessagingException {
 
         Properties props = new Properties();
@@ -71,7 +71,7 @@ public class MailChecker {
 
     public static void main(String[] args) {
         try {
-            SystemUser user = new SystemUser("TXTDIS", "txtDIS@1", true);
+            Users user = new Users("TXTDIS", "txtDIS@1", true);
             user.setEmail("txtdis.mgdc.edsa.dmpi@gmail.com");
             Mail mail = new MailChecker(user, "Stock Take Reconciliation", "9/1/2014", LocalDate.of(2013, 9, 1),
                     "butchlim888@yahoo.com").getMail();

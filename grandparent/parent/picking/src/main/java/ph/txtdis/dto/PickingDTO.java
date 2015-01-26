@@ -10,7 +10,7 @@ import ph.txtdis.model.PickList;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 
 public interface PickingDTO extends Spun, Audited<Picking> {
@@ -19,17 +19,17 @@ public interface PickingDTO extends Spun, Audited<Picking> {
 
     void setTruck(Truck truck);
 
-    SystemUser getDriver();
+    Users getDriver();
 
-    void setDriver(SystemUser driver);
+    void setDriver(Users driver);
 
-    SystemUser getHelper1();
+    Users getHelper1();
 
-    void setHelper1(SystemUser helper1);
+    void setHelper1(Users helper1);
 
-    SystemUser getHelper2();
+    Users getHelper2();
 
-    void setHelper2(SystemUser helper2);
+    void setHelper2(Users helper2);
 
     LocalDate getPickDate();
 
@@ -43,9 +43,9 @@ public interface PickingDTO extends Spun, Audited<Picking> {
 
     void setDetails(List<PickingDetail> details);
 
-    SystemUser getPrintedBy();
+    Users getPrintedBy();
 
-    void setPrintedBy(SystemUser printedBy);
+    void setPrintedBy(Users printedBy);
 
     ZonedDateTime getPrintedOn();
 

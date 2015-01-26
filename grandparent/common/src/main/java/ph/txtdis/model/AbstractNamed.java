@@ -3,6 +3,16 @@ package ph.txtdis.model;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
 public class AbstractNamed extends AbstractAudited implements Named {
 
@@ -11,46 +21,8 @@ public class AbstractNamed extends AbstractAudited implements Named {
     @Column(nullable = false, unique = true)
     protected String name;
 
-    protected AbstractNamed() {
-    }
-
     protected AbstractNamed(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AbstractNamed other = (AbstractNamed) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
     }
 
     @Override

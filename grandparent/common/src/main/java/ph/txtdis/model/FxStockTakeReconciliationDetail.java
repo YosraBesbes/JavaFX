@@ -7,7 +7,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class StockTakeReconciliationFilteredDetail {
+public class FxStockTakeReconciliationDetail {
 
     private ReadOnlyObjectWrapper<Item> item;
 
@@ -21,7 +21,7 @@ public class StockTakeReconciliationFilteredDetail {
 
     private SimpleStringProperty justification;
 
-    public StockTakeReconciliationFilteredDetail(Item item, Quality quality, BigDecimal system,
+    public FxStockTakeReconciliationDetail(Item item, Quality quality, BigDecimal system,
             BigDecimal stockTakeQty, BigDecimal countAdjustQty, String justification) {
         this.item = new ReadOnlyObjectWrapper<>(item);
         this.quality = new ReadOnlyObjectWrapper<>(quality);

@@ -11,7 +11,7 @@ import ph.txtdis.fx.dialog.CreditDialog;
 import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.CreditDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class CreditTable extends AbstractInputTable<CreditDetail, CustomerDTO> {
 
@@ -27,9 +27,9 @@ public class CreditTable extends AbstractInputTable<CreditDetail, CustomerDTO> {
         TableColumn<CreditDetail, Integer> gracePeriodCol = FX.addIntegerColumn("Grace Period", "gracePeriod");
         TableColumn<CreditDetail, BigDecimal> limitCol = FX.addPriceColumn("Limit", "limit");
         TableColumn<CreditDetail, LocalDate> startCol = FX.addDateColumn("Start", "startDate");
-        TableColumn<CreditDetail, SystemUser> approvedByCol = FX.createColumn("Approved By", "createdBy", 120);
+        TableColumn<CreditDetail, Users> approvedByCol = FX.createColumn("Approved By", "createdBy", 120);
         TableColumn<CreditDetail, ZonedDateTime> approvedDateCol = new TimestampDisplayColumn<>(stage, "Approved On",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(termCol, gracePeriodCol, limitCol, startCol, approvedByCol, approvedDateCol);
     }
 

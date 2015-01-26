@@ -57,8 +57,8 @@ public class RemittanceAppImpl extends AbstractIdApp<Remittance> {
 
     @Override
     protected void setDTO() {
-        dto = remittance = App.getContext().getBean(RemittanceDTO.class);
-        customer = App.getContext().getBean(CustomerDTO.class);
+        dto = remittance = App.context().getBean(RemittanceDTO.class);
+        customer = App.context().getBean(CustomerDTO.class);
     }
 
     @Override

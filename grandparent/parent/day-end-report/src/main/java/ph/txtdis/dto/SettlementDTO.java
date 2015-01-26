@@ -3,7 +3,7 @@ package ph.txtdis.dto;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 
 public interface SettlementDTO<E> extends DTO<E, Integer> {
@@ -14,13 +14,13 @@ public interface SettlementDTO<E> extends DTO<E, Integer> {
 
     LocalDate getDate();
 
-    SystemUser getClosedBy();
+    Users getClosedBy();
 
     ZonedDateTime getClosedOn();
 
-    SystemUser getReconciledBy();
+    Users getReconciledBy();
 
-    void setReconciledBy(SystemUser reconciledBy);
+    void setReconciledBy(Users reconciledBy);
 
     ZonedDateTime getReconciledOn();
 

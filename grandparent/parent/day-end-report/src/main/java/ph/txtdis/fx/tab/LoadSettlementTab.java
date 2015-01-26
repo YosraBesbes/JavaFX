@@ -18,6 +18,6 @@ public class LoadSettlementTab extends AbstractSettlementTab<LoadSettlementDTO> 
 
     @Override
     protected void setSettlementDTO() {
-        settlement = App.getContext().getBean(LoadSettlementDTO.class);
+        settlement = App.context().getBean(LoadSettlementDTO.class);
     }
 }

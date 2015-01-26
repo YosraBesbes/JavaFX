@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.repository.UserRepository;
 import ph.txtdis.type.UserType;
 
@@ -27,37 +27,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SystemUser get(String username) {
+    public Users get(String username) {
         return repository.findOne(username);
     }
 
     @Override
-    public SystemUser get(String username, String password) {
+    public Users get(String username, String password) {
         return repository.findByUsernameAndPassword(username, password);
     }
 
     @Override
-    public SystemUser getByEmail(String email) {
+    public Users getByEmail(String email) {
         return repository.findByEmail(email);
     }
 
     @Override
-    public SystemUser save(SystemUser user) {
+    public Users save(Users user) {
         return repository.save(user);
     }
 
     @Override
-    public void delete(SystemUser user) {
+    public void delete(Users user) {
         repository.delete(user);
     }
 
     @Override
-    public List<SystemUser> listAll() {
+    public List<Users> listAll() {
         return repository.list();
     }
 
     @Override
-    public List<SystemUser> list(UserType type) {
+    public List<Users> list(UserType type) {
         return repository.findByType(type);
     }
 }

@@ -22,7 +22,7 @@ public interface Ordered<D extends ItemDetailed> {
 
     void setDetails(List<D> details);
 
-    BigDecimal getTotalValue();
+    BigDecimal getValue();
 
-    void setTotalValue(BigDecimal value);
+    void setValue(BigDecimal value);
 }

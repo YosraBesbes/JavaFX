@@ -19,14 +19,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class MailSender {
 
     private String fromEmail;
     private MimeMessage message;
 
-    public MailSender(SystemUser mailOwner, String subjectPrefix, String module, String primaryKey, String[] toEmails)
+    public MailSender(Users mailOwner, String subjectPrefix, String module, String primaryKey, String[] toEmails)
             throws Exception {
 
         fromEmail = mailOwner.getEmail();
@@ -108,7 +108,7 @@ public class MailSender {
 
     public static void main(String args[]) {
         try {
-            SystemUser user = new SystemUser("TXTDIS", "txtDIS@1", true);
+            Users user = new Users("TXTDIS", "txtDIS@1", true);
             user.setEmail("txtdis.mgdc.edsa.dmpi@gmail.com");
             new MailSender(user, "For approval: ", "Stock Take Reconciliation", "9/1/2014",
                     new String[] { "txtdis.erp@gmail.com" });

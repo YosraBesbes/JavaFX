@@ -7,8 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ph.txtdis.type.UomType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class PurchasingDetail extends AbstractPricedDetail {
 
@@ -22,9 +31,6 @@ public class PurchasingDetail extends AbstractPricedDetail {
     @Transient
     private String daysLevel;
 
-    protected PurchasingDetail() {
-    }
-
     public PurchasingDetail(Purchasing purchasing, Item item, UomType uom, BigDecimal qty, BigDecimal price,
             Quality quality, String daysLevel, String justification) {
         this.purchasing = purchasing;
@@ -35,59 +41,6 @@ public class PurchasingDetail extends AbstractPricedDetail {
         this.quality = quality;
         this.daysLevel = daysLevel;
         this.justification = justification;
-    }
-
-    public String getJustification() {
-        return justification;
-    }
-
-    public void setJustification(String justification) {
-        this.justification = justification;
-    }
-
-    public String getDaysLevel() {
-        return daysLevel;
-    }
-
-    public void setDaysLevel(String daysLevel) {
-        this.daysLevel = daysLevel;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((daysLevel == null) ? 0 : daysLevel.hashCode());
-        result = prime * result + ((justification == null) ? 0 : justification.hashCode());
-        result = prime * result + ((purchasing == null) ? 0 : purchasing.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PurchasingDetail other = (PurchasingDetail) obj;
-        if (daysLevel == null) {
-            if (other.daysLevel != null)
-                return false;
-        } else if (!daysLevel.equals(other.daysLevel))
-            return false;
-        if (justification == null) {
-            if (other.justification != null)
-                return false;
-        } else if (!justification.equals(other.justification))
-            return false;
-        if (purchasing == null) {
-            if (other.purchasing != null)
-                return false;
-        } else if (!purchasing.equals(other.purchasing))
-            return false;
-        return true;
     }
 
     @Override

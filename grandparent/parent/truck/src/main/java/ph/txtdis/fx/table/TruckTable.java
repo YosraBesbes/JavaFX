@@ -30,7 +30,8 @@ public class TruckTable extends AbstractInputTable<Truck, TruckDTO> {
         TableColumn<Truck, String> nameCol = new TextDisplayColumn<>(stage, "Name", "name", 120, Pos.CENTER_LEFT);
         TableColumn<Truck, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
-        TableColumn<Truck, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on", "timeStamp");
+        TableColumn<Truck, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
+                "createdDate");
         TableColumn<Truck, String> disabledByCol = new TextDisplayColumn<>(stage, "Disabled by", "disabledBy", 120,
                 Pos.CENTER_LEFT);
         TableColumn<Truck, ZonedDateTime> disabledOnCol = new TimestampDisplayColumn<>(stage, "Disabled on",

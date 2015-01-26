@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Disable {
 
-    SystemUser getDisabledBy();
+    Users getDisabledBy();
 
-    void setDisabledBy(SystemUser disabledBy);
+    void setDisabledBy(Users disabledBy);
 
     ZonedDateTime getDisabledOn();
 

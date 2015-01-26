@@ -17,7 +17,7 @@ import ph.txtdis.fx.tablecolumn.TimestampDisplayColumn;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.Channel;
 import ph.txtdis.model.Pricing;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.PricingType;
 
 public class PricingTab extends AbstractTab<ItemDTO> {
@@ -43,9 +43,9 @@ public class PricingTab extends AbstractTab<ItemDTO> {
                 TableColumn<Pricing, LocalDate> startCol = FX.addDateColumn("Start", "startDate");
                 TableColumn<Pricing, Channel> channelLimitCol = FX.addComboColumn("Limited To", "channelLimit",
                         channel.list());
-                TableColumn<Pricing, SystemUser> pricedByCol = FX.createColumn("Priced By", "createdBy", 120);
+                TableColumn<Pricing, Users> pricedByCol = FX.createColumn("Priced By", "createdBy", 120);
                 TableColumn<Pricing, ZonedDateTime> pricedOnCol = new TimestampDisplayColumn<>(stage, "Priced On",
-                        "timeStamp");
+                        "createdDate");
                 table.getColumns().addAll(typeCol, priceCol, startCol, channelLimitCol, pricedByCol, pricedOnCol);
             }
 

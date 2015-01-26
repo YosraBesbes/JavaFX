@@ -1,5 +1,17 @@
 package ph.txtdis.model;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomerRoute {
 
     private int id;
@@ -15,43 +27,4 @@ public class CustomerRoute {
     private Location province;
 
     private Route route;
-
-    public CustomerRoute(int id, String name, String street, Location barangay, Location city, Location province,
-            Route route) {
-        this.id = id;
-        this.name = name;
-        this.street = street;
-        this.barangay = barangay;
-        this.city = city;
-        this.province = province;
-        this.route = route;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public Location getBarangay() {
-        return barangay;
-    }
-
-    public Location getCity() {
-        return city;
-    }
-
-    public Location getProvince() {
-        return province;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
 }

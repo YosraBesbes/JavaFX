@@ -9,11 +9,11 @@ import ph.txtdis.fx.input.InputNode;
 import ph.txtdis.fx.input.LabeledComboBox;
 import ph.txtdis.fx.input.LabeledIdField;
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class InvoiceBookletDialog extends AbstractFieldDialog<InvoiceBooklet, InvoiceBookletDTO> {
 
-    private LabeledComboBox<SystemUser> userCombo;
+    private LabeledComboBox<Users> userCombo;
     private LabeledIdField startIdField, endIdField;
     private InvoiceBookletDTO dto;
     private int startId, endId;
@@ -96,7 +96,7 @@ public class InvoiceBookletDialog extends AbstractFieldDialog<InvoiceBooklet, In
     private void throwInvalidBookletNoException(InvoiceBooklet booklet, int id) {
         try {
             throw new Exception("S/I No. " + id + " is part of Booklet Nos. " + booklet.getStartId() + "-"
-                    + booklet.getEndId() + "\nissued to " + booklet.getIssuedTo() + " on " + booklet.getTimeStamp());
+                    + booklet.getEndId() + "\nissued to " + booklet.getIssuedTo() + " on " + booklet.getCreatedDate());
         } catch (Exception e) {
             handleError(e);
         }

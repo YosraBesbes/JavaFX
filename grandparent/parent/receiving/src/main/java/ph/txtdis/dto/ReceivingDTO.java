@@ -5,14 +5,14 @@ import java.time.LocalDate;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.ReceivingReferenceType;
 
 public interface ReceivingDTO extends OrderDTO<Receiving, ReceivingDetail> {
 
-    SystemUser getChecker();
+    Users getChecker();
 
-    void setChecker(SystemUser checker);
+    void setChecker(Users checker);
 
     long getPartnerReferenceId();
 

@@ -9,7 +9,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.InventoryAppImpl;
 import ph.txtdis.app.PickingSetup;
 import ph.txtdis.app.ReceivingSetup;
@@ -29,7 +28,6 @@ public class App extends Application {
         context = SpringApplication.run(App.class);
         context.getBean(Setup.class).start();
         context.getBean(ReceivingSetup.class).start();
-        context.getBean(BookingSetup.class).start();
         context.getBean(PickingSetup.class).start();
         context.getBean(StockTakeSetup.class).start();
         FX.loadTxtdisIcons();

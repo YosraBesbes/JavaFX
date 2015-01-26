@@ -56,7 +56,7 @@ public class InvoiceBookletAppImpl extends AbstractApp<InvoiceBooklet, Integer> 
                 TableColumn<InvoiceBooklet, String> issuedByCol = new TextDisplayColumn<>(stage, "Issued By",
                         "createdBy", 120, Pos.CENTER_LEFT);
                 TableColumn<InvoiceBooklet, ZonedDateTime> issuedOnCol = new TimestampDisplayColumn<>(stage,
-                        "Issued On", "timeStamp");
+                        "Issued On", "createdDate");
                 table.getColumns().addAll(idStartCol, idEndCol, issuedToCol, issuedByCol, issuedOnCol);
             }
 

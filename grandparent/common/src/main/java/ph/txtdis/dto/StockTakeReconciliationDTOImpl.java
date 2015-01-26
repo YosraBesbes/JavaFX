@@ -11,10 +11,10 @@ import javafx.collections.ObservableList;
 
 import org.springframework.stereotype.Component;
 
+import ph.txtdis.model.FxStockTakeReconciliationDetail;
 import ph.txtdis.model.StockTakeReconciliation;
 import ph.txtdis.model.StockTakeReconciliationDetail;
-import ph.txtdis.model.StockTakeReconciliationFilteredDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.StockTakeReconciliationService;
 import ph.txtdis.util.DIS;
 
@@ -30,12 +30,12 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public SystemUser getCutoffBy() {
+    public Users getCutoffBy() {
         return entity.getCutoffBy();
     }
 
     @Override
-    public void setCutoffBy(SystemUser cutoffBy) {
+    public void setCutoffBy(Users cutoffBy) {
         entity.setCutoffBy(cutoffBy);
     }
 
@@ -45,12 +45,12 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public SystemUser getClosedBy() {
+    public Users getClosedBy() {
         return entity.getClosedBy();
     }
 
     @Override
-    public void setClosedBy(SystemUser closedBy) {
+    public void setClosedBy(Users closedBy) {
         entity.setClosedBy(closedBy);
     }
 
@@ -65,12 +65,12 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public SystemUser getReconciledBy() {
+    public Users getReconciledBy() {
         return entity.getReconciledBy();
     }
 
     @Override
-    public void setReconciledBy(SystemUser reconciledBy) {
+    public void setReconciledBy(Users reconciledBy) {
         entity.setReconciledBy(reconciledBy);
     }
 
@@ -85,12 +85,12 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public SystemUser getMailedBy() {
+    public Users getMailedBy() {
         return entity.getMailedBy();
     }
 
     @Override
-    public void setMailedBy(SystemUser mailedBy) {
+    public void setMailedBy(Users mailedBy) {
         entity.setMailedBy(mailedBy);
     }
 
@@ -105,12 +105,12 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public SystemUser getApprovedBy() {
+    public Users getApprovedBy() {
         return entity.getApprovedBy();
     }
 
     @Override
-    public void setApprovedBy(SystemUser approvedBy) {
+    public void setApprovedBy(Users approvedBy) {
         entity.setApprovedBy(approvedBy);
     }
 
@@ -126,21 +126,21 @@ public class StockTakeReconciliationDTOImpl extends
 
     @Override
     public Boolean isApproved() {
-        return entity.isApproved();
+        return entity.getIsApproved();
     }
 
     @Override
     public void setApproved(Boolean isApproved) {
-        entity.setApproved(isApproved);
+        entity.setIsApproved(isApproved);
     }
 
     @Override
-    public SystemUser getCompletedBy() {
+    public Users getCompletedBy() {
         return entity.getCompletedBy();
     }
 
     @Override
-    public void setCompletedBy(SystemUser completedBy) {
+    public void setCompletedBy(Users completedBy) {
         entity.setCompletedBy(completedBy);
         ;
     }
@@ -156,17 +156,16 @@ public class StockTakeReconciliationDTOImpl extends
     }
 
     @Override
-    public ObservableList<StockTakeReconciliationFilteredDetail> getStockTakeReconciliationFilteredDetail() {
+    public ObservableList<FxStockTakeReconciliationDetail> getStockTakeReconciliationFilteredDetail() {
         LocalDate endDate = getMaxId();
-        List<StockTakeReconciliationFilteredDetail> isfx = new ArrayList<>();
+        List<FxStockTakeReconciliationDetail> isfx = new ArrayList<>();
         service.getDetail(getStartDate(endDate), endDate).forEach(is -> selectItemsWithVariance(isfx, is));
         return FXCollections.observableArrayList(isfx);
     }
 
-    private void selectItemsWithVariance(List<StockTakeReconciliationFilteredDetail> isfx,
-            StockTakeReconciliationDetail is) {
+    private void selectItemsWithVariance(List<FxStockTakeReconciliationDetail> isfx, StockTakeReconciliationDetail is) {
         if (!DIS.isZero(getVariance(is)))
-            isfx.add(new StockTakeReconciliationFilteredDetail(is.getItem(), is.getQuality(), is.getSystemQty(), is
+            isfx.add(new FxStockTakeReconciliationDetail(is.getItem(), is.getQuality(), is.getSystemQty(), is
                     .getCountQty(), is.getAdjustmentQty(), is.getJustification()));
     }
 

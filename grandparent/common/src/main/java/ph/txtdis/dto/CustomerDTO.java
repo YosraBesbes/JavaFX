@@ -13,9 +13,11 @@ import ph.txtdis.model.Disable;
 import ph.txtdis.model.Location;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
+
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, SpecificName<Customer>, UniqueName, Disable {
 
@@ -63,9 +65,9 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, Specif
 
     void setContactTitle(String contactTitle);
 
-    long getMobile();
+    PhoneNumber getMobile();
 
-    void setMobile(long mobile);
+    void setMobile(PhoneNumber mobile);
 
     ObservableList<CreditDetail> getCreditDetails();
 
@@ -86,5 +88,5 @@ public interface CustomerDTO extends SearchedDTO<Customer, String>, Spun, Specif
     ObservableList<CustomerRoute> list();
 
     @Override
-    SystemUser getDisabledBy();
+    Users getDisabledBy();
 }

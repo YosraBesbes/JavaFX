@@ -44,7 +44,7 @@ import ph.txtdis.mail.MailNotSentException;
 import ph.txtdis.mail.MailSender;
 import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.Remittance;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.VolumeSummary;
 import ph.txtdis.type.UserType;
 import ph.txtdis.util.Login;
@@ -58,7 +58,7 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
     private CurrencyDisplay totalRevenueDisplay, totalRemittanceDisplay;
     private String[] addresses;
     private SimpleObjectProperty<UserType> userType;
-    private SystemUser txtDIS;
+    private Users txtDIS;
     private TableView<Invoicing> revenueTable;
     private TableView<Remittance> remittanceTable;
     private TableView<VolumeSummary> volumeTable;
@@ -86,7 +86,7 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
         Label dateLabel = new Label("Date");
         dateDisplay = new DateDisplay(dto.getId());
 
-        user = App.getContext().getBean(UserDTO.class);
+        user = App.context().getBean(UserDTO.class);
         userType = new SimpleObjectProperty<>(Login.user().getType());
         approvalCheckBox = new CheckBox("Report received");
         approvalCheckBox.setStyle("-fx-opacity: 1");
@@ -215,7 +215,7 @@ public class ConsolidationTab extends AbstractTab<SummaryDTO> implements Approve
         dto.save();
     }
 
-    private void updateApprovalStamps(Boolean isApproved, SystemUser user, ZonedDateTime timestamp) {
+    private void updateApprovalStamps(Boolean isApproved, Users user, ZonedDateTime timestamp) {
         dto.setApproved(isApproved);
         dto.setApprovedBy(user);
         dto.setApprovedOn(timestamp);

@@ -12,12 +12,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import ph.txtdis.fx.button.ServerButton;
+
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.security.core.AuthenticationException;
+
 import ph.txtdis.fx.button.LoginButton;
-import ph.txtdis.fx.button.PasswordButton;
+import ph.txtdis.fx.button.ServerButton;
 import ph.txtdis.fx.input.StringField;
 import ph.txtdis.fx.util.FX;
-import ph.txtdis.service.UserService;
 import ph.txtdis.type.LoginType;
 import ph.txtdis.util.Login;
 
@@ -26,12 +28,13 @@ public class LoginDialog extends Stage {
     private boolean isValid;
     private final PasswordField passwordField;
     private final StringField userField;
-    private final UserService service;
     private static int tries;
     private LoginType type;
+    private ConfigurableApplicationContext context;
 
-    public LoginDialog(UserService service) {
-        this.service = service;
+    public LoginDialog(ConfigurableApplicationContext context) {
+
+        this.context = context;
 
         Label userLabel = new Label("Username");
         userField = new StringField();
@@ -80,11 +83,12 @@ public class LoginDialog extends Stage {
         getScene().getStylesheets().addAll("/css/base.css");
         setTitle("Welcome to txtDIS!");
         userField.requestFocus();
+        showAndWait();
     }
 
     public void validate(LoginType type) {
         this.type = type;
-        if (isUsernameAndPasswordIncorrect())
+        if (isUsernameOrPasswordIncorrect())
             retryThrice();
         else
             setAsValid();
@@ -102,8 +106,13 @@ public class LoginDialog extends Stage {
             close();
     }
 
-    private boolean isUsernameAndPasswordIncorrect() {
-        return null == Login.validate(service, userField.getText(), passwordField.getText());
+    private boolean isUsernameOrPasswordIncorrect() {
+        try {
+            new Login(context).validate(userField.getText(), passwordField.getText());
+            return false;
+        } catch (AuthenticationException e) {
+            return true;
+        }
     }
 
     private void clearFields() {

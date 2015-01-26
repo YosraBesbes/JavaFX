@@ -16,7 +16,7 @@ import ph.txtdis.model.PickList;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
 import ph.txtdis.model.Route;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.PickingService;
@@ -44,32 +44,32 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     }
 
     @Override
-    public SystemUser getDriver() {
+    public Users getDriver() {
         return entity.getDriver();
     }
 
     @Override
-    public void setDriver(SystemUser driver) {
+    public void setDriver(Users driver) {
         entity.setDriver(driver);
     }
 
     @Override
-    public SystemUser getHelper1() {
+    public Users getHelper1() {
         return entity.getHelper1();
     }
 
     @Override
-    public void setHelper1(SystemUser helper1) {
+    public void setHelper1(Users helper1) {
         entity.setHelper1(helper1);
     }
 
     @Override
-    public SystemUser getHelper2() {
+    public Users getHelper2() {
         return entity.getHelper2();
     }
 
     @Override
-    public void setHelper2(SystemUser helper2) {
+    public void setHelper2(Users helper2) {
         entity.setHelper2(helper2);
     }
 
@@ -135,12 +135,12 @@ public class PickingDTOImpl extends AbstractSpunById<Picking, PickingService> im
     }
 
     @Override
-    public SystemUser getPrintedBy() {
+    public Users getPrintedBy() {
         return entity.getPrintedBy();
     }
 
     @Override
-    public void setPrintedBy(SystemUser printedBy) {
+    public void setPrintedBy(Users printedBy) {
         entity.setPrintedBy(printedBy);
     }
 

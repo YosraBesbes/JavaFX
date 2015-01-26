@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.AbstractAudited;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.Serviced;
 
 @Component
@@ -27,12 +27,12 @@ public abstract class AbstractAuditedDTO<E extends AbstractAudited, S extends Se
     }
 
     @Override
-    public SystemUser getCreatedBy() {
+    public Users getCreatedBy() {
         return entity.getCreatedBy();
     }
 
     @Override
-    public ZonedDateTime getTimeStamp() {
-        return entity.getTimeStamp();
+    public ZonedDateTime getIssuedDate() {
+        return entity.getCreatedDate();
     }
 }

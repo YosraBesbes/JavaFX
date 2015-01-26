@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.InvoiceBookletService;
 import ph.txtdis.service.UserService;
-import ph.txtdis.util.Login;
 
 @Component
 public class InvoiceBookletSetupImpl implements InvoiceBookletSetup {
@@ -23,9 +22,8 @@ public class InvoiceBookletSetupImpl implements InvoiceBookletSetup {
 
     @Override
     public void start() {
-        Login.setUser(userService.get("MICHELLE"));
-        SystemUser dsp1 = userService.get("MICHAEL");
-        SystemUser dsp2 = userService.get("PHILLIP");
+        Users dsp1 = userService.get("MICHAEL");
+        Users dsp2 = userService.get("PHILLIP");
 
         bookletService.save(new InvoiceBooklet(1, 50, dsp1));
 

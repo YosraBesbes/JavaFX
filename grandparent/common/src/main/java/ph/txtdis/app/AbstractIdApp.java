@@ -35,7 +35,7 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
     protected void updateCreationStamps() {
         if (encoderDisplay != null) {
             encoderDisplay.setUser(dto.getCreatedBy());
-            timestampDisplay.setTimestamp(dto.getTimeStamp());
+            timestampDisplay.setTimestamp(dto.getIssuedDate());
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class AbstractIdApp<E> extends AbstractApp<E, Integer> {
         Label encoderLabel = new Label("Created by");
         encoderDisplay = new UserDisplay(dto.getCreatedBy());
         Label timestampLabel = new Label("on");
-        timestampDisplay = new TimestampDisplay(dto.getTimeStamp());
+        timestampDisplay = new TimestampDisplay(dto.getIssuedDate());
         return new Node[] { encoderLabel, encoderDisplay, timestampLabel, timestampDisplay };
     }
 

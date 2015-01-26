@@ -5,17 +5,17 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
+import lombok.NoArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
+@NoArgsConstructor
 @Component
 public class Vat {
 
     private Invoicing invoice;
 
     private LocalDate date;
-
-    public Vat() {
-    }
 
     public Vat(Invoicing invoice) {
         this.invoice = invoice;
@@ -38,7 +38,7 @@ public class Vat {
     }
 
     public BigDecimal getTotalValue() {
-        return invoice == null ? BigDecimal.ZERO : invoice.getTotalValue();
+        return invoice == null ? BigDecimal.ZERO : invoice.getValue();
     }
 
     public BigDecimal getVatValue() {

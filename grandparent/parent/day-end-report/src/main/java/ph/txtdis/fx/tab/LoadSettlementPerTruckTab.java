@@ -44,8 +44,8 @@ public class LoadSettlementPerTruckTab extends AbstractTab<LoadSettlementDTO> im
     @Override
     protected void setDTO(LoadSettlementDTO dto) {
         super.setDTO(dto);
-        truckDTO = App.getContext().getBean(TruckDTO.class);
-        adjustment = App.getContext().getBean(LoadSettlementAdjustmentDTO.class);
+        truckDTO = App.context().getBean(TruckDTO.class);
+        adjustment = App.context().getBean(LoadSettlementAdjustmentDTO.class);
     }
 
     @Override

@@ -10,8 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "startDate" }))
 public class Compensation extends AbstractAudited {
@@ -27,42 +39,4 @@ public class Compensation extends AbstractAudited {
 
     @Column(nullable = false)
     private BigDecimal dailyRate;
-
-    protected Compensation() {
-    }
-
-    public Compensation(Employee employee, LocalDate startDate, BigDecimal dailyRate) {
-        this.employee = employee;
-        this.startDate = startDate;
-        this.dailyRate = dailyRate;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public BigDecimal getDailyRate() {
-        return dailyRate;
-    }
-
-    public void setDailyRate(BigDecimal dailyRate) {
-        this.dailyRate = dailyRate;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + startDate + ": " + dailyRate;
-    }
 }

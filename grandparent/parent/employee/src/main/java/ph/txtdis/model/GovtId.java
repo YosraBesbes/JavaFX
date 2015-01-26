@@ -12,12 +12,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.GovtIdType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
-@Table(name = "govt_id", uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "type", "issuance" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "type", "issuance" }))
 public class GovtId extends AbstractAudited {
 
     private static final long serialVersionUID = -5750732249679224119L;
@@ -41,69 +53,4 @@ public class GovtId extends AbstractAudited {
 
     @Column(nullable = false)
     private String detail;
-
-    protected GovtId() {
-    }
-
-    public GovtId(Employee employee, Byte[] image, GovtIdType type, LocalDate issuance, LocalDate expiry, String detail) {
-        this.employee = employee;
-        this.image = image;
-        this.type = type;
-        this.issuance = issuance;
-        this.expiry = expiry;
-        this.detail = detail;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(Byte[] image) {
-        this.image = image;
-    }
-
-    public GovtIdType getType() {
-        return type;
-    }
-
-    public void setType(GovtIdType type) {
-        this.type = type;
-    }
-
-    public LocalDate getIssuance() {
-        return issuance;
-    }
-
-    public void setIssuance(LocalDate issuance) {
-        this.issuance = issuance;
-    }
-
-    public LocalDate getExpiry() {
-        return expiry;
-    }
-
-    public void setExpiry(LocalDate expiry) {
-        this.expiry = expiry;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + type + ": " + detail;
-    }
 }

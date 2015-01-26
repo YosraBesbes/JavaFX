@@ -52,7 +52,6 @@ import ph.txtdis.fx.tablecell.ImageViewTableCell;
 import ph.txtdis.fx.tablecell.IntegerFieldTableCell;
 import ph.txtdis.fx.tablecell.MonetaryFieldTableCell;
 import ph.txtdis.util.DIS;
-import ph.txtdis.util.Login;
 
 public class FX {
     private static String style = " -fx-alignment: center-right; -fx-text-fill: ";
@@ -323,7 +322,6 @@ public class FX {
     public static void putIconAndTitle(Stage stage) {
         Image icon = new FontToImage("icomoon", "\ue601", Color.NAVY).getImage();
         stage.getIcons().add(icon);
-        stage.setTitle(Login.getVersion());
     }
 
     public static void setMinWidth(Control control, int letterCount) {

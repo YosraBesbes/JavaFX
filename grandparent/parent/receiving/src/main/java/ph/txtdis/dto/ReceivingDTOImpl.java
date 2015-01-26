@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.Receiving;
 import ph.txtdis.model.ReceivingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.PickingService;
 import ph.txtdis.service.ReceivingService;
 import ph.txtdis.type.ReceivingReferenceType;
@@ -30,12 +30,12 @@ public class ReceivingDTOImpl extends AbstractOrderDTO<Receiving, ReceivingServi
     }
 
     @Override
-    public SystemUser getChecker() {
+    public Users getChecker() {
         return entity.getChecker();
     }
 
     @Override
-    public void setChecker(SystemUser checker) {
+    public void setChecker(Users checker) {
         entity.setChecker(checker);
     }
 

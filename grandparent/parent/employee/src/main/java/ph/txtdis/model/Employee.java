@@ -11,11 +11,20 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.CivilStatus;
 import ph.txtdis.type.FamilyType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 public class Employee extends AbstractAudited {
 
@@ -76,180 +85,9 @@ public class Employee extends AbstractAudited {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Discipline> disciplinaryActions;
 
-    public Employee() {
-    }
-
     public Employee(String surname, String name) {
         this.surname = surname;
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMiddleInitial() {
-        return middleInitial;
-    }
-
-    public void setMiddleInitial(String middleInitial) {
-        this.middleInitial = middleInitial;
-    }
-
-    public byte[] getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getBirthplace() {
-        return birthplace;
-    }
-
-    public void setBirthplace(String birthplace) {
-        this.birthplace = birthplace;
-    }
-
-    public CivilStatus getCivilStatus() {
-        return civilStatus;
-    }
-
-    public void setCivilStatus(CivilStatus civilStatus) {
-        this.civilStatus = civilStatus;
-    }
-
-    public String getEmergencyContact() {
-        return emergencyContact;
-    }
-
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    public FamilyType getEmergencyRelation() {
-        return emergencyRelation;
-    }
-
-    public void setEmergencyRelation(FamilyType emergencyRelation) {
-        this.emergencyRelation = emergencyRelation;
-    }
-
-    public String getEmergencyPhone() {
-        return emergencyPhone;
-    }
-
-    public void setEmergencyPhone(String emergencyPhone) {
-        this.emergencyPhone = emergencyPhone;
-    }
-
-    public List<EmployeeAddress> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<EmployeeAddress> addresses) {
-        this.addresses = addresses;
-    }
-
-    public List<EmployeeContactInfo> getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(List<EmployeeContactInfo> contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
-    public List<GovtId> getGovtIds() {
-        return govtIds;
-    }
-
-    public void setGovtIds(List<GovtId> govtIds) {
-        this.govtIds = govtIds;
-    }
-
-    public List<Family> getRelatives() {
-        return relatives;
-    }
-
-    public void setRelatives(List<Family> relatives) {
-        this.relatives = relatives;
-    }
-
-    public List<Education> getStudies() {
-        return studies;
-    }
-
-    public void setStudies(List<Education> studies) {
-        this.studies = studies;
-    }
-
-    public List<PastWork> getPastJobs() {
-        return pastJobs;
-    }
-
-    public void setPastJobs(List<PastWork> pastJobs) {
-        this.pastJobs = pastJobs;
-    }
-
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
-    public List<Compensation> getDailyRates() {
-        return dailyRates;
-    }
-
-    public void setDailyRates(List<Compensation> dailyRates) {
-        this.dailyRates = dailyRates;
-    }
-
-    public List<Leave> getLeaves() {
-        return leaves;
-    }
-
-    public void setLeaves(List<Leave> leaves) {
-        this.leaves = leaves;
-    }
-
-    public List<Loan> getLoans() {
-        return loans;
-    }
-
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
-    }
-
-    public List<Discipline> getDisciplinaryActions() {
-        return disciplinaryActions;
-    }
-
-    public void setDisciplinaryActions(List<Discipline> disciplinaryActions) {
-        this.disciplinaryActions = disciplinaryActions;
     }
 
     @Override

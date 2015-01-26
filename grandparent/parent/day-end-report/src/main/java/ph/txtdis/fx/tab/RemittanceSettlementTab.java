@@ -18,6 +18,6 @@ public class RemittanceSettlementTab extends AbstractSettlementTab<RemittanceSet
 
     @Override
     protected void setSettlementDTO() {
-        settlement = App.getContext().getBean(RemittanceSettlementDTO.class);
+        settlement = App.context().getBean(RemittanceSettlementDTO.class);
     }
 }

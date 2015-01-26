@@ -7,10 +7,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ph.txtdis.type.ContactInfoType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "employee_id", "type", "detail" }) }, name = "employee_contact_info")
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "employee_id", "type", "detail" }) })
 public class EmployeeContactInfo extends AbstractAudited {
 
     private static final long serialVersionUID = -3583165118929909989L;
@@ -22,42 +33,4 @@ public class EmployeeContactInfo extends AbstractAudited {
 
     @Column(nullable = false)
     private String detail;
-
-    protected EmployeeContactInfo() {
-    }
-
-    public EmployeeContactInfo(Employee employee, ContactInfoType type, String detail) {
-        this.employee = employee;
-        this.type = type;
-        this.detail = detail;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public ContactInfoType getType() {
-        return type;
-    }
-
-    public void setType(ContactInfoType type) {
-        this.type = type;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + type + ": " + detail;
-    }
 }

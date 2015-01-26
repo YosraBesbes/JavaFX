@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Receive {
 
-    SystemUser getReceivedBy();
+    Users getReceivedBy();
 
-    void setReceivedBy(SystemUser receivedBy);
+    void setReceivedBy(Users receivedBy);
 
     ZonedDateTime getReceivedOn();
 

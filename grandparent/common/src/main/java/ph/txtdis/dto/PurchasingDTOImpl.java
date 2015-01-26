@@ -15,7 +15,7 @@ import ph.txtdis.model.Inventory;
 import ph.txtdis.model.Item;
 import ph.txtdis.model.Purchasing;
 import ph.txtdis.model.PurchasingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.PurchasingService;
 import ph.txtdis.service.QualityService;
 import ph.txtdis.service.StockTakeReconciliationService;
@@ -58,7 +58,7 @@ public class PurchasingDTOImpl extends AbstractOrderDTO<Purchasing, PurchasingSe
     }
 
     private BigDecimal get4WkSoldQty() {
-        return inventory.get4WkSoldQty();
+        return inventory.getAvg4wkSoldQty();
     }
 
     private void setStockOnHand(Item item) {
@@ -67,12 +67,12 @@ public class PurchasingDTOImpl extends AbstractOrderDTO<Purchasing, PurchasingSe
     }
 
     @Override
-    public SystemUser getCancelledBy() {
+    public Users getCancelledBy() {
         return entity.getCancelledBy();
     }
 
     @Override
-    public void setCancelledBy(SystemUser cancelledBy) {
+    public void setCancelledBy(Users cancelledBy) {
         entity.setCancelledBy(cancelledBy);
     }
 
@@ -87,12 +87,12 @@ public class PurchasingDTOImpl extends AbstractOrderDTO<Purchasing, PurchasingSe
     }
 
     @Override
-    public SystemUser getMailedBy() {
+    public Users getMailedBy() {
         return entity.getMailedBy();
     }
 
     @Override
-    public void setMailedBy(SystemUser mailedBy) {
+    public void setMailedBy(Users mailedBy) {
         entity.setMailedBy(mailedBy);
     }
 
@@ -107,12 +107,12 @@ public class PurchasingDTOImpl extends AbstractOrderDTO<Purchasing, PurchasingSe
     }
 
     @Override
-    public SystemUser getSentBy() {
+    public Users getSentBy() {
         return entity.getSentBy();
     }
 
     @Override
-    public void setSentBy(SystemUser sentBy) {
+    public void setSentBy(Users sentBy) {
         entity.setSentBy(sentBy);
     }
 
@@ -128,12 +128,12 @@ public class PurchasingDTOImpl extends AbstractOrderDTO<Purchasing, PurchasingSe
     }
 
     @Override
-    public SystemUser getReceivedBy() {
+    public Users getReceivedBy() {
         return entity.getReceivedBy();
     }
 
     @Override
-    public void setReceivedBy(SystemUser receivedBy) {
+    public void setReceivedBy(Users receivedBy) {
         entity.setReceivedBy(receivedBy);
     }
 

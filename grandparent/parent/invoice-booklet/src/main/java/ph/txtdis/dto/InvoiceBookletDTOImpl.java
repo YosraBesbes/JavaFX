@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.InvoiceBookletService;
 
 @Component
@@ -42,23 +42,23 @@ public class InvoiceBookletDTOImpl extends AbstractAuditedDTO<InvoiceBooklet, In
     }
 
     @Override
-    public SystemUser getIssuedTo() {
+    public Users getIssuedTo() {
         return entity.getIssuedTo();
     }
 
     @Override
-    public void setIssuedTo(SystemUser issuedTo) {
+    public void setIssuedTo(Users issuedTo) {
         entity.setIssuedTo(issuedTo);
     }
 
     @Override
-    public SystemUser getIssuedBy() {
+    public Users getIssuedBy() {
         return entity.getCreatedBy();
     }
 
     @Override
-    public ZonedDateTime getTimeStamp() {
-        return entity.getTimeStamp();
+    public ZonedDateTime getIssuedDate() {
+        return entity.getCreatedDate();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class InvoiceBookletDTOImpl extends AbstractAuditedDTO<InvoiceBooklet, In
     }
 
     @Override
-    public ObservableList<SystemUser> listUsers() {
+    public ObservableList<Users> listUsers() {
         return FXCollections.observableList(service.listUsers());
     }
 

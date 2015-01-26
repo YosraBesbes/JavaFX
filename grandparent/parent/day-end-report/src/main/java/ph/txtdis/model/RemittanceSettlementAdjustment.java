@@ -7,8 +7,20 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class RemittanceSettlementAdjustment extends AbstractAudited {
 
@@ -26,89 +38,4 @@ public class RemittanceSettlementAdjustment extends AbstractAudited {
 
     @Column(nullable = false)
     private String actionTaken;
-
-    protected RemittanceSettlementAdjustment() {
-    }
-
-    public RemittanceSettlementAdjustment(LocalDate pickDate, Truck truck, Invoicing invoicing, String actionTaken) {
-        this.pickDate = pickDate;
-        this.truck = truck;
-        this.invoice = invoicing;
-        this.actionTaken = actionTaken;
-    }
-
-    public LocalDate getPickDate() {
-        return pickDate;
-    }
-
-    public void setPickDate(LocalDate pickDate) {
-        this.pickDate = pickDate;
-    }
-
-    public Invoicing getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Invoicing invoice) {
-        this.invoice = invoice;
-    }
-
-    public Truck getTruck() {
-        return truck;
-    }
-
-    public void setTruck(Truck truck) {
-        this.truck = truck;
-    }
-
-    public String getActionTaken() {
-        return actionTaken;
-    }
-
-    public void setActionTaken(String actionTaken) {
-        this.actionTaken = actionTaken;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
-        result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
-        result = prime * result + ((pickDate == null) ? 0 : pickDate.hashCode());
-        result = prime * result + ((truck == null) ? 0 : truck.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RemittanceSettlementAdjustment other = (RemittanceSettlementAdjustment) obj;
-        if (invoice == null) {
-            if (other.invoice != null)
-                return false;
-        } else if (!invoice.equals(other.invoice))
-            return false;
-        if (actionTaken == null) {
-            if (other.actionTaken != null)
-                return false;
-        } else if (!actionTaken.equals(other.actionTaken))
-            return false;
-        if (pickDate == null) {
-            if (other.pickDate != null)
-                return false;
-        } else if (!pickDate.equals(other.pickDate))
-            return false;
-        if (truck == null) {
-            if (other.truck != null)
-                return false;
-        } else if (!truck.equals(other.truck))
-            return false;
-        return true;
-    }
 }

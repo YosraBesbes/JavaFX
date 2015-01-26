@@ -8,6 +8,4 @@
 	</parent>
 	<artifactId>common</artifactId>
 	<name>JavaFX UI</name>
-	<dependencies>
-	</dependencies>
 </project>

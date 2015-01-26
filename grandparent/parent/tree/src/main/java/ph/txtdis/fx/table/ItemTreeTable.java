@@ -32,7 +32,7 @@ public class ItemTreeTable extends AbstractInputTable<ItemTree, ItemTreeDTO> {
         TableColumn<ItemTree, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
         TableColumn<ItemTree, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(familyCol, parentCol, createdByCol, createdOnCol);
     }
 

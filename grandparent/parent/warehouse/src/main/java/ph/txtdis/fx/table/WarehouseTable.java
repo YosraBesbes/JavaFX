@@ -31,7 +31,7 @@ public class WarehouseTable extends AbstractInputTable<Warehouse, WarehouseDTO> 
         TableColumn<Warehouse, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
         TableColumn<Warehouse, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(idCol, nameCol, createdByCol, createdOnCol);
     }
 

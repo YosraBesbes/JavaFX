@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.BookingDetail;
 import ph.txtdis.model.BookingDiscount;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.CustomerService;
 
@@ -39,12 +39,12 @@ public class BookingDTOImpl extends AbstractOrderDTO<Booking, BookingService, Bo
     }
 
     @Override
-    public SystemUser getPrintedBy() {
+    public Users getPrintedBy() {
         return entity.getPrintedBy();
     }
 
     @Override
-    public void setPrintedBy(SystemUser printedBy) {
+    public void setPrintedBy(Users printedBy) {
         entity.setPrintedBy(printedBy);
     }
 

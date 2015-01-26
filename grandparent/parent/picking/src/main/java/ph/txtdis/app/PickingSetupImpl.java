@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.Booking;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.BookingService;
 import ph.txtdis.service.PickingService;
@@ -37,7 +37,7 @@ public class PickingSetupImpl implements PickingSetup {
     @Override
     public void start() {
 
-        SystemUser sysgen = userService.get("SYSGEN");
+        Users sysgen = userService.get("SYSGEN");
         LocalDate date = LocalDate.parse("2014-08-31");
 
         Booking variety = bookingService.get(3);

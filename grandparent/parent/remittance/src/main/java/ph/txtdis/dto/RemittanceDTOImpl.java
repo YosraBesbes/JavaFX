@@ -72,12 +72,12 @@ public class RemittanceDTOImpl extends AbstractSpunById<Remittance, RemittanceSe
 
     @Override
     public BigDecimal getTotalValue() {
-        return entity.getTotalValue();
+        return entity.getValue();
     }
 
     @Override
     public void setTotalValue(BigDecimal value) {
-        entity.setTotalValue(value);
+        entity.setValue(value);
     }
 
     @Override

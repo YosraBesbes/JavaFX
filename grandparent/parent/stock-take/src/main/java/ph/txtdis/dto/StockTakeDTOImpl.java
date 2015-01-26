@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.StockTakeService;
 
@@ -34,22 +34,22 @@ public class StockTakeDTOImpl extends AbstractSpunById<StockTake, StockTakeServi
     }
 
     @Override
-    public SystemUser getTaker() {
+    public Users getTaker() {
         return entity.getTaker();
     }
 
     @Override
-    public void setTaker(SystemUser taker) {
+    public void setTaker(Users taker) {
         entity.setTaker(taker);
     }
 
     @Override
-    public SystemUser getChecker() {
+    public Users getChecker() {
         return entity.getChecker();
     }
 
     @Override
-    public void setChecker(SystemUser checker) {
+    public void setChecker(Users checker) {
         entity.setChecker(checker);
     }
 

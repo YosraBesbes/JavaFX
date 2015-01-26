@@ -6,8 +6,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import ph.txtdis.type.UomType;
 
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 public class ReceivingDetail extends AbstractPricedDetail {
 
@@ -16,40 +20,12 @@ public class ReceivingDetail extends AbstractPricedDetail {
     @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     private Receiving receiving;
 
-    protected ReceivingDetail() {
-    }
-
     public ReceivingDetail(Receiving receiving, Item item, UomType uom, BigDecimal qty, Quality quality) {
         this.receiving = receiving;
         this.item = item;
         this.uom = uom;
         this.qty = qty;
         this.quality = quality;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((receiving == null) ? 0 : receiving.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ReceivingDetail other = (ReceivingDetail) obj;
-        if (receiving == null) {
-            if (other.receiving != null)
-                return false;
-        } else if (!receiving.equals(other.receiving))
-            return false;
-        return true;
     }
 
     @Override

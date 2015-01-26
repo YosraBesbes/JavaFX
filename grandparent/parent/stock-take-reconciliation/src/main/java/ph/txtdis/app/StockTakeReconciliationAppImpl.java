@@ -49,8 +49,8 @@ import ph.txtdis.mail.MailNotSentException;
 import ph.txtdis.mail.MailSender;
 import ph.txtdis.model.StockTakeAdjustment;
 import ph.txtdis.model.StockTakeReconciliation;
-import ph.txtdis.model.StockTakeReconciliationFilteredDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.FxStockTakeReconciliationDetail;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.UserType;
 import ph.txtdis.util.DIS;
 import ph.txtdis.util.Login;
@@ -70,8 +70,8 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
             completedOnDisplay;
     private UserDisplay cutoffByDisplay, closedByDisplay, reconciledByDisplay, mailedByDisplay, approvedByDisplay,
             completedByDisplay;
-    private SystemUser txtDIS;
-    private TableView<StockTakeReconciliationFilteredDetail> detailTable;
+    private Users txtDIS;
+    private TableView<FxStockTakeReconciliationDetail> detailTable;
     private UserDTO user;
 
     public StockTakeReconciliationAppImpl() {
@@ -275,17 +275,17 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
     }
 
     private void ensureVariancesAreJustified() throws InvalidException {
-        for (StockTakeReconciliationFilteredDetail item : detailTable.getItems())
+        for (FxStockTakeReconciliationDetail item : detailTable.getItems())
             if (isVarianceUnjustified(item))
                 throw new InvalidException("All variances must be justified");
     }
 
-    private boolean isVarianceUnjustified(StockTakeReconciliationFilteredDetail item) {
+    private boolean isVarianceUnjustified(FxStockTakeReconciliationDetail item) {
         return !DIS.isZero(item.getCountQty().subtract(item.getSystemQty())) && DIS.isEmpty(item.getJustification());
     }
 
     private void saveAdjustments() throws InvalidException {
-        for (StockTakeReconciliationFilteredDetail item : detailTable.getItems()) {
+        for (FxStockTakeReconciliationDetail item : detailTable.getItems()) {
             adjustment.set(new StockTakeAdjustment(reconciliation.getId(), item.getItem(), item.getQualityType(), item
                     .getAdjustmentQty(), item.getJustification()));
             adjustment.save();
@@ -375,7 +375,7 @@ public class StockTakeReconciliationAppImpl extends AbstractApp<StockTakeReconci
         reconciliation.save();
     }
 
-    private void updateApprovalStamps(Boolean isApproved, SystemUser user, ZonedDateTime timestamp) {
+    private void updateApprovalStamps(Boolean isApproved, Users user, ZonedDateTime timestamp) {
         reconciliation.setApproved(isApproved);
         reconciliation.setApprovedBy(user);
         reconciliation.setApprovedOn(timestamp);

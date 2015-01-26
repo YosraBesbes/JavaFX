@@ -1,9 +1,9 @@
 package ph.txtdis.fx.dialog;
 
-import ph.txtdis.service.UserService;
+import org.springframework.context.ConfigurableApplicationContext;
 
 public class ChangePasswordDialog extends AbstractPasswordDialog {
-    public ChangePasswordDialog(UserService service) {
-        super("Change Password", service);
+    public ChangePasswordDialog(ConfigurableApplicationContext context) {
+        super("Change Password", context);
     }
 }

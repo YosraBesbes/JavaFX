@@ -45,8 +45,8 @@ public class RemittanceSettlementPerTruckTab extends AbstractTab<RemittanceSettl
     @Override
     protected void setDTO(RemittanceSettlementDTO dto) {
         super.setDTO(dto);
-        truckDTO = App.getContext().getBean(TruckDTO.class);
-        adjustment = App.getContext().getBean(RemittanceSettlementAdjustmentDTO.class);
+        truckDTO = App.context().getBean(TruckDTO.class);
+        adjustment = App.context().getBean(RemittanceSettlementAdjustmentDTO.class);
     }
 
     @Override

@@ -2,11 +2,11 @@ package ph.txtdis.dto;
 
 import java.time.ZonedDateTime;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public interface Audited<E> extends DTO<E, Integer> {
 
-    SystemUser getCreatedBy();
+    Users getCreatedBy();
 
-    ZonedDateTime getTimeStamp();
+    ZonedDateTime getIssuedDate();
 }

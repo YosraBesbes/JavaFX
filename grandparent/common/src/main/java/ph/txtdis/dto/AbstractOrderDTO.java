@@ -72,12 +72,12 @@ public abstract class AbstractOrderDTO<E extends AbstractOrder<D>, S extends Ord
 
     @Override
     public BigDecimal getTotalValue() {
-        return entity.getTotalValue();
+        return entity.getValue();
     }
 
     @Override
     public void setTotalValue(BigDecimal value) {
-        entity.setTotalValue(value);
+        entity.setValue(value);
     }
 
     @Override

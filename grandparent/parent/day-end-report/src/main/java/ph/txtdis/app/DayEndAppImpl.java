@@ -78,7 +78,7 @@ public class DayEndAppImpl extends AbstractApp<DailySummary, LocalDate> implemen
 
     @Override
     protected void setDTO() {
-        dto = summary = App.getContext().getBean(SummaryDTO.class);
+        dto = summary = App.context().getBean(SummaryDTO.class);
     }
 
     @Override

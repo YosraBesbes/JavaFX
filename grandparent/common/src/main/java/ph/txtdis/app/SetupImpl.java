@@ -22,8 +22,8 @@ import ph.txtdis.model.QtyPerUom;
 import ph.txtdis.model.Quality;
 import ph.txtdis.model.Route;
 import ph.txtdis.model.Routing;
-import ph.txtdis.model.SystemUser;
 import ph.txtdis.model.Truck;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.VolumeDiscount;
 import ph.txtdis.model.Warehouse;
 import ph.txtdis.service.AccountService;
@@ -48,7 +48,6 @@ import ph.txtdis.type.UomType;
 import ph.txtdis.type.UserType;
 import ph.txtdis.type.VisitFrequency;
 import ph.txtdis.type.VolumeDiscountType;
-import ph.txtdis.util.Login;
 
 @Component
 public class SetupImpl implements Setup {
@@ -97,42 +96,40 @@ public class SetupImpl implements Setup {
 
     @Override
     public void start() {
-        SystemUser sysgen = userService.save(new SystemUser("SYSGEN", "I'mSysGen4txtDIS@PostgreSQL", true));
-        Login.setUser(sysgen);
 
-        SystemUser txtdis = new SystemUser("TXTDIS", "txtDIS@1", true);
+        Users txtdis = new Users("TXTDIS", "txtDIS@1", true);
         txtdis.setEmail("txtdis.mgdc.edsa.dmpi@gmail.com");
         userService.save(txtdis);
 
-        SystemUser jackie = new SystemUser("JACKIE", "robbie", true);
+        Users jackie = new Users("JACKIE", "robbie", true);
         jackie.setEmail("manila12@gmail.com");
         jackie.setType(UserType.MANAGER);
         userService.save(jackie);
 
-        SystemUser ronald = new SystemUser("RONALD", "alphacowboy", true);
+        Users ronald = new Users("RONALD", "alphacowboy", true);
         ronald.setEmail("ronaldallanso@yahoo.com");
         ronald.setType(UserType.MANAGER);
         userService.save(ronald);
 
-        SystemUser butch = new SystemUser("BUTCH", "attila", true);
+        Users butch = new Users("BUTCH", "attila", true);
         butch.setEmail("butchlim888@yahoo.com");
         butch.setType(UserType.MANAGER);
         userService.save(butch);
 
-        userService.save(new SystemUser("MICHELLE", "TWEETY", true));
-        userService.save(new SystemUser("ANGIE", "Angelica Loteyro", true));
-        userService.save(new SystemUser("MAY", "May Tuscano", true));
-        userService.save(new SystemUser("MENNEN", "Mennen Timbal", true));
-        userService.save(new SystemUser("MHON", "NOMAR", true));
-        userService.save(new SystemUser("IRENE", "magnum08", true));
+        userService.save(new Users("MICHELLE", "TWEETY", true));
+        userService.save(new Users("ANGIE", "Angelica Loteyro", true));
+        userService.save(new Users("MAY", "May Tuscano", true));
+        userService.save(new Users("MENNEN", "Mennen Timbal", true));
+        userService.save(new Users("MHON", "NOMAR", true));
+        userService.save(new Users("IRENE", "magnum08", true));
 
-        userService.save(new SystemUser("OGIE", "dsp", true));
-        userService.save(new SystemUser("PHILLIP", "dsp", true));
-        userService.save(new SystemUser("BONG", "dsp", true));
-        userService.save(new SystemUser("RANDY", "dsp", true));
-        userService.save(new SystemUser("ROBERT", "dsp", true));
-        userService.save(new SystemUser("HENRY", "dsp", true));
-        userService.save(new SystemUser("ROLAND", "dsp", true));
+        userService.save(new Users("OGIE", "dsp", true));
+        userService.save(new Users("PHILLIP", "dsp", true));
+        userService.save(new Users("BONG", "dsp", true));
+        userService.save(new Users("RANDY", "dsp", true));
+        userService.save(new Users("ROBERT", "dsp", true));
+        userService.save(new Users("HENRY", "dsp", true));
+        userService.save(new Users("ROLAND", "dsp", true));
 
         truckService.save(new Truck("RDM801"));
         truckService.save(new Truck("KDL170"));
@@ -147,16 +144,16 @@ public class SetupImpl implements Setup {
         routeService.save(new Route("PMS2"));
         routeService.save(new Route("PMS3"));
 
-        userService.save(new SystemUser("LARRY", "dsp", true));
-        userService.save(new SystemUser("VICENTE", "dsp", true));
-        userService.save(new SystemUser("NOLI", "dsp", true));
+        userService.save(new Users("LARRY", "dsp", true));
+        userService.save(new Users("VICENTE", "dsp", true));
+        userService.save(new Users("NOLI", "dsp", true));
 
-        userService.save(new SystemUser("MARK", "dsp", true));
-        userService.save(new SystemUser("MICHAEL", "dsp", true));
-        userService.save(new SystemUser("TATA", "dsp", true));
-        userService.save(new SystemUser("KEVIN", "dsp", true));
-        userService.save(new SystemUser("JEFF", "dsp", true));
-        userService.save(new SystemUser("RENE", "dsp", true));
+        userService.save(new Users("MARK", "dsp", true));
+        userService.save(new Users("MICHAEL", "dsp", true));
+        userService.save(new Users("TATA", "dsp", true));
+        userService.save(new Users("KEVIN", "dsp", true));
+        userService.save(new Users("JEFF", "dsp", true));
+        userService.save(new Users("RENE", "dsp", true));
 
         channelService.save(new Channel("GROCERY"));
         channelService.save(new Channel("SARI-SARI"));
@@ -239,13 +236,13 @@ public class SetupImpl implements Setup {
 
         itemService.save(pineSlice15);
 
-        SystemUser dsp1 = userService.get("OGIE");
-        SystemUser dsp2 = userService.get("PHILLIP");
-        SystemUser dsp3 = userService.get("BONG");
-        SystemUser dsp4 = userService.get("RANDY");
-        SystemUser dsp5 = userService.get("ROBERT");
-        SystemUser dsp6 = userService.get("HENRY");
-        SystemUser dsp7 = userService.get("ROLAND");
+        Users dsp1 = userService.get("OGIE");
+        Users dsp2 = userService.get("PHILLIP");
+        Users dsp3 = userService.get("BONG");
+        Users dsp4 = userService.get("RANDY");
+        Users dsp5 = userService.get("ROBERT");
+        Users dsp6 = userService.get("HENRY");
+        Users dsp7 = userService.get("ROLAND");
 
         Route s41 = routeService.get("S41");
         Route s42 = routeService.get("S42");
@@ -1364,7 +1361,7 @@ public class SetupImpl implements Setup {
         Purchasing purchasing = new Purchasing(marina, date);
         purchasing.setDetails(Arrays.asList(new PurchasingDetail(purchasing, pineSliceFlat, UomType.CS, qty,
                 pricePerCS, good, ">365", null)));
-        purchasing.setTotalValue(qty.multiply(pricePerCS));
+        purchasing.setValue(qty.multiply(pricePerCS));
 
         purchasingService.save(purchasing);
 

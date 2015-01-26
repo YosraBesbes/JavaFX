@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 import ph.txtdis.model.AbstractDisabledNamed;
 import ph.txtdis.model.Disable;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.SearchedSpunService;
 
 public abstract class AbstractDisabledSearchedSpunDTO<E extends AbstractDisabledNamed, C, S extends SearchedSpunService<E, Integer, C>>
@@ -14,12 +14,12 @@ public abstract class AbstractDisabledSearchedSpunDTO<E extends AbstractDisabled
     }
 
     @Override
-    public SystemUser getDisabledBy() {
+    public Users getDisabledBy() {
         return entity.getDisabledBy();
     }
 
     @Override
-    public void setDisabledBy(SystemUser disabledBy) {
+    public void setDisabledBy(Users disabledBy) {
         entity.setDisabledBy(disabledBy);
     }
 

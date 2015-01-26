@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.collections.ObservableList;
 import ph.txtdis.model.StockTake;
 import ph.txtdis.model.StockTakeDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Warehouse;
 
 public interface StockTakeDTO extends Spun, Audited<StockTake> {
@@ -15,13 +15,13 @@ public interface StockTakeDTO extends Spun, Audited<StockTake> {
 
     void setWarehouse(Warehouse warehouse);
 
-    SystemUser getTaker();
+    Users getTaker();
 
-    void setTaker(SystemUser taker);
+    void setTaker(Users taker);
 
-    SystemUser getChecker();
+    Users getChecker();
 
-    void setChecker(SystemUser checker);
+    void setChecker(Users checker);
 
     LocalDate getStockTakeDate();
 

@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.StockTakeReconciliation;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.PickingService;
 import ph.txtdis.service.ReceivingService;
 import ph.txtdis.service.StockTakeReconciliationService;
 import ph.txtdis.service.UserService;
-import ph.txtdis.util.Login;
 
 @Component
 public class StockTakeReconciliationSetupImpl implements StockTakeReconciliationSetup {
@@ -35,9 +34,7 @@ public class StockTakeReconciliationSetupImpl implements StockTakeReconciliation
     public void start() {
 
         LocalDate date = LocalDate.parse("2014-09-01");
-        SystemUser user = userService.get("BUTCH");
-        Login.setUser(user);
-
+        Users user = userService.get("BUTCH");
         reconService.save(new StockTakeReconciliation(user, date));
     }
 }

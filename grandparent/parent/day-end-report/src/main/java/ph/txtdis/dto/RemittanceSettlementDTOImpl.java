@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import ph.txtdis.model.RemittanceSettlement;
 import ph.txtdis.model.RemittanceSettlementDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.service.RemittanceSettlementService;
 import ph.txtdis.util.DIS;
@@ -43,7 +43,7 @@ public class RemittanceSettlementDTOImpl extends
     }
 
     @Override
-    public SystemUser getClosedBy() {
+    public Users getClosedBy() {
         return entity.getClosedBy();
     }
 
@@ -53,12 +53,12 @@ public class RemittanceSettlementDTOImpl extends
     }
 
     @Override
-    public SystemUser getReconciledBy() {
+    public Users getReconciledBy() {
         return entity.getReconciledBy();
     }
 
     @Override
-    public void setReconciledBy(SystemUser reconciledBy) {
+    public void setReconciledBy(Users reconciledBy) {
         entity.setReconciledBy(reconciledBy);
     }
 

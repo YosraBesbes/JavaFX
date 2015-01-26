@@ -3,6 +3,14 @@ package ph.txtdis.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class RemittanceSettlementDetail {
 
     private Invoicing invoice;
@@ -10,13 +18,6 @@ public class RemittanceSettlementDetail {
     private BigDecimal payment;
 
     private String actionTaken;
-
-    public RemittanceSettlementDetail(Invoicing invoice, BigDecimal payment, String actionTaken) {
-
-        this.invoice = invoice;
-        this.payment = payment;
-        this.actionTaken = actionTaken;
-    }
 
     public Invoicing getInvoice() {
         return invoice;
@@ -35,7 +36,7 @@ public class RemittanceSettlementDetail {
     }
 
     public BigDecimal getInvoicedValue() {
-        return invoice == null ? BigDecimal.ZERO : invoice.getTotalValue();
+        return invoice == null ? BigDecimal.ZERO : invoice.getValue();
     }
 
     public BigDecimal getVarianceValue() {
@@ -52,48 +53,5 @@ public class RemittanceSettlementDetail {
 
     public void setActionTaken(String actionTaken) {
         this.actionTaken = actionTaken;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((actionTaken == null) ? 0 : actionTaken.hashCode());
-        result = prime * result + ((invoice == null) ? 0 : invoice.hashCode());
-        result = prime * result + ((payment == null) ? 0 : payment.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RemittanceSettlementDetail other = (RemittanceSettlementDetail) obj;
-        if (actionTaken == null) {
-            if (other.actionTaken != null)
-                return false;
-        } else if (!actionTaken.equals(other.actionTaken))
-            return false;
-        if (invoice == null) {
-            if (other.invoice != null)
-                return false;
-        } else if (!invoice.equals(other.invoice))
-            return false;
-        if (payment == null) {
-            if (other.payment != null)
-                return false;
-        } else if (!payment.equals(other.payment))
-            return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "RemittanceSettlementDetail [invoice=" + invoice + ", payment=" + payment + ", actionTaken="
-                + actionTaken + "]";
     }
 }

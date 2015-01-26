@@ -11,8 +11,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(indexes = @Index(columnList = "loan_id"), uniqueConstraints = @UniqueConstraint(columnNames = { "loan_id",
         "paymentDate" }))
@@ -29,42 +41,4 @@ public class Payment extends AbstractAudited {
 
     @Column(nullable = false)
     private BigDecimal amount;
-
-    protected Payment() {
-    }
-
-    public Payment(Loan loan, LocalDate paymentDate, BigDecimal amount) {
-        this.loan = loan;
-        this.paymentDate = paymentDate;
-        this.amount = amount;
-    }
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
-    public LocalDate getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(LocalDate paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + loan + "] " + paymentDate + ": " + amount;
-    }
 }

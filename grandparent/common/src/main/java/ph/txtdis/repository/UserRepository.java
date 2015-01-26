@@ -4,18 +4,20 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.UserType;
 
-public interface UserRepository extends CrudRepository<SystemUser, String> {
+@Repository
+public interface UserRepository extends CrudRepository<Users, String> {
 
-    SystemUser findByUsernameAndPassword(String username, String password);
+    Users findByUsernameAndPassword(String username, String password);
 
-    SystemUser findByEmail(String email);
+    Users findByEmail(String email);
 
-    List<SystemUser> findByType(UserType type);
+    List<Users> findByType(UserType type);
 
-    @Query("select u from SystemUser u where u.enabled = true order by u.username")
-    List<SystemUser> list();
+    @Query("select u from Users u where u.enabled = true order by u.username")
+    List<Users> list();
 }

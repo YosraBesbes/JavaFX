@@ -9,7 +9,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.DayEndAppImpl;
 import ph.txtdis.app.DayEndSetup;
 import ph.txtdis.app.ReceivingSetup;
@@ -27,10 +26,8 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         context = SpringApplication.run(App.class);
-        // context.getBean(TestSetup.class).start();
         context.getBean(Setup.class).start();
         context.getBean(ReceivingSetup.class).start();
-        context.getBean(BookingSetup.class).start();
         context.getBean(DayEndSetup.class).start();
         FX.loadTxtdisIcons();
         new DayEndAppImpl().start();
@@ -40,7 +37,7 @@ public class App extends Application {
         launch();
     }
 
-    public static ConfigurableApplicationContext getContext() {
+    public static ConfigurableApplicationContext context() {
         return context;
     }
 }

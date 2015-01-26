@@ -24,5 +24,5 @@ public interface LoadSettlementRepository extends CrudRepository<LoadSettlement,
             + "    and i = s.item)) from Item i order by i.id ")
     List<LoadSettlementDetail> getDetail(Truck truck, LocalDate date);
 
-    LoadSettlement findByTruckAndTimeStampBetween(Truck truck, ZonedDateTime startOfDay, ZonedDateTime endOfDay);
+    LoadSettlement findByTruckAndCreatedDateBetween(Truck truck, ZonedDateTime startOfDay, ZonedDateTime endOfDay);
 }

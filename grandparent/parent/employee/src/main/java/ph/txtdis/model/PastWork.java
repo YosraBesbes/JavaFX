@@ -10,8 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "employee_id", "startDate", "employer", "designation" }),
         name = "past_work")
@@ -49,107 +61,4 @@ public class PastWork extends AbstractAudited {
 
     @Column(nullable = false)
     private String referencePhone;
-
-    protected PastWork() {
-    }
-
-    public PastWork(Employee employee, LocalDate startDate, LocalDate endDate, String employer, String designation,
-            BigDecimal lastPay, String reasonForLeaving, String referenceName, String referenceDesignation,
-            String referencePhone) {
-        this.employee = employee;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.employer = employer;
-        this.designation = designation;
-        this.lastPay = lastPay;
-        this.reasonForLeaving = reasonForLeaving;
-        this.referenceName = referenceName;
-        this.referenceDesignation = referenceDesignation;
-        this.referencePhone = referencePhone;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getEmployer() {
-        return employer;
-    }
-
-    public void setEmployer(String employer) {
-        this.employer = employer;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public BigDecimal getLastPay() {
-        return lastPay;
-    }
-
-    public void setLastPay(BigDecimal lastPay) {
-        this.lastPay = lastPay;
-    }
-
-    public String getReasonForLeaving() {
-        return reasonForLeaving;
-    }
-
-    public void setReasonForLeaving(String reasonForLeaving) {
-        this.reasonForLeaving = reasonForLeaving;
-    }
-
-    public String getReferenceName() {
-        return referenceName;
-    }
-
-    public void setReferenceName(String referenceName) {
-        this.referenceName = referenceName;
-    }
-
-    public String getReferenceDesignation() {
-        return referenceDesignation;
-    }
-
-    public void setReferenceDesignation(String referenceDesignation) {
-        this.referenceDesignation = referenceDesignation;
-    }
-
-    public String getReferencePhone() {
-        return referencePhone;
-    }
-
-    public void setReferencePhone(String referencePhone) {
-        this.referencePhone = referencePhone;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + employee + "] " + employer + ": " + designation;
-    }
 }

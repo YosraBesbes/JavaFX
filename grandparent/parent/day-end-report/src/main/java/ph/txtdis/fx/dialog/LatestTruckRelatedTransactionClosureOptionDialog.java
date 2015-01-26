@@ -32,8 +32,8 @@ public class LatestTruckRelatedTransactionClosureOptionDialog extends OptionDial
     }
 
     private void setDTOs() {
-        load = App.getContext().getBean(LoadSettlementDTO.class);
-        remittance = App.getContext().getBean(RemittanceSettlementDTO.class);
+        load = App.context().getBean(LoadSettlementDTO.class);
+        remittance = App.context().getBean(RemittanceSettlementDTO.class);
     }
 
     private void closeAllTruckRelatedTransactions(List<Truck> trucks) {
@@ -47,7 +47,7 @@ public class LatestTruckRelatedTransactionClosureOptionDialog extends OptionDial
     }
 
     private List<Truck> getTrucks() {
-        PickingDTO picking = App.getContext().getBean(PickingDTO.class);
+        PickingDTO picking = App.context().getBean(PickingDTO.class);
         List<Truck> trucks = picking.getLoadedTrucks(date);
         return trucks;
     }

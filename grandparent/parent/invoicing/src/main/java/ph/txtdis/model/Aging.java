@@ -2,59 +2,35 @@ package ph.txtdis.model;
 
 import java.math.BigDecimal;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 @Component
 public class Aging {
 
     private Customer customer;
 
-    private BigDecimal totalValue, currentValue, oneToSevenValue, eightToFifteenValue, sixteenToThirtyValue,
-            greaterThanThirtyValue;
+    private BigDecimal totalValue = BigDecimal.ZERO;
 
-    public Aging() {
-    }
+    private BigDecimal currentValue = BigDecimal.ZERO;
 
-    public Aging(Customer customer, BigDecimal totalValue, BigDecimal currentValue, BigDecimal oneToSevenValue,
-            BigDecimal eightToFifteenValue, BigDecimal sixteenToThirtyValue, BigDecimal greaterThanThirtyValue) {
-        this.customer = customer;
-        this.totalValue = totalValue;
-        this.currentValue = currentValue;
-        this.oneToSevenValue = oneToSevenValue;
-        this.eightToFifteenValue = eightToFifteenValue;
-        this.sixteenToThirtyValue = sixteenToThirtyValue;
-        this.greaterThanThirtyValue = greaterThanThirtyValue;
-    }
+    private BigDecimal oneToSevenValue = BigDecimal.ZERO;
+
+    private BigDecimal eightToFifteenValue = BigDecimal.ZERO;
+
+    private BigDecimal sixteenToThirtyValue = BigDecimal.ZERO;
+
+    private BigDecimal greaterThanThirtyValue = BigDecimal.ZERO;
 
     public int getCustomerId() {
         return customer == null ? 0 : customer.getId();
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public BigDecimal getTotalValue() {
-        return totalValue == null ? BigDecimal.ZERO : totalValue;
-    }
-
-    public BigDecimal getCurrentValue() {
-        return currentValue == null ? BigDecimal.ZERO : currentValue;
-    }
-
-    public BigDecimal getOneToSevenValue() {
-        return oneToSevenValue == null ? BigDecimal.ZERO : oneToSevenValue;
-    }
-
-    public BigDecimal getEightToFifteenValue() {
-        return eightToFifteenValue == null ? BigDecimal.ZERO : eightToFifteenValue;
-    }
-
-    public BigDecimal getSixteenToThirtyValue() {
-        return sixteenToThirtyValue == null ? BigDecimal.ZERO : sixteenToThirtyValue;
-    }
-
-    public BigDecimal getGreaterThanThirtyValue() {
-        return greaterThanThirtyValue == null ? BigDecimal.ZERO : greaterThanThirtyValue;
     }
 }

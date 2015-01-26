@@ -19,7 +19,7 @@ import ph.txtdis.fx.button.UserButton;
 import ph.txtdis.fx.util.FX;
 import ph.txtdis.fx.util.StyleSheet;
 import ph.txtdis.model.Style;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.StyleService;
 import ph.txtdis.util.Login;
 
@@ -72,7 +72,7 @@ public class EmployeeDialog extends Stage {
         return label;
     }
 
-    private void setDefaultStyle(SystemUser user) {
+    private void setDefaultStyle(Users user) {
         Style style = styleService.get(user);
         if (style != null)
             styleSheet.update(style);

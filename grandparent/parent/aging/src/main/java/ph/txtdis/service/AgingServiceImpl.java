@@ -19,10 +19,6 @@ public class AgingServiceImpl implements AgingService {
 
     @Override
     public List<Aging> getAgingList() {
-        System.err.println("Aging");
-        for (Aging aging : repository.getAgingList()) {
-            System.err.println("Customer: " + aging.getCustomer() + ", " + aging.getTotalValue());
-        }
         return repository.getAgingList();
     }
 }

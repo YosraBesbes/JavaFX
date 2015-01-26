@@ -20,5 +20,5 @@ public interface RemittanceSettlementRepository extends CrudRepository<Remittanc
             + "where p = pd.picking and i.booking = pd.booking and p.truck = ?1 and i.orderDate = ?2 order by i.id ")
     List<RemittanceSettlementDetail> getDetail(Truck truck, LocalDate date);
 
-    RemittanceSettlement findByTruckAndTimeStampBetween(Truck truck, ZonedDateTime startOfDay, ZonedDateTime endOfDay);
+    RemittanceSettlement findByTruckAndCreatedDateBetween(Truck truck, ZonedDateTime startOfDay, ZonedDateTime endOfDay);
 }

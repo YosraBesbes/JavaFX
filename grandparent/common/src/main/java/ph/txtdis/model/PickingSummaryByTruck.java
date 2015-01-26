@@ -11,12 +11,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Synchronize;
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.util.DIS;
 
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Subselect("select bd.id, p.pick_date, p.truck_id, bd.item_id, bd.quality_id, sum(bd.qty * qpu.qty) qty from picking p "
         + "join picking_detail d on p.id = d.picking_id "
@@ -46,89 +54,10 @@ public class PickingSummaryByTruck {
     @Column(nullable = false, precision = 10, scale = 4)
     private BigDecimal qty;
 
-    protected PickingSummaryByTruck() {
-    }
-
     public PickingSummaryByTruck(Item item, Quality quality, BigDecimal qty) {
         this.item = item;
         this.quality = quality;
         this.qty = qty;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public LocalDate getPickDate() {
-        return pickDate;
-    }
-
-    public Truck getTruck() {
-        return truck;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public Quality getQuality() {
-        return quality;
-    }
-
-    public BigDecimal getQty() {
-        return qty;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((item == null) ? 0 : item.hashCode());
-        result = prime * result + ((pickDate == null) ? 0 : pickDate.hashCode());
-        result = prime * result + ((qty == null) ? 0 : qty.hashCode());
-        result = prime * result + ((quality == null) ? 0 : quality.hashCode());
-        result = prime * result + ((truck == null) ? 0 : truck.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PickingSummaryByTruck other = (PickingSummaryByTruck) obj;
-        if (id != other.id)
-            return false;
-        if (item == null) {
-            if (other.item != null)
-                return false;
-        } else if (!item.equals(other.item))
-            return false;
-        if (pickDate == null) {
-            if (other.pickDate != null)
-                return false;
-        } else if (!pickDate.equals(other.pickDate))
-            return false;
-        if (qty == null) {
-            if (other.qty != null)
-                return false;
-        } else if (!qty.equals(other.qty))
-            return false;
-        if (quality == null) {
-            if (other.quality != null)
-                return false;
-        } else if (!quality.equals(other.quality))
-            return false;
-        if (truck == null) {
-            if (other.truck != null)
-                return false;
-        } else if (!truck.equals(other.truck))
-            return false;
-        return true;
     }
 
     @Override

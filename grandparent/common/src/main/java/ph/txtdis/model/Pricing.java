@@ -10,10 +10,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.hibernate.annotations.Type;
 
 import ph.txtdis.type.PricingType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "item_id", "startDate", "type", "channel_limit_id" }))
 public class Pricing extends AbstractAudited {
@@ -36,100 +45,11 @@ public class Pricing extends AbstractAudited {
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Channel channelLimit;
 
-    public Pricing() {
-    }
-
     public Pricing(Item item, PricingType type, BigDecimal price, LocalDate startDate) {
         this.item = item;
         this.type = type;
         this.price = price;
         this.startDate = startDate;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
-
-    public PricingType getType() {
-        return type;
-    }
-
-    public void setType(PricingType type) {
-        this.type = type;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Channel getChannelLimit() {
-        return channelLimit;
-    }
-
-    public void setChannelLimit(Channel channelLimit) {
-        this.channelLimit = channelLimit;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((channelLimit == null) ? 0 : channelLimit.hashCode());
-        result = prime * result + ((item == null) ? 0 : item.hashCode());
-        result = prime * result + ((price == null) ? 0 : price.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pricing other = (Pricing) obj;
-        if (channelLimit == null) {
-            if (other.channelLimit != null)
-                return false;
-        } else if (!channelLimit.equals(other.channelLimit))
-            return false;
-        if (item == null) {
-            if (other.item != null)
-                return false;
-        } else if (!item.equals(other.item))
-            return false;
-        if (price == null) {
-            if (other.price != null)
-                return false;
-        } else if (!price.equals(other.price))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        } else if (!startDate.equals(other.startDate))
-            return false;
-        if (type != other.type)
-            return false;
-        return true;
     }
 
     @Override

@@ -5,53 +5,53 @@ import java.time.ZonedDateTime;
 
 import javafx.collections.ObservableList;
 import ph.txtdis.model.StockTakeReconciliation;
-import ph.txtdis.model.StockTakeReconciliationFilteredDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.FxStockTakeReconciliationDetail;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.MinMax;
 
 public interface StockTakeReconciliationDTO extends Spun, DTO<StockTakeReconciliation, LocalDate>, MinMax<LocalDate> {
 
-    SystemUser getCutoffBy();
+    Users getCutoffBy();
 
-    void setCutoffBy(SystemUser cutoffBy);
+    void setCutoffBy(Users cutoffBy);
 
     ZonedDateTime getCutoffOn();
 
-    SystemUser getClosedBy();
+    Users getClosedBy();
 
-    void setClosedBy(SystemUser closedBy);
+    void setClosedBy(Users closedBy);
 
     ZonedDateTime getClosedOn();
 
     void setClosedOn(ZonedDateTime closedOn);
 
-    SystemUser getReconciledBy();
+    Users getReconciledBy();
 
-    void setReconciledBy(SystemUser reconciledBy);
+    void setReconciledBy(Users reconciledBy);
 
     ZonedDateTime getReconciledOn();
 
     void setReconciledOn(ZonedDateTime reconciledOn);
 
-    SystemUser getMailedBy();
+    Users getMailedBy();
 
-    void setMailedBy(SystemUser mailedBy);
+    void setMailedBy(Users mailedBy);
 
     ZonedDateTime getMailedOn();
 
     void setMailedOn(ZonedDateTime mailedOn);
 
-    SystemUser getApprovedBy();
+    Users getApprovedBy();
 
-    void setApprovedBy(SystemUser approvedBy);
+    void setApprovedBy(Users approvedBy);
 
     ZonedDateTime getApprovedOn();
 
     void setApprovedOn(ZonedDateTime approvedOn);
 
-    SystemUser getCompletedBy();
+    Users getCompletedBy();
 
-    void setCompletedBy(SystemUser completedBy);
+    void setCompletedBy(Users completedBy);
 
     ZonedDateTime getCompletedOn();
 
@@ -61,5 +61,5 @@ public interface StockTakeReconciliationDTO extends Spun, DTO<StockTakeReconcili
 
     void setApproved(Boolean isApproved);
 
-    ObservableList<StockTakeReconciliationFilteredDetail> getStockTakeReconciliationFilteredDetail();
+    ObservableList<FxStockTakeReconciliationDetail> getStockTakeReconciliationFilteredDetail();
 }

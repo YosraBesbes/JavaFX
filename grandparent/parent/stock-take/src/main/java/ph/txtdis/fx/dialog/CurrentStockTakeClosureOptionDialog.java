@@ -9,6 +9,7 @@ import ph.txtdis.dto.StockTakeReconciliationDTO;
 import ph.txtdis.util.Login;
 
 public class CurrentStockTakeClosureOptionDialog extends OptionDialog {
+
     private LocalDate date;
 
     public CurrentStockTakeClosureOptionDialog(Stage stage, LocalDate date) {

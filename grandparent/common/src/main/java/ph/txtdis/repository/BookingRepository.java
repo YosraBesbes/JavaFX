@@ -14,10 +14,10 @@ import ph.txtdis.model.Route;
 public interface BookingRepository extends CrudRepository<Booking, Integer> {
 
     @Query("select min(b.id) from Booking b")
-    int getMinId();
+    Integer getMinId();
 
     @Query("select max(b.id) from Booking b")
-    int getMaxId();
+    Integer getMaxId();
 
     @Query("select b.details from Booking b where b.id = ?1")
     List<BookingDetail> getDetails(int id);

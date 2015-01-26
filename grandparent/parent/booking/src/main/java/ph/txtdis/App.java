@@ -10,10 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import ph.txtdis.app.BookingAppImpl;
-import ph.txtdis.app.BookingSetup;
-import ph.txtdis.app.Setup;
 import ph.txtdis.fx.util.FX;
-import ph.txtdis.service.UserService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -27,20 +24,7 @@ public class App extends Application {
         FX.loadIcomoon();
         FX.loadTxtdisIcons();
         context = SpringApplication.run(App.class);
-        setup();
         new BookingAppImpl().start();
-    }
-
-    private void setup() {
-        if (isInitialRun()) {
-            context.getBean(Setup.class).start();
-            context.getBean(BookingSetup.class).start();
-        }
-    }
-
-    private boolean isInitialRun() {
-        UserService service = context.getBean(UserService.class);
-        return !service.exists("JACKIE");
     }
 
     public static void main(String[] args) {

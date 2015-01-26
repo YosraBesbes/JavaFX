@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Approve {
 
-    SystemUser getApprovedBy();
+    Users getApprovedBy();
 
-    void setApprovedBy(SystemUser approvedBy);
+    void setApprovedBy(Users approvedBy);
 
     ZonedDateTime getApprovedOn();
 

@@ -56,7 +56,7 @@ public class SummaryServiceImpl extends AbstractService<DailySummary, LocalDate>
 
     @Override
     public List<Remittance> getRemittances(LocalDate date) {
-        return remittanceRepository.findByTimeStampBetweenOrderByIdAsc(Util.startOfDay(date), Util.endOfDay(date));
+        return remittanceRepository.findByCreatedDateBetweenOrderByIdAsc(Util.startOfDay(date), Util.endOfDay(date));
     }
 
     @Override

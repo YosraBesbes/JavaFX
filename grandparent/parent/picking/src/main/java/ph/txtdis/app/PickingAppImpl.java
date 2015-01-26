@@ -31,7 +31,7 @@ import ph.txtdis.fx.util.FX;
 import ph.txtdis.model.PickList;
 import ph.txtdis.model.Picking;
 import ph.txtdis.model.PickingDetail;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.Truck;
 import ph.txtdis.printer.SalesOrderPrinter;
 import ph.txtdis.util.DIS;
@@ -44,7 +44,7 @@ public class PickingAppImpl extends AbstractIdApp<Picking> implements Excel, Pri
     private UserDTO user;
 
     private IdField idField;
-    private ComboBox<SystemUser> driverCombo, helper1Combo, helper2Combo;
+    private ComboBox<Users> driverCombo, helper1Combo, helper2Combo;
     private ComboBox<Truck> truckCombo;
     private DatePicker datePicker;
     private StringField remarkField;

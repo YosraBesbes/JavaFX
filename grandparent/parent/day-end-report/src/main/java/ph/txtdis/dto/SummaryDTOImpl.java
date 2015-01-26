@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import ph.txtdis.model.DailySummary;
 import ph.txtdis.model.Invoicing;
 import ph.txtdis.model.Remittance;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.model.VolumeSummary;
 import ph.txtdis.service.ItemService;
 import ph.txtdis.service.SummaryService;
@@ -47,12 +47,12 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     }
 
     @Override
-    public SystemUser getCutoffBy() {
+    public Users getCutoffBy() {
         return entity.getCutoffBy();
     }
 
     @Override
-    public void setCutoffBy(SystemUser cutoffBy) {
+    public void setCutoffBy(Users cutoffBy) {
         entity.setCutoffBy(cutoffBy);
     }
 
@@ -62,12 +62,12 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     }
 
     @Override
-    public SystemUser getClosedBy() {
+    public Users getClosedBy() {
         return entity.getClosedBy();
     }
 
     @Override
-    public void setClosedBy(SystemUser closedBy) {
+    public void setClosedBy(Users closedBy) {
         entity.setClosedBy(closedBy);
     }
 
@@ -82,12 +82,12 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     }
 
     @Override
-    public SystemUser getReconciledBy() {
+    public Users getReconciledBy() {
         return entity.getReconciledBy();
     }
 
     @Override
-    public void setReconciledBy(SystemUser reconciledBy) {
+    public void setReconciledBy(Users reconciledBy) {
         entity.setReconciledBy(reconciledBy);
     }
 
@@ -102,12 +102,12 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     }
 
     @Override
-    public SystemUser getMailedBy() {
+    public Users getMailedBy() {
         return entity.getMailedBy();
     }
 
     @Override
-    public void setMailedBy(SystemUser mailedBy) {
+    public void setMailedBy(Users mailedBy) {
         entity.setMailedBy(mailedBy);
     }
 
@@ -122,12 +122,12 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     }
 
     @Override
-    public SystemUser getApprovedBy() {
+    public Users getApprovedBy() {
         return entity.getApprovedBy();
     }
 
     @Override
-    public void setApprovedBy(SystemUser approvedBy) {
+    public void setApprovedBy(Users approvedBy) {
         entity.setApprovedBy(approvedBy);
     }
 
@@ -143,21 +143,21 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
 
     @Override
     public Boolean isApproved() {
-        return entity.isApproved();
+        return entity.getIsApproved();
     }
 
     @Override
     public void setApproved(Boolean isApproved) {
-        entity.setApproved(isApproved);
+        entity.setIsApproved(isApproved);
     }
 
     @Override
-    public SystemUser getCompletedBy() {
+    public Users getCompletedBy() {
         return entity.getCompletedBy();
     }
 
     @Override
-    public void setCompletedBy(SystemUser completedBy) {
+    public void setCompletedBy(Users completedBy) {
         entity.setCompletedBy(completedBy);
     }
 
@@ -222,7 +222,7 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     public BigDecimal getTotalRevenue() {
         BigDecimal total = BigDecimal.ZERO;
         for (Invoicing invoice : invoices)
-            total = total.add(invoice.getTotalValue());
+            total = total.add(invoice.getValue());
         return total;
     }
 
@@ -230,7 +230,7 @@ public class SummaryDTOImpl extends AbstractSpunByDate<DailySummary, SummaryServ
     public BigDecimal getTotalRemittance() {
         BigDecimal total = BigDecimal.ZERO;
         for (Remittance remittance : remittances)
-            total = total.add(remittance.getTotalValue());
+            total = total.add(remittance.getValue());
         return total;
     }
 }

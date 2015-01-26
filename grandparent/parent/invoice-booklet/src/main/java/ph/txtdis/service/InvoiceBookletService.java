@@ -3,13 +3,13 @@ package ph.txtdis.service;
 import java.util.List;
 
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public interface InvoiceBookletService extends Serviced<InvoiceBooklet, Integer> {
 
     List<InvoiceBooklet> list();
 
-    List<SystemUser> listUsers();
+    List<Users> listUsers();
 
     InvoiceBooklet getBooklet(int id);
 }

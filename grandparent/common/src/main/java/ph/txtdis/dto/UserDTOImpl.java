@@ -8,7 +8,7 @@ import javafx.collections.FXCollections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.service.UserService;
 import ph.txtdis.type.UserType;
 
@@ -17,7 +17,7 @@ public class UserDTOImpl implements UserDTO {
 
     @Autowired
     private UserService service;
-    private SystemUser user;
+    private Users user;
 
     public UserDTOImpl() {
     }
@@ -53,12 +53,12 @@ public class UserDTOImpl implements UserDTO {
     }
 
     @Override
-    public List<SystemUser> list() {
+    public List<Users> list() {
         return FXCollections.observableList(service.listAll());
     }
 
     @Override
-    public List<SystemUser> list(UserType type) {
+    public List<Users> list(UserType type) {
         return service.list(type);
     }
 
@@ -70,12 +70,12 @@ public class UserDTOImpl implements UserDTO {
     }
 
     @Override
-    public SystemUser get(String email) {
+    public Users get(String email) {
         return service.getByEmail(email);
     }
 
     @Override
-    public SystemUser getTxtDIS() {
+    public Users getTxtDIS() {
         return service.get("TXTDIS");
     }
 }

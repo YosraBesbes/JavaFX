@@ -31,7 +31,7 @@ public class ItemFamilyTable extends AbstractInputTable<ItemFamily, ItemFamilyDT
         TableColumn<ItemFamily, String> createdByCol = new TextDisplayColumn<>(stage, "Created by", "createdBy", 120,
                 Pos.CENTER_LEFT);
         TableColumn<ItemFamily, ZonedDateTime> createdOnCol = new TimestampDisplayColumn<>(stage, "Created on",
-                "timeStamp");
+                "createdDate");
         table.getColumns().addAll(idCol, nameCol, createdByCol, createdOnCol);
     }
 

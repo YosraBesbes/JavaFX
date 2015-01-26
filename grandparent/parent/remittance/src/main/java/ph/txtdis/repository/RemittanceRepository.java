@@ -31,5 +31,5 @@ public interface RemittanceRepository extends CrudRepository<Remittance, Integer
     @Query("select sum(d.payment) from Remittance r join r.details d where d.invoicing = ?1")
     BigDecimal getPayment(Invoicing invoice);
 
-    List<Remittance> findByTimeStampBetweenOrderByIdAsc(ZonedDateTime zdtStart, ZonedDateTime zdtEnd);
+    List<Remittance> findByCreatedDateBetweenOrderByIdAsc(ZonedDateTime zdtStart, ZonedDateTime zdtEnd);
 }

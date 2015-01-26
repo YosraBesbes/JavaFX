@@ -28,7 +28,7 @@ public class RemittanceDialog extends AbstractFieldDialog<RemittanceDetail, Remi
     public RemittanceDialog(Stage stage, RemittanceDTO dto, BigDecimal remainingPayment) {
         super("Remittance", stage, dto);
         this.remainingPayment = remainingPayment;
-        invoicing = App.getContext().getBean(InvoicingDTO.class);
+        invoicing = App.context().getBean(InvoicingDTO.class);
         setListeners();
     }
 

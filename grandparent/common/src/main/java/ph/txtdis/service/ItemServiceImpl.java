@@ -77,10 +77,8 @@ public class ItemServiceImpl extends AbstractService<Item, Integer> implements I
 
     @Override
     public BigDecimal getLatestPrice(Item item, LocalDate date, PricingType type) {
-        List<Pricing> prices = pricingRepository.findByItemAndTypeAndStartDateBeforeOrderByStartDateDesc(item, type,
-                date.plusDays(1L), new PageRequest(0, 1));
-        BigDecimal price = prices.get(0).getPrice();
-        return price;
+        return pricingRepository.findFirstByItemAndTypeAndStartDateLessThanEqualOrderByStartDateDesc(item, type, date)
+                .getPrice();
     }
 
     @Override

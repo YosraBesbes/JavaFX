@@ -10,11 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Synchronize;
 
 import ph.txtdis.util.DIS;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Subselect("select i.id, i.partner_id, "
         + "        i.value - sum(case when d.payment is null then cast(0 as numeric(7, 2)) else d.payment end) balance,"
@@ -40,46 +44,6 @@ public class InvoiceView {
 
     @Column(nullable = false)
     private int day;
-
-    protected InvoiceView() {
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((balance == null) ? 0 : balance.hashCode());
-        result = prime * result + day;
-        result = prime * result + id;
-        result = prime * result + ((partner == null) ? 0 : partner.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        InvoiceView other = (InvoiceView) obj;
-        if (balance == null) {
-            if (other.balance != null)
-                return false;
-        } else if (!balance.equals(other.balance))
-            return false;
-        if (day != other.day)
-            return false;
-        if (id != other.id)
-            return false;
-        if (partner == null) {
-            if (other.partner != null)
-                return false;
-        } else if (!partner.equals(other.partner))
-            return false;
-        return true;
-    }
 
     @Override
     public String toString() {

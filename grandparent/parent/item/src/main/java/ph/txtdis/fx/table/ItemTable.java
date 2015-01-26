@@ -18,7 +18,7 @@ public class ItemTable extends AbstractTable<ItemPrice> {
         TableColumn<ItemPrice, String> nameCol = new TextDisplayColumn<>(stage, "Name", "name", 180, Pos.CENTER_LEFT);
         TableColumn<ItemPrice, String> descriptionCol = new TextDisplayColumn<>(stage, "Description", "description",
                 540, Pos.CENTER_LEFT);
-        TableColumn<ItemPrice, BigDecimal> priceCol = new CurrencyDisplayColumn<>(stage, "Price", "priceValue");
+        TableColumn<ItemPrice, BigDecimal> priceCol = new CurrencyDisplayColumn<>(stage, "Price", "value");
         table.getColumns().addAll(idCol, nameCol, descriptionCol, priceCol);
     }
 }

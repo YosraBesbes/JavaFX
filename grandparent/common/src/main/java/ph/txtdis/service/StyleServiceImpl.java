@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ph.txtdis.model.Style;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.repository.StyleRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class StyleServiceImpl implements StyleService {
 	}
 	
 	@Override
-	public Style get(SystemUser user) {
+	public Style get(Users user) {
 		return repository.get(user);
 	}
 	

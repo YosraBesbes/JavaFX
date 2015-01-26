@@ -20,6 +20,8 @@ import ph.txtdis.service.CustomerService;
 import ph.txtdis.type.CustomerType;
 import ph.txtdis.type.VisitFrequency;
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+
 @Component
 public class CustomerDTOImpl extends AbstractDisabledSearchedSpunDTO<Customer, String, CustomerService> implements
         CustomerDTO {
@@ -151,12 +153,12 @@ public class CustomerDTOImpl extends AbstractDisabledSearchedSpunDTO<Customer, S
     }
 
     @Override
-    public long getMobile() {
+    public PhoneNumber getMobile() {
         return entity.getMobile();
     }
 
     @Override
-    public void setMobile(long mobile) {
+    public void setMobile(PhoneNumber mobile) {
         entity.setMobile(mobile);
     }
 

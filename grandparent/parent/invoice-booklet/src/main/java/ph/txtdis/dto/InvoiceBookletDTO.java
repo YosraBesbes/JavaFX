@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 import javafx.collections.ObservableList;
 import ph.txtdis.model.InvoiceBooklet;
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public interface InvoiceBookletDTO extends Audited<InvoiceBooklet> {
         
@@ -16,17 +16,17 @@ public interface InvoiceBookletDTO extends Audited<InvoiceBooklet> {
     
     void setEndId(int endId);
     
-    SystemUser getIssuedTo();
+    Users getIssuedTo();
     
-    void setIssuedTo(SystemUser issuedTo);
+    void setIssuedTo(Users issuedTo);
     
-    SystemUser getIssuedBy();
+    Users getIssuedBy();
     
-    ZonedDateTime getTimeStamp();
+    ZonedDateTime getIssuedDate();
     
     ObservableList<InvoiceBooklet> list();
     
-    ObservableList<SystemUser> listUsers();
+    ObservableList<Users> listUsers();
     
     InvoiceBooklet getBooklet(int id);
 }

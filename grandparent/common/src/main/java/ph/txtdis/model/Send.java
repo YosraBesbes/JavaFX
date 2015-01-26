@@ -4,9 +4,9 @@ import java.time.ZonedDateTime;
 
 public interface Send {
 
-    SystemUser getSentBy();
+    Users getSentBy();
 
-    void setSentBy(SystemUser sentBy);
+    void setSentBy(Users sentBy);
 
     ZonedDateTime getSentOn();
 

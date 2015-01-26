@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 
 public class TransactionStamp {
 
@@ -16,12 +16,12 @@ public class TransactionStamp {
     private LocalDate id;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    private SystemUser user;
+    private Users user;
 
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
     private ZonedDateTime timestamp;
 
-    public TransactionStamp(LocalDate id, SystemUser user, ZonedDateTime timestamp) {
+    public TransactionStamp(LocalDate id, Users user, ZonedDateTime timestamp) {
         this.id = id;
         this.user = user;
         this.timestamp = timestamp;
@@ -31,7 +31,7 @@ public class TransactionStamp {
         return id;
     }
 
-    public SystemUser getUser() {
+    public Users getUser() {
         return user;
     }
 

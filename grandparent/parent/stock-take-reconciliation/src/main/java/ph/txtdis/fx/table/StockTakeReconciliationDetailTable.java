@@ -11,9 +11,9 @@ import ph.txtdis.fx.tablecolumn.QtyDisplayColumn;
 import ph.txtdis.fx.tablecolumn.QtyInputColumn;
 import ph.txtdis.fx.tablecolumn.TextDisplayColumn;
 import ph.txtdis.fx.tablecolumn.TextInputColumn;
-import ph.txtdis.model.StockTakeReconciliationFilteredDetail;
+import ph.txtdis.model.FxStockTakeReconciliationDetail;
 
-public class StockTakeReconciliationDetailTable extends AbstractTable<StockTakeReconciliationFilteredDetail> {
+public class StockTakeReconciliationDetailTable extends AbstractTable<FxStockTakeReconciliationDetail> {
 
     @SuppressWarnings("unchecked")
     public StockTakeReconciliationDetailTable(Stage stage) {
@@ -21,23 +21,23 @@ public class StockTakeReconciliationDetailTable extends AbstractTable<StockTakeR
         table.setTooltip(new Tooltip("Double-click \"Adjust\" or \"Justification\"\ncolumn cell to enter data"));
         table.setId("Stock Take Reconciliation");
 
-        TableColumn<StockTakeReconciliationFilteredDetail, Integer> itemIdCol = new IdDisplayColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, Integer> itemIdCol = new IdDisplayColumn<>(stage,
                 "Item No.", "itemId");
-        TableColumn<StockTakeReconciliationFilteredDetail, String> itemNameCol = new TextDisplayColumn<>(stage, "Name",
+        TableColumn<FxStockTakeReconciliationDetail, String> itemNameCol = new TextDisplayColumn<>(stage, "Name",
                 "item", 180, Pos.CENTER_LEFT);
-        TableColumn<StockTakeReconciliationFilteredDetail, String> qualityCol = new TextDisplayColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, String> qualityCol = new TextDisplayColumn<>(stage,
                 "Quality", "qualityType", 70, Pos.CENTER);
-        TableColumn<StockTakeReconciliationFilteredDetail, BigDecimal> startCol = new QtyDisplayColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, BigDecimal> startCol = new QtyDisplayColumn<>(stage,
                 "System", "systemQty", 80);
-        TableColumn<StockTakeReconciliationFilteredDetail, BigDecimal> countCol = new QtyDisplayColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, BigDecimal> countCol = new QtyDisplayColumn<>(stage,
                 "Count", "countQty", 80);
-        TableColumn<StockTakeReconciliationFilteredDetail, BigDecimal> adjustmentCol = new QtyInputColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, BigDecimal> adjustmentCol = new QtyInputColumn<>(stage,
                 "Adjust-ment", "adjustmentQty", 80);
-        TableColumn<StockTakeReconciliationFilteredDetail, BigDecimal> finalCol = new QtyInputColumn<>(stage, "Final",
+        TableColumn<FxStockTakeReconciliationDetail, BigDecimal> finalCol = new QtyInputColumn<>(stage, "Final",
                 "finalQty", 80);
-        TableColumn<StockTakeReconciliationFilteredDetail, String> justificationCol = new TextInputColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, String> justificationCol = new TextInputColumn<>(stage,
                 "Justification", "justification", 240);
-        TableColumn<StockTakeReconciliationFilteredDetail, BigDecimal> varianceCol = new QtyDisplayColumn<>(stage,
+        TableColumn<FxStockTakeReconciliationDetail, BigDecimal> varianceCol = new QtyDisplayColumn<>(stage,
                 "Gain / (Loss)", "varianceQty", 80);
         table.getColumns().addAll(itemIdCol, itemNameCol, qualityCol, startCol, countCol, adjustmentCol, finalCol,
                 varianceCol, justificationCol);

@@ -2,7 +2,7 @@ package ph.txtdis.dto;
 
 import java.util.List;
 
-import ph.txtdis.model.SystemUser;
+import ph.txtdis.model.Users;
 import ph.txtdis.type.UserType;
 
 public interface UserDTO {
@@ -19,13 +19,13 @@ public interface UserDTO {
 
     void setEnabled(boolean enabled);
 
-    List<SystemUser> list();
+    List<Users> list();
 
-    List<SystemUser> list(UserType type);
+    List<Users> list(UserType type);
 
     String[] getAddresses(UserType type);
 
-    SystemUser get(String email);
+    Users get(String email);
 
-    SystemUser getTxtDIS();
+    Users getTxtDIS();
 }

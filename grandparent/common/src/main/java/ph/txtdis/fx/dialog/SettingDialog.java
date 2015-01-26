@@ -13,6 +13,7 @@ import ph.txtdis.model.Style;
 import ph.txtdis.util.Login;
 
 public class SettingDialog extends AbstractInputDialog<Object> {
+
     private ColorPicker basePicker, backgroundPicker, accentPicker;
     private ComboBox<String> fontNameCombo;
     private Style setting;
@@ -56,7 +57,7 @@ public class SettingDialog extends AbstractInputDialog<Object> {
 
     private void saveEntity() {
         setting = object == null ? new Style() : (Style) object;
-        setting.setSystemUser(Login.user());
+        setting.setUser(Login.user());
         setting.setBase(colorToRGBA(basePicker.getValue()));
         setting.setBackground(colorToRGBA(backgroundPicker.getValue()));
         setting.setAccent(colorToRGBA(accentPicker.getValue()));

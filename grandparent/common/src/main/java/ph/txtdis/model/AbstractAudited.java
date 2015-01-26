@@ -4,19 +4,32 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import ph.txtdis.util.Login;
-
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class AbstractAudited implements Serializable, Key<Integer> {
 
     private static final long serialVersionUID = -5753015257974898395L;
@@ -25,74 +38,24 @@ public class AbstractAudited implements Serializable, Key<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
+    @CreatedBy
     @ManyToOne(cascade = CascadeType.REFRESH)
-    protected SystemUser createdBy;
+    protected Users createdBy;
 
-    @Column(updatable = false)
+    @CreatedDate
     @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
-    protected ZonedDateTime timeStamp;
+    protected ZonedDateTime createdDate;
 
-    protected AbstractAudited() {
-    }
+    @LastModifiedDate
+    @Type(type = "org.jadira.usertype.dateandtime.threeten.PersistentZonedDateTime")
+    private ZonedDateTime lastModifiedDate;
+
+    @LastModifiedBy
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private Users lastModifiedBy;
 
     @Override
     public Integer getId() {
         return id;
-    }
-
-    public SystemUser getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(SystemUser createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public ZonedDateTime getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(ZonedDateTime timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    @PrePersist
-    private void setCreationStamp() {
-        this.createdBy = Login.user();
-        this.timeStamp = ZonedDateTime.now();
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
-        result = prime * result + id;
-        result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AbstractAudited other = (AbstractAudited) obj;
-        if (createdBy == null) {
-            if (other.createdBy != null)
-                return false;
-        } else if (!createdBy.equals(other.createdBy))
-            return false;
-        if (id != other.id)
-            return false;
-        if (timeStamp == null) {
-            if (other.timeStamp != null)
-                return false;
-        } else if (!timeStamp.equals(other.timeStamp))
-            return false;
-        return true;
     }
 }

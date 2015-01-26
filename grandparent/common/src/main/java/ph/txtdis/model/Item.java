@@ -8,8 +8,16 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ph.txtdis.type.ItemType;
 
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @Entity
 public class Item extends AbstractDisabledNamed implements Disable, Named {
 
@@ -40,85 +48,10 @@ public class Item extends AbstractDisabledNamed implements Disable, Named {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bom> boms;
 
-    public Item() {
-    }
-
     public Item(String name, String description, ItemType type) {
         this.name = name;
         this.description = description;
         this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ItemType getType() {
-        return type;
-    }
-
-    public void setType(ItemType type) {
-        this.type = type;
-    }
-
-    public ItemFamily getFamily() {
-        return family;
-    }
-
-    public void setFamily(ItemFamily family) {
-        this.family = family;
-    }
-
-    public long getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(long vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public boolean isNotDiscounted() {
-        return notDiscounted;
-    }
-
-    public void setNotDiscounted(boolean notDiscounted) {
-        this.notDiscounted = notDiscounted;
-    }
-
-    public List<QtyPerUom> getQtyPerUom() {
-        return qtyPerUom;
-    }
-
-    public void setQtyPerUom(List<QtyPerUom> qtyPerUom) {
-        this.qtyPerUom = qtyPerUom;
-    }
-
-    public List<Pricing> getPriceHistory() {
-        return priceHistory;
-    }
-
-    public void setPriceHistory(List<Pricing> priceHistory) {
-        this.priceHistory = priceHistory;
-    }
-
-    public List<VolumeDiscount> getVolumeDiscounts() {
-        return volumeDiscounts;
-    }
-
-    public void setVolumeDiscounts(List<VolumeDiscount> volumeDiscounts) {
-        this.volumeDiscounts = volumeDiscounts;
-    }
-
-    public List<Bom> getBoms() {
-        return boms;
-    }
-
-    public void setBoms(List<Bom> boms) {
-        this.boms = boms;
     }
 
     @Override

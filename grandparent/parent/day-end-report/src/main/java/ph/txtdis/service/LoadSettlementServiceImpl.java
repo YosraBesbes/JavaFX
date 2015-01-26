@@ -32,6 +32,6 @@ public class LoadSettlementServiceImpl extends AbstractService<LoadSettlement, I
 
     @Override
     public LoadSettlement get(Truck truck, LocalDate date) {
-        return repository.findByTruckAndTimeStampBetween(truck, Util.startOfDay(date), Util.endOfDay(date));
+        return repository.findByTruckAndCreatedDateBetween(truck, Util.startOfDay(date), Util.endOfDay(date));
     }
 }

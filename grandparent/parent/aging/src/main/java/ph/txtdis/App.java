@@ -11,9 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import ph.txtdis.app.AgingAppImpl;
 import ph.txtdis.app.AgingSetup;
-import ph.txtdis.app.BookingSetup;
 import ph.txtdis.app.PickingSetup;
-import ph.txtdis.app.Setup;
 import ph.txtdis.fx.util.FX;
 
 @Configuration
@@ -26,8 +24,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         context = SpringApplication.run(App.class);
-        context.getBean(Setup.class).start();
-        context.getBean(BookingSetup.class).start();
         context.getBean(PickingSetup.class).start();
         context.getBean(AgingSetup.class).start();
         FX.loadTxtdisIcons();
@@ -38,7 +34,7 @@ public class App extends Application {
         launch();
     }
 
-    public static ConfigurableApplicationContext getContext() {
+    public static ConfigurableApplicationContext context() {
         return context;
     }
 }

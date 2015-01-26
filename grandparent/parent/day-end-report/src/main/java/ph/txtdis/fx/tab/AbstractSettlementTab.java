@@ -57,7 +57,7 @@ public abstract class AbstractSettlementTab<D> extends AbstractTab<SummaryDTO> i
     }
 
     private List<Truck> getLoadedTrucks() {
-        PickingDTO picking = App.getContext().getBean(PickingDTO.class);
+        PickingDTO picking = App.context().getBean(PickingDTO.class);
         return picking.getLoadedTrucks(dto.getId());
     }
 
